@@ -1,0 +1,14 @@
+<div class="box ">
+    <div class="box-content">
+        <?php if(user_has_permission('can-create-page')):?>
+            <a href="<?php echo url_to_pager('page-create')?>" ajax="true" class="btn btn-secondary btn-block"><?php _lang('page::create-a-page')?></a>
+        <?php endif?>
+    </div>
+    <ul class="menu">
+        <li class="<?php echo (isset(app()->pageType) && app()->pageType == 'browse') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('pages')?>"><?php _lang('page::all-pages')?></a> </li>
+
+        <?php if(is_loggedIn()):?>
+            <li class="<?php echo (isset(app()->pageType) && app()->pageType == 'mine') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('pages')?>?type=mine"><?php _lang('page::my-pages')?></a> </li>
+        <?php endif?>
+    </ul>
+</div>

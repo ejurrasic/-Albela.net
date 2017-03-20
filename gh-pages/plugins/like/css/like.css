@@ -1,0 +1,89 @@
+.liked,.disliked{
+    color:#1d89cf !important;
+}
+#likesModal .indicator{
+    display: none;
+    margin: 10px auto;
+}
+#likesModal .indicator img{
+    width: 30px;
+    margin: auto;
+    display: block;
+}
+#likesModal .user-lists{
+    max-height: 400px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.feed-react{
+    position: relative;
+}
+.feed-react .react-items{
+    width:325px;
+    padding: 5px;
+    border-radius: 30px;
+    position: absolute;
+    bottom: 25px;
+    border: solid 1px #E4E2E2;
+    box-shadow: #EDECEC 2px 1px 3px;
+    background:white;
+    left: -20px;
+    display: none;
+    z-index: 99;
+}
+
+.feed-react .react-items li{
+    display:inline-block;
+    margin: 3px;
+}
+.feed-react .react-items li img{
+    width:35px;
+}
+@media(max-width: 500px) {
+    .feed-react .react-items {
+        width:250px;
+    }
+
+    .feed-react .react-items li img{
+        width:23px;
+    }
+}
+.reactors .users{
+    padding:5px 0;
+    padding-bottom: 0;
+    text-align: center;
+}
+.reactors .users a {
+    display:inline-block;
+    width:35px;
+    height:35px;
+    border-radius: 100px;
+    overflow: hidden;
+    position: relative;
+}
+.reactors .users a .img{
+    width:100%;
+    min-height: 100%;
+
+}
+.reactors .users a.more{
+    font-size: 24px;
+    text-align: center;
+    border: solid 1px #F1F1F1;
+    color: #F1F1F1 !important;
+}
+.reactors .users a.more:hover{
+    background: #DFDDDD;
+    color: #000000 !important;
+}
+.reactors .users a .react-image{
+    position: absolute;
+    top: 0;
+    right: 0px;
+    min-height: auto;
+    width:15px;
+    height:15px;
+    border-radius: 100px;
+    z-index: 99;
+}

@@ -1,0 +1,34 @@
+<?php if(is_loggedIn()):?>
+
+    <?php $pages = get_pages('suggestion', null, $limit)?>
+
+    <?php if($pages->total):?>
+        <div class="box">
+            <div class="title"><?php _lang('page::pages-you-may-like')?></div>
+            <div class="box-content">
+                <?php foreach($pages->results() as $page):?>
+                    <div class="media media-sm">
+                        <div class="media-left">
+                            <a href="<?php echo page_url(null, $page)?>" ajax="true">
+                                <div class="media-object"><img src="<?php echo get_page_logo(75, $page)?>"/> </div>
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <a style="width: 65%;display:block" href="<?php echo page_url(null, $page)?>" ajax="true"><h6 class="media-heading"><?php echo $page['page_title']?></h6></a>
+                            <?php if(plugin_loaded('like')):?>
+                                <i class="ion-thumbsup"></i> <span class="like-count-page-<?php echo $page['page_id']?>"><?php echo count_likes('page', $page['page_id'])?></span>
+                            <?php endif?>
+                            <div class="action" style="top: 0">
+                                <?php if(plugin_loaded('like')):?>
+                                    <?php load_functions('like::like');?>
+                                    <a  onclick="return like_item('page', '<?php echo $page['page_id']?>')" data-status="<?php echo (has_liked('page', $page['page_id'])) ? '1'  : 0?>" class="btn btn-secondary btn-sm like-button-page-<?php echo $page['page_id']?> like-button <?php echo (has_liked('page', $page['page_id'])) ? 'liked'  : null?>" href=""> <i class="ion-thumbsup"></i> <?php echo lang('like::like')?></a>
+
+                                <?php endif?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach?>
+            </div>
+        </div>
+    <?php endif?>
+<?php endif?>

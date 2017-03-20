@@ -1,0 +1,169 @@
+.people.people-filter {
+    padding: 12px 4px;
+}
+
+.people.people-filter .row {
+    padding: 4px 12px;
+}
+
+.people.people-filter .c-select {
+    width: 100%;
+}
+
+.people-content {
+    margin-bottom: 16px;
+    padding: 16px;
+    min-height: 500px;
+}
+
+
+.people .people-featured-member {
+    position: absolute;
+    left: 0px;
+    display: inline-block;
+    padding: 0px 8px;
+    background: rgba(255, 0, 0, 0.5);
+    font-size: 12px;
+    color: #FFCCCC !important;
+}
+
+.people .grid-listing-container .people-featured-member {
+    top: 0px;
+}
+
+.people .list-listing-container .people-featured-member {
+    top: 7px;
+}
+
+.people .grid-listing-container .members {
+    padding: 8px 0px;
+}
+
+.people .list-listing-container .members {
+    padding: 8px 0px;
+}
+
+.people .member-card {
+    position: relative;
+}
+
+.people .grid-listing-container .member-card {
+    width: 200px;
+    height: auto;
+    margin: 1%;
+    vertical-align: top;
+    display: inline-block;
+}
+
+.people .grid-listing-container .member-card-img-top {
+    width: 100%;
+    height: 190px !important;
+    padding: 0px;
+    background-position: center;
+    background-size: 100%;
+    display: inline-block;
+}
+
+.people .list-listing-container .member-card-img-top {
+    padding: 0px;
+    background-position: center;
+    background-size: 100%;
+    display: inline-block;
+}
+
+.people .member-card-block {
+    margin: 0px !important;
+}
+
+.people .member-card-block > div {
+    padding: 0px 2px;
+}
+
+.people .grid-listing-container .member-card-title {
+    height: 30px;
+    padding: 2px !important;
+    background-color: transparent;
+    color: #999999;
+    text-align: justify;
+    line-height: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.people .list-listing-container .member-card-title {
+    padding: 16px !important;
+    background-color: transparent;
+    color: #999999;
+    text-align: justify;
+    line-height: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.people .grid-listing-container .member-text-muted {
+    padding: 3px 0px;
+    display: -moz-box;
+    display: -o-box;
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.people .list-listing-container .member-text-muted {
+    padding: 3px 0px;
+    display: -moz-box;
+    display: -o-box;
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.people .online {
+    font-size: 24px;
+    vertical-align: middle;
+    color: #00FF00;
+}
+
+.people .offline {
+    font-size: 24px;
+    vertical-align: middle;
+    color: #FF0000;
+}
+
+.people .grid-listing-container .member-card-desc {
+    height: 40px;
+    background-color: #FFFCF0;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+.users-box .user{
+    width: 32.3%;
+    height: 100px;
+    display: block;
+    float: left;
+    margin: .5%;
+    background-size: cover;
+    background-position:center;
+    padding: 5px;
+    word-wrap: break-word;
+}
+.users-box .user .name{
+    color: #ffffff;
+    text-shadow: #000000 1px 0px;
+    font-size: 12px;
+}
+
+.people .pagination > .active > a {
+    border-color: #0275d8;
+    background-color: #0275d8;
+    color: #FFFFFF !important;
+}

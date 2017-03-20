@@ -1,0 +1,21 @@
+<div class="box">
+    <div class="title"><?php _lang('announcement::announcements')?></div>
+    <div class="box-content">
+        <?php foreach($announcements->results() as $announcement):?>
+            <div style="position: relative" class="alert alert-<?php echo $announcement['type']?>">
+                <span style="position: absolute;top: 5px;right: 10px"><?php echo date('F j, Y', $announcement['time'])?></span>
+<!--
+                <?php if($announcement['can_close']):?>
+                    <button type="button" onclick="close_announcement('<?php echo $announcement['id']?>')" data-id="" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                <?php endif?>
+-->
+                <?php _lang($announcement['content'])?>
+            </div>
+        <?php endforeach?>
+
+        <?php echo ($announcements->total) ? $announcements->links(true) :  null?>
+    </div>
+</div>

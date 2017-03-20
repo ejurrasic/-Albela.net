@@ -1,0 +1,21 @@
+.mention-user-list{
+    position: absolute;
+    width: 100%;
+    min-height: 40px;
+    border: solid 1px #DDDDDD;
+    box-sizing: inherit;
+    background: #ffffff;
+    z-index: 99;
+    display: none;
+}
+.mention-user-list .indicator{
+    display: block;
+    width: 15px;
+    margin: 10px auto;
+}
+.mention-user-list .listing{
+    display: block;
+    position: relative;
+    border: none;
+    width: 100%;
+}

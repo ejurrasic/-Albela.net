@@ -1,0 +1,20 @@
+<div class="box ads-display ads-vertical">
+    <div class="ads-sponsored-title"><i class="ion-star"></i> <?php _lang('ads::sponsored')?></div>
+    <div class="ads-image">
+        <a class="ads-click" data-id="<?php echo $ad['ads_id']?>"  onclick="return window.open('<?php echo $ad['link']?>')" nofollow='nofollow' href='javascript:void(0)'>
+            <img src="<?php echo $ad['image']?>"/>
+        </a> </div>
+    <h6 class="ads-title"><a class="ads-click" data-id="<?php echo $ad['ads_id']?>" onclick="return window.open('<?php echo $ad['link']?>')" nofollow='nofollow' href='javascript:void(0)'><?php echo $ad['title']?></a> </h6>
+    <p class="ads-description"><?php echo $ad['description']?></p>
+    <?php if(isset($ad['page']) and plugin_loaded('like')):?>
+        <?php load_functions('like::like');$page = $ad['page']?>
+        <div class="clearfix">
+                <span class="pull-left">
+                    <span class="like-count-page-<?php echo $page['page_id']?>"><?php echo count_likes('page', $page['page_id'])?></span> </a> <?php _lang('like::likes')?>
+                </span>
+
+            <a data-id="<?php echo $ad['ads_id']?>" onclick="return like_item('page', '<?php echo $page['page_id']?>')" data-status="<?php echo (has_liked('page', $page['page_id'])) ? '1'  : 0?>" class="ads-click pull-right btn btn-secondary btn-sm like-button-page-<?php echo $page['page_id']?> like-button <?php echo (has_liked('page', $page['page_id'])) ? 'liked'  : null?>" href=""> <i class="ion-thumbsup"></i> <?php echo lang('like::like')?></a>
+
+        </div>
+    <?php endif?>
+</div>

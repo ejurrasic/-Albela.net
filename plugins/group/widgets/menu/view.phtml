@@ -1,0 +1,15 @@
+<div class="box ">
+    <div class="box-content">
+        <?php if(user_has_permission('can-create-group')):?>
+            <a href="<?php echo url_to_pager('group-create')?>" ajax="true" class="btn btn-block btn-info "><i class="ion-plus"></i> <?php _lang('group::create-group')?></a>
+        <?php endif?>
+    </div>
+    <ul class="menu">
+        <li class="<?php echo (app()->groupType == 'recommend') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('group-manage')?>?type=recommend"><?php _lang('group::all-groups')?></a> </li>
+
+        <?php if(is_loggedIn()):?>
+            <li class="<?php echo (app()->groupType == 'member') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('group-manage')?>?type=member"><?php _lang('group::member')?></a> </li>
+            <li class="<?php echo (app()->groupType == 'yours') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('group-manage')?>?type=yours"><?php _lang('group::yours')?></a> </li>
+        <?php endif?>
+    </ul>
+</div>

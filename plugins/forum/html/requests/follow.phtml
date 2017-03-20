@@ -1,0 +1,7 @@
+		<?php if(is_loggedIn()): ?>
+			<?php if(forum_thread_isfollowed($thread_id)): ?>
+			<button id="forum-reply-button-0" class="btn btn-success-outline active ion-ios-personadd forum-follow-button" title="<?php echo lang('forum::unfollow') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=unfollow&thread_id=<?php echo $thread_id ?>', 'forum-thread-follow')"> <?php echo lang('forum::unfollow') ?></button>
+			<?php else: ?>
+			<button id="forum-reply-button-0" class="btn btn-success-outline ion-ios-personadd forum-follow-button" title="<?php echo lang('forum::follow') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=follow&thread_id=<?php echo $thread_id ?>', 'forum-thread-follow')"> <?php echo lang('forum::follow') ?></button>
+			<?php endif ?>
+		<?php endif ?>

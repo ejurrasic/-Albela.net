@@ -1,0 +1,28 @@
+<?php echo view('installer/header', array('title' => 'Install Plugins'))?>
+    <div class="container">
+        <div class="title">Installed Packed Plugins</div>
+        <div class="content">
+            <div class="alert alert-info">
+                Multiple select from the packed plugins below, so the installer can install them for you and also don't forget that
+                you can install any unselected plugins later from your admincp
+            </div>
+
+            <form action="" method="post" class="plugins-container">
+            <?php CSRFProtection::embed() ?>
+                <ul>
+                    <?php foreach(get_all_plugins() as $id => $info):?>
+                        <li>
+                            <input type="checkbox" name="val[<?php echo $id?>]"><label><?php echo $info['title']?></label>
+                        </li>
+                    <?php endforeach?>
+                </ul>
+
+                <div class="footer">
+                    <div class="buttons">
+                        <button class="btn">Install Plugins and Continue</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<?php echo view('installer/footer')?>

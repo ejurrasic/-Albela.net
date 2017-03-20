@@ -1,0 +1,9 @@
+<?php
+$type = $settings['type'];
+$limit = $settings['limit'];
+$ads = get_render_ads($type, $limit);
+?>
+
+<?php foreach($ads as $ad):?>
+    <?php echo view('ads::render', array('ad' => $ad))?>
+<?php endforeach?>

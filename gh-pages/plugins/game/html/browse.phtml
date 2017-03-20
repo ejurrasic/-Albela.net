@@ -1,0 +1,24 @@
+<div class="box ">
+    <div class="game-header">
+        <div class="game-header-title"><?php _lang('game::games')?></div>
+    </div>
+
+</div>
+
+<div class="box">
+    <div class="box-content games-container clearfix">
+        <?php if($games->total):?>
+            <?php foreach($games->results() as $game):?>
+                <?php echo view('game::display', array('game' => $game))?>
+            <?php endforeach?>
+
+
+        <?php else:?>
+            <div class="alert alert-info">
+                <?php echo lang('game::no-games-found')?>
+            </div>
+        <?php endif?>
+    </div>
+
+    <div class="box-content"><?php echo $games->links()?></div>
+</div>

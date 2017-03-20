@@ -1,0 +1,33 @@
+<input type="hidden" name="val[id]" value="<?php echo $pageInfo['slug']?>"/>
+<?php if($pageInfo['page_type'] == 'auto'):?>
+    <div class="form-group">
+        Page Url : <strong><a href="<?php echo url($pageInfo['slug'])?>"><?php echo url($pageInfo['slug'])?></a></strong>
+    </div>
+<?php endif?>
+<div class="form-group">
+    <label><?php _lang('page-title')?>(English)</label>
+    <input type="text" name="val[title][english]" class="form-control" <?php echo ($pageInfo['page_type'] == 'manual') ? 'disabled' : null?> value="<?php echo get_phrase('english', $pageInfo['title'])?>"/>
+    <a href="" class="other-languages-link" onclick="return show_other_languages('#page-info-other-languages')"><?php _lang('edit-other-languages')?></a>
+    <div class="other-languages" id="page-info-other-languages">
+        <?php foreach(get_all_languages() as $language):?>
+            <?php if($language['language_id'] != 'english'):?>
+                <input class="form-control" <?php echo ($pageInfo['page_type'] == 'manual') ? 'disabled' : null?> value="<?php echo get_phrase($language['language_id'], $pageInfo['title'])?>" type="text" name="val[title][<?php echo $language['language_id']?>]" placeholder="<?php _lang('page-title')?>"/><br>
+                <p class="help-block"><?php echo $language['language_title']?></p>
+            <?php endif?>
+        <?php endforeach?>
+    </div>
+</div>
+
+<div class="form-group">
+    <label><?php _lang('page-description')?></label>
+    <input type="text" name="val[description]" class="form-control"  value="<?php _lang($pageInfo['description'])?>"/>
+</div>
+
+<div class="form-group">
+    <label><?php _lang('page-keywords')?></label>
+    <input type="text" name="val[keywords]" class="form-control"  value="<?php _lang($pageInfo['keywords'])?>"/>
+</div>
+
+<?php if($pageInfo['page_type'] == 'auto'):?>
+    <textarea name="val[content]" class="ckeditor"><?php echo $pageInfo['content']?></textarea>
+<?php endif?>

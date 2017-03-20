@@ -1,0 +1,37 @@
+<?php if(is_page_admin($app->profilePage) or is_page_editor($app->profilePage)):?>
+    <?php echo view('feed::editor', array(
+            'offPrivacy' => true,
+            'avatar' => get_page_logo(75, $app->profilePage),
+            'privacy' => 1,
+            'type' => 'page',
+            'type_id' => $app->profilePage['page_id'],
+            'entity_type' => 'page',
+            'entity_id' => $app->profilePage['page_id'],
+            'offTagging' => true
+        )
+    )?>
+<?php endif?>
+
+<div  id="feed-lists" data-type="page" data-type-id="<?php echo $app->profilePage['page_id']?>" data-offset="0">
+    <?php $feed = get_pinned_feed('page', $app->profilePage['page_id']); if ($feed) echo view('feed::feed', array('feed' => $feed))?>
+    <?php $i = 0; foreach($feeds as $feed):fire_hook('feed.lists.inline', null, array($i));$i++?>
+        <?php echo view('feed::feed', array('feed' => $feed))?>
+    <?php endforeach?>
+
+
+</div>
+<?php if(!count($feeds)):?>
+    <div class="feed-empty text-center">
+        <i class="ion-android-bicycle"></i>
+        <h3><?php _lang('no-post-show')?></h3>
+    </div>
+<?php endif?>
+<?php if(count($feeds)):?>
+    <div class="feed-load-more">
+        <div class="col-sm-2 no-padding"></div>
+        <div class="col-sm-10 no-padding">
+            <a href="" class="z-depth-1"><?php _lang('load-more')?></a>
+            <img src="<?php echo img('images/loading.gif')?>" class=""/>
+        </div>
+    </div>
+<?php endif?>

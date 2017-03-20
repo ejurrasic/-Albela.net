@@ -1,0 +1,15 @@
+<div class="media media-sm">
+    <div class="media-left">
+        <div class="media-object"><img src="<?php echo get_avatar(75, $user)?>"/> </div>
+    </div>
+    <div class="media-body">
+        <h6 class="media-heading" style="width:60%"><?php echo get_user_name($user)?></h6>
+        <div class="action" >
+            <?php if(has_page_invited($pageId, $user['id'])):?>
+                <a href="javascript::void(0)" class="btn btn-secondary btn-sm disabled" disabled="disabled"><?php _lang('page::invited')?></a>
+            <?php else:?>
+                <a onclick="return page_invite_friend(this, '<?php echo $user['id']?>', '<?php echo $pageId?>')" href="" class="btn btn-secondary btn-sm"><?php _lang('page::invite')?></a>
+            <?php endif?>
+        </div>
+    </div>
+</div>

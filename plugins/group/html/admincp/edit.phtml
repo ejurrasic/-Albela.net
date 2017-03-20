@@ -1,0 +1,81 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang("group::groups-manager")?>
+    </div>
+    <div class="wrapper-content">
+        <form action="" method="post">
+            <?php CSRFProtection::embed() ?>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('group::group-title')?></label>
+                <div class="col-sm-8">
+                    <input value="<?php echo $group['group_title']?>" type="text" name="val[group_title]" class="form-control"/>
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('group::description')?></label>
+                <div class="col-sm-8">
+                    <textarea name="val[group_description]" class="form-control auto-grow-input"><?php echo $group['group_description']?></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('privacy')?></label>
+                <div class="col-sm-8">
+                    <select class="c-select" name="val[privacy]">
+                        <option value="1" <?php echo ($group['privacy'] == 1) ? 'selected' : null?>><?php _lang('public')?></option>
+                        <option value="2" <?php echo ($group['privacy'] == 2) ? 'selected' : null?>><?php _lang('private')?></option>
+                    </select>
+                    <p class="help-block">
+                    <p><strong><?php _lang('public')?>: </strong>
+                        <?php _lang('group::group-public-note')?></p>
+                    <p>
+                        <strong><?php _lang('private')?>: </strong>
+                        <?php _lang('group::group-private-note')?>
+                    </p>
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('group::group-who-can-post')?></label>
+                <div class="col-sm-8">
+                    <select class="c-select" name="val[who_can_post]">
+                        <option value="1" <?php echo ($group['who_can_post'] == 1) ? 'selected' : null?>><?php _lang('group::members')?></option>
+                        <option value="2" <?php echo ($group['who_can_post'] == 2) ? 'selected' : null?>><?php _lang('group::moderators-admins')?></option>
+                        <option value="3" <?php echo ($group['who_can_post'] == 3) ? 'selected' : null?>><?php _lang('group::admins')?></option>
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('group::group-who-can-add-member')?></label>
+                <div class="col-sm-8">
+                    <select class="c-select" name="val[who_can_add_member]">
+                        <option value="1" <?php echo ($group['who_can_add_member'] == 1) ? 'selected' : null?>><?php _lang('group::members')?></option>
+                        <option value="2" <?php echo ($group['who_can_add_member'] == 2) ? 'selected' : null?>><?php _lang('group::moderators-admins')?></option>
+                        <option value="3" <?php echo ($group['who_can_add_member'] == 3) ? 'selected' : null?>><?php _lang('group::admins')?></option>
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('featured')?></label>
+                <div class="col-sm-8">
+                    <select class="c-select" name="val[featured]">
+                        <option value="1" <?php echo ($group['featured'] == 1) ? 'selected' : null?>><?php _lang('yes')?></option>
+                        <option value="0" <?php echo ($group['featured'] == 0) ? 'selected' : null?>><?php _lang('no')?></option>
+
+                    </select>
+
+                </div>
+            </div>
+            <button class="btn btn-secondary"><?php _lang('save')?></button>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,55 @@
+        <div><h2>Manage Help And Support</h2></div>
+        <h4><?php echo !empty($message) ? $message : "" ?></h4>
+
+        <div>
+            <?php include('support-menus.phtml') ?>
+
+            <h3>Add new category</h3>
+
+        <form action="" method="POST" name="category">
+			<?php CSRFProtection::embed() ?>
+            <input type="hidden" name="_which"  value="category">
+            <div>
+                <label>Category name:</label>
+                <input type="text" name="category" value=""/>
+                <button type="submit">Add</button>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <h2><u>Add Suport Question</u></h2>
+    </div>
+<form action="#" method="post" name="support">
+	<?php CSRFProtection::embed() ?>
+    <input type="hidden" name="_which"  value="support">
+    <div>
+        <label>Category Tag</label>
+        <select name="category">
+            <option value="">Select a category to tag to</option>
+            <?php foreach($Categories as $category): ?>
+                <option <?php echo input_old('category') == $category['category'] ? 'selected' : ''  ?> value="<?php echo $category['id'] ?>"><?php echo $category['category'] ?></option>
+            <?php endforeach?>
+        </select>
+    </div>
+    <div>
+        <label>Tag to top questions:</label>
+        <input type="checkbox" <?php echo input_old('tag_to_top') == 1 ? "checked" : ""?> name="tag_to_top" value="1"/>
+    </div>
+    <div>
+        <label>Tag to dashboard:</label></span>
+        <input type="checkbox" <?php echo input_old('tag_to_dashboard') == 1 ? "checked" : ""?> name="tag_to_dashboard" value="1"/>
+    </div>
+    <div>
+        <label>Topic</label>
+       <input type="text" name="topic" value="<?php echo input_old('topic') ?>" size="50"/>
+    </div>
+    <div>
+        <label>Content:</label>
+        <textarea name="content" rows="6" cols="50"><?php echo input_old('content') ?></textarea>
+    </div>
+    <div>
+        .................................................................................................
+        <button type="submit">Add</button>
+    </div>
+ </form>

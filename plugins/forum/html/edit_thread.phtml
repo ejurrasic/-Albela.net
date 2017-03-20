@@ -1,0 +1,66 @@
+<div id="forum-create-thread" class="forum">
+    <div class="forum-content create-thread-content box">
+        <div class="forum-title"><h1><?php echo lang('forum::edit-topic') ?></h1></div>
+        <?php if(!is_loggedIn()): ?>
+            <div class="alert alert-danger"><?php echo lang('forum::forum-edit-login-error') ?></div>
+        <?php elseif(get_userid() != $thread['op_id']): ?>
+            <div class="alert alert-danger"di><?php echo lang('forum::forum-edit-user-error') ?></div>
+        <?php else: ?>
+            <?php if($messages): ?>
+            <div class="alert alert-danger"><?php echo $messages ?></div>
+            <?php endif ?>
+            <form action="" method="post" id="postform">
+            <?php CSRFProtection::embed() ?>
+                <div class="row" style="margin-bottom: 30px">
+                    <div class="col-sm-4">
+                        <h6><label for="val[category]"><?php echo lang('forum::category') ?>:</label></h6>
+                        <p class="form-description"><?php echo lang('forum::edit-thread-category-desc') ?></p>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="input-field col s10">
+                            <select name="val[category_id]" class="form-control">
+                                <?php foreach($categories as $category): ?>
+                                    <option value="<?php echo $category['id'] ?>" <?php if($category['id'] == $thread['category_id']): ?> selected="selected" <?php endif ?>>
+                                    <?php echo lang($category['title']) ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 30px">
+                    <div class="col-sm-4">
+                        <h6><label for="val[subject]"><?php echo lang('forum::subject') ?>: </label></h6>
+                        <p class="form-description"><?php echo lang('forum::edit-thread-subject-desc') ?></p>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="input-field col s10">
+                            <input name="val[subject]" type="text" value="<?php echo $thread['subject'] ?>" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 30px">
+                    <div class="col-sm-4">
+                        <h6><label for="val[tags]"><?php echo lang('forum::tags') ?>: </label></h6>
+                        <p class="form-description"><?php echo lang('forum::edit-thread-tags-desc') ?>.</p>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="input-field col s10">
+                            <input name="val[tags]" type="text" value="<?php echo $thread['tags'] ?>" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-field col s12">
+                            <input type="submit" value="<?php echo lang('forum::save') ?>" class="btn btn-primary" /> <input type="button" value="<?php echo lang('forum::cancel') ?>" class="btn btn-secondary" onclick="return loadPage('<?php echo url_to_pager('forum-thread-slug', array('appends' => '/'.$id.'/'.forum_slugger($thread['subject']))) ?>')" />
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="val[id]" value="<?php echo $thread['id'] ?>" />
+                <input type="hidden" name="val[type]" value="modify_thread" />
+            </form>
+        <?php endif ?>
+    </div>
+</div>

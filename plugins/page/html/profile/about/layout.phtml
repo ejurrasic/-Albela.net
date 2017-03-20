@@ -1,0 +1,17 @@
+<div class="box">
+    <div class="title"><?php echo _lang('about')?> <?php echo get_page_details('page_title')?></div>
+    <div class="box-content">
+        <div class="row">
+            <div class="col-md-4">
+                <ul class="profile-about-menu">
+                    <?php foreach(get_menus('page-profile-about') as $menu):?>
+                        <li><a ajax="true" class="<?php echo ($menu->isActive()) ? 'active' : null?>" href="<?php echo $menu->link?>"><?php echo $menu->title?></a> </li>
+                    <?php endforeach?>
+                </ul>
+            </div>
+            <div class="col-md-8">
+                <?php echo $content?>
+            </div>
+        </div>
+    </div>
+</div>

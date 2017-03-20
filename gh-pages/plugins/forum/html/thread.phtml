@@ -1,0 +1,93 @@
+<script>
+    function forumInitEditor(selector){
+        tinymce.remove();
+        tinymce.init({
+            selector: selector,
+            height: 200,
+            menubar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table contextmenu paste code textcolor colorpicker spellchecker imgupload'
+            ],
+            toolbar: 'styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist table forecolor code | link image imgupload',
+            relative_urls : false,
+            document_base_url : "<?php echo url() ?>"
+        });
+    }
+    function getUrlVars(link){
+        var vars = [], hash;
+        var hashes = link.slice(link.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+
+    function forumRefreshPagination(){
+        var links = document.getElementById('thread-pagination').getElementsByTagName('a');
+        console.log(links);
+        var protocol = window.location.protocol.replace(/\?/, '');
+        var host = window.location.hostname.replace(/\?/, '');
+        var path = window.location.pathname.replace(/\?/, '');
+        var query = window.location.search.replace(/\?/, '');
+        for(i = 0; i < links.length; i++){
+            var page = getUrlVars(links[i].href.toString())['page'];
+            var page_query = query == '' ? "page=" + page : "&page=" + page;
+//          newLink = protocol + '//' + host + path + query.replace(/&page=[0-9]*||page=[0-9]*/g, "") + "&page=" + page;
+            newLink = protocol + '//' + host + path + '?' + query.replace(/page=[0-9]*?/g, "") + page_query;
+            links[i].href = newLink;
+        }
+    }
+
+</script>
+<div id="forum-thread" class="forum">
+	<div id="thread-heading" class="box thread-heading clearfix">
+		<div id="thread-title" class="thread-title forum-title"><h1><?php echo $thread['subject'] ?></h1><?php if(is_loggedIn() && $thread['op_id'] == get_userid()): ?> <a ajax="true" href="<?php echo url_to_pager('forum-edit-thread') ?>?id=<?php echo $thread['id'] ?>" class="btn btn-info-outline btn-lm ion-android-create edit-thread-button" ajax="true"></a><?php endif ?></div>
+        <?php $tags = explode(' ', trim($thread['tags'])) ?>
+        <?php if(!empty($tags)): ?>
+        <div id="thread-tags" class="thread-tags tags">
+        <?php foreach($tags as  $tag): ?>
+            <?php if(forum_get_tag($tag)): ?>
+            <a href="<?php echo forum_get_forum_slug_link(url_to_pager('forum-slug', array('appends' => '')).'?t='.forum_get_tag($tag)[0]['id']) ?>" style="background-color:<?php echo forum_get_tag($tag)[0]['color'] ?>;" class="forum-tags forum-thread-tags" ajax="true"><?php echo lang(forum_get_tag($tag)[0]['title']) ?></a>
+            <?php endif ?>
+        <?php endforeach ?>
+        </div>
+        <?php endif ?>
+		<a href="<?php echo forum_get_forum_slug_link(url_to_pager('forum-slug', array('appends' => '')).'?c='.$category['id']) ?>" ajax="true" class="thread-category"><?php echo lang($category['title']) ?></a>
+        <?php if(plugin_loaded('sharer')) echo '<br />'.view('sharer::share_link') ?>
+	</div>
+	<div class="forum-content thread-content">
+		<div id="forum-replies" class="forum-replies-wrapper">
+			<?php echo view('forum::requests/replies', array('thread' => $thread, 'replies' => $replies, 'page' => $page, 'sr' => $sr, 'p' => $p, 'l' => $l)) ?>
+		</div>
+        <?php if(is_loggedIn()): ?>
+        <div id="forum-reply-form-wrapper-0" class="forum-reply-form-wrapper">
+            <form action="" method="post" id="postform-0" onsubmit="forumAjaxSubmitForm(this); return false;" style="text-align: left; padding:0px">
+                <?php CSRFProtection::embed() ?>
+                <input type="hidden" name="thread_id" value=<?php echo $thread['id'] ?> />
+                <input type="hidden" name="id"  value=0 />
+                <input type="hidden" name="type" value="reply_thread" />
+                <input type="hidden" name="val" value=true />
+                <textarea name="postbox" id="postbox-0"></textarea>
+                <div class="forum-form-submit"><input type="submit" value="<?php echo lang('forum::submit') ?>" class="btn btn-default btn-sm" /> <button class="btn btn-default btn-sm" onclick="forumReply(0); return false"><?php echo lang('forum::cancel') ?></button></div>
+            </form>
+        </div>
+		<div id="forum-reply-dashboard-0" class="forum-reply-dashboard">
+            <span id="forum-thread-follow">
+            <?php if(forum_thread_isfollowed($thread['id'])): ?>
+                <button id="forum-follow-button-0" class="btn btn-success-outline active ion-ios-personadd forum-follow-button" title="<?php echo lang('forum::unfollow') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=unfollow&thread_id=<?php echo $thread['id'] ?>', 'forum-thread-follow')"> <?php echo lang('forum::unfollow') ?></button>
+            <?php else: ?>
+                <button id="forum-follow-button-0" class="btn btn-success-outline ion-ios-personadd forum-follow-button" title="<?php echo lang('forum::follow') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=follow&thread_id=<?php echo $thread['id'] ?>', 'forum-thread-follow')"> <?php echo lang('forum::follow') ?></button>
+            <?php endif ?>
+            </span>
+            <?php if($thread['closed'] == 0): ?>
+            <button id="forum-reply-button-0" class="btn btn-warning-outline ion-reply-all forum-reply-button" title="<?php echo lang('forum::reply') ?>" onclick="forumReply(0)"> <?php echo lang('forum::reply') ?></button>
+            <?php endif ?>
+		</div>
+        <?php endif ?>
+	</div>
+</div>

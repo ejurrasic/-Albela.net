@@ -1,0 +1,29 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <p><?php echo lang('forum::tags-manager') ?></p>
+        <span><?php echo lang('forum::tags-manager-desc') ?></span>
+    </div>
+    <div class="wrapper-content">
+        <table class="table striped bordered">
+            <thead class="active">
+				<tr>
+					<th><?php echo lang('forum::title') ?></th>
+					<th><?php echo lang('forum::color') ?></th>
+					<th><?php echo lang('forum::actions') ?></th>
+				</tr>
+			</thead>
+            <tbody>
+            <?php foreach($tags as $tag): ?>
+                <tr>
+                    <td><a href="<?php echo url_to_pager('forum-slug', array('appends' => '')) ?>?t=<?php echo $tag['id'] ?>"><?php echo $tag['title'] ?></a></td>
+                    <td><span style="color:#FFFFFF;padding:4px;background-color:<?php echo $tag['color'] ?>"><?php echo $tag['color'] ?></span></td>
+                    <td>
+                        <a href="<?php echo url_to_pager('admin-forum-tag-edit') ?>?id=<?php echo $tag['id'] ?>" class="btn btn-sm btn-info"><?php echo lang('forum::edit') ?></a>
+                        <a href="<?php echo url_to_pager('admin-forum-tag-delete') ?>?id=<?php echo $tag['id'] ?>" class="btn btn-sm btn-danger admin-confirm ion-android-delete" title="<?php echo lang('forum::delete') ?>"></a>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

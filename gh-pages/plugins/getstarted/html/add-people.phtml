@@ -1,0 +1,35 @@
+<div class="panel-container card">
+    <div class="title"><i class="ion-android-person-add"></i> <?php _lang('add-people')?></div>
+    <div class="card-block" style="padding: 0">
+        <div class="getstarted-content">
+            <div class="user-lists slimscroll" style="height: 300px;overflow:hidden" data-height="300px">
+                <?php $users = relationship_suggest(20); foreach($users->results() as $user):?>
+                    <div class="media media-md user">
+                        <div class="media-left">
+                            <a href="" class="media-object"><img class="responsive-img" src="<?php echo get_avatar(75, $user)?>"/> </a>
+                        </div>
+                        <div class="media-body">
+
+                            <h6 style="color: #000000"><?php echo get_user_name($user)?></h6>
+
+                            <div class="action">
+                                <?php if(plugin_loaded('relationship')):?>
+                                    <?php echo view('relationship::button', array('userid' => $user['id']))?>
+                                <?php endif?>
+                            </div>
+                        </div>
+                    </div>
+
+                <?php endforeach?>
+            </div>
+        </div>
+
+        <div class="getstarted-footer clearfix">
+            <div class="pull-right">
+                <a href="<?php echo url_to_pager("signup-welcome").'?step=finish'?>" class="btn btn-secondary"><?php _lang('skip')?></a>
+                <a href="<?php echo url_to_pager("signup-welcome").'?step=finish'?>" class="btn btn-info"><?php _lang('continue')?></a>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('verification-requests')?>
+
+    </div>
+    <div class="wrapper-content">
+
+        <table class="table table-bordered" style="margin-top: 20px">
+            <thead>
+            <tr>
+                <th style="width: 10%">ID</th>
+                <th style="width: 25%"><?php _lang('entity')?></th>
+                <th style="width: 15%"><?php _lang('type')?></th>
+                <th style="width: 15%"><?php _lang('time')?></th>
+                <th style="width: 20%"><?php _lang('actions')?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($requests->results() as $user):?>
+                <tr>
+                    <td><?php echo $user['type_id']?></td>
+                    <td>
+                        <?php if($user['type'] == 'user'):$u = find_user($user['type_id'])?>
+                            <a href="<?php echo profile_url(null, $u)?>">
+                                <img src="<?php echo get_avatar(75, $u)?>" width="30" height="30"/>
+                                <h6><?php echo get_user_name($u)?></h6>
+                            </a>
+                        <?php else:$page = find_page($user['type_id'])?>
+                            <a href="<?php echo page_url(null, $page)?>">
+                                <img src="<?php echo get_page_logo(75, $page)?>" width="30" height="30"/>
+                                <h6><?php echo $page['page_title']?></h6>
+                            </a>
+                        <?php endif?>
+                    </td>
+                    <td><?php echo ucwords($user['type'])?></td>
+                    <td><?php echo date('d F Y g:i', $user['time'])?></td>
+                    <td>
+                       <?php if(!$user['ignored']):?>
+                           <a href="<?php echo url('admincp/verify/action?type=ignore&id='.$user['id'])?>" class="btn btn-sm btn-danger"><?php _lang('ignore')?></a>
+
+                           <a href="<?php echo  url('admincp/verify/action?type=approve&id='.$user['id'])?>" class="btn btn-sm btn-success"><?php _lang('approve')?></a>
+                        <?php endif?>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+
+        <?php echo $requests->links();?>
+    </div>
+</div>

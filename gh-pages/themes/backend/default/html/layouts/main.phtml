@@ -1,0 +1,9 @@
+
+    <?php $flashMessage = get_flash("admin-message")?>
+    <?php if($flashMessage):?>
+        <div style="display: none" class="admin-toast-message"><?php echo $flashMessage?></div>
+    <?php endif?>
+    <div id="main">
+        <?php echo $content?>
+    </div>
+

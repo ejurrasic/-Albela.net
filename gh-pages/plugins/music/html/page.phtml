@@ -1,0 +1,53 @@
+<?php $play_list = isset($play_list) ? $play_list : NULL; $refId = $music['id']; $refName = 'music'; ?>
+<div class="box music">
+    <div class="title" style="min-height: 45px;">
+    <?php if(isset($play_list)): ?>
+        <?php echo $play_list['title'] ?>
+        <div class="action">
+        <?php if(is_playlist_owner($play_list)): ?>
+            <a ajax="true" href="<?php echo url_to_pager('music-playlist-edit').'?id='.$play_list['id'] ?>" class="btn btn-success btn-sm "><?php echo lang('edit') ?></a>
+            <a href="<?php echo url_to_pager('music-playlist-delete').'?id='.$play_list['id'] ?>" class="btn btn-danger confirm btn-sm"><?php echo lang('music::delete-playlist') ?></a>
+            <?php elseif(is_loggedIn() and plugin_loaded('report')): ?>
+            <a data-type="group" data-link="<?php echo url_to_pager('music-playlist-page', array('id' => $play_list['slug'])) ?>" class="report-btn btn btn-secondary" href=""><i class="ion-flag"></i></a>
+        <?php endif ?>
+        </div>
+    <?php else: ?>
+        <?php echo $music['title'] ?>
+        <div class="action">
+            <?php if(is_music_owner($music)): ?>
+            <a ajax="true" href="<?php echo url_to_pager('music-edit').'?id='.$music['id'] ?>" class="btn btn-success btn-sm "><?php echo lang('edit') ?></a>
+            <a href="<?php echo url_to_pager('music-delete').'?id='.$music['id'] ?>" class="btn btn-danger confirm btn-sm"><?php echo lang('music::delete-music') ?></a>
+            <?php elseif(is_loggedIn() and plugin_loaded('report')): ?>
+            <a data-type="group" data-link="<?php echo url_to_pager('music-page', array('id' => $music['slug'])) ?>" class="report-btn btn btn-secondary" href=""><i class="ion-flag"></i></a>
+            <?php endif ?>
+        </div>
+    <?php endif ?>
+    </div>
+    <div id="music-display" class="box-content music-display" style="background-image: url(<?php echo $music['cover_art'] ? url_img($music['cover_art'], 920) : img('music::images/preview.png', 920) ?>); background-position: center; background-size: cover;">
+        <div class="display row">
+            <div class="col-sm-5 song">
+                <img id="track-page-cover" src="<?php echo $music['cover_art'] ? url_img($music['cover_art'], 200) : img('music::images/preview.png', 200) ?>" class="cover" />
+                <div id="track-page-info" class="info">
+                    <div><?php echo lang('music::title').': '.$music['title'] ?></div>
+                    <div><?php echo lang('music::artist').': '.$music['artist'] ?></div>
+                    <div><?php echo lang('music::album').': '.$music['album'] ?></div>
+                </div>
+            </div>
+            <div class="col-sm-7 playlist slimscroll" data-height="240px">
+                <ol>
+                    <?php $now_playing = $music['id'] ?>
+                    <?php foreach($playlist as $music): ?>
+                        <?php $options = array('nowPlaying' => $music['slug'], 'autoplay' => true); ?>
+                    <li id="track-<?php echo $music['id'] ?>"><a href="<?php echo url_to_pager('music-page', array('id' => $music['slug'])) ?>" ajax="true"><?php echo empty($music['artist']) ? lang('music::unknown-artist').' - '.$music['title'] : $music['artist'].' - '.$music['title'] ?></a> <i id="playlist-play-button-<?php echo $music['id'] ?>" class="ion-play playlist-play-button" onclick='if(typeof music.player.nowPlaying !== "undefined" && music.player.playing && music.player.nowPlaying == "<?php echo $music['slug'] ?>"){music.updateButton(this)}else{music.player.init(<?php echo str_replace("'", htmlspecialchars("'", ENT_QUOTES), json_encode($playlist)) ?>, <?php echo json_encode($options) ?>); this.className += " playing "; this.className = this.className.replace(/(?:^|\s)ion-play(?!\S)/g , " ion-pause ");} this.className += " playing ";'></i></li>
+                    <?php endforeach ?>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div id="music-page-dashboard">
+        <?php echo view('music::music_page_dashboard', array('refName' => $refName, 'refId' => $refId, 'music' => $music)) ?>
+    </div>
+</div>
+<div id="music-page-comment" class="box">
+        <?php echo view('music::music_page_comment', array('refName' => $refName, 'refId' => $refId, 'music' => $music)) ?>
+</div>

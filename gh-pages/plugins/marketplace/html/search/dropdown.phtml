@@ -1,0 +1,13 @@
+<?php foreach($listings->results() as $listing): ?>
+    <div class="media media-md"  style="padding: 5px">
+        <div class="media-left">
+            <a href="<?php echo url_to_pager('marketplace-listing-slug', array('appends' =>marketplace_get_slug($listing['id'], 'listing'))) ?>" ajax="true">
+                <div class="media-object"><img src="<?php echo getBase().marketplace_get_image_size($listing['image'], 75) ?>" /> </div>
+            </a>
+        </div>
+        <div class="media-body">
+            <a href="<?php echo url_to_pager('marketplace-listing-slug', array('appends' =>marketplace_get_slug($listing['id'], 'listing'))) ?>" ajax="true"><h6 class="media-heading"><?php echo $listing['title'] ?></h6></a>
+			<strong><?php echo $listing['nov'] ?></strong> <?php echo lang('marketplace::views') ?>
+        </div>
+    </div>
+<?php endforeach ?>

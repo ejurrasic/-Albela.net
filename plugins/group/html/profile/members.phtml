@@ -1,0 +1,32 @@
+<div class="box">
+    <div class="title"><?php _lang('group::group-members')?></div>
+    <?php if($users):?>
+        <div class="box-content two-line-media clearfix">
+            <?php foreach($users->results() as $user):?>
+                <div class="media <?php echo (isset($type)) ? $type : 'media-lg'?> user">
+                    <div class="media-left">
+                        <a ajax="true" href="<?php echo profile_url(null, $user)?>" class="media-object"><img class="responsive-img" src="<?php echo get_avatar(75, $user)?>"/> </a>
+                    </div>
+                    <div class="media-body">
+
+                        <a ajax="true" href="<?php echo profile_url(null, $user)?>"><?php echo get_user_name($user)?></a>
+
+                        <div class="action">
+                            <?php if(is_group_admin($app->profileGroup)):?>
+                                <select onchange="return process_group_role(this,'<?php echo $app->profileGroup['group_id']?>', '<?php echo $user['id']?>')" class="c-select">
+                                    <option value="0"><?php _lang('group::member')?></option>
+                                    <option value="1" <?php echo (is_group_moderator($app->profileGroup, $user['id'])) ? 'selected' : null?>><?php _lang('group::moderator')?></option>
+                                </select>
+                                <!--<a href="" class="btn btn-danger"><i class="ion-android-delete"></i></a>-->
+                            <?php endif?>
+                        </div>
+                    </div>
+                </div>
+
+            <?php endforeach?>
+        </div>
+        <div class="box-content">
+            <?php echo $users->links(true)?>
+        </div>
+    <?php endif?>
+</div>

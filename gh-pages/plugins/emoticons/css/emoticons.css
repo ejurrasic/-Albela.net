@@ -1,0 +1,55 @@
+
+.emoticon-box{
+    padding: 0;
+    width: 300px;
+    height: 200px;
+    position: absolute !important;
+    display: none;
+    z-index: 999;
+    background: #ffffff;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+.emoticon-bottom{
+    bottom:20px;
+    right: 0 !important;
+}
+.emoticon-top{
+    top: 20px;
+    left: 0;
+}
+.emoticon-box .emoticon-header{
+    border-bottom: solid 1px #d3d3d3;
+}
+.emoticon-box .emoticon-header li{
+    display: inline-block !important;
+    padding: 0 !important;
+}
+.emoticon-box .emoticon-header li a{
+    display: block;
+    font-size: 11px;
+    border-right: solid 1px #d3d3d3;
+    padding: 5px 10px !important;
+    color: #808080;
+}
+.emoticon-box .emoticon-body{
+    width: 250px;
+    padding: 10px;
+    max-height: 150px;
+    overflow: hidden;
+}
+.emoticon-box .emoticon-body input[type=text] {
+    margin-bottom: 5px;
+    display: none;
+    font-size: 12px;
+}
+.emoticon-box .emoticon-body .add-emoticon{
+    margin: 5px;
+    display: inline-block;
+}
+
+.emoticon-box .emoticon-body .sticker-lists a{
+    width: 18%;
+    box-sizing: border-box;
+}
+.emoticon-box .emoticon-body .sticker-lists a img{width: 100%}

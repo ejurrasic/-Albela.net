@@ -1,0 +1,24 @@
+<div id="notification-<?php echo $notification['notification_id']?>" class="notification media media-md  <?php echo ($notification['mark_read'] == 0) ? 'notification-unread' : null?>">
+    <div class="media-left"><div class="media-object"><a ajax="true" href="<?php echo url_to_pager('view-post', array('id' => $notification['type_id']))?>"><img src="<?php echo get_avatar(75, $notification)?>"/></a> </div></div>
+    <div class="media-body">
+        <a ajax="true" href="<?php echo url_to_pager('view-post', array('id' => $notification['type_id']))?>">
+            <h6 class="media-heading">
+                <?php echo get_user_name($notification)?>
+                <?php _lang('mention::mention-you-in-post');?>
+            </h6>
+
+        </a>
+        <span style="display: block" class="timeago " title="<?php echo date('c', $notification['time'])?>"><?php echo date('c', $notification['time'])?></span>
+        <div class="actions">
+            <a
+                class="mark-button"
+                data-status="<?php echo $notification['mark_read']?>"
+                data-read="<?php echo lang('notification::read')?>"
+                data-mark="<?php echo lang('notification::mark-as-read')?>"
+                title="<?php echo ($notification['mark_read'] == 1) ? lang('notification::read') : lang('notification::mark-as-read')?> "
+                onclick="return process_notification_mark('<?php echo $notification['notification_id']?>')"
+                href="#!" ><i class="ion-checkmark-circled"></i></a>
+            <a onclick="return delete_notification('<?php echo $notification['notification_id']?>')" href="#!"><i class="ion-close"></i></a>
+        </div>
+    </div>
+</div>

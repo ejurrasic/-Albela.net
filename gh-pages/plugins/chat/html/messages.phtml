@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="box <?php //echo (($cid and $cid != 'mobile') or input('userid')) ? 'hidden-md-down' : null?>" id="message-left-pane">
+            <div class="title"><?php _lang('chat::conversations')?> <a href="<?php echo url_to_pager('messages')?>?cid=new" ajax="true" class="btn btn-info btn-sm action"><i class="ion-compose"></i></a> </div>
+            <div class="conversation-list slimscroll" data-height="<?php echo (isMobile()) ? '150px' : '450px'?>">
+                <?php foreach(get_user_conversations() as $conversation):?>
+                    <?php echo view('chat::conversation/display', array('conversation' => $conversation, 'cid' => $cid))?>
+                <?php endforeach?>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="box message-box-<?php echo $cid?> <?php echo ((!$cid and !input('userid')) or $cid == 'mobile') ? 'hidden-md-down' : null?>" id="message-right-pane">
+
+            <form id="message-chat-form" enctype="multipart/form-data" action="" method="post">
+            <?php CSRFProtection::embed() ?>
+                <input type="hidden" name="val[cid]" id="message-cid-input" value="<?php echo ($cid != 'new') ? $cid : null?>"/>
+                <?php if($cid == 'new'):?>
+                    <div class="message-to-container">
+                        <span><?php _lang('chat::to')?>: </span>
+                        <span id="message-to-lists">
+                            <?php if($userid): $user = find_user($userid, false);?>
+                                <span class='user' id='message-user-<?php echo $user['id']?>'><?php echo get_user_name($user)?><input type='hidden' name='val[user][]' value='<?php echo $user['id']?>'/><a href=''><i class='ion-close'></i></a> </span>
+                            <?php endif?>
+                            <input type="text" data-target="#message-user-suggestion" class="user-tag-input" data-friend-only="true" placeholder="<?php _lang('chat::type-a-friend-name')?>"/>
+                            <div style="width: 300px" class="user-suggestion-list box" id="message-user-suggestion"></div>
+                        </span>
+                    </div>
+                <?php endif?>
+                <div class="messages-pane-title title" style="<?php echo ($cid == 'new') ? 'display:none': null?> ">
+                    <h5 class="message-title"><?php echo ($conversate) ? $conversate['title'] : null?></h5>
+                    <div class="action" style="top: 10px">
+                        <div class="btn-group">
+                            <?php if($conversate['type'] == 'single'): ?>
+                            <?php $userid = $conversate['user1'] == get_userid() ? $conversate['user2'] : $conversate['user1'];?>
+                            <?php $user = find_user($userid);?>
+							<?php $can_stream = plugin_loaded('mediachat') && mediachat_can_user_stream($user['id']) ? true : false; ?>
+                            <?php $other = array('identity' => $user['id'], 'name' => get_user_name($user), 'avatar' => get_avatar(200, $user), 'type' => 'video', 'can_stream' => $can_stream); ?>
+                            <?php echo fire_hook('mediachat.button.voice.init', null, $other); ?>
+                            <?php $other['type'] = 'voice' ?>
+                            <?php echo fire_hook('mediachat.button.video.init', null, $other); ?>
+                            <?php endif?>
+                            <a href="<?php echo url_to_pager('messages')?>?cid=new" ajax="true" class="btn btn-secondary btn-sm hidden-md-down"><?php _lang('chat::new-message')?></a>
+                            <a href="" onclick="return delete_conversation()" class="btn btn-secondary btn-sm "><span class="hidden-md-up"><i class="ion-close"></i></span><span class="hidden-md-down"><?php _lang('chat::delete-conversation')?></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div data-offset="0" class="messages-pane slimscroll" data-height="350px" data-sending="<?php _lang('chat::sending')?>">
+                    <?php if($messageContent):?>
+                        <?php echo $messageContent?>
+                    <?php endif?>
+
+                </div>
+                <div class="message-editor">
+                    <div>
+                        <textarea id="message-editor-textarea" placeholder="<?php _lang('chat::write-a-message')?>" name="val[message]"></textarea>
+                        <div class="clearfix">
+                            <span class="pull-left">
+                                <?php $privacy = get_privacy('chat-send-button', false)?>
+                                <button id="chat-send-button" class="btn btn-sm btn-info" style="<?php echo (!$privacy and !isMobile()) ? 'display:none' : null?>"><?php _lang('chat::send')?></button>
+
+                                <span class="hidden-sm-down"><input id="chat-send-input" onchange="switch_chat_send_button(this)" type="checkbox" name="" <?php echo (!$privacy) ? 'checked' : null?>> <?php _lang('chat::press-enter-to-send')?></span>
+                            </span>
+                            <span class="pull-right message-editor-actions" style="position: relative">
+                                <ul>
+                                    <li>
+                                        <a onclick="return file_chooser('#chat-message-image-input')" href=""><i class="ion-image"></i></a>
+                                        <span class="file-input"><input  onchange="chat_message_upload()"  type="file" id="chat-message-image-input" name="image"/> </span>
+                                    </li>
+                                    <li>
+                                        <a href="" onclick="return file_chooser('#chat-message-file-input')"><i class="ion-android-attach"></i></a>
+                                        <span class="file-input"><input  onchange="chat_message_upload()"  type="file" id="chat-message-file-input" name="file"/> </span>
+                                    </li>
+                                    <?php if(plugin_loaded('emoticons')):?>
+                                        <li style="position: relative;">
+                                            <div class="emoticon-box emoticon-bottom"></div>
+                                            <a data-target="message-editor-textarea" data-action="1"  title="<?php _lang('emoticons::add-emoticons')?>" class="emoticon-button" href="javascript::void(0)"><i class="ion-android-sad emo-button"></i></a>
+                                            <span class="file-input"><input   multiple  type="file"  name=""/> </span>
+                                        </li>
+                                    <?php endif?>
+                                </ul>
+
+
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang("static-pages")?> -
+
+    </div>
+    <div class="wrapper-content">
+        <form method="post" action="" enctype="multipart/form-data" class="" style="margin: 20px auto;width: 70%">
+			<?php CSRFProtection::embed() ?>
+            <?php if($message):?>
+                <div class="alert alert-danger"><?php echo $message?></div>
+            <?php endif?>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('page-title')?></label>
+                <div class="col-sm-9">
+                    <?php foreach(get_all_languages() as $language):?>
+                        <input value="<?php echo get_phrase($language['language_id'], $page['title'])?>" class="form-control" type="text" name="val[title][<?php echo $language['language_id']?>]" placeholder="<?php _lang('page-title')?>"/><br>
+                        <p class="help-block"><?php echo $language['language_title']?></p>
+                    <?php endforeach?>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('page-content')?></label>
+                <div class="col-sm-9">
+                    <textarea name="val[content]" class="ckeditor"><?php echo $page['content']?></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('page-tags')?></label>
+                <div class="col-sm-9">
+                    <textarea name="val[tags]" class="form-control"><?php echo $page['tags']?></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('add-page-to-footer-link')?></label>
+                <div class="col-sm-9">
+                    <div class="c-inputs-stacked">
+                        <label class="c-input c-radio">
+                            <input  id="radioStacked1" <?php echo (!$page['footer_link']) ? 'checked' : null?> name="val[footer]" value="0" type="radio">
+                            <span class="c-indicator"></span>
+                            <?php  _lang('no')?>
+                        </label>
+                        <label class="c-input c-radio">
+                            <input <?php echo ($page['footer_link']) ? 'checked' : null?> id="radioStacked2" name="val[footer]" value="1" type="radio">
+                            <span class="c-indicator"></span>
+                            <?php  _lang('yes')?>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('add-page-to-explore-menu')?></label>
+                <div class="col-sm-9">
+                    <div class="c-inputs-stacked">
+                        <label class="c-input c-radio">
+                            <input id="radioStacked1" <?php echo (!$page['explore_link']) ? 'checked' : null?> name="val[explore]" value="0" type="radio">
+                            <span class="c-indicator"></span>
+                            <?php  _lang('no')?>
+                        </label>
+                        <label class="c-input c-radio">
+                            <input id="radioStacked2" <?php echo ($page['explore_link']) ? 'checked' : null?>  name="val[explore]" value="1" type="radio">
+                            <span class="c-indicator"></span>
+                            <?php  _lang('yes')?>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-info"><?php _lang('save-page')?></button>
+        </form>
+    </div>
+</div>

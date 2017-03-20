@@ -1,0 +1,25 @@
+<div class="box users-box">
+    <?php if(isset($app->profileGroup)):?>
+    <div class="title">
+        <?php _lang('group::members')?> (<strong><?php echo count(get_group_members_id($app->profileGroup['group_id']))?></strong>)
+        <a ajax="true" href="<?php echo group_url('members')?>"><i class="ion-ios-arrow-forward pull-right"></i></a>
+    </div>
+    <div class="clearfix">
+        <?php $users = get_group_members($app->profileGroup['group_id'], 6)?>
+        <?php foreach($users->results() as $user):?>
+            <a style="background-image: url(<?php echo get_avatar(200, $user)?>)" class="user" ajax="true" href="<?php echo profile_url(null, $user)?>">
+
+                <h6 class="name"><?php echo get_user_name($user)?></h6>
+            </a>
+        <?php endforeach?>
+    </div>
+
+    <?php elseif(!isset($app->profileUser)):?>
+        <div class="title"><?php _lang('not-a-group-page')?></div>
+        <div class="box-content" style="padding-top: 0">
+            <ul id="profile-side-info">
+                <li>This widget can only work on a group page</li>
+            </ul>
+        </div>
+    <?php endif?>
+</div>

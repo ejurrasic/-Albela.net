@@ -1,0 +1,31 @@
+<div class="box">
+    <div class="title"><?php echo lang('relationship::respond-to-friend-requests')?></div>
+    <div class="box-content">
+        <?php $lists = $requests->results()?>
+        <?php if(!$lists):?>
+            <div class="alert alert-error" style="padding: 10px !important"><?php _lang('relationship::no-friend-requests')?></div>
+        <?php endif?>
+        <?php foreach($lists as $user):?>
+            <div class="media media-lg user" id="friend-request-<?php echo $user['id']?>">
+                <div class="media-left">
+                    <div class="media-object"><a href="<?php echo profile_url(null, $user)?>" ><img class="responsive-img" src="<?php echo get_avatar(75, $user)?>"/></a></div>
+                </div>
+                <div class="media-body">
+                    <h6 style="color: #000000"><a href="<?php echo profile_url(null, $user)?>"><?php echo get_user_name($user)?></a> </h6>
+                    <?php fire_hook('relationship.request.list', null, array($user)); ?>
+                    <div class="actions">
+                        <a
+                            onclick="<?php fire_hook('relationship.request.confirm.script', null, array($user)) ?>"
+
+                            class = ""
+                            href=""><?php _lang('relationship::confirm')?></a> |
+                        <a onclick="<?php fire_hook('relationship.request.delete.script', null, array($user)) ?>" href=""><?php _lang('relationship::delete-request')?></a>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach?>
+
+        <?php echo $requests->links()?>
+    </div>
+
+</div>

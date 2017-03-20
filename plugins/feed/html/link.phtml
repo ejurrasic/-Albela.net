@@ -1,0 +1,61 @@
+<?php if(!$details):?>
+
+<?php else:?>
+    <div class="link-content-container">
+        <?php if(isset($editor) and $editor):?>
+            <input type="hidden" value="<?php echo perfectSerialize($details)?>" name="val[link_details]"/>
+            <a onclick="return feedEditor.removeLinkDetails()" class="close-button" href=""><i class="ion-close"></i></a>
+        <?php endif?>
+        <?php if($details['type'] == 'link'):?>
+            <div class="link">
+                <?php if(empty($details['image'])):?>
+                    <div class="link-desc">
+                        <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><h6 class="link-title"><?php echo sanitizeText($details['title'])?></h6></a>
+                        <?php if($details['description']):?>
+                            <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200))?></p>
+                        <?php endif?>
+
+                    </div>
+                <?php //elseif($details['imageWidth'] < 150):?>
+                    <!-- <div class="media">
+                        <div class="media-left">
+                            <a style="background-image:url(<?php echo $details['image']?>)" nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><img src="<?php echo $details['image']?>" style="display: none;" /></a>
+                        </div>
+                        <div class="media-body">
+                            <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><h6 class="link-title"><?php echo sanitizeText($details['title'])?></h6></a>
+                            <?php if($details['description']):?>
+                                <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200))?></p>
+                            <?php endif?>
+
+                        </div>
+                    </div> -->
+                <?php else:?>
+                    <div class="media">
+                        <div class="image">
+                            <a style="background-image:url(<?php echo $details['image']?>)" nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><img src="<?php echo $details['image']?>" style="display: none;" /></a>
+                        </div>
+                        <div class="media-desc">
+                            <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><h6 class="link-title"><?php echo sanitizeText($details['title'])?></h6></a>
+                            <?php if($details['description']):?>
+                                <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200))?></p>
+                            <?php endif?>
+
+                        </div>
+                    </div>
+                <?php endif?>
+            </div>
+        <?php else:?>
+            <div class="embed">
+                <div class="iframe" style="max-width:100% !important;overflow:hidden !important;max-height:500px;"><?php echo set_youtube_param(str_replace('width', 'w', $details['code']), array('rel' => 0)) ?></div>
+                <div class="desc">
+                    <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><h6 class="link-title"><?php echo sanitizeText($details['title'])?></h6></a>
+                    <?php if($details['description']):?>
+                        <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200))?></p>
+                    <?php endif?>
+                    <p class="help-block"><?php echo $details['provider-url']?></p>
+                </div>
+            </div>
+
+        <?php endif?>
+    </div>
+<?php endif?>

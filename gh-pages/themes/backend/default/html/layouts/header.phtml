@@ -1,0 +1,121 @@
+
+<?php if(isMobile()):?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<?php else:?>
+    <!DOCTYPE html>
+<?php endif?>
+<html>
+<head>
+    <?php echo render_assets('css')?>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Alternative to above: Disables zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title><?php echo get_title()?></title>
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo (config('site-favicon')) ? url_img(config('site-favicon')) : img('images/favicon.ico')?>" />
+
+    <meta content="<?php echo $keywords?>" name="keywords"/>
+    <meta content="<?php echo $description?>" name="description"/>
+</head>
+<body>
+<?php if(is_loggedIn() and is_admin()):?>
+
+<nav id="header" class="navbar navbar-light navbar-fixed-top">
+
+    <?php
+    $logo = config('site-logo');
+    $logo = (!$logo) ? img("images/logo.png") : url_img($logo);
+    ?>
+    <div class="logo navbar-brand">
+        <a href="<?php echo url('admincp')?>" class="brand-logo" style="margin-left: 20px;color: #808080;margin-top: 10px;text-decoration: none">ADMIN CONTROL PANEL</a>
+
+    </div>
+    <div class="nav navbar-nav pull-left">
+
+    </div>
+
+    <ul class="nav navbar-nav pull-right" id="header-right">
+        <li class="nav-item active dropdown">
+            <a class="nav-link dropdown-button" data-toggle="dropdown" href="#">
+                <img src="<?php echo get_avatar(75)?>"/>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a class="dropdown-item" href="<?php echo url()?>">Visit website</a> </li>
+                <li><a class="dropdown-item" href="<?php echo profile_url()?>">My Profile</a> </li>
+                <li class="divider"></li>
+                <li><a class="dropdown-item" href="<?php echo url_to_pager('logout')?>">Logout</a> </li>
+            </ul>
+
+
+        </li>
+        <li class="nav-item"><a href="" class="menu-toggle"><i class="ion-android-menu"></i></a></li>
+
+
+    </ul>
+
+</nav>
+
+<div id="side-navigation">
+    <ul >
+
+        <li class="panel">
+            <img width="40" src="<?php echo get_avatar(75)?>" alt="" class="circle left"/>
+            <a  class=" dropdown-button waves-effect waves-light"><?php echo get_user_name()?> <i class="mdi-hardware-keyboard-arrow-down"></i></a>
+
+            <div class="btn-group">
+                <a href="<?php echo url() ?>" class="btn btn-info">Go to Website</a>
+                <a href="<?php echo url().'logout' ?>" class="btn btn-danger"><?php _lang('logout') ?></a>
+            </div>
+        </li>
+    </ul>
+    <ul class="menu" id="side-navigation-menu" role="tablist" aria-multiselectable="false">
+
+
+        <?php foreach(get_menus("admin-menu") as $menu):?>
+            <?php if($menu->hasMenu()):?>
+                <li class="bold <?php echo ($menu->isActive()) ? 'active' : null?>">
+                    <a aria-expanded="false" <?php echo ($menu->hasMenu()) ? 'data-toggle="collapse" data-parent="#side-navigation"' : null?> class="<?php echo ($menu->isActive()) ? 'active' : null?> " href="<?php echo ($menu->hasMenu()) ? '#sub-menu-'.$menu->id : $menu->link?>">
+                        <span class="left"><i class="<?php echo ($menu->icon) ? $menu->icon : 'mdi-navigation-apps'?> "></i> <?php echo $menu->title?> <?php echo ($menu->hasMenu()) ? '<span class="pull-right"><i class="ion-ios-arrow-forward"></i></span>' : null?></span>
+
+                    </a>
+                    <ul  class="dropdown collapse <?php echo ($menu->isActive()) ? 'in' : null?>" id="sub-menu-<?php echo $menu->id?>">
+                        <?php foreach($menu->getMenus() as $subMenu):?>
+
+
+                            <?php if($subMenu->hasMenu()):?>
+                                <li class=" <?php echo ($subMenu->isActive()) ? 'active' : null?>">
+                                    <a aria-expanded="false" style="position: relative" data-toggle="collapse" data-parent="#sub-menu-<?php echo $menu->id?>" class="<?php echo ($subMenu->isActive()) ? 'active' : null?> " href="<?php echo ($subMenu->hasMenu()) ? '#sub-menu-'.$subMenu->id : $subMenu->link?>"><?php echo $subMenu->title?> <?php echo ($subMenu->hasMenu()) ? '<span  style="position: absolute;bottom: 3px;right: 10px"><i class="ion-ios-arrow-forward"></i></span>' : null?></a>
+                                    <ul  class="dropdown collapse <?php echo ($subMenu->isActive()) ? 'in' : null?>" id="sub-menu-<?php echo $subMenu->id?>">
+                                        <?php foreach($subMenu->getMenus() as $sMenu):?>
+                                            <li class=""><a href="<?php echo $sMenu->link?>"><i class="<?php echo ($sMenu->icon) ? $sMenu->icon : ' mdi-image-lens'?> "></i> <?php echo $sMenu->title?></a> </li>
+                                        <?php endforeach?>
+                                    </ul>
+                                </li>
+
+                            <?php else:?>
+                                <li><a href="<?php echo $subMenu->link?>"><?php echo $subMenu->title?></a></li>
+                            <?php endif?>
+
+                        <?php endforeach?>
+                    </ul>
+
+                </li>
+            <?php else:?>
+                <li class="bold <?php echo ($menu->isActive()) ? 'active' : null?>">
+                    <a class="waves-effect collapsible-header no-padding waves-teal bold bold <?php echo ($menu->isActive()) ? 'active' : null?>" href="<?php echo $menu->link?>"> <i class="<?php echo ($menu->icon) ? $menu->icon : ' mdi-image-lens'?> "></i> <?php echo $menu->title?></a>
+                </li>
+            <?php endif?>
+
+        <?php endforeach?>
+        <li class=""><a class="waves-effect collapsible-header no-padding waves-teal bold" href="<?php echo url_to_pager("logout")?>"><i class="ion-ios-undo"></i> Logout</a> </li>
+
+
+
+
+    </ul>
+</div>
+
+
+<?php endif?>

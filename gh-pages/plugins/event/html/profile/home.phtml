@@ -1,0 +1,66 @@
+<div class="box event-info">
+    <ul>
+        <li>
+            <i class="ion-android-time"></i>
+            <?php echo get_event_date($app->profileEvent, 'day', 'd')?>,
+
+            <?php echo lang(strtolower(get_event_date($app->profileEvent))) ?>
+            <?php if(get_event_date($app->profileEvent, 'year', 'Y') != date('Y')):?>
+                ,<?php echo get_event_date($app->profileEvent, 'year', 'Y')?>
+            <?php endif?>
+            <?php _lang('event::at')?>
+            <?php echo get_event_date($app->profileEvent, 'time', 'g : i')?>
+            <?php echo strtoupper($app->profileEvent['start_time_type'])?>
+        </li>
+
+        <li>
+            <i class="ion-location"></i>  <?php echo output_text($app->profileEvent['location'])?>
+        </li>
+
+        <?php if($app->profileEvent['address']):?>
+            <li>
+                <i class="ion-location"></i>  <?php echo output_text($app->profileEvent['address'])?>
+            </li>
+        <?php endif?>
+    </ul>
+</div>
+
+<?php if($app->profileEvent['event_desc']):?>
+    <div class="box">
+        <div class="box-content"><?php echo output_text($app->profileEvent['event_desc'])?></div>
+    </div>
+<?php endif?>
+
+<?php if(is_loggedIn()):?>
+    <?php echo view('feed::editor', array(
+            'offPrivacy' => true,
+            'privacy' => 5,
+            'type' => 'event',
+            'type_id' => $app->profileEvent['event_id'],
+            'offTagging' => true
+        )
+    )?>
+<?php endif?>
+<div  id="feed-lists" data-type="group" data-type-id="<?php echo $app->profileEvent['event_id']?>" data-offset="0">
+    <?php $feed = get_pinned_feed('event', $app->profileEvent['event_id']); if ($feed) echo view('feed::feed', array('feed' => $feed))?>
+    <?php $i = 0; foreach($feeds as $feed):fire_hook('feed.lists.inline', null, array($i));$i++?>
+        <?php echo view('feed::feed', array('feed' => $feed))?>
+    <?php endforeach?>
+
+
+</div>
+<?php if(!count($feeds)):?>
+    <div class="feed-empty text-center">
+        <i class="ion-android-bicycle"></i>
+        <h3><?php _lang('no-post-show')?></h3>
+    </div>
+<?php endif?>
+<?php if(count($feeds)):?>
+    <div class="feed-load-more">
+        <div class="col-sm-2 no-padding"></div>
+        <div class="col-sm-10 no-padding">
+            <a href="" class="z-depth-1"><?php _lang('load-more')?></a>
+            <img src="<?php echo img('images/loading.gif')?>" class=""/>
+        </div>
+    </div>
+<?php endif?>

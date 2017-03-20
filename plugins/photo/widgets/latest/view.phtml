@@ -1,0 +1,10 @@
+<?php $photos = get_photos(null, 'all', $limit, 0) ?>
+<div class="people box users-box">
+    <div class="title"><?php _lang('photo::latest-photos')?> <a ajax="true" href="<?php echo url_to_pager('photo')?>" class="more-link pull-right"><i class="ion-ios-arrow-forward"></i></a></div>
+    <div class="clearfix">
+        <?php foreach($photos as $photo): ?>
+
+        <a href="" data-image="<?php echo url_img($photo['path'], 920) ?>" data-id="<?php echo $photo['id'] ?>" class="image photo-viewer user"  style="background-image: url(<?php echo url_img($photo['path'], 920) ?>)"><h6 class="name"><?php //echo $photo['title'] ?></h6></a>
+        <?php endforeach ?>
+    </div>
+</div>

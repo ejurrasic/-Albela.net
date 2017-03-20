@@ -1,0 +1,51 @@
+<?php if($type == 'facebook'):?>
+    <div class="media media-sm">
+        <div class="media-left">
+            <div class="media-object">
+                <img src="<?php echo img('images/social/facebook.png')?>"/>
+            </div>
+        </div>
+        <div class="media-body">
+            <h6 class="bold"><?php _lang('social::facebook-friends')?> - <a onclick="return social_switch_service()" href=""><?php _lang('social::try-other-services')?></a> </h6>
+            <div class="clearfix">
+                <p class="pull-left" style="width: 50%">
+                    <?php _lang('social::facebook-friends-note', array('count' => count($contacts)))?>
+                </p>
+                <button class="btn btn-secondary btn-sm pull-right facebook-send-dialog" data-app-id="<?php echo config('facebook-app-id')?>" data-link="<?php echo url()?>"> <i class="ion-social-facebook"></i> <?php _lang('social::invite-other-friends')?></button>
+            </div>
+
+
+        </div>
+    </div>
+<?php else:?>
+    <div class="media media-sm">
+        <div class="media-left">
+            <div class="media-object">
+                <img src="<?php echo img('images/social/gmail.png')?>"/>
+            </div>
+        </div>
+        <div class="media-body">
+            <h6 class="bold"><?php _lang('social::gmail-contacts')?> - <a onclick="return social_switch_service()" href=""><?php _lang('social::try-other-services')?></a> </h6>
+            <div class="clearfix">
+                <p class="pull-left" style="width: 50%">
+
+                </p>
+
+                <?php if(count($contacts)):?>
+                    <button class="btn btn-secondary btn-sm pull-right social-invite-all-button"> <i class="ion-email"></i> <?php _lang('social::invite-all')?></button>
+                <?php endif?>
+            </div>
+
+
+        </div>
+    </div>
+<?php endif?>
+
+<div class="social-contact-lists slimscroll" data-heigh="200px">
+    <?php if(!count($contacts)):?>
+            <div class="alert alert-info"><?php _lang('social::not-contacts-found-from-social')?></div>
+    <?php endif?>
+    <?php foreach($contacts as $contact):?>
+        <?php echo view('social::import/user', array('contact' => $contact, 'type' => $type))?>
+    <?php endforeach?>
+</div>

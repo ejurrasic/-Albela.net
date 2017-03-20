@@ -1,0 +1,144 @@
+<div class="left" style="display:block">
+        <?php
+        $avatar = $feed['editor']['avatar'];
+        $entityId = $feed['editor']['id'];
+        $entityType = $feed['editor']['type'];
+        ?>
+        <div style="pointer-events:none; opacity: 0.9" id="feed-wrapper-<?php echo $feed['feed_id'] ?>" class="feed-wrapper clearfix">
+
+            <div class="col-sm-12  right no-padding">
+                <div class="box">
+                    <div class="feed-header clearfix">
+                        <div class="left" style="display:block">
+                            <a ajax="true" href="<?php echo $feed['publisher']['url'] ?>" class="avatar"><img
+                                    src="<?php echo $feed['publisher']['avatar'] ?>"/> </a>
+                        </div>
+                        <div class="right">
+                            <div class="feed-title">
+                   <span class=" preview-card" data-type="<?php echo $feed['entity_type'] ?>"
+                         data-id="<?php echo $feed['entity_id'] ?>">
+                       <a ajax="true" href="<?php echo $feed['publisher']['url'] ?>" class="">
+                           <?php echo $feed['publisher']['name'] ?>
+                           <?php echo verify_badge($feed['publisher']) ?>
+                       </a>
+
+                   </span>
+                            </div>
+                            <span style='font-size: 14px; margin-left: 2px'><i style='color: #26A65B' class='ion-android-star'></i> <?php echo lang('booster::sponsored') ?></span>
+
+                        </div>
+                    </div>
+
+
+                    <?php echo view('feed::feed-content', array('feed' => $feed)) ?>
+
+                    <?php if (plugin_loaded('like') and config('feed-like-type', 'regular') != 'regular'): ?>
+                        <div class="reactors reactors-feed-<?php echo $feed['feed_id'] ?>">
+                            <?php echo view('like::reacts', array('type' => 'feed', 'type_id' => $feed['feed_id'])) ?>
+                        </div>
+                    <?php endif ?>
+                    <div class="feed-footer">
+                        <div class="">
+                            <ul class=" feed-footer-menu clearfix">
+                                <?php if (plugin_loaded('like')): ?>
+                                    <?php load_functions('like::like'); ?>
+
+
+                                    <?php if (config('feed-like-type', 'regular') == 'regular'): ?>
+
+                                        <li><a onclick="return like_item('feed', '<?php echo $feed['feed_id'] ?>')"
+                                               data-status="<?php echo (has_liked('feed', $feed['feed_id'])) ? '1' : 0 ?>"
+                                               class=" like-button-feed-<?php echo $feed['feed_id'] ?> like-button <?php echo (has_liked('feed', $feed['feed_id'])) ? 'liked' : null ?>"
+                                               href=""> <i class="ion-thumbsup"></i> <span
+                                                    class="hidden-md-down"><?php echo lang('like::like') ?></span></a></li>
+                                        <?php if (config('enable-dislike', false)): ?>
+                                            <li><a id="" onclick="return dislike_item('feed', '<?php echo $feed['feed_id'] ?>')"
+                                                   data-status="<?php echo (has_disliked('feed', $feed['feed_id'])) ? '1' : 0 ?>"
+                                                   class="dislike-button-feed-<?php echo $feed['feed_id'] ?> like-button <?php echo (has_disliked('feed', $feed['feed_id'])) ? 'disliked' : null ?>"
+                                                   href=""> <i class="ion-thumbsdown"></i> <span
+                                                        class="hidden-md-down"><?php echo lang('like::dislike') ?></span></a></li>
+                                        <?php endif ?>
+                                    <?php else: ?>
+                                        <li class="feed-react">
+                                            <div class="react-items react-items-<?php echo $feed['feed_id'] ?>" id="">
+                                                <ul>
+                                                    <li><a data-type="feed" data-target="<?php echo $feed['feed_id'] ?>" href=""
+                                                           data-code="1" data-toggle="tooltip" title="<?php _lang('like::like') ?>"><img
+                                                                src="<?php echo img('images/reaction/like.png') ?>"/></a></li>
+                                                    <li><a data-type="feed" data-target="<?php echo $feed['feed_id'] ?>" href=""
+                                                           data-code="4" data-toggle="tooltip" title="<?php _lang('like::love') ?>"><img
+                                                                src="<?php echo img('images/reaction/love.png') ?>"/></a></li>
+                                                    <li><a data-type="feed" data-target="<?php echo $feed['feed_id'] ?>" href=""
+                                                           data-code="5" data-toggle="tooltip" title="<?php _lang('like::haha') ?>"><img
+                                                                src="<?php echo img('images/reaction/haha.png') ?>"/></a></li>
+                                                    <li><a data-type="feed" data-target="<?php echo $feed['feed_id'] ?>" href=""
+                                                           data-code="6" data-toggle="tooltip" title="<?php _lang('like::yay') ?>"><img
+                                                                src="<?php echo img('images/reaction/yay.png') ?>"/></a></li>
+                                                    <li><a data-type="feed" data-target="<?php echo $feed['feed_id'] ?>" href=""
+                                                           data-code="7" data-toggle="tooltip" title="<?php _lang('like::wow') ?>"><img
+                                                                src="<?php echo img('images/reaction/wow.png') ?>"/></a></li>
+                                                    <li><a data-type="feed" data-target="<?php echo $feed['feed_id'] ?>" href=""
+                                                           data-code="8" data-toggle="tooltip" title="<?php _lang('like::sad') ?>"><img
+                                                                src="<?php echo img('images/reaction/sad.png') ?>"/></a></li>
+                                                    <li><a data-type="feed" data-target="<?php echo $feed['feed_id'] ?>" href=""
+                                                           data-code="9" data-toggle="tooltip" title="<?php _lang('like::angry') ?>"><img
+                                                                src="<?php echo img('images/reaction/angry.png') ?>"/></a></li>
+
+                                                </ul>
+                                            </div>
+                                            <a data-type="feed" data-target="<?php echo $feed['feed_id'] ?>"
+                                               data-status="<?php echo (has_reacted('feed', $feed['feed_id'])) ? '1' : 0 ?>"
+                                               class=" react-button-feed-<?php echo $feed['feed_id'] ?> react-button <?php echo (has_reacted('feed', $feed['feed_id'])) ? 'liked' : null ?>"
+                                               href=""> <i class="ion-thumbsup"></i> <span
+                                                    class="hidden-md-down"><?php echo lang('like::like') ?></span></a>
+                                        </li>
+                                    <?php endif ?>
+                                <?php endif ?>
+                                <?php if (config('allow-feed-sharing', true) and can_share_feed($feed)): ?>
+                                    <li><a href="#!"
+                                           onclick="return share_feed('<?php echo $feed['feed_id'] ?>', '<?php echo lang('feed::share-warning-message') ?>')">
+                                            <i class="ion-android-share"></i> <span
+                                                class="hidden-md-down"><?php echo lang('feed::share') ?></span></a></li>
+                                <?php endif ?>
+
+
+                                <li class="pull-right" style="margin: 0">
+                                    <ul class="feed-statistics">
+                                        <?php if (plugin_loaded('like') and config('feed-like-type', 'regular') == 'regular'): ?>
+                                            <li><a onclick="return show_likes('feed', '<?php echo $feed['feed_id'] ?>')" href=""> <i
+                                                        class="ion-thumbsup"></i> <span
+                                                        class="like-count-feed-<?php echo $feed['feed_id'] ?>"><?php echo count_likes('feed', $feed['feed_id']) ?></span></a>
+                                            </li>
+                                            <?php if (config('enable-dislike', false)): ?>
+                                                <li><a onclick="return show_dislikes('feed', '<?php echo $feed['feed_id'] ?>')" href=""> <i
+                                                            class="ion-thumbsdown"></i> <span
+                                                            class="dislike-count-feed-<?php echo $feed['feed_id'] ?>"><?php echo count_dislikes('feed', $feed['feed_id']) ?></span></a>
+                                                </li>
+                                            <?php endif ?>
+
+                                        <?php endif ?>
+
+                                        <?php if (plugin_loaded('comment')): ?>
+                                            <?php load_functions('comment::comment') ?>
+                                            <?php $countComments = count_comments('feed', $feed['feed_id']); ?>
+                                            <li><i class="ion-chatbubbles"></i> <span
+                                                    class="comment-count-feed-<?php echo $feed['feed_id'] ?>"><?php echo ($countComments) ? $countComments : null ?></span>
+                                            </li>
+                                        <?php endif ?>
+                                        <?php if (config('allow-feed-sharing', true)): ?>
+                                            <li><a href="javascript::void(0)"> <i class="ion-android-share"></i></a> <span
+                                                    id="feed-share-count-<?php echo $feed['feed_id'] ?>"><?php echo ($feed['shared_count']) ? $feed['shared_count'] : null ?></span>
+                                            </li>
+                                        <?php endif ?>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+

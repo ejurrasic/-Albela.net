@@ -1,0 +1,4 @@
+
+<?php foreach($comments as $comment):?>
+    <?php echo view('comment::display', array('comment' => $comment))?>
+<?php endforeach;?>

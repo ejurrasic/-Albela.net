@@ -1,0 +1,53 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('ads::manage-ads')?>
+        <a class="btn btn-secondary" href="<?php echo url_to_pager('admin-ads-create')?>"><?php _lang('ads::create-ads')?></a>
+    </div>
+    <div class="wrapper-content">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+
+                <th style="width: 15%"><?php _lang('ads::creator')?></th>
+                <th style="width: 20%"><?php _lang('ads::campaign-name')?></th>
+                <th style="width: 15%"><?php _lang('ads::bid-type')?></th>
+                <th style="width: 15%"><?php _lang('ads::plan')?></th>
+                <th style="width: 5%"><?php _lang('ads::usage')?></th>
+                <th style="width: 5%"><?php _lang('ads::impressions')?></th>
+                <th style="width: 5%"><?php _lang('ads::clicks')?></th>
+                <th style="width: 5%"><?php _lang('ads::paid')?></th>
+                <th style="width: 5%"><?php _lang('ads::status')?></th>
+                <th style="width: 10%"><?php _lang('actions')?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $lists = get_ads();?>
+            <?php foreach($lists->results() as $ads):?>
+                <tr>
+                    <td>
+                        <?php $user = find_user($ads['user_id'])?>
+                        <a href="<?php echo profile_url(null, $user)?>"><img src="<?php echo get_avatar(75, $user)?>" style="width: 35px"/></a>
+
+                    </td>
+                    <td><?php echo $ads['name']?></td>
+                    <td><?php echo ($ads['plan_type'] == 1) ? lang('ads::clicks') : lang('ads::impression')?></td>
+                    <td><?php
+                        $plan = get_plan($ads['plan_id']);
+                        if ($plan) echo lang($plan['name']);
+                        ?></td>
+                    <td><?php echo $ads['quantity']?></td>
+                    <td><?php echo $ads['impression_stats']?></td>
+                    <td><?php echo $ads['clicks_stats']?></td>
+                    <td><?php echo ($ads['paid'] == 1) ? lang('yes') : lang('no')?></td>
+                    <td><?php echo ($ads['status'] == 1) ? lang('active') : ''?></td>
+                    <td>
+                        <a class="btn btn-sm btn-success" ajax="true" href="<?php echo url_to_pager('admincp-ads-edit', array('id' => $ads['ads_id']))?>"><?php _lang('edit')?></a>
+                        <a class="btn btn-sm btn-danger admin-confirm" href="<?php echo url_to_pager('ads-delete', array('id' => $ads['ads_id']))?>?admin=true"><i class="ion-android-delete"></i></a>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+        <?php echo $lists->links()?>
+    </div>
+</div>

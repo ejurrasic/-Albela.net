@@ -1,0 +1,93 @@
+<div class="people people-content box global-filter-container" data-url="<?php echo url('people')?>">
+    <?php echo $message ?>
+    <?php load_functions('country'); $countries = get_countries();?>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3><?php echo lang('people::people') ?></h3>
+        </div>
+        <div class="col-sm-6">
+            <form id="people-list-search" method="post" onsubmit="return people_submit_search()" action="" class="form-inline pull-right">
+                <?php CSRFProtection::embed() ?>
+                <input id="people-keywords-input" value="<?php if(isset($filter['keywords'])) echo $filter['keywords'] ?>" type="text" class="form-control" placeholder="<?php echo lang('people::search-people')?>"/>
+                <button class="btn btn-info"><i class="ion-search"></i></button>
+            </form>
+        </div>
+    </div>
+    <div class="filter-pane">
+        <?php if(config('enable-feature-filter')): ?>
+        <!--<select name="val[feature]" id="people-feature-select" data-name="feature" onchange="return people_submit_search()" class="c-select filter-input">
+            <option value="both" <?php if(isset($filter['feature']) && $filter['feature'] == 'both'): ?>selected<?php endif ?>><?php echo lang('people::feature') ?></option>
+            <option value="featured" <?php if(isset($filter['feature']) && $filter['feature'] == 'featured'): ?>selected<?php endif ?>><?php echo lang('people::featured') ?></option>
+            <option value="not-featured" <?php if(isset($filter['feature']) && $filter['feature'] == 'not-featured'): ?>selected<?php endif ?>><?php echo lang('people::not-featured') ?></option>
+        </select>-->
+        <?php endif ?>
+        <?php if(config('enable-gender-filter')): ?>
+        <select name="val[gender]" id="people-gender-select" data-name="gender" onchange="return people_submit_search()" class="c-select filter-input">
+            <option value="both" <?php if(isset($filter['gender']) && $filter['gender'] == 'both'): ?>selected<?php endif ?>><?php echo lang('people::gender') ?></option>
+            <option value="male" <?php if(isset($filter['gender']) && $filter['gender'] == 'male'): ?>selected<?php endif ?>><?php echo lang('people::male') ?></option>
+            <option value="female" <?php if(isset($filter['gender']) && $filter['gender'] == 'female'): ?>selected<?php endif ?>><?php echo lang('people::female') ?></option>
+        </select>
+        <?php endif ?>
+        <?php if(config('enable-online-filter')): ?>
+        <select name="val[online_status]" id="people-online-select" data-name="online_status" onchange="return people_submit_search()" class="c-select filter-input">
+            <option value="both" <?php if(isset($filter['online_status']) && $filter['online_status'] == 'both'): ?>selected<?php endif ?>><?php echo lang('people::status') ?></option>
+            <option value="online" <?php if(isset($filter['online_status']) && $filter['online_status'] == 'online'): ?>selected<?php endif ?>><?php echo lang('people::online') ?></option>
+            <option value="offline" <?php if(isset($filter['online_status']) && $filter['online_status'] == 'offline'): ?>selected<?php endif ?>><?php echo lang('people::offline') ?></option>
+        </select>
+        <?php endif ?>
+        <?php if(config('enable-country-filter')): ?>
+        <!--<select name="val[country]" id="people-country-select" data-name="country" onchange="return people_submit_search()" class="c-select filter-input">
+            <option value="any" <?php if(isset($filter['country']) && $filter['country'] == 'any'): ?>selected<?php endif ?>><?php echo lang('people::country') ?></option>
+            <?php foreach($countries as $country => $name):?>
+                <option value="<?php echo $name?>" <?php if(isset($filter['country']) && $filter['country'] == $name): ?>selected<?php endif ?>><?php echo ucwords($name)?></option>
+            <?php endforeach?>
+        </select>-->
+        <?php endif ?>
+        <?php if(config('enable-age-filter')): ?>
+        <!--<select name="val[from_age]" id="people-min-age-select" data-name="from_age" onchange="return people_submit_search()" class="c-select filter-input">
+            <option value="any" <?php if(isset($filter['from_age']) && $filter['from_age'] == 'any'): ?>selected<?php endif ?>><?php echo lang('people::min-age') ?></option>
+            <?php for($i = 13; $i <= 99; $i++): ?>
+                <option value="<?php echo $i ?>" <?php if(isset($filter['from_age']) && $filter['from_age'] == $i): ?>checked<?php endif ?>><?php echo $i ?></option>
+            <?php endfor ?>
+        </select>-->
+        <!--<select name="val[to_age]" id="people-max-age-select" data-name="to_age" onchange="return people_submit_search()" class="c-select filter-input">
+            <option value="any" <?php if(isset($filter['to_age']) && $filter['to_age'] == 'any'): ?>selected<?php endif ?>><?php echo lang('people::max-age') ?></option>
+            <?php for($i = 13; $i <= 99; $i++): ?>
+                <option value="<?php echo $i ?>" <?php if(isset($filter['to_age']) && $filter['to_age'] == $i): ?>selected<?php endif ?>><?php echo $i ?></option>
+            <?php endfor ?>
+        </select>-->
+        <?php endif ?>
+        <div class="list-layout-type">
+            <a href="" onclick="return change_listing_layout('#people-list-container', 'list', 'people_set_list_type')"><i class="ion-ios-list-outline"></i></a>
+            <a href="" onclick="return change_listing_layout('#people-list-container', 'grid', 'people_set_list_type')"><i class="ion-android-apps"></i></a>
+        </div>
+    </div>
+    <div id="people-list-container" class="box-content members clearfix <?php echo ($list_type == 'list') ? 'list-listing-container' : 'grid-listing-container' ?>">
+        <?php foreach($people->results() as $user): ?>
+            <?php $gender = (isset($user['gender']) and $user['gender']) ? $user['gender'] : null ?>
+            <?php $gender_image =  ($gender) ? img("images/avatar/{$gender}.png") : img("images/avatar.png") ?>
+            <?php $user_image = $user['avatar'] ? url_img($user['avatar'], 200) : $gender_image ?>
+            <?php $user_name = trim($user['first_name'].$user['last_name']) == '' ? $user['username'] : $user['first_name'].' '.$user['last_name'] ?>
+            <?php $online_status = $user['online_time'] > (time() - 50) ? 'online' : 'offline' ?>
+            <?php $info = array() ?>
+            <?php if(!empty($user['gender'])) $info[] = ucwords($user['gender']); ?>
+            <?php if(!empty($user['country'])) $info[] = ucwords($user['country']); ?>
+        <div class="member-card each-item clearfix">
+            <a href="<?php echo url($user['username']) ?>" class="member-card-img-top left" style="background-image: url(<?php echo $user_image ?>)" ajax="true"></a>
+            <div class="member-card-block right">
+                <div class="member-card-title item-title"><?php echo $user_name ?><br /><small class="member-text-muted item-info"><span class="<?php echo $online_status ?>">&bull;</span> <?php echo implode(', ', $info) ?></small></div>
+            </div>
+            <?php if($user['featured'] == 1): ?>
+                <div class="people-featured-member featured-tag"><?php echo lang('people::featured') ?></div>
+            <?php endif ?>
+        </div>
+        <?php endforeach ?>
+        <?php if($people->total): ?>
+            <?php if($people->total > config('max-page-result', 20)): ?>
+                <?php echo $people->links(true) ?>
+            <?php endif ?>
+        <?php else: ?>
+        <div class="alert alert-info"><?php echo lang('people::no-member-found') ?></div>
+        <?php endif ?>
+    </div>
+</div>

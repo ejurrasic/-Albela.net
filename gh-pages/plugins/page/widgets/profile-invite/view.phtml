@@ -1,0 +1,15 @@
+<?php if(isset($app->profilePage)):?>
+    <div class="box">
+        <div class="title"><?php _lang('page::invite-friends')?></div>
+        <div class="box-content">
+            <div class="find-input">
+                <input class="form-control" onkeyup="return page_search_invite_friend(this)" type="text" placeholder="<?php _lang('page::search-friends')?>"/>
+            </div>
+            <div style="margin-top: 10px" class="invite-friends-list slimscroll" data-height="200px" data-offset="0" data-id="<?php echo $app->profilePage['page_id']?>">
+                <?php foreach(get_invite_friends(null, 20, 0, $app->profilePage['page_id']) as $user):?>
+                    <?php echo view('page::block/invite/display', array('user' => $user, 'pageId' => $app->profilePage['page_id']))?>
+                <?php endforeach?>
+            </div>
+        </div>
+    </div>
+<?php endif?>

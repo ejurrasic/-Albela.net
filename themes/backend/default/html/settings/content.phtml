@@ -1,0 +1,70 @@
+<div class="wrapper">
+    <div class="wrapper-title ">
+        <?php echo ucwords($title)?> <?php echo lang('settings')?>
+        <span><?php echo $description?></span>
+    </div>
+    <div class="wrapper-content">
+        <form action="" class="adm" method="post">
+			<?php CSRFProtection::embed() ?>
+            <?php foreach($settings as $key => $setting):?>
+                <div class="row" style="margin-bottom: 30px">
+                    <div class="col-sm-5">
+                        <h6><?php echo $setting['title']?></h6>
+                        <p class="form-description"><?php echo $setting['description']?></p>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="input-field col s10">
+                            <?php if($setting['type'] == 'text'):?>
+                                <input class="form-control" id="<?php echo $key?>" type="text" value="<?php echo get_admin_setting($key, $setting['value'])?>" name="val[<?php echo $key?>]" placeholder="<?php echo $setting['title']?>"/>
+                            <?php elseif($setting['type'] == 'color'):?>
+                                <input class="form-control color-picker" id="<?php echo $key?>" type="text" value="<?php echo get_admin_setting($key, $setting['value'])?>" name="val[<?php echo $key?>]" placeholder="<?php echo $setting['title']?>"/>
+                            <?php elseif($setting['type'] == "textarea"):?>
+                                <textarea class="form-control" id="<?php echo $key?>" name="val[<?php echo $key?>]" placeholder="<?php echo $setting['title']?>"><?php echo get_admin_setting($key, $setting['value'])?></textarea>
+                            <?php elseif($setting['type'] == "selection"):?>
+                                <?php if(isset($setting['data']) and is_callable($setting['data'])) {
+                                    $data = call_user_func($setting['data']);
+                                } else {
+                                    $data = $setting['data'];
+
+                                }
+                                ?>
+                                <select class="c-select" id="<?php echo $key?>" name="val[<?php echo $key?>]">
+                                    <?php foreach($data as $k => $v):?>
+
+                                        <option <?php echo (get_admin_setting($key, $setting['value']) == $k) ? 'selected':null?> value="<?php echo $k?>"><?php echo   $v?></option>
+                                    <?php endforeach?>
+                                </select>
+                            <?php elseif($setting['type'] == "boolean"):?>
+                                <p>
+                                    <label for="<?php echo $key?>-yes" class="c-input c-checkbox">
+                                        <input <?php echo (get_admin_setting($key, $setting['value']) == 1) ? 'checked':null?> value="1" name="val[<?php echo $key?>]" type="radio" id="<?php echo $key?>-yes"/>
+                                        <span class="c-indicator"></span>
+                                        <?php echo lang('yes')?>
+                                    </label>
+
+
+                                </p>
+                                <p>
+                                    <label for="<?php echo $key?>-no" class="c-input c-checkbox">
+                                        <input <?php echo (get_admin_setting($key, $setting['value']) == 0) ? 'checked':null?> value="0" name="val[<?php echo $key?>]" type="radio" id="<?php echo $key?>-no"/>
+                                        <span class="c-indicator"></span>
+                                        <?php echo lang('no')?>
+                                    </label>
+                                </p>
+
+                            <?php endif?>
+                        </div>
+                    </div>
+                </div>
+
+            <?php endforeach?>
+
+            <div class="row">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7">
+                    <button class="btn btn-info"><?php echo lang("save-settings")?></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

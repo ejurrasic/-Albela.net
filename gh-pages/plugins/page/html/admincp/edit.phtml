@@ -1,0 +1,38 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('page::manage-pages')?>
+        <a href="<?php echo url_to_pager('admin-page-category-add')?>"><?php _lang('page::add-category')?></a>
+    </div>
+    <div class="wrapper-content">
+        <form class="wrapper-form" action="" method="post" style="margin: 20px 0">
+			<?php CSRFProtection::embed() ?>
+            <div class="form-group">
+                <label><?php _lang('page::page-title')?></label>
+                <input type="text" class="form-control" value="<?php echo $page['page_title']?>" name="val[page_title]"/>
+            </div>
+
+            <div class="form-group">
+                <label><?php _lang('page::page-description')?></label>
+                <textarea class="form-control" name="val[page_desc]"><?php echo $page['page_desc']?></textarea>
+            </div>
+
+            <div class="form-group">
+                <label><?php _lang('verified')?></label>
+                <div class="c-inputs-stacked">
+                    <label class="c-input c-radio">
+                        <input value="1" <?php echo ($page['verified']) ? 'checked' : null?> id="radioStacked1" name="val[verified]" type="radio">
+                        <span class="c-indicator"></span>
+                        <?php _lang('yes')?>
+                    </label>
+                    <label class="c-input c-radio">
+                        <input value="0"  <?php echo (!$page['verified']) ? 'checked' : null?> id="radioStacked2" name="val[verified]" type="radio">
+                        <span class="c-indicator"></span>
+                        <?php _lang('no')?>
+                    </label>
+                </div>
+            </div>
+            <button class="btn btn-info"><?php _lang('save')?></button>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<?php
+$tags = forum_get_tags();
+$tag_id = input('t') ? input('t') : null;
+$url = http_build_query($_GET) == '' ? url_to_pager("forum-slug", array('appends' => '')) : url_to_pager("forum-slug", array('appends' => '')).'?'.http_build_query($_GET);
+?>
+<div class="forum forum-tags box">
+    <ul class="menu">
+        <li class="<?php if(!$tag_id): ?> active<?php endif ?>"><a href="<?php echo forum_get_forum_slug_link(forum_remove_get_var(forum_remove_get_var($url, 's'), 't')) ?>" ajax="true"><?php echo lang('forum::all-tags') ?></a></li>
+        <?php foreach($tags as $tag): ?>
+            <li class="<?php if($tag_id == $tag['id']): ?> active<?php endif ?>"><a href="<?php echo forum_get_forum_slug_link(forum_assign_get_var(forum_remove_get_var($url, 's'), 't', $tag['id'])) ?>" ajax="true"><?php echo lang($tag['title']) ?></a></li>
+        <?php endforeach ?>
+    </ul>
+</div>

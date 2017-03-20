@@ -1,0 +1,59 @@
+<div class="box music">
+
+    <div class="global-filter-container" data-url="<?php echo url_to_pager('musics') ?>">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3><?php echo lang('music::musics') ?></h3>
+            </div>
+            <div class="col-sm-6">
+                <form id="music-list-search" method="post" onsubmit=" return run_global_filter()" action="" class="form-inline pull-right">
+					<?php CSRFProtection::embed() ?>
+                    <input type="hidden" class="music-type-input filter-input" data-name="type" value="<?php echo input('type','browse') ?>"/>
+                    <input value="<?php echo input('term') ?>" type="text" class="form-control filter-input" data-name="term" placeholder="<?php echo lang('music::search-musics') ?>"/>
+                    <button class="btn btn-info"><i class="ion-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="  filter-pane">
+            <select id="music-category-list" onchange="return run_global_filter()" data-name="category" class="c-select filter-input" >
+                <option <?php echo (input('category', 'all') == 'all') ? 'selected'  : null ?>  value="all"><?php echo lang('music::all-categories') ?></option>
+                <?php foreach(get_music_categories() as $category): ?>
+                    <?php $subCategories = get_music_parent_categories($category['id']) ?>
+                    <?php if($subCategories): ?>
+                        <optgroup label="<?php echo lang($category['title']) ?>">
+                            <?php foreach($subCategories as $cat): ?>
+                                <option <?php echo (input('category', 'all') == $cat['id']) ? 'selected'  : null ?> value="<?php echo $cat['id'] ?>"><?php echo lang($cat['title']) ?></option>
+                            <?php endforeach ?>
+                        </optgroup>
+                    <?php else: ?>
+                        <option <?php echo (input('category', 'all') == $category['id']) ? 'selected'  : null ?> value="<?php echo $category['id'] ?>"><?php echo lang($category['title']) ?></option>
+                    <?php endif ?>
+                <?php endforeach ?>
+            </select>
+
+            <select id="music-filter-select" onchange="return run_global_filter()" data-name="filter" class="c-select filter-input">
+                <option value="all"><?php echo lang('all') ?></option>
+                <option <?php echo (input('filter') == 'top') ? 'selected' : null ?> value="top"><?php echo lang('music::top') ?></option>
+                <option <?php echo (input('filter') == 'featured') ? 'selected' : null ?> value="featured"><?php echo lang('music::featured') ?></option>
+            </select>
+            <div class="list-layout-type">
+                <a href="" onclick="return change_listing_layout('#musics-list-container', 'list', 'music_set_list_type')"><i class="ion-ios-list-outline"></i></a>
+                <a href="" onclick="return change_listing_layout('#musics-list-container', 'grid', 'music_set_list_type')"><i class="ion-android-apps"></i></a>
+            </div>
+        </div>
+    </div>
+    <div id="musics-list-container" class="box-content clearfix <?php echo ($list_type == 'list') ? 'list-listing-container' : 'grid-listing-container' ?>">
+        <?php foreach($musics->results() as $music): ?>
+            <?php echo view('music::music', array('music' => $music, 'playlist' => $playlist)) ?>
+        <?php endforeach ?>
+    </div>
+    <div class="box-content">
+    <?php if($musics->total): ?>
+        <?php if($musics->total > config('music-list-limit', 20)): ?>
+            <?php echo $musics->links(true) ?>
+        <?php endif ?>
+    <?php else: ?>
+        <div class="alert alert-info"><?php echo lang('music::no-record') ?></div>
+    <?php endif ?>
+    </div>
+</div>

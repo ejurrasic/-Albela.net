@@ -1,0 +1,33 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <p><?php echo lang('forum::edit-tag') ?></p>
+        <span><?php echo lang('forum::edit-tag-desc') ?></span>
+    </div>
+    <div class="wrapper-content">
+        <?php if($messages): ?>
+        <div class="alert alert-danger"><?php echo $messages ?></div>
+        <?php endif ?>
+        <form action="" class="adm" method="post">
+            <?php CSRFProtection::embed() ?>
+            <div class="form-group row">
+                <label for="val[title]" class="col-sm-3 form-control-label"><?php echo lang('forum::tag-title')?>: </label>
+                <div class="col-sm-9">
+                        <input name="val[title]" value="<?php echo $tag['title'] ?>" class="form-control" type="text" /><br>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="val[color]" class="col-sm-3 form-control-label"><?php echo lang('forum::tag-color') ?>: </label>
+                <div class="col-sm-9">
+                    <input name="val[color]" type="text" value="<?php echo $tag['color'] ?>" class="form-control color-picker" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7">
+                    <input type="submit" value="<?php echo lang('forum::save') ?>" class="btn btn-info" />
+                </div>
+            </div>
+            <input type="hidden" name="val[tag_id]" value="<?php echo $tag_id ?>" />
+            <input type="hidden" name="val[type]" value="edit_tag" />
+        </form>
+</div>

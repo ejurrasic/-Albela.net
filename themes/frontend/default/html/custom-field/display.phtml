@@ -1,0 +1,29 @@
+<?php
+$fields = input("val.fields");
+$v = ($fields and (in_array($field['title'], $fields) or isset($fields[$field['title']]))) ? $fields[$field['title']] : null;
+$value = (isset($value)) ? $value : $v
+?>
+<div class="form-group">
+    <label class=""><?php echo lang($field["title"])?>:</label>
+    <?php if ($field['field_type'] == "text"):?>
+        <input class="form-control" value="<?php echo $value?>" type="text" placeholder="<?php echo lang($field["title"])?>" name="val[fields][<?php echo $field['title']?>]"/>
+    <?php elseif($field['field_type'] == "longtext"):?>
+        <textarea class="form-control" placeholder="<?php echo lang($field["title"])?>" name="val[fields][<?php echo $field['title']?>]"><?php echo $value?></textarea>
+    <?php elseif($field['field_type'] == "selection"):?>
+        <select class="c-select" name="val[fields][<?php echo $field['title']?>]">
+            <?php $data = explode(",", $field["field_data"]);?>
+            <?php foreach($data as $v):?>
+                <option <?php echo (trim($value) == trim($v)) ? "selected" : null?> value="<?php echo $v?>"><?php echo $v?></option>
+            <?php endforeach?>
+        </select>
+    <?php elseif($field['field_type'] == "boolean"):?>
+        <select class="c-select" name="val[fields][<?php echo $field['title']?>]">
+            <option <?php echo ($value == 1) ? "selected" : null?> value="1">Yes</option>
+            <option <?php echo ($value == 0) ? "selected" : null?> value="0">No</option>
+        </select>
+    <?php endif?>
+    <?php if(!isset($offDescription)):?>
+        <p class="help-block"><?php echo lang($field['description'])?></p>
+    <?php endif?>
+</div>
+<div class="dropdown-divider"></div>

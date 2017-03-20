@@ -1,0 +1,18 @@
+<?php if($users->results()):?>
+    <div class="ro" id="dropdown-search-results">
+
+        <?php foreach($users->results() as $user):?>
+            <a ajax="true" href="<?php echo profile_url(null, $user)?>" class="user">
+                <div class="media">
+                    <div class="media-left">
+                        <img class="responsive-img media-object" src="<?php echo get_avatar(75, $user)?>"/>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading"><?php echo get_user_name($user)?> <?php echo verify_badge($user)?></h6>
+                        <p class="help-block"><?php echo str_limit($user['bio'], 80)?></p>
+                    </div>
+                </div>
+            </a>
+        <?php endforeach?>
+    </div>
+<?php endif?>

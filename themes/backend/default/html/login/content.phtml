@@ -1,0 +1,23 @@
+<div id="login-panel">
+
+    <form action="" method="post">
+		<?php CSRFProtection::embed() ?>
+        <h3>Admincp Login</h3>
+        <?php if($message):?>
+            <div class="alert alert-danger"><?php echo $message?></div>
+        <?php endif?>
+        <input class="form-control" type="text" placeholder="Username or Email address" name="val[username]"/><br/><br/>
+        <input class="form-control" type="password" placeholder="Your password" name="val[password]"/> <br/><br/>
+
+        <div class="clearfix">
+            <span class="pull-left">
+                <label class="c-input c-checkbox">
+                    <input type="checkbox" name="val[remember]">
+                    <span class="c-indicator"></span>
+                    Remember me?
+                </label>
+                </span>
+            <button class="btn btn-info pull-right"><?php echo lang("login")?></button>
+        </div>
+    </form>
+</div>

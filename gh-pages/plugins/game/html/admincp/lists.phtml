@@ -1,0 +1,48 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php _lang('game::manage-games')?></div>
+    <div class="wrapper-content">
+        <div class="row">
+            <div class="col-sm-7">
+                <form action="<?php echo url_to_pager('admin-game-lists')?>?type=search" method="get">
+					<?php CSRFProtection::embed() ?>
+                    <input type="text" name="term" value="<?php echo input('term')?>" class="form-control"/>
+                    <button class="btn btn-info btn-sm"><?php _lang('game::find-games')?></button>
+                </form>
+            </div>
+            <div class="col-sm-5">
+                <form action="<?php echo url_to_pager('admin-game-lists')?>?type=search" method="get">
+					<?php CSRFProtection::embed() ?>
+                    <select class="c-select" name="cat">
+                        <?php foreach(get_game_categories() as $category):?>
+                            <option <?php (input('cat')  == $category['id']) ? 'select' : null?> value="<?php echo $category['id']?>"><?php _lang($category['title'])?></option>
+                        <?php endforeach?>
+                    </select>
+                    <button class="btn btn-info btn-sm"><?php _lang('go')?></button>
+                </form>
+            </div>
+        </div>
+        <table  class="table table-bordered " style="margin-top: 10px">
+            <thead>
+            <tr>
+                <th style="width: 10%"><?php _lang('game::game-logo')?></th>
+                <th style="width: 30%"><?php _lang('game::game-title')?></th>
+                <th style="width: 40%"><?php _lang('game::players')?></th>
+                <th style="width: 20%"><?php _lang('actions')?></th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php foreach($games->results() as $game):?>
+                    <tr>
+                        <td><img src="<?php echo get_game_logo(75, $game)?>" style="width: 40px"/> </td>
+                        <td><a href="<?php echo game_url(null, $game)?>"><?php echo $game['game_title']?></a> </td>
+                        <td><?php echo $game['players_count']?></td>
+                        <td>
+                            <a class="btn btn-sm btn-success" href="<?php echo game_url(null, $game)?>"><?php _lang('game::visit')?></a> |
+                            <a class="btn btn-sm btn-danger admin-confirm" href="<?php echo url('game/delete/'.$game['game_id'])?>?admin=true"><i class="ion-android-delete"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

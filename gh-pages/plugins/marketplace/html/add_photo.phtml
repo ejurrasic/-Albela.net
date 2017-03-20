@@ -1,0 +1,37 @@
+<div id="add-listing-photo" class="marketplace marketplace-content box">
+    <?php if(!is_loggedIn()): ?>
+    <span class="error"><?php echo lang('marketplace::marketplace-create-login-error') ?></span>
+    <?php else: ?>
+        <?php if($message): ?>
+    <div class="alert alert-danger"><?php echo $message ?></div>
+        <?php endif ?>
+        <?php if(config('max-num-listing-photos', 5) > $num_listing_images): ?>
+    <form action="" method="post" enctype="multipart/form-data">
+		<?php CSRFProtection::embed() ?>
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <h6><label class="control-label" for="image"><?php echo lang('marketplace::add-photo') ?>: </label></h6>
+                <p class="form-description"><?php echo lang('marketplace::add-photo-image-desc') ?></p>
+            </div>
+            <div class="col-sm-8">
+                <span class="file-input"><input type="file" name="image" id="listing-image-file" /></span>
+                <button onclick="return file_chooser('#listing-image-file')" type="button" class="btn btn-secondary"><?php echo lang('marketplace::select-image')?></button>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-5">
+            </div>
+            <div class="col-sm-4">
+                <div class="input-field col s12">
+                    <input type="submit" value="<?php echo lang('marketplace::add') ?>" class="btn btn-info" />
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="val[listing_id]" value="<?php echo $listing_id ?>" />
+        <input type="hidden" name="val[type]" value="add_photo" />
+    </form>
+        <?php else: ?>
+    <div class="alert alert-danger"><?php echo lang('marketplace::max-image-error') ?></div>
+        <?php endif ?>
+    <?php endif ?>
+</div>

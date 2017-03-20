@@ -1,0 +1,166 @@
+<div class="wrapper">
+<div class="wrapper-title">
+    <?php _lang('booster::activate-boost') ?>
+
+</div>
+<div class="wrapper-content" style="max-width: 1000px;display:block; margin: 0 auto">
+
+
+<span id="modal-error-message" style="display: none" class="alert alert-danger"></span>
+
+<div class="box">
+<form id="boost-form" action="" method="post">
+
+<div id="ads-form-input-container" class="row" style="margin: 0">
+<div class="col-sm-6 ads-create-left">
+    <div class="slimscroll" style="padding-right: 20px;" data-height="400px">
+        <fieldset class="form-group">
+            <label><?php _lang('ads::campaign-name') ?></label>
+            <input name="val[name]" value="<?php echo $boost['name'] ?>" type="text" class="form-control" placeholder="<?php _lang('ads::campaign-name') ?>">
+        </fieldset>
+
+
+        <h6><?php _lang('ads::bid-type') ?></h6>
+
+        <div class="c-inputs-stacked">
+
+            <label class="c-input c-radio">
+                <input onchange="ads_load_bid_plans(this,2)" checked id="radioStacked2" name="val[type]" value="2"
+                       type="radio">
+                <span class="c-indicator"></span>
+                <?php _lang('ads::cost-per-impression') ?>
+            </label>
+        </div>
+
+        <h6><?php _lang('ads::bid-plan') ?></h6>
+        <select onchange="ads_update_plan_description(this)" name="val[plan_id]" class="c-select ads-plan-list">
+            <?php $plans = get_ads_plans(2); ?>
+            <?php foreach ($plans as $plan): ?>
+                <option value="<?php echo $plan['id'] ?>"><?php echo lang($plan['name']) ?></option>
+            <?php endforeach ?>
+        </select>
+
+        <p class="help-block ads-plan-description">
+            <?php if ($plans): ?>
+                <?php echo lang($plans[0]['description']) ?>
+            <?php endif ?>
+        </p>
+        <hr/>
+        <div class="audience-targeting-container">
+            <div class="title"><?php _lang('ads::target-audience') ?></div>
+            <div class="row clearfix" style="margin: 0">
+                <div class="col-sm-6 ads-country-lists-container">
+                    <span><input checked onchange="ads_toggle_countries(this)" type="checkbox"
+                                 name=""/> <label><?php _lang('ads::all-countries') ?></label></span>
+
+                    <div class="country-lists slimscroll" style="height:150px; overflow-y:scroll" data-height="150px">
+                        <?php load_functions('country');
+                        foreach (get_countries() as $id => $countryName): ?>
+                            <span><input checked type="checkbox" name="val[country][]"
+                                         value="<?php echo $countryName ?>"/><label><?php echo ucwords($countryName) ?></label></span>
+                        <?php endforeach ?>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <fieldset class="form-group">
+                        <label><?php _lang('gender') ?></label>
+
+                        <div class="c-inputs-stacked">
+                            <label class="c-input c-radio">
+                                <input id="radioGender" checked value="all" name="val[gender]" type="radio">
+                                <span class="c-indicator"></span>
+                                <?php _lang('all') ?>
+                            </label>
+                            <label class="c-input c-radio">
+                                <input id="radioGender" value="male" name="val[gender]" type="radio">
+                                <span class="c-indicator"></span>
+                                <?php _lang('male') ?>
+                            </label>
+                            <label class="c-input c-radio">
+                                <input id="radioGender2" value="female" name="val[gender]" type="radio">
+                                <span class="c-indicator"></span>
+                                <?php _lang('female') ?>
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+        <hr/>
+
+        <h6><?php _lang('ads::refresh-ad-quantity')?></h6>
+        <select class="c-select" name="val[refresh]">
+            <option value="0"><?php _lang('no')?></option>
+            <option value="1"><?php _lang('yes')?></option>
+        </select>
+
+        <h6><?php _lang('ads::paid') ?></h6>
+        <select class="c-select" name="val[paid]">
+            <option value="1"><?php _lang('yes') ?></option>
+            <option value="0"><?php _lang('no') ?></option>
+
+        </select>
+
+        <h6><?php _lang('ads::status') ?></h6>
+        <select class="c-select" name="val[status]">
+            <option value="1"><?php _lang('ads::active') ?></option>
+            <option value="0"><?php _lang('ads::inactive') ?></option>
+
+        </select>
+
+    </div>
+</div>
+<div class="col-sm-6 ads-create-right">
+    <h5 style="padding:5px"><?php _lang('ads::preview') ?></h5>
+    <ul class="nav nav-tabs ads-nav-tabs">
+
+        <li class="nav-item">
+            <a href="" onclick="return boost_change_display(this,'bdestop')" data-class=".ads-horizontal-display"
+               class="nav-link"><?php _lang('booster::desktop-news-feed') ?></a>
+        </li>
+
+        <li class="nav-item">
+            <a href="" onclick="return boost_change_display(this,'mobile')" data-class=".ads-horizontal-display"
+               class="nav-link"><?php _lang('booster::mobile-feeds-display') ?></a>
+        </li>
+
+    </ul>
+
+
+    <div class="ads-horizontal-display" style="display: block; min-height: 100% !important;border:none">
+        <!--<div class="image"><img class="ads-create-img" src="" style="display: none"/> </div>-->
+
+        <div class="box-content" id="boost-content">
+
+            <!--Feed content start-->
+
+           <?php echo $content; ?>
+
+
+
+        </div>
+    </div>
+
+    <div id="image_cont">
+
+    </div>
+</div>
+</div>
+<input type="hidden" name="val[link]" id="current_boost_id" value="<?php echo $boost['post_id']; ?>"/>
+    <input type="hidden" name="val[quantity]" value="<?php echo $boost['quantity']; ?>"/>
+
+<div class="clearfix">
+    <div style="display: block; margin:0 auto; width: 200px;padding-bottom: 10px">
+        <img id="boost-indicator" src="<?php echo img('images/loading.gif') ?>" style="width: 20px;display: none"/>
+        <input type="hidden" id="ads-activate-input" name="val[activate]" value="0"/>
+        <button type="submit"
+                class="btn btn-info"><?php _lang('booster::update-boost') ?></button>
+    </div>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+

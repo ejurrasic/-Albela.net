@@ -1,0 +1,23 @@
+
+<?php $games = get_games('latest', null, $limit); ?>
+
+    <?php if(count($games->results()) > 0): ?>
+        <div class="games box users-box">
+            <div class="title"><?php echo lang('game::latest-games')?> <a ajax="true" href="#" class="more-link pull-right"><i class="ion-ios-arrow-forward"></i></a></div>
+
+            <div class="clearfix">
+                <?php foreach($games->results() as $game): ?>
+                    <?php if($game['game_logo']): ?>
+                        <?php $game_logo = url_img($game['game_logo'], 200); ?>
+                    <?php else: ?>
+                        <?php $game_logo = img('game::images/no_image.jpg'); ?>
+                    <?php endif ?>
+                    <div>
+                    <a style="background-image: url(<?php echo $game_logo?>)" class="user" ajax="true" href="<?php echo game_url(null, $game)?>">
+                        <h6 class="name"><?php echo $game['game_title'] ?></h6>
+                    </a>
+                    </div>
+                <?php endforeach?>
+            </div>
+        </div>
+    <?php endif ?>

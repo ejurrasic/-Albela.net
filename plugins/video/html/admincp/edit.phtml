@@ -1,0 +1,60 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php _lang('video::videos-manager')?></div>
+    <div class="wrapper-content">
+        <form class="wrapper-form" method="post" action="">
+			<?php CSRFProtection::embed() ?>
+            <input type="hidden" value="<?php echo $url?>" name="back_url"/>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('video::category')?></label>
+                <div class="col-sm-9">
+                    <select id="video-category-list" name="val[category]" class="c-select" >
+                        <option <?php echo ($video['category_id'] == 'all') ? 'selected'  : null?>  value="all"><?php _lang('video::all-categories')?></option>
+                        <?php foreach(get_video_categories() as $category):?>
+                            <?php $subCategories = get_video_parent_categories($category['id'])?>
+                            <?php if($subCategories):?>
+                                <optgroup label="<?php _lang($category['title'])?>">
+                                    <?php foreach($subCategories as $cat):?>
+                                        <option <?php echo ($video['category_id'] == $cat['id']) ? 'selected'  : null?> value="<?php echo $cat['id']?>"><?php _lang($cat['title'])?></option>
+                                    <?php endforeach?>
+                                </optgroup>
+                            <?php else:?>
+                                <option <?php echo ($video['category_id'] == $category['id']) ? 'selected'  : null?> value="<?php echo $category['id']?>"><?php _lang($category['title'])?></option>
+                            <?php endif?>
+                        <?php endforeach?>
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('video::title')?></label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" value="<?php echo $video['title']?>" name="val[title]"/>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('video::description')?></label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" name="val[description]"><?php echo $video['description']?></textarea>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('video::featured')?></label>
+                <div class="col-sm-9">
+                    <select class="c-select" name="val[featured]">
+                        <option <?php echo ($video['featured'] == 1) ? 'selected': null?> value="1"><?php _lang('yes')?></option>
+                        <option  <?php echo ($video['featured'] == 0) ? 'selected': null?> value="0"><?php _lang('no')?></option>
+                    </select>
+
+                </div>
+            </div>
+
+
+            <button class="btn btn-info"><?php _lang('video::save-video')?></button>
+        </form>
+    </div>
+</div>

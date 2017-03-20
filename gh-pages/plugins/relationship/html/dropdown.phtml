@@ -1,0 +1,31 @@
+<?php if(!$requests):?>
+   <div class="alert alert-error" style="padding: 10px !important"><?php _lang('relationship::no-friend-requests')?></div>
+<?php endif?>
+<?php foreach($requests as $user):?>
+    <div class="media media-md user" id="friend-request-<?php echo $user['id']?>">
+        <div class="media-left">
+            <div class="media-object"><a href="<?php echo profile_url(null, $user)?>" ><img class="responsive-img" src="<?php echo get_avatar(75, $user)?>"/></a></div>
+        </div>
+        <div class="media-body">
+            <h6 style="color: #000000"><a href="<?php echo profile_url(null, $user)?>"><?php echo get_user_name($user)?></a> </h6>
+            <div class="actions">
+                <a
+                    onclick="return confirm_friend_request('<?php echo $user['id']?>')"
+
+                    class = ""
+                    href=""><?php _lang('relationship::confirm')?></a> |
+                <a onclick="return delete_friend_request('<?php echo $user['id']?>')" href=""><?php _lang('relationship::delete-request')?></a>
+            </div>
+        </div>
+    </div>
+<?php endforeach?>
+<?php fire_hook('relationship.dropdown') ?>
+<?php $users = relationship_suggest(10)?>
+<?php if($users->total):?>
+    <div class="dropdown-title"><?php _lang('relationship::people-suggestion')?></div>
+    <div class="clearfix">
+        <?php foreach($users->results() as $user):?>
+            <?php echo view('user/display', array('user' => $user, 'type' => 'media-md'))?>
+        <?php endforeach?>
+    </div>
+<?php endif?>

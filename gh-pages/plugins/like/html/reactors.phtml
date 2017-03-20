@@ -1,0 +1,13 @@
+<?php $people = get_reactors($type, $type_id, 500); foreach($people as $user):?>
+    <a href="<?php echo profile_url(null, $user)?>">
+        <div class="media media-md">
+            <div class="media-left">
+                <div class="media-object"><img src="<?php echo get_avatar(75, $user)?>"/></div>
+            </div>
+            <div class="media-body">
+                <h6 class="media-heading"><?php echo get_user_name($user)?> <?php echo verify_badge($user)?></h6>
+                <img style="width:20px;height: 20px;border-radius: 100px;display: block;" src="<?php echo get_react_image($user['like_type'])?>" class="react-image"/>
+            </div>
+        </div>
+    </a>
+<?php endforeach?>

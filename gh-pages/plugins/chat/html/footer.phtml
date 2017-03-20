@@ -1,0 +1,74 @@
+<div id="chat-boxes-container">
+    <div class="chat-box-template">
+        <div class="chat-box">
+            <div class="head">
+
+                <div class="actions">
+					<?php echo fire_hook('mediachat.button.voice.init'); ?>
+					<?php echo fire_hook('mediachat.button.video.init'); ?>
+                    <a href="" class="minimize-button"><i class="ion-ios-minus-empty"></i></a>
+                    <a href="" class="close-button"><i class="ion-android-close"></i></a>
+                </div>
+            </div>
+            <div data-offset="0" data-sending="<?php _lang('chat::sending')?>" class="message-list nice-scroller" data-height="255px"></div>
+            <div class="editor">
+                <form action="" method="post">
+					<?php CSRFProtection::embed() ?>
+                    <input type="hidden" name="val[cid]" class="message-cid-input"/>
+                    <div class="clearfix">
+                            <div class="textarea">
+                                <textarea class="chat-box-editor-textarea" placeholder="<?php _lang('chat::write-a-message')?>" name="val[message]"></textarea>
+                            </div>
+                            <div class="actions" style="position: relative">
+                                <?php if(plugin_loaded('emoticons')):?>
+                                    <span style="position: relative">
+                                        <div class="emoticon-box emoticon-bottom"></div>
+                                    <a data-target="message-editor-textarea" data-action="1"  title="<?php _lang('emoticons::add-emoticons')?>" class="emoticon-button a" href="javascript::void(0)"><i class="ion-android-sad emo-button"></i></a>
+                                    </span>
+                                <?php endif?>
+                                <a  href="" class="chat-box-image-selector"><i class="ion-image"></i></a>
+                                <span class="file-input"><input    type="file" class="chat-box-image-input" name="image"/> </span>
+                                <a href="" class="chat-box-file-selector"><i class="ion-android-attach"></i></a>
+                                <span class="file-input"><input  type="file" class="chat-box-file-input" name="file"/> </span>
+
+                            </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="chat-boxes-wrapper"></div>
+    <div class="chat-tabs-container"></div>
+    <div class="onlines-container">
+        <div class="opener-head clearfix">
+            <a class="pull-left" style="width: 90%"  href="" onclick="return open_chat_onlines(this)"><?php echo _lang('chat::chat')?> ( <span></span> <?php echo _lang('chat::online')?> )&#x200E;</a>
+
+           <div class="dropdown pull-right">
+                    <a href="" data-toggle="dropdown" class="dropdown-button" ><span class="online-status <?php echo get_online_status_icon()?>"  ></span></a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a onclick="return change_online_status(0, 'online-icon')" class="dropdown-item" href=""><span class="online-status online-icon"></span> <?php echo _lang('chat::online')?></a> </li>
+                        <li><a onclick="return change_online_status(1, 'busy-icon')" class="dropdown-item" href=""><span class="online-status busy-icon"></span> <?php echo _lang('chat::busy')?></a> </li>
+                        <li><a onclick="return change_online_status(2, 'invisible-icon')" class="dropdown-item" href=""><span class="online-status invisible-icon"></span> <?php echo _lang('chat::invisible')?></a> </li>
+                    </ul>
+
+                </div>
+        </div>
+        <div class="main">
+            <ul>
+                <li><a onclick="return switch_chat_onlines_type('friend')" class="active friend" href=""><?php _lang('chat::friends')?></a> </li>
+                <li><a onclick="return switch_chat_onlines_type('group')" class="group" href=""><?php _lang('chat::groups')?></a> </li>
+            </ul>
+            <div class="online-lists slimscroll" data-height="280px">
+                <div class="online-friend-list lists " ></div>
+                <div class="online-group-list lists"></div>
+            </div>
+            <div class="online-search">
+                <form action="" method="post">
+					<?php CSRFProtection::embed() ?>
+                    <button><i class="ion-search"></i></button>
+                    <input type="text" placeholder="<?php _lang('chat::search-friends')?>"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang("Send Push Notification")?> -
+
+    </div>
+    <div class="wrapper-content">
+        <form method="post" action="" enctype="multipart/form-data" class="" style="margin: 20px auto;width: 70%">
+            <?php CSRFProtection::embed() ?>
+            <?php if($message):?>
+                <div class="alert alert-info"><?php echo $message?></div>
+            <?php endif?>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('Push Notification to : ')?></label>
+                <div class="col-sm-9">
+                    <select onchange="open_mailing_selector(this)" class="c-select" name="val[to]">
+                        <option value="all"><?php _lang('all-members')?></option>
+                        <option value="selected"><?php _lang('selected-members')?></option>
+                        <option value="non-active"><?php _lang('non-active-members')?></option>
+                    </select>
+
+                    <div class="mail-to-selectors" id="mail-selected-members">
+                        <div class="">
+                            <input onkeyup="suggest_mail_users(this)" type="text" placeholder="Type member name"/>
+                        </div>
+                        <div class="user-suggestion"></div>
+                    </div>
+                    <div class="mail-to-selectors" id="mail-non-active-members">
+                        <label class="form-control-label"><?php _lang('non-active-for-last')?></label>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="text" name="val[non][number]" value="1" class="form-control"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <select class="c-select" name="val[non][type]">
+                                    <option value="month"><?php _lang('month')?></option>
+                                    <option value="day"><?php _lang('day')?></option>
+                                    <option value="year"><?php _lang('year')?></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('Push Message')?></label>
+                <div class="col-sm-9">
+                    <textarea name="val[body]" class="form-control" style="height: 200px"></textarea>
+                </div>
+            </div>
+
+
+
+            <button class="btn btn-info"><?php _lang('Send Push Notification')?></button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('page::manage-categories')?>
+        <a href="<?php echo url_to_pager('admin-page-category-add')?>"><?php _lang('page::add-category')?></a>
+    </div>
+    <div class="wrapper-content">
+        <table  class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th style="width: 10%">ID</th>
+                    <th style="width: 30%"><?php _lang('page::category-title')?></th>
+                    <th style="width: 40%"><?php _lang('page::category-desc')?></th>
+                    <th style="width: 20%"><?php _lang('actions')?></th>
+                </tr>
+            </thead>
+            <tbody data-url="<?php echo url_to_pager('admin-page-manage-category').'?action=order'?>" class="admincp-sortable" style="position: relative">
+                <?php foreach($categories as $category):?>
+                    <tr style="" class="item" id="<?php echo $category['category_id']?>">
+                        <td style="width: 10%"><?php echo $category['category_id']?></td>
+                        <td style="width: 30%"><?php _lang($category['category_title']) ?></td>
+                        <td style="width: 40%"><?php _lang($category['category_desc'])?></td>
+                        <td style="width: 20%">
+                            <a class="btn btn-sm btn-success" href="<?php echo url_to_pager('admin-page-manage-category').'?action=edit&id='.$category['category_id']?>"><?php _lang('edit')?></a>
+                             <a class="btn btn-sm btn-danger" href="<?php echo url_to_pager('admin-page-manage-category').'?action=delete&id='.$category['category_id']?>"><i class="ion-android-delete"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

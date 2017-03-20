@@ -1,0 +1,39 @@
+<?php echo view('installer/header', array('title' => 'Installer'))?>
+    <div class="container">
+        <div class="title">crea8socialPRO Installer</div>
+        <div class="content">
+            <form method="post" action="">
+            <?php CSRFProtection::embed() ?>
+                <label>Accept our Terms and conditions:</label>
+                <div class="terms-container">
+                    LICENSE AGREEMENT
+
+                    Please read this license agreement carefully before using this software, by using this software, you are agreeing to be bound by the terms and conditions of this agreement.
+
+                    This agreement is a legal agreement between procea8 Technology Solutions Limited PTSL (licensor) and the buyer (licensee).
+
+                    Subject to the terms of this agreement, we grant you limited, non –exclusive, non-sub licensable license to download and use this software.
+                    This software can only be installed on (1) domain at a time, you will need to buy extra license if you need more than one installation.
+                    This software cannot be rented, distributed, transferred or sold to any individual or part without further consent from Procrea8 Technology Solutions Limited (PTSL).
+                    This software may be used to serve many users but the source codes and files or any other internal resources must not be given to them.
+                    You may not ask for refund after the software has been downloaded. Unless for some reasons, the software does not work as tested in the demo or there is an error caused by the script itself and we cannot fix it.You have only 7days to ask for refund starting from purchase date.
+                    Failure to comply with any of the terms under the license section will be considered a material breach  of the agreement
+                    LIABILITY AND WARRANTY
+
+                    Neither procrea8 nor its representatives (workers) can be held liable for any damages that this software may cause using this software, you agree to accept the liability for any damage, risk and losses occurred or incurred by the use of this software.
+
+                    You acknowledge and agree that this software is provided on “AS IS” and “AS Available” basis procrea8 Technology Solutions Limited, and its representatives herby disclaim any warranties and guaranties regarding the software whether express, implied and including without limitation, the implied warranties of merchantability fitness for a particular purpose and non – infringement.
+
+                </div><br/><br/>
+                <input type="checkbox" name="accept"><label> I accept our terms and conditions</label>
+                <div class="footer">
+                    <div class="buttons">
+                        <button class="btn">Continue</button>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+<?php echo view('installer/footer')?>

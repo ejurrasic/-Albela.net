@@ -1,0 +1,68 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang("manage-plugins")?> </div>
+    <div class="wrapper-content">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a href="<?php echo url_to_pager("manage-plugins")?>" class="nav-link <?php echo (!$core) ? 'active' : null?>">Plugins</a>
+            </li>
+            <li class="nav-item">
+                <a href="<?php echo url_to_pager("manage-plugins")?>?core=true" class="nav-link <?php echo ($core) ? 'active' : null?>">Core Plugins</a>
+            </li>
+
+        </ul>
+        <table class="table striped bordered">
+            <thead>
+                <tr>
+                    <th style="width: 40$"><?php echo lang('plugins')?></th>
+                    <th style="width: 60%"><?php echo lang("description")?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($plugins as $plugin => $info):?>
+                    <?php if(isset($info['core']) and $info['core']):?>
+                        <?php if($core):?>
+                            <tr>
+                                <td>
+                                    <h5><?php echo $info['title']?></h5>
+
+
+                                    <a href="<?php echo url_to_pager("manage-plugins")?>?action=update&id=<?php echo $plugin?>"><?php echo lang('update')?></a>
+
+                                </td>
+                                <td>
+                                    <p><?php echo $info['description']?></p>
+                                    <span><?php echo lang('version')?> <?php echo $info['version']?></span> |
+                                    <span><?php echo lang('by')?> <?php echo $info['author']?></span> |
+                                    <span><a href="<?php echo $info['link']?>"><?php echo lang('visit-plugin-site')?></a> </span>
+                                </td>
+                            </tr>
+                            <?php endif?>
+                        <?php else:?>
+                            <?php if(!$core):?>
+                            <tr>
+                                <td>
+                                    <h5><?php echo $info['title']?></h5>
+                                    <?php if(plugin_exists($plugin)):?>
+                                        <a class="btn btn-secondary btn-sm" href="<?php echo url_to_pager("manage-plugins")?>?action=deactivate&id=<?php echo $plugin?>"><?php echo lang('deactivate')?></a>
+                                    <?php else:?>
+                                        <a class="btn btn-success btn-sm" href="<?php echo url_to_pager("manage-plugins")?>?action=activate&id=<?php echo $plugin?>"><?php echo lang('activate')?></a>
+                                    <?php endif?>
+                                    <a class="btn btn-info btn-sm" href="<?php echo url_to_pager("manage-plugins")?>?action=update&id=<?php echo $plugin?>"><?php echo lang('update')?></a>
+                                    <a class="btn btn-danger btn-sm" href="<?php echo url_to_pager("manage-plugins")?>?action=delete&id=<?php echo $plugin?>" class="admin-confirm"><?php echo lang('delete')?></a>
+
+
+                                </td>
+                                <td>
+                                    <p><?php echo $info['description']?></p>
+                                    <span><?php echo lang('version')?> <?php echo $info['version']?></span> |
+                                    <span><?php echo lang('by')?> <?php echo $info['author']?></span> |
+                                    <span><a href="<?php echo $info['link']?>"><?php echo lang('visit-plugin-site')?></a> </span>
+                                </td>
+                            </tr>
+                            <?php endif?>
+                        <?php endif?>
+                <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

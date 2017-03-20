@@ -1,0 +1,22 @@
+body{
+    background: #ECECEC;
+}
+#login-panel{
+    background: #3498DB;
+    padding: 30px;
+    width: 30%;
+    margin: 10% auto;
+    border-radius: 5px;
+    color: #ffffff;
+    font-weight: lighter;
+}
+#login-panel h3{
+    font-weight: lighter;
+    margin-bottom: 20px;
+}
+
+#login-panel input[type=text],
+#login-panel input[type=password] {
+    border-color: #5AABE2;
+    border-width: 3px;
+}

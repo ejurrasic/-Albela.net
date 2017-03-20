@@ -1,0 +1,23 @@
+<div class="box">
+    <div class="title"><?php _lang('delete-my-account')?></div>
+    <div class="box-content" style="padding:30px 10%">
+        <p class="help-block">
+            <?php _lang('delete-account-info')?>
+        </p>
+        <?php if($message):?>
+            <div class="alert alert-danger"><?php echo $message?></div>
+        <?php endif?>
+
+        <form action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <div class="form-group">
+                <label><?php _lang('current-password')?></label>
+                <input class="form-control" type="password" name="password" placeholder=""/>
+            </div>
+
+
+            <div class="divider"></div>
+            <button class="btn btn-danger"><?php _lang('delete-my-account')?></button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div  id="feed-lists" data-type="search" data-type-id="<?php echo $term?>" data-offset="0" style="margin-top: 0">
+    <?php $i = 0; foreach($feeds as $feed):fire_hook('feed.lists.inline', null, array($i));$i++?>
+        <?php echo view('feed::feed', array('feed' => $feed))?>
+    <?php endforeach?>
+
+
+</div>
+
+<?php if(count($feeds)):?>
+    <div class="feed-load-more">
+        <div class="col-sm-2 no-padding"></div>
+        <div class="col-sm-10 no-padding">
+            <a href="" class="z-depth-1"><?php _lang('load-more')?></a>
+            <img src="<?php echo img('images/loading.gif')?>" class=""/>
+        </div>
+    </div>
+<?php endif?>

@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-md-4 left-column">
+        <?php echo view('page::manage/menu')?>
+    </div>
+    <div class="col-md-8 right-column">
+        <div class="box">
+            <div class="box-content"><?php _lang('page::page-role-information')?></div>
+        </div>
+        <div class="box">
+            <div class="box-content">
+                <?php if($message):?>
+                    <div class="alert alert-success"><?php echo $message?></div>
+                <?php endif?>
+                <div class="media media-lg" id="role-<?php echo $app->pageUser['id']?>">
+                    <div class="media-left">
+                        <a href="" class="media-object"><img src="<?php echo get_avatar(75, $app->pageUser)?>"/></a>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading"><?php echo get_user_name($app->pageUser)?></h6>
+                        <select class="c-select">
+                            <option value="1"><?php _lang('admin')?></option>
+                        </select>
+                    </div>
+                </div>
+
+                <form action="" method="post">
+					<?php CSRFProtection::embed() ?>
+                    <div id="page-role-lists">
+                        <?php foreach(get_page_roles($app->profilePage['page_id']) as $role):?>
+                            <div data-saved="true" class="media media-lg" id="role-<?php echo $role['role_user_id']?>">
+                                <div class="media-left">
+                                    <a href="" class="media-object"><img src="<?php echo get_avatar(75, $role)?>"/></a>
+                                </div>
+                                <div class="media-body">
+                                    <h6 class="media-heading"><?php echo get_user_name($role)?></h6>
+
+                                    <select name="val[<?php echo $role['role_user_id']?>]" class="c-select">
+                                        <option <?php echo ($role['page_role'] == 1) ? 'selected' : null?> value="1"><?php _lang('admin')?></option>
+                                        <option <?php echo ($role['page_role'] == 2) ? 'selected' : null?>  value="2"><?php _lang('moderator')?></option>
+                                        <option <?php echo ($role['page_role'] == 3) ? 'selected' : null?>  value="3"><?php _lang('editor')?></option>
+                                    </select>
+
+                                    <a data-userid="<?php echo $role['role_user_id']?>" href="" class="role-delete-button" data-page-id="<?php echo $app->profilePage['page_id']?>"><i class="ion-android-delete"></i></a>
+                                </div>
+                            </div>
+                        <?php endforeach?>
+                    </div>
+
+                    <div  class="media media-lg" id="page-role-template">
+                        <div class="media-left">
+                            <a href="" class="media-object"></a>
+                        </div>
+                        <div class="media-body">
+                            <h6 class="media-heading"></h6>
+                            <select class="c-select">
+                                <option value="1"><?php _lang('admin')?></option>
+                                <option value="2"><?php _lang('moderator')?></option>
+                                <option value="3"><?php _lang('editor')?></option>
+                            </select>
+                        </div>
+                        <a  href="" class="role-delete-button" data-page-id="<?php echo $app->profilePage['page_id']?>"><i class="ion-android-delete"></i></a>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2"><?php _lang('page::add-role')?></label>
+                        <div class="col-sm-10">
+                            <input data-target="#page-user-role-suggestion" type="text" placeholder="<?php _lang('page::search-user')?>" class="form-control user-tag-input"/>
+                            <div class="user-suggestion-list box" id="page-user-role-suggestion"></div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <button class="btn btn-md btn-info"><?php _lang('page::save-roles')?></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

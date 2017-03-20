@@ -1,0 +1,47 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang("group::groups-manager")?>
+    </div>
+    <div class="wrapper-content">
+        <form action="" method="get" style="margin: 20px 0">
+            <?php CSRFProtection::embed() ?>
+            <input type="text" class="form-control" name="term" placeholder="<?php _lang('search')?>"/>
+            <button class="btn btn-sm btn-secondary" style="margin-top: 10px"><?php echo _lang('search')?></button>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td style="width:5%">ID</td>
+                    <td style="width:30%"><?php _lang('group::group-name')?></td>
+                    <td style="width:25%"><?php _lang('owner')?></td>
+                    <td style="width:15%"><?php _lang('members')?></td>
+                    <td style="width:25%"><?php _lang('action')?></td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($groups->results() as $group):?>
+                    <tr>
+                        <td><?php echo $group['group_id']?></td>
+                        <td><a href="<?php echo group_url(null, $group)?>"><?php echo $group['group_title']?></a></td>
+                        <td>
+                            <?php $user = find_user($group['user_id'])?>
+                            <?php if($user):?>
+                                <a href="<?php echo profile_url(null, $user)?>"><img src="<?php echo get_avatar(75, $user)?>" style="width:30px;height:30px;border-radius:100px"/> <?php echo get_user_name($user)?></a>
+                            <?php endif?>
+                        </td>
+                        <td>
+                            <?php echo count(get_group_members_id($group['group_id']))?>
+                        </td>
+                        <td>
+                            <a href="<?php echo group_url(null, $group)?>" class="btn btn-sm btn-success"><i class="ion-eye"></i></a>
+                            <a  href="<?php echo url_to_pager('group-admin-edit', array('id' => $group['group_id']))?>" class=" btn btn-sm btn-warning"><i class="ion-edit"></i></a>
+                            <a  href="<?php echo url_to_pager('group-delete', array('id' => $group['group_id']))?>?admin=true" class="admin-confirm btn btn-sm btn-danger"><i class="ion-android-delete"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+
+        <?php echo $groups->links()?>
+    </div>
+</div>

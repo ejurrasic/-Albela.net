@@ -1,0 +1,28 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <p><?php echo lang('forum::categories-manager') ?></p>
+        <span><?php echo lang('forum::categories-manager-desc') ?></span>
+    </div>
+    <div class="wrapper-content">
+        <table class="table striped bordered">
+            <thead class="active">
+				<tr>
+					<th><?php echo lang('forum::title') ?></th>
+					<th><?php echo lang('forum::actions') ?></th>
+				</tr>
+			</thead>
+            <tbody>
+            <?php foreach($categories as $category): ?>
+                <tr>
+                    <td><a href="<?php echo url_to_pager('forum-slug', array('appends' => '')) ?>?c=<?php echo $category['id'] ?>"><?php echo lang($category['title']) ?></a></td>
+                    <td>
+                        <a href="<?php echo url_to_pager('admin-forum-threads-list') ?>?c=<?php echo $category['id'] ?>" class="btn btn-sm btn-success"><?php echo lang('forum::manage') ?></a>
+                        <a href="<?php echo url_to_pager('admin-forum-category-edit') ?>?id=<?php echo $category['id'] ?>" class="btn btn-sm btn-info"><?php echo lang('forum::edit') ?></a>
+                        <a href="<?php echo url_to_pager('admin-forum-category-delete') ?>?id=<?php echo $category['id'] ?>" class="btn btn-sm btn-danger admin-confirm ion-android-delete" title="<?php echo lang('forum::delete') ?>"></a>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

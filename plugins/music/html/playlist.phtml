@@ -1,0 +1,19 @@
+<div class="each-item clearfix">
+    <div class="left">
+        <?php if($playlist['featured']): ?>
+        <span class="featured-tag"><?php echo lang('music::featured') ?></span>
+        <?php endif ?>
+        <span class="playlist-count" title="<?php echo lang('music::no-of-tracks') ?>"><?php echo count_playlist($playlist['id']) ?></span>
+        <a ajax="true" href="<?php echo get_playlist_url($playlist) ?>" style="background-image:url(<?php echo img('music::images/playlist.png') ?>);">
+    </div>
+    <?php $owner = get_playlist_owner($playlist); ?>
+    <div class="right">
+        <span class="item-title"><a ajax="true" href="<?php echo get_playlist_url($playlist) ?>"><?php echo ($playlist['title']) ? $playlist['title'] : lang('music::untitled-playlist') ?></a> </span>
+        <div class="item-info">
+            <span style="display: block;"><?php echo $playlist['play_count'] ?> <?php echo $playlist['play_count'] > 1 ? lang('music::plays') : lang('music::play') ?> - <span class="feed-time"> <span class="timeago " title="<?php echo date('c', $playlist['time']) ?>"><?php echo date('c', $playlist['time']) ?></span></span></span>
+            <?php echo lang('music::by') ?> <a ajax="true" href="<?php echo $owner['link'] ?>"><?php echo $owner['name'] ?></a>
+        </div>
+        <p class="item-desc"><?php echo $playlist['description'] ?><br /><?php echo '' ?></p>
+        <span class="music-social-share-link"><?php if(plugin_loaded('sharer')) echo view('sharer::share_link', array('link' => url_to_pager('music-playlist-page', array('id' => $playlist['slug'])))) ?></span>
+    </div>
+</div>

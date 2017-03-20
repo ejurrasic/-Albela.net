@@ -1,0 +1,13 @@
+<?php $trendings = get_top_hashtags(6)?>
+<?php if($trendings):?>
+    <div class="box">
+        <div class="title"><?php echo lang('hashtag::trending') ?></div>
+        <div class="box-content">
+            <div id="trending-block" class="clearfix">
+                <?php foreach($trendings as $hashtag):?>
+                    <a ajax="true" href="<?php echo url_to_pager('hashtag')?>?t=<?php echo str_replace('#', '', $hashtag['hashtag'])?>"><?php echo $hashtag['hashtag']?></a>
+                <?php endforeach?>
+            </div>
+        </div>
+    </div>
+<?php endif?>

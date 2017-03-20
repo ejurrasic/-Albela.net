@@ -1,0 +1,28 @@
+<?php if(isset(app()->profilePage)):?>
+    <div class="box">
+        <div class="box-content" style="font-size: 15px;padding: 10px">
+            <?php if(plugin_loaded('like')):?>
+                <a onclick="return show_likes('page', '<?php echo app()->profilePage['page_id']?>')" href=""> <i class="ion-thumbsup"></i> <span class="like-count-page-<?php echo $app->profilePage['page_id']?>"><?php echo count_likes('page', $app->profilePage['page_id'])?></span> </a> <?php _lang('like::people-like-this')?>
+            <?php endif?>
+        </div>
+    </div>
+    <div class="box ">
+        <div class="title"><?php _lang('about')?> <a href="<?php echo page_url('about', app()->profilePage)?>" class="more-link pull-right"><i class="ion-ios-arrow-forward"></i></a> </div>
+
+        <ul id="profile-side-info">
+            <li>
+                <span><i class="ion-ios-list-outline"></i> <?php _lang('page::category')?>:</span> <?php echo get_page_category_title(get_page_details('page_category_id'))?>
+            </li>
+            <li>
+                <span><i class="ion-ios-information-outline"></i> <?php _lang('page::about')?>:</span> <?php echo output_text(app()->profilePage['page_desc'])?>
+            </li>
+            <?php $i=0;foreach(get_all_custom_fields('page') as $field):?>
+                <?php if($i <= 3 and get_page_details($field['title'], app()->profilePage)):?>
+                    <li>
+                        <span><i class="ion-ios-information-outline"></i> <?php _lang($field['title'])?>:</span> <?php echo output_text(get_page_details($field['title'], $app->profilePage))?>
+                    </li>
+                <?php else:break;endif?>
+                <?php $i++; endforeach?>
+        </ul>
+    </div>
+<?php endif?>

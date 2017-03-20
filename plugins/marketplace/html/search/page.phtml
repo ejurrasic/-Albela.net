@@ -1,0 +1,12 @@
+<div class="box">
+    <div class="title"><?php echo lang('marketplace::listings') ?></div>
+    <div class="box-content">
+        <?php foreach($listings->results() as $listing): ?>
+            <?php echo view('marketplace::search/display', array('listing' => $listing)) ?>
+        <?php endforeach ?>
+        <?php if(!$listings->total): ?>
+            <?php echo lang('marketplace::no-listing-found') ?>
+        <?php endif?>
+        <?php echo $listings->links(true) ?>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<?php if(!is_loggedIn()): ?>
+<div class="box" style="margin-top:7px">
+    <div class="title"><?php _lang('login')?></div>
+    <div class="box-content">
+        <?php if(isset($message) && $message):?><div class="alert alert-danger"><?php echo $message?></div><?php endif?>
+        <form action="<?php echo url_to_pager('login')?>" method="post">
+			<?php CSRFProtection::embed() ?>
+            <fieldset class="form-group"><input type="text" class="form-control form-control-lg" name="val[username]"  placeholder="<?php _lang('username-email-address')?>"></fieldset>
+            <fieldset class="form-group"><input type="password" class="form-control form-control-lg" name="val[password]" placeholder="<?php _lang('your-password')?>"></fieldset>
+            <div class="clearfix">
+                <div class="checkbox pull-left">
+                    <label class="c-input c-checkbox">
+                        <input name="val[remember]" checked type="checkbox">
+                        <span class="c-indicator"></span>
+                        <?php _lang('remember-me')?>
+                    </label>
+                </div>
+                <a ajax="true" href="<?php echo url_to_pager('forgot-password')?>" class="pull-right"><?php _lang('forgot-password')?></a>
+            </div>
+            <button class="btn btn-info btn-block btn-upper"><?php _lang('sign-in')?></button>
+        </form>
+        <?php if(config('enable-facebook', false) || config('enable-twitter', false) || config('enable-googleplus', false) || config('enable-vk', false)): ?>
+            <div id="social-links-container">
+                <div class="sign-with-container">
+                    <div class="text"><?php _lang('login-with')?></div>
+                    <div class="line"></div>
+                </div>
+                <div class="content">
+                    <ul id="home-social-links">
+                        <?php if(config('enable-facebook', false)):?>
+                            <li><a class="facebook" href="<?php echo url_to_pager('facebook-auth')?>"><i class="icon ion-social-facebook"></i> </a></li>
+                        <?php endif?>
+                        <?php if(config('enable-twitter', false)):?>
+                            <li><a class="twitter" href="<?php echo url_to_pager('twitter-auth')?>"><i class="icon ion-social-twitter"></i> </a> </li>
+                        <?php endif?>
+                        <?php if(config('enable-googleplus', false)):?>
+                            <li><a class="googleplus" href="<?php echo url_to_pager('googleplus-auth')?>"><i class="ion-social-googleplus-outline"></i> </a> </li>
+                        <?php endif?>
+                        <?php if(config('enable-vk', false)):?>
+                            <li><a class="vk" href="<?php echo url_to_pager('vk-auth')?>"><i class="ion-android-arrow-forward"></i> </a> </li>
+                        <?php endif?>
+
+                        <?php echo fire_hook('extend.third.party.auth',null,array());?>
+                    </ul>
+                </div>
+            </div>
+        <?php endif ?>
+    </div>
+</div>
+<?php endif ?>

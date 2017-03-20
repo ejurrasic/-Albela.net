@@ -1,0 +1,94 @@
+<div class="box music">
+    <div class="box-content" style="padding: 20px 10%;">
+        <?php if($message): ?>
+        <div class="alert alert-danger"><?php echo $message ?></div>
+        <?php endif ?>
+        <?php $current = (config('external-music', false)) ? 'external' : 'upload'; ?>
+        <form action="" method="post" enctype="multipart/form-data">
+			<?php CSRFProtection::embed() ?>
+            <input type="hidden" name="val[entity_type]" value="<?php echo input('type', 'user') ?>" />
+            <input type="hidden" name="val[entity_id]" value="<?php echo input('id', get_userid()) ?>" />
+            <div class="form-group row">
+                <label class="control-label col-sm-4" style="visibility: hidden"><?php echo lang('music::source') ?></label>
+                <div class="col-sm-8">
+                    <label style="display: none">
+                        <select onchange="return change_music_source(this)" name="val[source]" class="c-select">
+                            <option <?php echo ($current == 'upload') ? 'selected' : null ?> value="upload"><?php echo lang('music::upload-from-computer') ?></option>
+                            <?php if(config('external-music', false)): ?>
+                            <option <?php echo ($current == 'external') ? 'selected' : null ?> value="external"><?php echo lang('music::external-link') ?></option>
+                            <?php endif ?>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="music-source-selector" style="margin-top: 20px;">
+                <div class="form-group row source upload <?php echo ($current == 'external') ? 'music-hide-field' : null ?>" >
+                    <label class="control-label col-sm-4"><?php echo lang('music::file') ?></label>
+                    <div class="col-sm-8">
+                        <input type="file" id="file" name="music_file" accept="audio/mpeg" class="form-control" />
+                    </div>
+                </div>
+                <?php if(config('external-music', false)): ?>
+                <div class="form-group row source external <?php echo ($current == 'upload') ? 'music-hide-field' : null ?>">
+                    <label class="control-label col-sm-4"><?php echo lang('music::link') ?></label>
+                    <div class="col-sm-8">
+                        <input value="<?php echo input('val.link') ?>" name="val[link]" type="text" class="form-control"/>
+                        <span class="help-block"><?php echo lang('music::external-url-info') ?></span>
+                    </div>
+                </div>
+                <?php endif ?>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php echo lang('category') ?></label>
+                <div class="col-sm-8">
+                    <label>
+                        <select name="val[category_id]" class=" c-select">
+                            <?php foreach(get_music_categories() as $category): ?>
+                            <?php $subCategories = get_music_parent_categories($category['id']) ?>
+                            <?php if($subCategories): ?>
+                            <optgroup label="<?php echo lang($category['title']) ?>">
+                                <?php foreach($subCategories as $cat): ?>
+                                <option value="<?php echo $cat['id'] ?>"><?php echo lang($cat['title']) ?></option>
+                                <?php endforeach ?>
+                            </optgroup>
+                            <?php else: ?>
+                            <option value="<?php echo $category['id'] ?>"><?php echo lang($category['title']) ?></option>
+                            <?php endif ?>
+                            <?php endforeach ?>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="music-details-container <?php echo ($current == 'external') ? "music-hide-field" : null ?>" >
+                <div class="form-group row">
+                    <label for="val[title]" class="control-label col-sm-4"><?php echo lang('music::title') ?></label>
+                    <div class="col-sm-8"><input value="<?php echo input('val.title') ?>" type="text" name="val[title]" class="form-control"/></div>
+                </div>
+                <div class="form-group row">
+                    <label for="val[artist]" class="control-label col-sm-4"><?php echo lang('music::artist') ?></label>
+                    <div class="col-sm-8"><input value="<?php echo input('val.artist') ?>" type="text" name="val[artist]" class="form-control"/></div>
+                </div>
+                <div class="form-group row">
+                    <label for="val[album]" class="control-label col-sm-4"><?php echo lang('music::album') ?></label>
+                    <div class="col-sm-8"><input value="<?php echo input('val.album') ?>" type="text" name="val[album]" class="form-control"/></div>
+                </div>
+                <div class="form-group row">
+                    <label for="val[cover_art]" class="control-label col-sm-4"><?php echo lang('music::cover-art') ?></label>
+                    <div class="col-sm-8"><input type="file" id="cover_art" name="cover_art" accept="image/jpeg" class="form-control" /></div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php echo lang('privacy') ?></label>
+                <div class="col-sm-8">
+                    <?php $default = config('default-music-privacy', 1); ?>
+                    <select class="c-select" name="val[privacy]">
+                        <option <?php echo ($default == 1) ? 'selected' : null ?> value="1" ><?php echo lang('everyone') ?></option>
+                        <option <?php echo ($default == 2) ? 'selected' : null ?> value="2"><?php echo (config('relationship-method', 2) == 2 or config('relationship-method', 2) == 3) ? lang('friends-only') : lang('followers-only') ?></option>
+                        <option <?php echo ($default == 3) ? 'selected' : null ?> value="3"><?php echo lang('only-me') ?></option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-info"><?php echo lang('music::add-music') ?></button>
+        </form>
+    </div>
+</div>

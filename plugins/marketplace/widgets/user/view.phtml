@@ -1,0 +1,21 @@
+<?php $user = isset($app->profileUser) ? $app->profileUser : null; ?>
+<?php if($user): ?>
+    <?php $listings = marketplace_get_listings(null, null, $user['id'], 1, $limit); ?>
+    <?php if(count($listings->results()) > 0): ?>
+        <div class="marketplace box listings-box">
+            <div class="title"><?php echo lang('marketplace::listings')?> <a ajax="true" href="<?php echo url_to_pager('marketplace', array('appends' => ''))?>" class="more-link pull-right"><i class="ion-ios-arrow-forward"></i></a></div>
+            <div class="clearfix">
+                <?php foreach($listings->results() as $listing): ?>
+                    <?php if($listing['image']): ?>
+                        <?php $listing_image = url_img($listing['image'], 200); ?>
+                    <?php else: ?>
+                        <?php $listing_image = img('marketplace::images/no_image.jpg'); ?>
+                    <?php endif ?>
+                    <a  href="<?php echo url_to_pager('marketplace-listing-slug', array('appends' =>marketplace_get_slug($listing['id'], 'listing')))?>" ajax="true" class="listing " style="background-image: url(<?php echo $listing_image ?>)">
+                        <h6 class="name"><?php echo $listing['title'] ?></h6>
+                    </a>
+                <?php endforeach?>
+            </div>
+        </div>
+    <?php endif ?>
+<?php endif ?>

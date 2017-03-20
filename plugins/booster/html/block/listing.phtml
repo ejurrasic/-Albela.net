@@ -1,0 +1,38 @@
+<div class="col-sm-2">
+
+</div>
+<div class="col-sm-10" style="padding: 0">
+    <div class="box booster-click" data-id="<?php echo $id; ?>">
+
+        <a ajax="true" href="<?php echo url('marketplace/listing/').$listing['slug']; ?>">
+
+        <div class="title boost_listing_header" style="color:#fff; background: <?php echo config('boost-listing-header-color','#233241');?>">
+            <span style='margin-left: 2px'><i style='color: <?php echo config('booster-star-color','#26A65B')?>'
+                                              class='ion-android-star'></i> <?php echo lang('booster::sponsored') ?></span>
+        </div>
+        <div class="listing-image" style="">
+            <?php if ($listing['featured'] == 1): ?>
+                <div class="marketplace-featured-listing"><?php echo _lang('marketplace::featured') ?></div>
+            <?php endif ?>
+            <?php if ($listing['image']): ?>
+                <img src="<?php echo url_img($listing['image'], 600) ?>" class="img img-responsive"
+                     style="max-height: 250px; width: 100%">
+            <?php else: ?>
+                <img src="<?php echo img('marketplace::images/no_image.jpg') ?>" style="max-height: 250px; width: 100%">
+            <?php endif ?>
+        </div>
+        <hr/>
+        <div class="box-content" style="margin-top: 5px;position: relative">
+            <div
+                style="position: absolute;height: 30px;color: rgb(255, 255, 255);background: rgb(27, 188, 155) none repeat scroll 0% 0%;padding: 5px;font-size: 16px;right: 5px;top: -5px;">
+                <?php echo $price = is_numeric($listing['price']) ? config('currency', '$') . $listing['price'] : $listing['price']; ?>
+            </div>
+            <h5 class=""><?php echo $listing['title'] ?></h5>
+
+            <p class="" style="font-size: 14px "><?php echo $listing['description']; ?></p>
+        </div>
+</a>
+
+</div>
+</div>
+

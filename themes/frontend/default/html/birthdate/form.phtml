@@ -1,0 +1,32 @@
+
+<?php if(config('enable-birthdate', true)):?>
+
+    <div class=" form-group">
+        <label><?php _lang('date-of-birth')?>:</label><br/>
+        <select class="c-select" name="val[birth_day]">
+            <option value=""><?php echo lang('day')?></option>
+            <?php for($i = 1; $i <= 31; $i++):?>
+                <option <?php echo (isset($day) and $day == $i) ? "selected" : null ?> value="<?php echo $i?>"><?php echo $i?></option>
+            <?php endfor?>
+        </select>
+
+        <select class="c-select" name="val[birth_month]">
+            <option value=""><?php echo lang('month')?></option>
+            <?php foreach(config('months') as $m => $value):?>
+                <option <?php echo (isset($month) and $month == $m) ? "selected" : null ?> value="<?php echo $m?>"><?php echo $value?></option>
+            <?php endforeach?>
+        </select>
+
+        <select class="c-select" name="val[birth_year]">
+            <option value=""><?php echo lang('year')?></option>
+            <?php
+            $currentYear = date('Y');
+            $minAge = config("birthdate-min-age", 10);
+            $maxYear = $currentYear - $minAge;
+            ?>
+            <?php for($i = $maxYear; $i >= 1940; $i--):?>
+            <option <?php echo (isset($year) and $year == $i) ? "selected" : null ?> value="<?php echo $i?>"><?php echo $i?></option>
+            <?php endfor?>
+        </select>
+    </div>
+<?php endif?>

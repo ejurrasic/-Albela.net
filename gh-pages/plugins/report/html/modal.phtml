@@ -1,0 +1,25 @@
+<div data-success="<?php _lang('report::report-success')?>" data-error="<?php _lang('unknown-error')?>" id="reportModal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLikesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only"><?php _lang('close')?></span>
+                </button>
+                <h5 class="modal-title" ><?php _lang('report::report-content')?></h5>
+            </div>
+            <form action="" method="post">
+				<?php CSRFProtection::embed() ?>
+                <div class="modal-body">
+                        <input type="hidden" name="val[link]" class="link"/>
+                        <input type="hidden" name="val[type]" class="type"/>
+                        <textarea class="auto-grow-input form-control" data-height="90px" name="val[reason]" placeholder="<?php _lang('report::report-reason')?>"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php _lang('cancel')?></button>
+                    <button  class="btn btn-primary"><?php _lang('report::report')?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+<div id="forum" class="forum">
+    <div class="forum-content box">
+		<?php if($message): ?>
+		<div class="alert alert-danger"><?php echo $message ?></div>
+		<?php endif ?>
+        <div id="topics-header" class="topics-header">
+            <h1><?php echo lang('topics') ?></h1>
+            <form action="" method="get" class="forum-search-form" style="text-align: left !important">
+            <?php CSRFProtection::embed() ?>
+                <input type="text" class="form-control forum-search-input" name="s" placeholder="<?php echo lang('search') ?>" value="<?php echo $search ?>" style="width: 90% !important;" />
+                <button class="btn btn-sm btn-primary forum-search-button"><i class="ion-search"></i></button>
+            </form>
+        </div>
+        <div id="topics-filter" class="row topics-filter">
+            <div class="col-sm-4">
+                <div class="dropdown">
+                    <button class="btn btn-default forum dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"><?php echo lang($category) ?> <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_get_forum_slug_link(forum_remove_get_var(forum_remove_get_var($url, 's'), 'c')) ?>" ajax="true"><?php echo lang('forum::all-categories') ?></a></li>
+                        <?php foreach($categories as $category): ?>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_get_forum_slug_link(forum_assign_get_var(forum_remove_get_var($url, 's'), 'c', $category['id'])) ?>" ajax="true"><?php echo lang($category['title']) ?></a></li>
+                        <?php endforeach ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="dropdown">
+                    <button class="btn btn-default forum dropdown-toggle" type="button" id="menu2" data-toggle="dropdown"><?php echo lang($tag) ?><span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_get_forum_slug_link(forum_remove_get_var(forum_remove_get_var($url, 's'), 't')) ?>" ajax="true"><?php echo lang('forum::all-tags') ?></a></li>
+                        <?php foreach($tags as $tag): ?>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_get_forum_slug_link(forum_assign_get_var(forum_remove_get_var($url, 's'), 't', $tag['id'])) ?>" ajax="true"><?php echo lang($tag['title']) ?></a></li>
+                        <?php endforeach ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="dropdown">
+                    <button class="btn btn-default forum dropdown-toggle" type="button" id="menu3" data-toggle="dropdown"><?php echo $order_title ?><span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_get_forum_slug_link(forum_assign_get_var(forum_remove_get_var($url, 's'), 'o', 'l')) ?>" class="<?php echo $current_class['l'] ?>" title="<?php echo lang('forum::latest-desc') ?>" ajax="true" ><?php echo lang('forum::latest') ?></a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_get_forum_slug_link(forum_assign_get_var(forum_remove_get_var($url, 's'), 'o', 'n')) ?>" class="<?php echo $current_class['n'] ?>" title="<?php echo lang('forum::new-desc') ?>" ajax="true"><?php echo lang('forum::new') ?></a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_get_forum_slug_link(forum_assign_get_var(forum_remove_get_var($url, 's'), 'o', 't')) ?>" class="<?php echo $current_class['t'] ?>" title="<?php echo lang('forum::top-desc') ?>" ajax="true"><?php echo lang('forum::top') ?></a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_get_forum_slug_link(forum_assign_get_var(forum_remove_get_var($url, 's'), 'o', 'ft')) ?>" class="<?php echo $current_class['ft'] ?>" title="<?php echo lang('forum::featured-desc') ?>" ajax="true"><?php echo lang('forum::featured') ?></a></li>
+                        <?php if(is_loggedIn()): ?>
+                            <li role="presentation"><a href="<?php echo forum_get_forum_slug_link(forum_assign_get_var(forum_remove_get_var($url, 's'), 'o', 'f')) ?>" class="<?php echo $current_class['f'] ?>" title="<?php echo lang('forum::followed-desc') ?>" ajax="true"><?php echo lang('forum::followed').forum_followed_count() ?></a></li>
+                        <?php endif ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+		<table class="table table-striped">
+			<?php foreach($threads->results() as $thread): ?>
+			<tr>
+				<td>
+                    <strong><a href="<?php echo forum_get_thread_slug_link($thread['id']) ?>" ajax="true"> <?php echo $thread['subject'] ?></a></strong><?php echo forum_thread_followed_count($thread['id']) ?>
+					<br /><em><a href="<?php echo forum_get_forum_slug_link(url_to_pager('forum-slug', array('appends' => '')).'?c='.$thread['category_id']) ?>" ajax="true"><?php echo lang($thread['title']) ?></a></em>
+					<br />
+                    <a href="<?php echo url($thread['op_username']) ?>" title="<?php echo $thread['op_username'] ?> - <?php echo lang('forum::original-poster') ?>" ajax="true"><img src="<?php echo forum_get_avatar(0, 75, $thread['op_username']) ?>" class="forum-avatar-thumb forum-avatar-thumb-home" /></a>
+                    <?php if($thread['nor']  > 0): ?>
+                    <a href="<?php echo url($thread['rp_username']) ?>" title="<?php echo $thread['rp_username'] ?> - <?php echo lang('forum::most-recent-poster') ?>" ajax="true"><img src="<?php echo forum_get_avatar(0, 75, $thread['rp_username']) ?>" class="forum-avatar-thumb forum-avatar-thumb-home" /></a>
+                    <?php endif ?>
+                    <br />
+                    <?php foreach(explode(' ', trim($thread['tags'])) as  $tag): ?>
+                        <?php if(forum_get_tag($tag)): ?>
+                        <a href="<?php echo forum_get_forum_slug_link(url_to_pager('forum-slug', array('appends' => '')).'?t='.forum_get_tag($tag)[0]['id']) ?>" style="background-color:<?php echo forum_get_tag($tag)[0]['color'] ?>;" class="forum-tags" ajax="true"><?php echo lang(forum_get_tag($tag)[0]['title']) ?></a>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                </td>
+				<td>
+					<?php echo lang('forum::replies-') ?>: <?php echo $thread['nor'] ?><br />
+					<?php echo lang('forum::views') ?>: <?php echo $thread['nov'] ?> <br />
+					<?php echo lang('forum::last-activity') ?>: <?php echo forum_timelength((time() - strtotime($thread['last_replied'])), true) ?>
+				</td>
+			</tr>
+			<?php endforeach ?>
+		</table>
+        <?php if($threads->total): ?>
+            <?php if($threads->total > config('pagination-length-forum', 20)): ?>
+                <?php echo $threads->links(true) ?>
+            <?php endif ?>
+        <?php else: ?>
+        <div class="alert alert-info"><?php echo lang('forum::no-record') ?></div>
+        <?php endif ?>
+    </div>
+</div>

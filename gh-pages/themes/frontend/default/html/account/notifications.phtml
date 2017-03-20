@@ -1,0 +1,165 @@
+<div class="box">
+    <div class="title"><?php _lang('notification-settings')?></div>
+    <div class="box-content" style="padding:30px 10%">
+        <form action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <h6><i class="mdi-notification-network-locked"></i> <?php _lang('site-notifications')?></h6>
+            <p class="help-block"><?php _lang('notification::send-site-notification-when')?>:</p>
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::someone-started-following-you')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-following-you]">
+                        <option <?php echo (get_privacy('notify-following-you', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-following-you', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::you-are-mentioned')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-site-mention-you]">
+                        <option <?php echo (get_privacy('notify-site-mention-you', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-site-mention-you', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::you-are-tagged')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-site-tag-you]">
+                        <option <?php echo (get_privacy('notify-site-tag-you', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-site-tag-you', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::comment-on-your-post')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-site-comment]">
+                        <option <?php echo (get_privacy('notify-site-comment', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-site-comment', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::reply-your-comment')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-site-reply-comment]">
+                        <option <?php echo (get_privacy('notify-site-reply-comment', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-site-reply-comment', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::like-your-item')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-site-like]">
+                        <option <?php echo (get_privacy('notify-site-like', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-site-like', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::share-your-item')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-site-share-item]">
+                        <option <?php echo (get_privacy('notify-site-share-item', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-site-share-item', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <?php if(config('enable-dislike', 1) and config('dislike-notification', 0)):?>
+                <div class="form-group row">
+                    <div class="col-sm-8"><?php _lang('notification::dislike-your-item')?></div>
+                    <div class="col-sm-4">
+
+                        <select class="c-select" name="val[notify-site-dislike-item]">
+                            <option <?php echo (get_privacy('notify-site-dislike-item', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                            <option <?php echo (get_privacy('notify-site-dislike-item', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                        </select>
+                    </div>
+                </div>
+            <?php endif?>
+            <div class="divider"></div>
+
+
+            <?php echo theme_extend('site-notifications-settings')?>
+            <!--<h6><i class="mdi-content-mail"></i> <?php _lang('email-notifications')?></h6>
+
+            <p class="help-block"><?php _lang('notification::send-email-notification-when')?>:</p>
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::someone-started-following-you')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-email-following-you]">
+                        <option <?php echo (get_privacy('notify-email-following-you', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-email-following-you', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::you-are-mentioned')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-email-mention-you]">
+                        <option <?php echo (get_privacy('notify-email-mention-you', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-email-mention-you', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::you-are-tagged')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-email-tag-you]">
+                        <option <?php echo (get_privacy('notify-email-tag-you', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-email-tag-you', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::comment-on-your-post')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-email-comment]">
+                        <option <?php echo (get_privacy('notify-email-comment', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-email-comment', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8"><?php _lang('notification::reply-your-comment')?></div>
+                <div class="col-sm-4">
+
+                    <select class="c-select" name="val[notify-email-reply-comment]">
+                        <option <?php echo (get_privacy('notify-email-reply-comment', 1) == 1)? 'selected' : null?> value="1"><?php _lang('yes')?></option>
+                        <option <?php echo (get_privacy('notify-email-reply-comment', 1) == 0)? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <?php echo theme_extend('email-notifications-settings')?>
+            -->
+            <button class="btn btn-info"><?php _lang('save-settings')?></button>
+        </form>
+    </div>
+</div>

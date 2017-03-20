@@ -1,0 +1,42 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('page::manage-pages')?>
+        <a href="<?php echo url_to_pager('admin-page-category-add')?>"><?php _lang('page::add-category')?></a>
+    </div>
+    <div class="wrapper-content">
+        <form action="" method="get" style="margin: 20px 0">
+			<?php CSRFProtection::embed() ?>
+            <input type="text" class="form-control" name="term" placeholder="<?php _lang('search')?>"/>
+            <button class="btn btn-sm btn-secondary" style="margin-top: 10px"><?php echo _lang('search')?></button>
+        </form>
+        <table  class="table table-bordered ">
+            <thead>
+            <tr>
+                <th style="width: 10%">ID</th>
+                <th style="width: 25%"><?php _lang('page::page-title')?></th>
+                <th style="width: 25%"><?php _lang('page::page-description')?></th>
+                <th style="width: 10%"><?php _lang('verified')?></th>
+                <th style="width: 10%"><?php _lang('page::likes')?></th>
+                <th style="width: 20%"><?php _lang('actions')?></th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php foreach($pages->results() as $page):?>
+                    <tr>
+                        <td><?php echo $page['page_id']?></td>
+                        <td><a href="<?php echo page_url(null, $page)?>"><?php echo $page['page_title']?></a> </td>
+                        <td><?php echo $page['page_desc']?></td>
+                        <td><?php echo ($page['verified']) ? lang('yes') : lang('no')?></td>
+                        <td><?php echo count_likes('page', $page['page_id'])?></td>
+                        <td>
+                            <a href="<?php echo url_to_pager('admin-page-edit')?>?id=<?php echo $page['page_id']?>" class="btn btn-sm btn-success"><?php _lang('edit')?></a>
+                            <a href="<?php echo url('page/delete')?>?id=<?php echo $page['page_id']?>&admin=true" class="btn btn-sm btn-danger admin-confirm"><i class="ion-android-delete"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+
+        </table>
+        <?php if($pages->total): ?><?php echo $pages->links() ?><?php endif ?>
+    </div>
+</div>

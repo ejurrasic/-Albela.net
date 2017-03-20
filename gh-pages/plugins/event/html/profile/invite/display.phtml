@@ -1,0 +1,15 @@
+<div class="media media-sm event-invite-user-<?php echo $user['id']?>">
+    <div class="media-left">
+        <div class="media-object"><img src="<?php echo get_avatar(75, $user)?>"/> </div>
+    </div>
+    <div class="media-body">
+        <h6 class="media-heading"><?php echo get_user_name($user)?></h6>
+        <div class="action">
+            <?php if(event_already_invited($eventId, $user['id'])):?>
+                <button class="btn btn-sm btn-secondary disabled"><?php _lang('event::invited')?></button>
+            <?php else:?>
+                <a onclick="return event_invite_friend(this, '<?php echo $user['id']?>', '<?php echo $eventId?>')" href="" class="btn btn-secondary btn-sm"><?php _lang('page::invite')?></a>
+            <?php endif?>
+        </div>
+    </div>
+</div>

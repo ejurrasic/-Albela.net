@@ -1,0 +1,16 @@
+<?php load_functions('like::like'); $people = get_reactors($type, $type_id, 5)?>
+<?php if($people):?>
+
+        <div class="users">
+            <?php foreach($people as $user):?>
+                <a href="<?php echo profile_url(null, $user)?>" ajax="true" data-toggle="tooltip" title="<?php echo get_user_name($user)?>">
+                    <img class="img" src="<?php echo get_avatar(75, $user)?>"/>
+                    <img src="<?php echo get_react_image($user['like_type'])?>" class="react-image"/>
+                </a>
+            <?php endforeach?>
+            <a href="" data-otitle="<?php _lang('like::people-reacted-this')?>" onclick="return show_reactors(this, '<?php echo $type?>', '<?php echo $type_id?>')" class="more">
+                <i class="ion-android-more-horizontal"></i>
+            </a>
+        </div>
+
+<?php endif?>

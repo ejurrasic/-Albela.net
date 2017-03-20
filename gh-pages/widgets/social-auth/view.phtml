@@ -1,0 +1,14 @@
+<?php if(!is_loggedIn() && (config('enable-facebook', false) || config('enable-twitter', false) || config('enable-googleplus', false) || config('enable-vk', false))): ?>
+<div id="social-links-container box">
+    <div class="title"><?php _lang('login-with')?></div>
+    <div class="box-content">
+        <ul id="home-social-links">
+            <?php if(config('enable-facebook', false)):?><li><a class="facebook" href="<?php echo url_to_pager('facebook-auth')?>"><i class="icon ion-social-facebook"></i></a></li><?php endif?>
+            <?php if(config('enable-twitter', false)):?><li><a class="twitter" href="<?php echo url_to_pager('twitter-auth')?>"><i class="icon ion-social-twitter"></i></a></li><?php endif?>
+            <?php if(config('enable-googleplus', false)):?><li><a class="googleplus" href="<?php echo url_to_pager('googleplus-auth')?>"><i class="ion-social-googleplus-outline"></i></a></li><?php endif?>
+            <?php if(config('enable-vk', false)):?><li><a class="vk" href="<?php echo url_to_pager('vk-auth')?>"><i class="ion-android-arrow-forward"></i></a></li><?php endif?>
+            <?php echo fire_hook('extend.third.party.auth',null,array());?>
+        </ul>
+    </div>
+</div>
+<?php endif ?>

@@ -1,0 +1,16 @@
+<?php
+$categories = marketplace_get_categories();
+$category_id = input('c') ? input('c') : null;
+$type = input('t') ? input('t') : null;
+$active_class = array('l' => '', 'm' => '', 'p' => '');
+switch($type){case 'm': $active_class['m'] = ' active'; break; case 'p': $active_class['p'] = ' active'; break; default: $active_class['l'] = ' active'; break;}
+$url = http_build_query($_GET) == '' ? url_to_pager("marketplace-slug", array('appends' => '')) : url_to_pager("marketplace-slug", array('appends' => '')).'?'.http_build_query($_GET);
+?>
+<div class="marketplace marketplace-categories box">
+    <ul class="menu">
+        <li class="<?php if(!$category_id): ?> active<?php endif ?>"><a href="<?php echo marketplace_get_marketplace_slug_link(marketplace_remove_get_var(marketplace_remove_get_var($url, 's'), 'c')) ?>" ajax="true"><?php echo lang('marketplace::all-categories') ?></a></li>
+        <?php foreach($categories as $category): ?>
+            <li class="<?php if($category_id == $category['id']): ?> active<?php endif ?>"><a href="<?php echo marketplace_get_marketplace_slug_link(marketplace_assign_get_var(marketplace_remove_get_var($url, 's'), 'c', $category['id'])) ?>" ajax="true"><?php echo lang($category['title']) ?></a></li>
+        <?php endforeach ?>
+    </ul>
+</div>

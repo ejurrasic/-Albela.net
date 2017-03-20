@@ -1,0 +1,14 @@
+<div class="card-cover"><img src="<?php echo get_page_cover($page, false)?>"/> </div>
+<div class="card-panel">
+    <h6 class="card-title"><a href="<?php echo page_url(null, $page)?>"><?php echo $page['page_title']?></a>  <?php echo verify_badge($page)?></h6>
+
+    <?php if(is_loggedIn()):?>
+        <?php if(plugin_loaded('like')):?>
+            <?php load_functions('like::like');?>
+            <i class="ion-thumbsup"></i> <span class="like-count-page-<?php echo $page['page_id']?>"><?php echo count_likes('page', $page['page_id'])?></span> </a> <?php _lang('like::people-like-this')?>
+            <a  onclick="return like_item('page', '<?php echo $page['page_id']?>')" data-status="<?php echo (has_liked('page', $page['page_id'])) ? '1'  : 0?>" class="btn btn-secondary btn-sm like-button-page-<?php echo $page['page_id']?> like-button <?php echo (has_liked('page', $page['page_id'])) ? 'liked'  : null?>" href=""> <i class="ion-thumbsup"></i> <?php echo lang('like::like')?></a>
+
+        <?php endif?>
+    <?php endif?>
+</div>
+<div class="card-avatar"><img src="<?php echo get_page_logo(75, $page)?>"/> </div>

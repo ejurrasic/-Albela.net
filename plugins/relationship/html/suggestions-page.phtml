@@ -1,0 +1,13 @@
+<div class="box">
+    <div class="title"><?php _lang('relationship::people-suggestion')?></div>
+    <div class="box-content">
+        <?php if(!$users->results()):?>
+            <div class="alert alert-info"><?php _lang('relationship::no-suggestions-for-now')?></div>
+        <?php endif?>
+        <?php foreach($users->results() as $user):?>
+            <?php echo view('user/display', array('user' => $user))?>
+        <?php endforeach?>
+
+        <?php echo $users->links(true)?>
+    </div>
+</div>

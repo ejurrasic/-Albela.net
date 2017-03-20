@@ -1,0 +1,39 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('membership::suscribers')?>
+
+    </div>
+    <div class="wrapper-content">
+        <table class="table table-bordered" style="margin-top: 20px">
+            <thead>
+            <tr>
+                <th style="width: 5%"><?php _lang('avatar')?></th>
+                <th style="width: 20%"><?php _lang('name')?></th>
+                <th style="width: 15%"><?php _lang('username')?></th>
+                <th style="width: 15%"><?php _lang('country')?></th>
+                <th style="width: 15%"><?php _lang('email-address')?></th>
+                <th style="width: 15%"><?php _lang('last-seen')?></th>
+                <th style="width: 20%"><?php _lang('actions')?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($users->results() as $user):?>
+                <tr>
+                    <td><a href="<?php echo profile_url(null, $user)?>"><img src="<?php echo get_avatar(75, $user)?>" style="width: 30px;height: 30px"/></a> </td>
+                    <td><a href="<?php echo profile_url(null, $user)?>"><?php echo get_user_name($user)?></a></td>
+                    <td><a href="<?php echo profile_url(null, $user)?>"><?php echo $user['username']?></a> </td>
+                    <td><?php echo $user['country']?></td>
+                    <td><?php echo ucwords($user['email_address'])?></td>
+                    <td><?php echo date('l jS \of F Y h:i:s A', $user['online_time'])?></td>
+                    <td>
+                        <a class="btn btn-sm btn-success" href="<?php echo url_to_pager('admin-user-action')?>?type=edit&id=<?php echo $user['id']?>"> <i class="ion-edit"></i> <?php _lang('edit')?></a>
+                        <a  href="<?php echo url_to_pager('admin-user-action')?>?type=delete&id=<?php echo $user['id']?>" class="admin-confirm btn btn-sm btn-danger"> <i class="ion-android-delete"></i></a>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+
+        <?php echo $users->links();?>
+    </div>
+</div>

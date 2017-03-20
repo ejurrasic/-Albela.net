@@ -1,0 +1,21 @@
+<?php if(isset($Categories) && count($Categories) !== null):?>
+    <h4>Available Categories</h4>
+    <ol>
+        <?php foreach($Categories as $category): ?>
+            <li style="margin-top: 1%;">
+                <a href="<?php echo url('admin/support/category/edit/').$category['id'] ?>" style="width:150px;display:inline-block">
+                    <?php echo ucfirst($category['category']) ?>
+                </a>
+            </li>
+            <?php if(isset($category['subcategories'])):?>
+                <ul>
+                    <?php foreach($category['subcategories'] as $available): ?>
+                        <li><a href="<?php echo url('admin/support/edit/').$available['id'] ?>" style="width: 250px;display:inline-block;color: red;"><?php echo strtolower($available['topic']) ?></a></li>
+                    <?php endforeach ?>
+                </ul>
+            <?php endif?>
+        <?php endforeach?>
+    </ol>
+<?php else:?>
+    <h5><?php echo lang('support-no-categories') ?></h5>
+<?php endif?>

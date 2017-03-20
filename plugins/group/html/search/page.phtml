@@ -1,0 +1,14 @@
+<div class="box">
+    <div class="title"><?php _lang('group::groups')?></div>
+    <div class="box-content">
+        <?php foreach($groups->results() as $group):?>
+            <?php echo view('group::display', array('group' => $group))?>
+        <?php endforeach?>
+
+        <?php if(!$groups->total):?>
+            <?php _lang('group::no-grouo-found')?>
+        <?php endif?>
+
+        <?php echo $groups->links(true)?>
+    </div>
+</div>

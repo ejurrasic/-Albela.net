@@ -1,0 +1,31 @@
+<?php if(can_post_on_timeline($app->profileUser)):?>
+    <?php echo view('feed::editor', array(
+            'to_user_id' => (!is_profile_owner()) ? $app->profileUser['id'] : null,
+            'offPrivacy' => (!is_profile_owner()) ? true : false
+        )
+    )?>
+<?php endif?>
+    <div  id="feed-lists" data-type="timeline" data-type-id="<?php echo $app->profileUser['id']?>" data-offset="0">
+        <?php $feed = get_pinned_feed('user', $app->profileUser['id']); if ($feed) echo view('feed::feed', array('feed' => $feed))?>
+        <?php foreach($feeds as $feed):?>
+            <?php echo view('feed::feed', array('feed' => $feed))?>
+        <?php endforeach?>
+
+
+    </div>
+<?php if(!count($feeds)):?>
+    <div class="feed-empty text-center">
+        <i class="ion-android-bicycle"></i>
+        <h3><?php _lang('no-post-show')?></h3>
+        <a href="<?php echo url('suggestions')?>" class="btn btn-secondary btn-upper"><?php _lang('find-people')?></a>
+    </div>
+<?php endif?>
+<?php if(count($feeds)):?>
+    <div class="feed-load-more">
+        <div class="col-sm-2 no-padding"></div>
+        <div class="col-sm-10 no-padding">
+            <a href="" class="z-depth-1"><?php _lang('load-more')?></a>
+            <img src="<?php echo img('images/loading.gif')?>" class=""/>
+        </div>
+    </div>
+<?php endif?>

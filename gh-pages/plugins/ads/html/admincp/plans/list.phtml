@@ -1,0 +1,35 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('ads::ads-plan')?>
+        <a class="btn btn-secondary" href="<?php echo url_to_pager('admin-ads-add-plan')?>"><?php _lang('ads::add-plan')?></a>
+    </div>
+    <div class="wrapper-content">
+        <table  class="table table-bordered ">
+            <thead>
+            <tr>
+                <th style="width: 10%">ID</th>
+                <th style="width: 30%"><?php _lang('ads::plan-name')?></th>
+                <th style="width: 20%"><?php _lang('ads::plan-type')?></th>
+                <th style="width: 15%"><?php _lang('ads::plan-price')?></th>
+                <th style="width: 15%"><?php _lang('ads::plan-quantity')?></th>
+                <th style="width: 20%"><?php _lang('actions')?></th>
+            </tr>
+            </thead>
+            <tbody data-url="<?php echo url_to_pager('admin-ads-manage-plan').'?action=order'?>" class="admincp-sortable" style="position: relative">
+                <?php foreach($plans as $plan):?>
+                    <tr class="item" id="<?php echo $plan['id']?>">
+                        <td><?php echo $plan['id']?></td>
+                        <td><?php echo lang($plan['name'])?></td>
+                        <td><?php echo ($plan['type'] == 1) ? lang('ads::clicks') : lang('ads::impression')?></td>
+                        <td><?php echo $plan['price']?> (<?php echo config('default-currency', 'USD')?>)</td>
+                        <td><?php echo $plan['quantity']?></td>
+                        <td>
+                            <a class="btn btn-sm btn-success" href="<?php echo url_to_pager('admin-ads-manage-plan').'?action=edit&id='.$plan['id']?>"><?php _lang('edit')?></a>
+                            <a class="btn btn-sm btn-danger" href="<?php echo url_to_pager('admin-ads-manage-plan').'?action=delete&id='.$plan['id']?>"><i class="ion-android-delete"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

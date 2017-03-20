@@ -1,0 +1,186 @@
+<div class="container <?php echo segment(0) == null || segment(0) == 'index.php' ? 'splash' : '' ?>">
+    <div class="sliders head">
+        <div id="main-slider" class="main-slider slider auto">
+            <div id="slides">
+<?php $videos = get_videos('browse', 'all', null, null, 5, 'featured'); $videos = $videos->results(); $i = 1; $tmp = array(); $topo1 = array('photo_path' => 'themes/frontend/vineo/images/topography/one.jpg', 'topo' => true); $topo2 = array('photo_path' => 'themes/frontend/vineo/images/topography/two.jpg', 'topo' => true); $topo3 = array('photo_path' => 'themes/frontend/vineo/images/topography/three.jpg', 'topo' => true) ?>
+<?php if(count($videos) >= 3): ?>
+<?php $k = array(0, floor(count($videos) * (1 / 3)), floor(count($videos) * (2 / 3))); $topo = array(0 => $topo1, floor(count($videos) * (1 / 3)) => $topo2, floor(count($videos) * (2 / 3)) => $topo3) ?>
+<?php foreach($videos as $index => $video): ?>
+<?php if(array_key_exists($index, $topo)): ?>
+<?php $tmp[] = $topo[$index] ?>
+<?php endif ?>
+<?php $tmp[] = $video ?>
+<?php endforeach ?>
+<?php elseif(count($videos) == 2): ?>
+<?php foreach($videos as $index => $video): ?>
+<?php if($index == 0): ?>
+<?php $tmp[] = $topo1 ?>
+<?php endif ?>
+<?php if($index == 1): ?>
+<?php $tmp[] = $topo2 ?>
+<?php endif ?>
+<?php $tmp[] = $video ?>
+<?php if($index == 1): ?>
+<?php $tmp[] = $topo3 ?>
+<?php endif ?>
+<?php endforeach ?>
+<?php else: ?>
+<?php $tmp = array_merge($videos, array($topo1, $topo2, $topo3)) ?>
+<?php endif ?>
+<?php $videos = $tmp ?>
+<?php foreach($videos as $video): ?>
+                <div class="slide slide-<?php echo $i ?>" style="background-image:url(<?php echo $video['photo_path'] ? url_img($video['photo_path'], 200) : img('video::images/preview.png', 200) ?>); z-index: <?php echo $i == 1 ? '1' : 0 ?>; <?php echo $i == 1 ? ';display: block' : '' ?>">
+                    <div class="slide-overlay">
+                        <a href="" class="ion-ios-arrow-back" onclick="<?php if(!empty($videos)): ?>slidersInit('main-slider', <?php echo $i <= 1 ? count($videos) : $i - 1 ?>); <?php endif ?>return false;"></a>
+                        <a href="" class="ion-ios-arrow-forward" onclick="<?php if(!empty($videos)): ?>slidersInit('main-slider', <?php echo $i >= count($videos) ? 1 : $i + 1 ?>); <?php endif ?>return false;"></a>
+                        <div>
+<?php for($j = 0; $j < count($videos); $j++): ?>
+                            <a href="" class="ion-record <?php echo $i == ($j + 1) ? 'active' : '' ?> " onclick="slidersInit('main-slider', <?php echo ($j + 1) ?>); return false;"></a>
+<?php endfor ?>
+                        </div>
+                    </div>
+                    <div class="slide-label">
+<?php if(!isset($video['topo'])): ?>
+    <div class="tag"><i class="ion-bookmark"></i> <?php echo lang('video::featured') ?></div>
+                        <div class="title"><a ajax="true" href="<?php echo get_video_url($video) ?>"><?php echo ($video['title']) ? str_limit($video['title'], 32)  : lang('video::untitled-video') ?></a></div>
+                        <div class="desc"><?php echo str_limit($video['description'], 250) ?></div>
+                        <div class="owner"><img class="avatar" src="<?php echo get_avatar(75, find_user($video['user_id']))?>" /> <?php echo lang('from') ?> <a ajax="true" href="<?php echo profile_url(null, find_user($video['user_id'])) ?>" class="username"><?php echo str_limit(find_user($video['user_id'])['username'], 50) ?></a></div>
+                        <div class="action"><a href="<?php echo get_video_url($video) ?>" class="btn btn-info"><i class="ion-play"></i> <?php echo lang('video::watch-now') ?></a></div>
+<?php else: ?>
+                        <div class="tag"><h2 class="big"><?php //echo lang('welcome').' '.lang('to-our') ?></h2></div>
+                        <div class="title"><?php echo config('site_title') ?></div>
+                        <div class="desc"><?php echo lang('welcome-note') ?></div>
+                        <div class="owner"><a href="<?php echo url('login') ?>" title="<?php lang('login') ?>" onclick="return show_login_dialog();" class="username"><?php echo lang('login') ?></a></div>
+                        <div class="action"><a href="<?php echo url('signup') ?>"" class="btn btn-info"><?php echo lang('signup') ?></a></div>
+<?php endif ?>
+                    </div>
+                </div>
+<?php $i++ ?>
+<?php endforeach ?>
+            </div>
+            <div id="main-slider-content" class="slider-content">
+            </div>
+        </div>
+    </div>
+<?php if(plugin_loaded('video')): ?>
+    <div class="sliders body">
+<?php $sliders = array('home-top-videos' => array('id' => 'home-top-videos', 'filter' => 'top', 'heading' => lang('video::watch-top-videos'), 'title' => lang('top-videos'), 'icon' => 'ion-videocamera'), 'home-latest-videos' => array('id' => 'home-latest-videos', 'filter' => 'latest', 'heading' => lang('video::watch-latest-videos'), 'title' => lang('latest-videos'), 'icon' => 'ion-videocamera'), 'home-featured-videos' => array('id' => 'home-featured-videos', 'filter' => 'featured', 'heading' => lang('video::watch-featured-videos'), 'title' => lang('featured-videos'), 'icon' => 'ion-videocamera')) ?>
+<?php for($l = 10; $l >= 2; $l = $l - 2): ?>
+<?php foreach($sliders as $slider): ?>
+        <div id="sliders-<?php echo $l ?>">
+            <div class="heading">
+                <h3><?php echo $slider['heading'] ?></h3>
+                <a href="<?php echo url_to_pager('videos') ?>?filter=<?php $slider['filter'] ?>"><?php echo lang('video::view-category') ?> <i class="ion-ios-arrow-forward"></i></a>
+            </div>
+            <div id="<?php echo $slider['id'] ?>-<?php echo $l ?>" class="home-videos <?php echo $slider['id'] ?>-<?php echo $l ?> slider">
+<?php $limit = 20; $k = $limit / $l; $videos = get_videos('browse', 'all', null, null, $limit, $slider['filter']); $videos = $videos->results() ?>
+                <div id="slides">
+<?php $j = 1 ?>
+                    <div class="slide slide-<?php echo $j ?>" <?php echo 1 == 1 ? 'style="display: block"' : '' ?>>
+                        <div class="slide-overlay">
+                            <a href="" class="ion-ios-arrow-back" onclick="<?php if(!empty($videos)): ?>slidersInit('<?php echo $slider['id'] ?>-<?php echo $l ?>', <?php echo $j <= 1  ? ceil(count($videos) / ($limit / $k)) : $j - 1 ?>); <?php endif ?>return false;"></a>
+                            <a href="" class="ion-ios-arrow-forward" onclick="<?php if(!empty($videos)): ?>slidersInit('<?php echo $slider['id'] ?>-<?php echo $l ?>', <?php echo $j >= ceil(count($videos) / ($limit / $k)) ? 1 : $j + 1 ?>); <?php endif ?>return false;"></a>
+                        </div>
+<?php $i = 1 ?>
+                        <div class="video-items">
+<?php foreach($videos as $video): ?>
+                            <div class="video-item">
+                                <a ajax="true" href="<?php echo get_video_url($video) ?>" style="background-image: url(<?php echo $video['photo_path'] ? url_img($video['photo_path'], 200) : img('video::images/preview.png', 200) ?>);" class="video-cover"></a>
+                                <a ajax="true" href="<?php echo get_video_url($video) ?>" class="video-title"><h6><?php echo ($video['title']) ? $video['title'] : lang('video::untitled-video') ?></h6></a>
+                                <a ajax="true" href="<?php echo url(find_user($video['user_id'])['username']) ?>" class="video-owner"><?php echo str_limit(find_user($video['user_id'])['username'], 50) ?></a>
+                                <a ajax="true" href="<?php echo get_video_url($video) ?>" class="video-play ion-play"></a>
+                            </div>
+                            <br style="display: none" />
+<?php $i++ ?>
+<?php if($i > ($limit/ $k) && ($i %  ($limit/ $k)) == 1): ?>
+<?php $i = 1 ?>
+<?php $j++ ?>
+                        </div>
+                        <div class="slide-label">
+                            <div class="title"><?php echo $slider['title'] ?></div>
+                            <div class="icon <?php echo $slider['icon'] ?>"></div>
+                            <div class="action"><a href="<?php echo url_to_pager('videos') ?>?filter=top" class="btn btn-block btn-info"><?php echo lang('explore') ?></a></div>
+                        </div>
+                    </div>
+                    <div class="slide slide-<?php echo $j ?>">
+                        <div class="slide-overlay">
+                            <a href="" class="ion-ios-arrow-back" onclick="<?php if(!empty($videos)): ?>slidersInit('<?php echo $slider['id'] ?>-<?php echo $l ?>', <?php echo $j <= 1  ? ceil(count($videos) / ($limit / $k)) : $j - 1 ?>); <?php endif ?>return false;"></a>
+                            <a href="" class="ion-ios-arrow-forward" onclick="<?php if(!empty($videos)): ?>slidersInit('<?php echo $slider['id'] ?>-<?php echo $l ?>', <?php echo $j >= ceil(count($videos) / ($limit / $k)) ? 1 : $j + 1 ?>); <?php endif ?>return false;"></a>
+                        </div>
+                        <div class="video-items">
+<?php endif ?>
+<?php endforeach ?>
+                        </div>
+                        <div class="slide-label">
+                            <div class="title"><?php echo $slider['title'] ?></div>
+                            <div class="icon <?php echo $slider['icon'] ?>"></div>
+                            <div class="action"><a href="<?php echo url_to_pager('videos') ?>?filter=<?php echo $slider['filter'] ?>" class="btn btn-block btn-info"><?php echo lang('explore') ?></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="<?php echo $slider['id'] ?>-content" class="slider-content">
+                </div>
+            </div>
+        </div>
+<?php endforeach ?>
+<?php endfor ?>
+        <script>
+            var slidersInitTimeout = setTimeout(function () {
+                if (typeof slidersInit === "function") {
+                    var ids = $('.sliders .slider').map(function () {
+                        return this.id;
+                    }).get();
+                    for (var i in ids) {
+                        slidersInit(ids[i]);
+                    }
+                    clearTimeout(slidersInitTimeout);
+                }
+            }, 1000);
+        </script>
+<?php endif ?>
+    <div class="modal fade loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><?php echo lang('login') ?></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="home-login-container">
+                        <div class="login-content">
+                            <div class="content">
+                                <form action="<?php echo url_to_pager('login') ?>" method="post">
+                                    <?php CSRFProtection::embed() ?>
+                                    <fieldset class="form-group"><input name="val[username]" type="text" class="form-control" placeholder="<?php echo lang('username-email-address') ?>"/></fieldset>
+                                    <fieldset class="form-group">
+                                        <div class="input-group">
+                                            <input type="password" class="form-control " name="val[password]" placeholder="<?php echo lang('your-password') ?>">
+                                            <div class="input-group-addon"><a  href="<?php echo url_to_pager('forgot-password') ?>"><?php echo lang('forgot') ?></a></div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="clearfix">
+                                        <div class="pull-left"><button class="btn btn-primary btn-upper"><?php echo lang('sign-in') ?></button></div>
+                                        <div class="checkbox pull-right"><label class="c-input c-checkbox"><input name="val[remember]" checked type="checkbox"><span class="c-indicator"></span><?php echo lang('remember-me') ?></label></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <?php if(config('enable-facebook', false) || config('enable-twitter', false) || config('enable-googleplus', false) || config('enable-vk', false)): ?>
+                            <div id="social-links-container">
+                                <div class="arrow-up"></div>
+                                <div class="content">
+                                    <ul id="home-social-links">
+                                        <?php if(config('enable-facebook', false)): ?><li><a class="facebook" href="<?php echo url_to_pager('facebook-auth') ?>"><i class="ion-social-facebook"></i></a></li><?php endif ?>
+                                        <?php if(config('enable-twitter', false)): ?><li><a class="twitter" href="<?php echo url_to_pager('twitter-auth') ?>"><i class="ion-social-twitter"></i></a></li><?php endif ?>
+                                        <?php if(config('enable-googleplus', false)): ?><li><a class="googleplus" href="<?php echo url_to_pager('googleplus-auth') ?>"><i class="ion-social-googleplus-outline"></i></a></li><?php endif ?>
+                                        <?php if(config('enable-vk', false)): ?><li><a class="vk" href="<?php echo url_to_pager('vk-auth') ?>"><i class="ion-android-arrow-forward"></i></a></li><?php endif ?>
+                                    </ul>
+                                </div>
+                            </div>
+                            <?php endif ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

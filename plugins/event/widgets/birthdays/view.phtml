@@ -1,0 +1,17 @@
+<?php if(is_loggedIn()):?>
+
+    <?php $users = event_get_comingup_birthdays()?>
+
+    <?php if($users):?>
+        <div class="box">
+            <div class="title"><?php _lang('event::birthdays-coming-up')?></div>
+            <div class="box-content birthday-users clearfix">
+                <?php foreach($users as $user):?>
+
+                    <a data-toggle="tooltip" title="<?php echo get_user_name($user)?>" href="<?php echo profile_url(null, $user)?>"><img src="<?php echo get_avatar(75, $user)?>"/> </a>
+                <?php endforeach?>
+            </div>
+
+        </div>
+    <?php endif?>
+<?php endif?>

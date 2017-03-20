@@ -1,0 +1,28 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <p><?php echo lang('marketplace::categories-manager') ?></p>
+        <span><?php echo lang('marketplace::categories-manager-desc') ?></span>
+    </div>
+    <div class="wrapper-content">
+        <table class="table striped bordered">
+            <thead class="active">
+				<tr>
+					<th><?php echo lang('marketplace::title') ?></th>
+					<th><?php echo lang('marketplace::actions') ?></th>
+				</tr>
+			</thead>
+            <tbody>
+            <?php foreach($categories as $category): ?>
+                <tr>
+                    <td><a href="<?php echo url_to_pager('admin-marketplace-listings-list') ?>?c=<?php echo $category['id'] ?>"><?php echo lang($category['title']) ?></a></td>
+                    <td>
+                        <a href="<?php echo url_to_pager('admin-marketplace-listings-list') ?>?c=<?php echo $category['id'] ?>" class="btn btn-sm btn-success"><?php echo lang('marketplace::manage') ?></a>
+                        <a href="<?php echo url_to_pager('admin-marketplace-category-edit') ?>?id=<?php echo $category['id'] ?>" class="btn btn-sm btn-info"><?php echo lang('marketplace::edit') ?></a>
+                        <a href="<?php echo url_to_pager('admin-marketplace-category-delete') ?>?id=<?php echo $category['id'] ?>" class="btn btn-sm btn-danger admin-confirm ion-android-delete" title="<?php echo lang('marketplace::delete') ?>"></a>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

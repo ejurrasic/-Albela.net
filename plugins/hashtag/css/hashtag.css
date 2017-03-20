@@ -1,0 +1,13 @@
+#trending-wide a,
+#trending-block a
+{
+    display: block;
+    float: left;
+    width: 33%;
+    padding: 10px 0;
+    padding-top: 0;
+}
+
+#trending-block a{
+    width: 49%;
+}

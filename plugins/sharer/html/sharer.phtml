@@ -1,0 +1,138 @@
+<?php $user = find_user(get_userid()) ?>
+<?php $gender = (isset($user['gender']) and $user['gender']) ? $user['gender'] : null ?>
+<?php $gender_image =  ($gender) ? img("images/avatar/{$gender}.png") : img("images/avatar.png") ?>
+<?php $user_image = $user['avatar'] ? url_img($user['avatar'], 75) : $gender_image ?>
+<?php $user_name = trim($user['first_name'].$user['last_name']) == '' ? $user['username'] : $user['first_name'].' '.$user['last_name'] ?>
+<?php $default = user_privacy("feed-editor-privacy", 1) ?>
+<?php $privacy = (isset($privacy)) ? $privacy : $default ?>
+<?php if(isMobile()): ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><?php else: ?><!DOCTYPE html><?php endif ?>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title><?php echo get_title() ?></title>
+        <?php echo render_assets('css') ?>
+        <link rel="shortcut icon" type="image/x-icon" href="<?php echo (config('site-favicon')) ? url_img(config('site-favicon')) : img('images/favicon.ico') ?>" />
+        <link rel="stylesheet" href="<?php echo url('themes/frontend/default/css/style.css') ?>">
+        <link rel="stylesheet" href="<?php echo url('themes/frontend/default/css/bootstrap.min.css') ?>">
+        <?php if (app()->langDetails['dir'] == 'rtl' and !isMobile()): ?>
+        <link rel="stylesheet" href="<?php echo url('themes/frontend/default/css/bootstrap-rtl.css') ?>">
+        <?php endif ?>
+        <link rel="stylesheet" href="<?php echo url('themes/frontend/default/css/ionicons.min.css') ?>">
+    </head>
+    <body>
+        <div class="sharer share">
+            <form action="" method="post">
+				<?php CSRFProtection::embed() ?>
+                <div class="media post">
+                    <a class="media-left" href="<?php echo url($user['username']) ?>">
+                        <img class="media-object" data-src="<?php echo $user_image ?>" src="<?php echo $user_image ?>" alt="<?php echo $user_name ?>">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading"><?php echo $user_name ?></h4>
+                        <textarea id="feed-editor-textarea" data-height="40px" data-mention="#feed-editor-mention" class="auto-grow-input mention-input <?php echo (config('enable-feed-text-limit', false)) ? 'textarea-limit' : null?>" data-text-limit="<?php echo config('maximum-feed-text-limit', 150)?>" data-text-limit-count-target="#feed-editor-text-limit"  name="val[content]" placeholder="<?php echo lang('sharer::say-something') ?>"></textarea>
+                    </div>
+                </div>
+                <div class="link-content-container">
+                    <input type="hidden" value="<?php echo perfectSerialize($details)?>" name="val[link_details]"/>
+                    <?php if($details['type'] == 'link'): ?>
+                    <div class="link">
+                        <?php if(empty($details['image'])):?>
+                        <div class="link-desc">
+                            <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link'] ?>')"><h6 class="link-title"><?php echo sanitizeText($details['title']) ?></h6></a>
+                            <?php if($details['description']): ?>
+                            <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200)) ?></p>
+                            <?php endif ?>
+                        </div>
+                        <?php elseif($details['imageWidth'] < 150): ?>
+                        <div class="media">
+                            <div class="media-left">
+                                <a style="background-image:url(<?php echo $details['image'] ?>)" nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link'] ?>')"></a>
+                            </div>
+                            <div class="media-body">
+                                <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link'] ?>')"><h6 class="link-title"><?php echo sanitizeText($details['title']) ?></h6></a>
+                                <?php if($details['description']): ?>
+                                <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200)) ?></p>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        <?php else:?>
+                        <div class="media">
+                            <div class="image">
+                                <a style="background-image:url(<?php echo $details['image']?>)" nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"></a>
+                            </div>
+                            <div class="media-desc">
+                                <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><h6 class="link-title"><?php echo sanitizeText($details['title'])?></h6></a>
+                                <?php if($details['description']):?>
+                                <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200))?></p>
+                                <?php endif?>
+                            </div>
+                        </div>
+                        <?php endif?>
+                    </div>
+                    <?php else:?>
+                    <div class="embed">
+                        <div class="iframe" style="max-width:100% !important;overflow:hidden !important;max-height:500px;"><?php echo str_replace('width', 'w', $details['code'])?></div>
+                        <div class="desc">
+                            <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><h6 class="link-title"><?php echo sanitizeText($details['title'])?></h6></a>
+                            <?php if($details['description']):?>
+                            <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200))?></p>
+                            <?php endif?>
+                            <p class="help-block"><?php echo $details['provider-url']?></p>
+                        </div>
+                    </div>
+                    <?php endif?>
+                </div>
+                <div class="dashboard">
+                    <div class="dropup" style="display: inline-block">
+                        <?php if(!isset($offPrivacy) or (isset($offPrivacy) and !$offPrivacy)):?>
+                        <a  id="feed-editor-privacy-toggle"  href="#" class="dropdown-toggle btn btn-secondary btn-sm" data-toggle="dropdown">
+                            <?php $editorPrivacy = user_privacy("feed-editor-privacy", config('default-feed-privacy', 1));?>
+                            <?php if($editorPrivacy == 1):?>
+                            <i class="ion-earth" data-toggle="tooltip" title="<?php _lang('public')?>"></i>
+                            <?php elseif($editorPrivacy == 2):?>
+                            <i class="ion-ios-people" data-toggle="tooltip" title="<?php echo (config('relationship-method', 3) == 1) ? lang('feed::followers-only') : lang('feed::friends-only')?>"></i>
+                            <?php else:?>
+                            <i class="ion-android-lock" data-toggle="tooltip" title="<?php echo lang('feed::only-me')?>"></i>
+                            <?php endif?>
+                        </a>
+                        <ul id='feed-privacy-dropdown' class='dropdown-menu dropdown-menu-left'>
+                            <li>
+                                <a data-id="1" class="dropdown-item" href="javascript:void(0)">
+                                    <i class="ion-android-globe"></i>
+                                    <span><?php echo lang('public')?></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a data-id="2" class="dropdown-item" href="javascript:void(0)">
+                                    <i class="ion-ios-people"></i>
+                                    <span><?php echo (config('relationship-method', 3) == 1) ? lang('feed::followers-only') : lang('feed::friends-only')?></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a data-id="3" class="dropdown-item" href="javascript:void(0)">
+                                    <i class="ion-android-lock"></i>
+                                    <span><?php echo lang('feed::only-me')?></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <?php endif?>
+                    </div>
+                    <input type="hidden" name="val[privacy]" value="<?php echo $privacy ?>" id="feed-editor-privacy" />
+                    <input type="hidden" name="val[type]" value="feed" />
+                    <input type="hidden" name="val[type_id]" />
+                    <input type="hidden" name="val[type_data]" />
+                    <input type="hidden" name="val[entity_id]" value="<?php echo get_userid() ?>" />
+                    <input type="hidden" name="val[entity_type]" value="user" />
+                    <input type="hidden" name="val[to_user_id]" />
+                    <button class="btn btn-info btn-sm btn-upper"><i class="ion-android-send"></i> <?php _lang('post')?></button>
+                </div>
+            </form>
+        </div>
+        <script src="<?php echo url('themes/frontend/default/js/script.js') ?>"></script>
+        <script src="<?php echo url('themes/frontend/default/js/jquery.js') ?>"></script>
+        <script src="<?php echo url('themes/frontend/default/js/bootstrap.min.js') ?>"></script>
+        <script src="<?php echo url('plugins/feed/js/feed.js') ?>"></script>
+    </body>
+</html>

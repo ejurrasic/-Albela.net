@@ -1,0 +1,11 @@
+<div class="photo album">
+   <div>
+       <a class="image" style="background-image:url(<?php echo $album['image']?>)" ajax="true" href="<?php echo (isset($link)) ? $link : url_to_pager('photo-album-page', array('id' => $album['id']))?>">
+
+       </a>
+       <div class="info">
+           <span class="album-title"><?php echo str_limit($album['title'], 22)?></span>
+           <span class="album-photos-count pull-right"><i class="ion-camera"></i> <?php echo $album['photo-count']?></span>
+       </div>
+   </div>
+</div>

@@ -1,0 +1,83 @@
+<?php
+$refId = $blog['id'];
+$refName = 'blog';
+$user = find_user($blog['user_id'])
+?>
+<div class="box blog">
+    <div class="title">
+        <div style="width:80%"><?php echo $blog['title']?></div>
+        <div class="action">
+            <?php if(is_blog_owner($blog)): ?>
+                <a href="<?php echo url('blog/manage?type=edit&id='.$blog['id'])?>" class="btn btn-secondary btn-sm"><?php _lang('blog::edit-blog')?></a>
+            <?php elseif(is_loggedIn() and plugin_loaded('report')): ?>
+                <a data-type="group" data-link="<?php echo url_to_pager('blog-page', array('slugs' => $blog['slug'])) ?>" class="report-btn btn btn-secondary" href=""><i class="ion-flag"></i></a>
+            <?php endif ?>
+        </div>
+    </div>
+    <div class="box-content post">
+        <?php if($blog['image']):?>
+            <div class="blog-large-image">
+                <img src="<?php echo url_img($blog['image'], 700)?>"/>
+            </div>
+        <?php endif?>
+        <?php echo $blog['content']?>
+
+    </div>
+
+    <div class="feed-footer">
+        <ul class=" feed-footer-menu clearfix">
+            <?php if(plugin_loaded('like')):?>
+                <?php load_functions('like::like');?>
+                <li><a  onclick="return like_item('<?php echo $refName?>', '<?php echo $refId?>')" data-status="<?php echo (has_liked($refName, $refId)) ? '1'  : 0?>" class=" like-button-<?php echo $refName?>-<?php echo $refId?> like-button <?php echo (has_liked($refName, $refId)) ? 'liked'  : null?>" href=""> <i class="ion-thumbsup"></i> <?php echo lang('like::like')?></a> </li>
+                <?php if (config('enable-dislike', false)):?>
+                    <li><a id="" onclick="return dislike_item('<?php echo $refName?>', '<?php echo $refId?>')" data-status="<?php echo (has_disliked($refName, $refId)) ? '1'  : 0?>" class="dislike-button-<?php echo $refName?>-<?php echo $refId?> like-button <?php echo (has_disliked($refName, $refId)) ? 'disliked'  : null?>" href=""> <i class="ion-thumbsdown"></i> <?php echo lang('like::dislike')?></a> </li>
+                <?php endif?>
+            <?php endif?>
+            <li class="blog-social-share"><?php if(plugin_loaded('sharer')) echo view('sharer::share_link', array('link' => url("blog/".$blog['slug']))) ?></li>
+            <li class="pull-right">
+                <ul class="feed-statistics">
+                    <?php if(plugin_loaded('like')):?>
+                        <li><a onclick="return show_likes('<?php echo $refName?>', '<?php echo $refId?>')" href=""> <i class="ion-thumbsup"></i> <span class="like-count-<?php echo $refName?>-<?php echo $refId?>"><?php echo count_likes($refName, $refId)?></span></a></li>
+                        <?php if (config('enable-dislike', false)):?>
+                            <li><a onclick="return show_dislikes('<?php echo $refName?>', '<?php echo $refId?>')" href=""> <i class="ion-thumbsdown"></i> <span class="dislike-count-<?php echo $refName?>-<?php echo $refId?>"><?php echo count_dislikes($refName, $refId)?></span></a></li>
+                        <?php endif?>
+
+                    <?php endif?>
+
+                    <?php if(plugin_loaded('comment')):?>
+                        <?php load_functions('comment::comment')?>
+                        <?php $countComments = count_comments($refName, $refId);?>
+                        <li> <i class="ion-chatbubbles"></i> <span class="comment-count-<?php echo $refName?>-<?php echo $refId?>"><?php echo ($countComments) ? $countComments : null?></span></li>
+                    <?php endif?>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+
+<div class="box">
+    <div class="box-content feed-footer">
+        <?php if(plugin_loaded('comment')):?>
+            <div class="feed-comment-container">
+
+                <?php if($countComments > config('feed-comment-limit', 3)):?>
+                    <a id="comment-view-more-button-<?php echo $refName?>-<?php echo $refId?>" class="comment-view-more-button comment-view-more-button-<?php echo $refName?>-<?php echo $refId?>" onclick="return show_more_comment('<?php echo $refName?>', '<?php echo $refId?>', 'comment-view-more-indicator-<?php echo $refId?>')"  href=""><?php _lang('view-previous-comments')?></a>
+                    <img class="comment-view-more-indicator" id="comment-view-more-indicator-<?php echo $refId?>" src="<?php echo img('images/loading.gif')?>" />
+                <?php endif?>
+                <div data-offset="<?php echo config('feed-comment-limit', 3)?>" data-limit="<?php echo config('feed-comment-limit', 3)?>" class="comment-lists comment-lists-<?php echo $refName?>-<?php echo $refId?>" id="">
+                    <?php foreach(get_comments($refName, $refId, config('feed-comment-limit', 3), 0) as $comment):?>
+                        <?php echo view('comment::display', array('comment' => $comment))?>
+                    <?php endforeach;?>
+                </div>
+                <?php echo view('comment::editor', array(
+                    'typeId' => $blog['id'],
+                    'type' => 'blog',
+                    'textLimit' => (config('enable-feed-text-limit', false)) ? config('maximum-feed-text-limit', 150) : false))?>
+
+            </div>
+        <?php endif?>
+    </div>
+</div>

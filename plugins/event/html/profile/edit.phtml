@@ -1,0 +1,142 @@
+<div class="box">
+    <div class="box-content" style="padding: 20px 10%">
+        <?php if($message):?>
+            <div class="alert alert-danger"><?php echo $message?></div>
+        <?php endif?>
+        <form action="" method="post" enctype="multipart/form-data">
+            <?php CSRFProtection::embed()?>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('event::event-category')?></label>
+                <div class="col-sm-8">
+                    <select name="val[category]" class="c-select">
+                        <?php foreach(get_event_categories() as $category):?>
+                            <option <?php echo ($app->profileEvent['category_id'] == $category['id']) ? 'selected' : null?> value="<?php echo $category['id']?>"><?php _lang($category['title'])?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('event::event-title')?></label>
+                <div class="col-sm-8">
+                    <input value="<?php echo $app->profileEvent['event_title']?>" type="text" name="val[title]" class="form-control"/>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('event::description')?></label>
+                <div class="col-sm-8">
+                    <textarea name="val[description]" class="form-control auto-grow-input" data-height="55px"><?php echo $app->profileEvent['event_desc']?></textarea>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('event::location')?></label>
+                <div class="col-sm-8">
+                    <input value="<?php echo $app->profileEvent['location']?>" type="text" name="val[location]" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('event::address')?></label>
+                <div class="col-sm-8">
+                    <textarea name="val[address]" class="form-control auto-grow-input" data-height="55px"><?php echo $app->profileEvent['address']?></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('event::start-time')?></label>
+                <div class="col-sm-8">
+                    <select  name="val[start_day]">
+                        <option value=""><?php _lang('day')?></option>
+                        <?php for($i=1;$i<=31;$i++):?>
+                            <option <?php echo (get_event_date($app->profileEvent, 'day', 'j') == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $i?></option>
+                        <?php endfor?>
+                    </select>
+                    <select  name="val[start_month]">
+                        <option value=""><?php _lang('month')?></option>
+                        <?php $i=1;foreach(config('months') as $name => $month):?>
+                            <option <?php echo (get_event_date($app->profileEvent, 'month', 'n') == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $month?></option>
+                        <?php $i++; endforeach?>
+                    </select>
+                    <select name="val[start_year]">
+                        <option value=""><?php _lang('year')?></option>
+                        <?php for($i=date('Y');$i <= date('Y') + 5; $i++  ):?>
+                            <option <?php echo (get_event_date($app->profileEvent, 'year', 'Y') == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $i?></option>
+                        <?php endfor?>
+                    </select>
+
+                    <select  name="val[start_hour]">
+                        <option value="00">00</option>
+                        <?php for($i=1;$i<=12;$i++):?>
+                            <option <?php echo (get_event_date($app->profileEvent, 'hour', 'g') == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $i?></option>
+                        <?php endfor?>
+                    </select>
+
+                    <select  name="val[start_minute]">
+                        <option value="00">00</option>
+                        <?php for($i=1;$i<=60;$i++):?>
+                            <option <?php echo (get_event_date($app->profileEvent, 'minute', 'i') == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $i?></option>
+                        <?php endfor?>
+                    </select>
+
+                    <select name="val[start_time_type]">
+                        <option <?php echo ($app->profileEvent['start_time_type'] == 'am') ? 'selected' : null?> value="am"><?php _lang('event::time-am')?></option>
+                        <option <?php echo ($app->profileEvent['start_time_type'] == 'pm') ? 'selected' : null?> value="pm"><?php _lang('event::time-pm')?></option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('event::end-time')?></label>
+                <div class="col-sm-8">
+                    <select  name="val[end_day]">
+                        <option value=""><?php _lang('day')?></option>
+                        <?php for($i=1;$i<=31;$i++):?>
+                            <option <?php echo (get_event_date($app->profileEvent, 'day', 'j', false) == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $i?></option>
+                        <?php endfor?>
+                    </select>
+                    <select  name="val[end_month]">
+                        <option value=""><?php _lang('month')?></option>
+                        <?php $i=1;foreach(config('months') as $name => $month):?>
+                            <option <?php echo (get_event_date($app->profileEvent, 'month', 'n', false) == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $month?></option>
+                        <?php $i++; endforeach?>
+                    </select>
+                    <select name="val[end_year]">
+                        <option value=""><?php _lang('year')?></option>
+                        <?php for($i=date('Y');$i <= date('Y') + 5; $i++  ):?>
+                            <option <?php echo (get_event_date($app->profileEvent, 'year', 'Y', false) == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $i?></option>
+                        <?php endfor?>
+                    </select>
+
+                    <select  name="val[end_hour]">
+                        <option value="00">00</option>
+                        <?php for($i=1;$i<=12;$i++):?>
+                            <option <?php echo (get_event_date($app->profileEvent, 'hour', 'g', false) == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $i?></option>
+                        <?php endfor?>
+                    </select>
+
+                    <select  name="val[end_minute]">
+                        <option value="00">00</option>
+                        <?php for($i=1;$i<=60;$i++):?>
+                            <option <?php echo (get_event_date($app->profileEvent, 'minute', 'i', false) == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $i?></option>
+                        <?php endfor?>
+                    </select>
+
+                    <select name="val[end_time_type]">
+                        <option <?php echo ($app->profileEvent['end_time_type'] == 'am') ? 'selected' : null?> value="am"><?php _lang('event::time-am')?></option>
+                        <option <?php echo ($app->profileEvent['end_time_type'] == 'pm') ? 'selected' : null?> value="pm"><?php _lang('event::time-pm')?></option>
+
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-info"><?php _lang('event::save-event')?></button>
+
+            <a href="javascript::void(0)" onclick="return confirm.url('<?php echo url_to_pager('event-delete', array('id' => $app->profileEvent['event_id']))?>')" class="btn btn-danger pull-right"><?php _lang('delete')?></a>
+        </form>
+    </div>
+</div>

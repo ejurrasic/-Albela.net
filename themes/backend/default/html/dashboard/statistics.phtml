@@ -1,0 +1,79 @@
+<div class="wrapper">
+    <div class="wrapper-title" style="position: relative">
+        <?php _lang('admin-dashboard')?>
+        <span><?php _lang('admin-dashboard-desc')?></span>
+        <span style="position: absolute;top: 20px;right: 20px;font-weight: bold;font-size: 30px;color: green"><?php _lang('current-version')?> - <?php echo $app->version?></span>
+    </div>
+    <div class="wrapper-content">
+
+
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="statistics-container clearfix">
+                    <?php foreach($statistics as $stat):?>
+                        <?php
+                        $colors = array('cabaret','seance','wisteria','royal-blue','spray','madison','chambray','malibu','steel-blue','jelly-bean','downy','.saffron','crusta','lynch','edward');
+                        $key = array_rand($colors, 1);
+                        $color = $colors[$key];
+                        ?>
+                        <a href="<?php echo $stat['link']?>"><div class="stats <?php echo $color?>">
+                                <div class="content clearfix">
+                                    <div class="left pull-left">
+                                        <span class="count"><?php echo $stat['count']?></span>
+                                        <?php echo $stat['title']?>
+                                    </div>
+                                    <div class="right pull-right">
+                                        <div><i class="<?php echo $stat['icon']?>"></i></div>
+                                    </div>
+                                </div>
+
+                            </div></a>
+                    <?php endforeach?>
+
+
+                </div>
+
+                <div class="box">
+                    <?php
+                        $year = input('year', date('Y'));
+
+                    ?>
+                    <div class="title"><?php echo $year?> - <?php _lang('statistics')?>
+                        <span class="pull-right action">
+                            <select id="admincp-statistics-input" onchange="reload_statistics(this)" data-link="<?php echo url_to_pager('admin-statistic')?>" data-year="<?php echo $year?>" class="c-select">
+                                <?php for($i=2013;$i <= date('Y');$i++):?>
+                                    <option <?php echo ($year == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $i?></option>
+                                <?php endfor?>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="box-content">
+                        <div id="charts-stats">
+                            <img style="width: 30px;margin: 10% auto;display: block" src="<?php echo img('images/loading.gif')?>"/>
+                        </div>
+                    </div>
+                </div>
+
+                <?php echo theme_extend('admincp.dashboard.left')?>
+            </div>
+            <div class="col-sm-4">
+                <div class="box">
+                    <div class="title"><?php _lang('quick-links')?></div>
+                    <div class="">
+                        <ul class="nav">
+                            <?php foreach(get_menus('admincp-quick-link') as $menu):?>
+                                <li><a href="<?php echo $menu->link?>"><?php echo $menu->title?> <i class="pull-right ion-chevron-right"></i></a> </li>
+                            <?php endforeach?>
+                        </ul>
+                    </div>
+                </div>
+
+                
+
+
+
+                <?php echo theme_extend('admincp.dashboard.left')?>
+            </div>
+        </div>
+    </div>
+</div>

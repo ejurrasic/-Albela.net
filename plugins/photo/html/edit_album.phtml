@@ -1,0 +1,40 @@
+<div class="box">
+    <div class="global-filter-container" data-url="">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3><?php _lang('photo::edit-album')?></h3>
+            </div>
+        </div>
+    </div>
+    <div class="box-content" style="padding: 20px 10%">
+        <form action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <input type="hidden" name="val[entity_type]" value="<?php echo input('type', 'user')?>"/>
+            <input type="hidden" name="val[entity_id]" value="<?php echo input('id', get_userid())?>"/>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('photo::album-title')?></label>
+                <div class="col-sm-8">
+                    <input type="text" name="val[name]" class="form-control" placeholder="<?php _lang('photo::album-title')?>" value="<?php echo input('val.name') ? input('val.name') : $album['title']; ?>" required />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('photo::album-description')?></label>
+                <div class="col-sm-8">
+                    <textarea name="val[description]" data-height="100px" style="height: 100px" class="form-control auto-grow-input" placeholder="<?php _lang('photo::album-description')?>"><?php echo input('val.description') ? input('val.description') : $album['description']; ?></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('photo::album-privacy')?></label>
+                <div class="col-sm-8">
+                    <?php $default = input('val.privacy') ? input('val.privacy') : $album['privacy']; ?>
+                    <select name="val[privacy]" class="c-select">
+                        <option <?php echo ($default == 1) ? 'selected' : null ?> value="1"><?php _lang('public')?></option>
+                        <option <?php echo ($default == 2) ? 'selected' : null ?> value="2"><?php echo (config('relationship-method', 3) == 1) ? lang('feed::followers-only') : lang('feed::friends-only')?></option>
+                        <option <?php echo ($default == 3) ? 'selected' : null ?> value="3"><?php echo lang('feed::only-me')?></option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit" name="addAlbum"><?php _lang('photo::save-album')?></button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="" style="padding: 10px">
+    <?php foreach($games->results() as $game):?>
+        <div class="media media-sm">
+            <div class="media-left">
+                <div class="media-object"><a href="<?php echo game_url(null, $game)?>" ajax="true"><img src="<?php echo get_game_logo(75, $game)?>"/></a> </div>
+            </div>
+            <div class="media-body">
+                <h6><a href="<?php echo game_url(null, $game)?>" ajax="true"><?php echo $game['game_title']?></a> </h6>
+                <p class="help-block"><i class="ion-ios-game-controller-b"></i> <?php _lang('game::game')?></p>
+            </div>
+        </div>
+    <?php endforeach?>
+</div>

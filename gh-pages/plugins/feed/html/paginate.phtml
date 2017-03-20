@@ -1,0 +1,3 @@
+<?php $i = 0; foreach($feeds as $feed):fire_hook('feed.lists.inline', null, array($i));$i++?>
+    <?php echo view('feed::feed', array('feed' => $feed))?>
+<?php endforeach?>

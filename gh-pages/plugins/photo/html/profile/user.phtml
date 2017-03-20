@@ -1,0 +1,11 @@
+<div id="photos-list" class="photos-list box-content clearfix" style="padding: 10px" data-type="user-<?php echo $type?>" data-id="<?php echo $app->profileUser['id']?>" data-offset="0">
+    <?php foreach($photos as $photo):?>
+        <?php echo view('photo::display-photo', array('id' => $photo['id'], 'image' => $photo['path']))?>
+    <?php endforeach?>
+</div>
+
+
+<a id="photos-list-indicator" href="" onclick="return paginate_album_photos()" class="title" style="display: block;text-align: center">
+    <?php _lang('view-more')?>
+    <img src="<?php echo img('images/loading.gif')?>" style="width: 10px;display: none"/>
+</a>

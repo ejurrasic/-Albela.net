@@ -1,0 +1,68 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('manage-members')?>
+        <span><?php _lang('manage-members-desc')?></span>
+    </div>
+    <div class="wrapper-content">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a href="<?php echo url_to_pager('admin-members-list')?>" class="nav-link <?php echo ($filter == 'active') ? 'active' : null?>"><?php _lang('active-members')?></a>
+            </li>
+            <li class="nav-item">
+                <a href="<?php echo url_to_pager('admin-members-list')?>?filter=non-active" class="nav-link <?php echo ($filter == 'non-active') ? 'active' : null?>"><?php _lang('non-active')?></a>
+            </li>
+            <li class="nav-item">
+                <a href="<?php echo url_to_pager('admin-members-list')?>?filter=banned" class="nav-link <?php echo ($filter == 'banned') ? 'active' : null?>"><?php _lang('banned')?></a>
+            </li>
+            <li class="nav-item disabled">
+                <a href="<?php echo url_to_pager('admin-members-list')?>?filter=verified" class="nav-link <?php echo ($filter == 'verified') ? 'active' : null?>"><?php _lang('verified')?></a>
+            </li>
+
+            <li class="nav-item disabled">
+                <a href="<?php echo url_to_pager('admin-members-list')?>?filter=online" class="nav-link <?php echo ($filter == 'online') ? 'active' : null?>"><?php _lang('online-members')?></a>
+            </li>
+        </ul>
+
+        <form action="" method="get" style="margin: 20px 0">
+			<?php CSRFProtection::embed() ?>
+            <input type="text" class="form-control" name="term" placeholder="<?php _lang('search')?>"/>
+            <input type="hidden" name="filter" value="<?php echo $filter?>"/>
+            <button class="btn btn-sm btn-secondary" style="margin-top: 10px"><?php echo lang('search')?></button>
+        </form>
+
+        <table class="table table-bordered" style="margin-top: 20px">
+            <thead>
+                <tr>
+                    <th style="width: 5%"><?php _lang('avatar')?></th>
+                    <th style="width: 15%"><?php _lang('name')?></th>
+                    <th style="width: 15%"><?php _lang('username')?></th>
+                    <th style="width: 15%"><?php _lang('country')?></th>
+                    <th style="width: 10%">IP Address</th>
+                    <th style="width: 15%"><?php _lang('email-address')?></th>
+                    <th style="width: 15%"><?php _lang('last-seen')?></th>
+                    <th style="width: 20%"><?php _lang('actions')?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($users->results() as $user):?>
+                    <tr>
+                        <td><a href="<?php echo profile_url(null, $user)?>"><img src="<?php echo get_avatar(75, $user)?>" style="width: 30px;height: 30px"/></a> </td>
+                        <td><a href="<?php echo profile_url(null, $user)?>"><?php echo get_user_name($user)?></a></td>
+                        <td><a href="<?php echo profile_url(null, $user)?>"><?php echo $user['username']?></a> </td>
+                        <td><?php echo $user['country']?></td>
+                        <td><?php echo $user['ip_address']?></td>
+                        <td><?php echo ucwords($user['email_address'])?></td>
+                        <td><?php echo date('l jS \of F Y h:i:s A', $user['online_time'])?></td>
+                        <td>
+							<?php echo fire_hook('admin.user.manager.members.actions.buttons.extend', null, array('', $user['id'])); ?>
+                            <a class="btn btn-sm btn-success" href="<?php echo url_to_pager('admin-user-action')?>?type=edit&id=<?php echo $user['id']?>"> <i class="ion-edit"></i></a>
+                            <a  href="<?php echo url_to_pager('admin-user-action')?>?type=delete&id=<?php echo $user['id']?>" class="admin-confirm btn btn-sm btn-danger"> <i class="ion-android-delete"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+
+        <?php echo $users->links();?>
+    </div>
+</div>

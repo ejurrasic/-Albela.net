@@ -1,0 +1,24 @@
+<div class="box">
+    <div class="title photos-profile-title">
+        <i class="ion-images"></i> <?php _lang('photo::photos')?>
+        <?php if(is_profile_owner()):?>
+            <div class="action">
+                <div class="btn-group">
+                    <a ajax="true" class="btn btn-secondary btn-sm" href="<?php echo profile_url('photos/album/create', $app->profileUser)?>"><i class="ion-android-add"></i> <?php _lang('photo::create-new-album')?></a>
+                </div>
+            </div>
+        <?php endif?>
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a ajax="true" href="<?php echo profile_url('photos', $app->profileUser)?>" class="nav-link <?php echo ($type == 'all') ? 'active' : null?>"><?php echo get_first_name($app->profileUser)?>'s <?php _lang('photo::photos')?></a>
+            </li>
+            <li class="nav-item">
+                <a ajax="true" href="<?php echo profile_url('photos/albums', $app->profileUser)?>" class="nav-link <?php echo ($type == 'albums') ? 'active' : null?>"><?php _lang('photo::albums')?></a>
+            </li>
+
+        </ul>
+    </div>
+    <?php echo $content?>
+    <div id="request-uri" data-request-uri="<?php echo $_SERVER['REQUEST_URI'] ?>" style=""display="none"></div>
+</div>

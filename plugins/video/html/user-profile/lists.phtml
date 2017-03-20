@@ -1,0 +1,66 @@
+<div class="box">
+
+    <div class="global-filter-container" data-url="<?php echo profile_url('videos', $app->profileUser)?>">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3><?php _lang('video::videos')?></h3>
+            </div>
+            <div class="col-sm-6">
+                <form id="video-list-search" method="post" onsubmit=" return run_global_filter()" action="" class="form-inline pull-right">
+					<?php CSRFProtection::embed() ?>
+                    <input type="hidden" class="video-type-input filter-input" data-name="type" value="user-profile"/>
+                    <input value="<?php echo input('term')?>" type="text" class="form-control filter-input" data-name="term" placeholder="<?php _lang('video::search-videos')?>"/>
+                    <button class="btn btn-info"><i class="ion-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="  filter-pane">
+            <select id="video-category-list" onchange="return run_global_filter()" data-name="category" class="c-select filter-input" >
+                <option <?php echo (input('category', 'all') == 'all') ? 'selected'  : null?>  value="all"><?php _lang('video::all-categories')?></option>
+                <?php foreach(get_video_categories() as $category):?>
+                    <?php $subCategories = get_video_parent_categories($category['id'])?>
+                    <?php if($subCategories):?>
+                        <optgroup label="<?php _lang($category['title'])?>">
+                            <?php foreach($subCategories as $cat):?>
+                                <option <?php echo (input('category', 'all') == $cat['id']) ? 'selected'  : null?> value="<?php echo $cat['id']?>"><?php _lang($cat['title'])?></option>
+                            <?php endforeach?>
+                        </optgroup>
+                    <?php else:?>
+                        <option <?php echo (input('category', 'all') == $category['id']) ? 'selected'  : null?> value="<?php echo $category['id']?>"><?php _lang($category['title'])?></option>
+                    <?php endif?>
+                <?php endforeach?>
+            </select>
+
+            <select id="video-filter-select" onchange="return run_global_filter()" data-name="filter" class="c-select filter-input">
+                <option value="all"><?php _lang('all')?></option>
+                <option <?php echo (input('filter') == 'top') ? 'selected' : null?> value="top"><?php _lang('video::top')?></option>
+                <option <?php echo (input('filter') == 'featured') ? 'selected' : null?> value="featured"><?php _lang('video::featured')?></option>
+            </select>
+            <div class="list-layout-type">
+                <a href="" onclick="return change_listing_layout('#videos-list-container', 'list')"><i class="ion-ios-list-outline"></i></a>
+                <a href="" onclick="return change_listing_layout('#videos-list-container', 'grid')"><i class="ion-android-apps"></i></a>
+            </div>
+        </div>
+    </div>
+    <div id="videos-list-container" class="box-content clearfix <?php echo (config('default-video-list-type', 'list') != 'list') ? 'list-listing-container' : 'grid-listing-container'?>">
+        <?php foreach($videos->results() as $video):?>
+            <?php echo view('video::video', array('video' => $video))?>
+        <?php endforeach?>
+
+
+    </div>
+
+    <?php if($videos->total):?>
+        <div class="box-content">
+            <?php echo $videos->append(array(
+                'category' => input('category'),
+                'term' => input('term'),
+                'type' => 'user-profile'
+            ))->links();?>
+        </div>
+    <?php else:?>
+        <div class="box-content">
+            <div class="alert alert-info"><?php _lang('video::no-videos-found-here')?></div>
+        </div>
+    <?php endif?>
+</div>

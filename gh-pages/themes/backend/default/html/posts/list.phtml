@@ -1,0 +1,36 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang("manage-posts")?> </div>
+    <div class="wrapper-content">
+
+        <table class="table striped bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th><?php _lang('publisher')?></th>
+                <th><?php _lang('time')?></th>
+                <th><?php _lang('action')?></th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php foreach($feeds->results() as $feed):$feed = get_arranged_feed($feed)?>
+                    <?php if($feed):?>
+                        <tr>
+                            <td><?php echo $feed['feed_id']?></td>
+                            <td>
+                                <img src="<?php echo $feed['publisher']['avatar']?>" width="20" height="20"/>
+                                <a href="<?php echo $feed['publisher']['url']?>"><?php echo $feed['publisher']['name']?></a>
+                            </td>
+                            <td><?php echo date('d F Y g:i', $feed['time'])?></td>
+                            <td>
+                                <a href="<?php echo url('feed/'.$feed['feed_id'])?>" class="btn btn-info btn-sm"><?php _lang('view')?></a>
+                                <a href="<?php echo url('feed/delete?id='.$feed['feed_id'].'&csrf_token='.CSRFProtection::getToken())?>"  class="btn btn-danger btn-sm"><i class="ion-android-delete"></i></a>
+                            </td>
+                        </tr>
+                    <?php endif?>
+                <?php endforeach?>
+            </tbody>
+        </table>
+
+        <?php echo $feeds->links()?>
+    </div>
+</div>

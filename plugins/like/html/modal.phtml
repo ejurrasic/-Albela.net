@@ -1,0 +1,18 @@
+<div id="likesModal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLikesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only"><?php _lang('close')?></span>
+                </button>
+                <h5 class="modal-title" data-dislike="<?php _lang('like::people-who-dislikes')?>" data-like="<?php _lang('like::people-who-likes')?>"><?php _lang('like::people-who-likes')?></h5>
+            </div>
+            <div class="modal-body">
+                <div class="indicator"><img src="<?php echo img('images/loading.gif')?>"/></div>
+                <div class="user-lists">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

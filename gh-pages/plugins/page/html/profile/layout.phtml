@@ -1,0 +1,123 @@
+<?php echo view('layouts/menu')?>
+
+<div class="container">
+    <div data-width="950" class="profile-container" id="page-profile-container" data-id="<?php echo get_page_details('page_id')?>">
+        <?php if(config('design-profile', true) and is_page_admin($app->profilePage)):?>
+            <?php echo view('design/pane', array('default' => get_user_design_details($app->profilePage),'type' => 'page', 'typeId' => $app->profilePage['page_id']))?>
+        <?php endif?>
+        <div id="profile-cover" class="box">
+            <?php if(config('design-profile', true) and is_page_admin($app->profilePage)):?>
+                <a onclick="return open_designer()" href="" data-toggle="tooltip" title="<?php _lang('design-your-page')?>" class="btn btn-secondary btn-sm design-button"><i class="ion-paintbucket"></i></a>
+            <?php endif?>
+            <div class="profile-cover-indicator">
+                <img src="<?php echo img('images/loading.gif')?>"/>
+            </div>
+            <a href="javascript::void(0)" id="profile-cover-viewer" data-id="<?php echo ($app->profilePage['page_cover'])? get_media_id($app->profilePage['page_cover']) : null?>" data-image="<?php echo get_page_cover(app()->profilePage)?>" class="<?php echo ($app->profilePage['page_cover'])? 'photo-viewer' : null?>">
+                <div class="profile-cover-wrapper">
+                    <img src="<?php echo get_page_cover(app()->profilePage, false)?>"/>
+                </div>
+            </a>
+
+            <?php if(is_page_admin($app->profilePage) or is_page_editor($app->profilePage)):?>
+
+                <div class="profile-resize-cover-wrapper">
+                    <div class="drag-info"><?php _lang('drag-to-position-cover')?></div>
+                    <img src="<?php echo get_page_cover(app()->profilePage)?>"/>
+                </div>
+                <form id="profile-cover-change-form" enctype="multipart/form-data" method="post">
+					<?php CSRFProtection::embed() ?>
+                    <span class="file-input"><input accept="image/*" multiple onchange="return upload_page_profile_cover()" type="file" id="user-profile-cover-input" name="image"/> </span>
+                    <button   class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown"><i class="ion-camera"></i> <?php _lang('change-cover')?></button>
+                    <ul style="width: 240px" class="dropdown-menu dropdown-menu-right" id="profile-cover-dropdown-menu">
+                        <li><a class="dropdown-item" onclick="return file_chooser('#user-profile-cover-input')" href=""><?php _lang('upload-photo')?>...</a> </li>
+                        <li class="hide-in-mobile"><a class="dropdown-item" onclick="return reposition_user_profile_cover()" href=""><?php _lang('reposition')?>...</a> </li>
+                        <li><a class="dropdown-item" onclick="return remove_page_profile_cover('<?php echo img("images/cover.jpg")?>')" href=""><?php _lang('remove')?>...</a> </li>
+                    </ul>
+                </form>
+                <div class="profile-cover-reposition-button">
+                    <input type="hidden" id="profile-cover-resized-top" value="0"/>
+                    <a onclick="return cancel_profile_cover_position()" class="btn-danger-outline btn btn-sm" href="#!"><?php _lang('cancel')?></a>
+                    <a onclick="return save_page_profile_cover()" class="btn btn-success btn-upper btn-sm" href=""><?php _lang('save')?></a>
+                </div>
+            <?php endif?>
+            <div class="user-avatar box">
+                <?php if(is_page_admin($app->profilePage)):?>
+                    <form data-id="<?php echo $app->profilePage['page_id']?>" id="page-profile-image-form" action="" method="post" enctype="multipart/form-data">
+						<?php CSRFProtection::embed() ?>
+                        <span class="file-input"><input accept="image/*" multiple onchange="upload_page_logo()" type="file" id="page-avatar-input" name="logo"/> </span>
+                        <a class="profile-image-selector" id="profile-image-selector" href="" onclick="return file_chooser('#page-avatar-input')"><i class="ion-ios-camera"></i> <span></span></a>
+                    </form>
+                <?php endif?>
+                <div class="profile-image-indicator">
+                    <img src="<?php echo img("images/loading.gif")?>"/>
+                    <span class="percent-indicator">0%</span>
+                </div>
+
+                <a id="profile-image-viewer" style="display: block" href="javascript::void(0)" data-id="<?php echo ($app->profilePage['page_logo'])? get_media_id($app->profilePage['page_logo']) : null?>" data-image="<?php echo get_page_logo(920, app()->profilePage)?>" class="<?php echo ($app->profilePage['page_logo'])? 'photo-viewer' : null?>">
+                    <img class="profile-image"  src="<?php echo get_page_logo(200, app()->profilePage)?>"/>
+                </a>
+
+            </div>
+            <div class="user-info">
+                <h4 class="user-name left"><?php echo get_page_details('page_title')?> <?php echo verify_badge($app->profilePage)?></h4>
+            </div>
+
+            <nav id="profile-menu" class="">
+                <div class="navbar navbar-light">
+                    <ul id="menu" class="nav navbar-nav">
+                    <?php foreach(get_menus("page-profile") as $menu):?>
+                        <li class="<?php echo ($menu->isActive() == 1) ? 'active' : null?>"><a ajax="true" href="<?php echo $menu->link?>"><?php echo $menu->title?></a></li>
+                    <?php endforeach?>
+                    <?php $page_profile_more = get_menus("page-profile-more") ?>
+                    <?php if(!empty($page_profile_more)): ?>
+                    <li class="dropdown">
+                        <a  href="#" class="dropdown-toggle" data-toggle="dropdown" > <i class="ion-ios-more"></i></a>
+                        <ul style="width: 200px;" id="profile-more-menu" class="dropdown-menu dropdown-menu-right">
+                            <?php foreach($page_profile_more as $menu):?>
+                                <li ><a class="dropdown-item" href="<?php echo $menu->link?>"><?php echo $menu->title?></a></li>
+                            <?php endforeach?>
+                        </ul>
+                    </li>
+                    <?php endif ?>
+                    </ul>
+
+                </div>
+            </nav>
+        </div>
+
+        <div class="profile-actions">
+            <span class="page-social-share"><?php if(plugin_loaded('sharer')) echo view('sharer::share_link', array('link' => url($app->profilePage['page_url']))) ?></span>
+            <?php if(is_loggedIn()):?>
+                <?php if(plugin_loaded('like')):?>
+                    <?php load_functions('like::like');?>
+                    <a  onclick="return like_item('page', '<?php echo $app->profilePage['page_id']?>')" data-status="<?php echo (has_liked('page', $app->profilePage['page_id'])) ? '1'  : 0?>" class="btn btn-secondary like-button-page-<?php echo $app->profilePage['page_id']?> like-button <?php echo (has_liked('page', $app->profilePage['page_id'])) ? 'liked'  : null?>" href=""> <i class="ion-thumbsup"></i> <?php echo lang('like::like')?></a>
+
+                <?php endif?>
+                <?php if(is_page_admin($app->profilePage) or is_page_editor($app->profilePage)):?>
+                    <a ajax="true" href="<?php echo url_to_pager('page-manage', array('id' => get_page_details('page_id')))?>" class="btn btn-secondary "><i class="ion-edit"></i> <?php _lang('edit')?></a>
+                <?php endif?>
+            <?php endif?>
+
+            <?php if(is_loggedIn() and plugin_loaded('report')):?>
+                <a  data-type="page" data-link="<?php echo page_url(null, $app->profilePage)?>" class="report-btn btn btn-secondary " href=""><i class="ion-flag"></i></a>
+            <?php endif?>
+
+            <?php if(is_loggedIn()):?>
+                <span class="dropdown">
+                        <a  href="" class="dropdown-toggle btn btn-secondary" data-toggle="dropdown" style=""><i class="ion-android-more-vertical"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a onclick="return process_user_save(this, 'page', '<?php echo $app->profilePage['page_id']?>')" href="" class="dropdown-item user-save" data-status="<?php echo (user_saved('page', $app->profilePage['page_id'])) ? 1 : 0?>">
+                                    <i class="ion-android-bookmark"></i>
+                                    <span><?php echo (user_saved('page', $app->profilePage['page_id'])) ? lang('unsave-post') : lang('save-post')?></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </span>
+
+            <?php endif?>
+        </div>
+    </div>
+
+</div>
+<?php echo $content?>

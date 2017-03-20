@@ -1,0 +1,14 @@
+<?php $filter = array(); $page = 1;  $latest_members = people_get_users($filter, $limit); ?>
+<?php if(count($latest_members->results()) > 0): ?>
+<div class="people box users-box">
+    <div class="title"><?php _lang('people::latest-members')?> <a ajax="true" href="<?php echo url_to_pager('people')?>" class="more-link pull-right"><i class="ion-ios-arrow-forward"></i></a></div>
+    <div class="clearfix">
+        <?php foreach($latest_members->results() as $user): ?>
+            <?php $gender = (isset($user['gender']) and $user['gender']) ? $user['gender'] : null ?>
+            <?php $gender_image =  ($gender) ? img("images/avatar/{$gender}.png") : img("images/avatar.png") ?>
+            <?php $user_image = $user['avatar'] ? url_img($user['avatar'], 200) : $gender_image ?>
+            <a href="<?php echo url($user['username'])?>" ajax="true" class="user" style="background-image: url(<?php echo $user_image ?>)"><h6 class="name"><?php echo $user['username'] ?></h6></a>
+        <?php endforeach ?>
+    </div>
+</div>
+<?php endif ?>

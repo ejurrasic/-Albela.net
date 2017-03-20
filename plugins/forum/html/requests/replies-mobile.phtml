@@ -1,0 +1,46 @@
+            <?php foreach($replies->results() as $reply): ?>
+			<div id="forum-reply-wrapper-<?php echo $reply['id'] ?>" class="forum-replies-wrapper forum-reply-wrapper-sup">
+				<div class="forum-reply-wrapper" style="margin: 12px 0px; background-color:#FFFFFF; padding: 12px; border-radius: 4px;">
+					<div class="forum-replier-info forum-replier-info-sup">
+						<a href="<?php echo getBase().forum_get_user_column($reply['replier_id'], 'username') ?>" ajax="true">
+							<img src="<?php echo forum_get_avatar($reply['replier_id'], 75) ?>" class="forum-avatar-thumb forum-avatar-thumb-sup" />
+							<br /><span><?php echo forum_get_user_column($reply['replier_id'], 'username') ?></span>
+						</a>
+					</div>
+					<div class="forum-post forum-post-sub"><?php echo forum_output_text($reply['post']) ?></div>
+					<div class="reply-date"><?php echo date('d/m/Y H:i:s', strtotime($reply['date'])) ?></div>
+					<div id="forum-sub-replies-<?php echo $reply['id'] ?>" class="forum-replies-wrapper">
+					<?php $srp = $reply['id'] == $sr ? $p : 1 ?>
+					<?php echo view('forum::requests/sub_replies', array('thread_id' => $reply['thread_id'], 'reply_id' => $reply['id'], 'sub_replies' => forum_get_sub_replies($reply['thread_id'], $reply['id'], $srp, $l), 'page' => $srp, 'limit' => $l)) ?>
+					</div>
+					<div id="forum-reply-form-wrapper-<?php echo $reply['id'] ?>" class="forum-reply-form-wrapper"></div>
+					<div id="forum-reply-dashboard-<?php echo $reply['id'] ?>" class="forum-reply-dashboard" style="text-align:left;">
+					<?php if(is_loggedIn()): ?>
+						<?php if($thread['closed'] == 0): ?>
+						<a id="forum-reply-button-<?php echo $reply['id'] ?>" class="btn btn-warning-outline btn-sm ion-reply forum-reply-button" title="<?php echo lang('forum::reply') ?>" href="<?php echo url_to_pager('forum-reply-thread') ?>?thread_id=<?php echo $thread['id'] ?>&id=<?php echo $reply['id'] ?>&page=<?php echo $page ?>" style="background-color:#F0F0F0" ajax="true"></a>
+						<?php endif ?>
+                        <?php if($reply['replier_id'] == get_userid()): ?>
+                        <a id="forum-edit-reply-button-<?php echo $reply['id'] ?>" class=" btn btn-info-outline btn-sm ion-android-create forum-edit-reply-button" title="<?php echo lang('forum::edit') ?>" href="<?php echo url_to_pager('forum-edit-post') ?>?thread_id=<?php echo $thread['id'] ?>&id=<?php echo $reply['id'] ?>&page=<?php echo $page ?>" style="background-color:#F0F0F0" ajax="true"></a>
+                            <?php if(!forum_is_original_post($reply['id'])): ?>
+                        <a id="forum-delete-reply-button-<?php echo $reply['id'] ?>" class="btn btn-danger-outline btn-sm ion-android-close forum-delete-reply-button" title="<?php echo lang('forum::remove') ?>" href="<?php echo url_to_pager('forum-delete-reply') ?>?thread_id=<?php echo $thread['id'] ?>&id=<?php echo $reply['id'] ?>&page=<?php echo $page ?>" style="background-color:#F0F0F0" ajax="true"></a>
+                            <?php endif ?>
+                        <?php endif ?>
+					<?php endif ?>
+						<span id="forum-reply-like-<?php echo $reply['id'] ?>">
+							<?php if(is_loggedIn()): ?>
+								<?php if(forum_reply_isliked($reply['id'])): ?>
+									<button id="forum-like-button-<?php echo $reply['id'] ?>" class="btn btn-primary-outline btn-sm active ion-thumbsup forum-like-button" title="<?php echo lang('forum::unlike') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=unlike&reply_id=<?php echo $reply['id'] ?>', 'forum-reply-like-<?php echo $reply['id'] ?>')"></button>
+								<?php else: ?>
+									<button id="forum-like-button-<?php echo $reply['id'] ?>" class="btn btn-primary-outline btn-sm ion-thumbsup forum-like-button" title="<?php echo lang('forum::like') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=like&reply_id=<?php echo $reply['id'] ?>', 'forum-reply-like-<?php echo $reply['id'] ?>')"></button>
+								<?php endif ?>
+							<?php endif ?>
+							<span class="forum-reply-likes"><?php echo forum_get_num_likes($reply['id'], true) ?></span>
+						</span>
+					</div>
+				</div>
+			</div>
+            <?php endforeach ?>
+            <?php if($replies->total > config('pagination-length-thread', 20)): ?>
+                <?php echo $replies->links(true); ?>
+                <script>//forumRefreshPagination()</script>
+            <?php endif ?>

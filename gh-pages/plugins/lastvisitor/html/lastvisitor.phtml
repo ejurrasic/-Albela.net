@@ -1,0 +1,22 @@
+<div class="box">
+    <div class="title"><?php echo find_user($_GET['jsi'])['username'] . $title?></div>
+    <?php
+    //$user = isset($app->profileUser) ? $app->profileUser : get_user();
+    $users = isset($_GET['jsi']) ? get_last_visitors($_GET['jsi'],"none") : null;
+    if($users):?>
+    <div class="box-content two-line-media clearfix">
+        <?php foreach($users as $userid):?>
+            <?php $user = find_user($userid['viewer_id']); ?>
+            <?php if(!empty($user)) echo view('user/display', array('user' => $user))?>
+        <?php endforeach?>
+    </div>
+    <div class="box-content">
+        <?php echo "<a href='". profile_url() . "' >Back to My Profile</a>"?>
+    </div>
+    <?php else:?>
+        <div class="box-content">
+            <div class="alert alert-info"><?php _lang('no-members-to-display')?></div>
+        </div>
+    <?php endif?>
+</div>
+

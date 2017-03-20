@@ -1,0 +1,149 @@
+.header-action-button {
+    margin-left: 20px;
+}
+.sign-with-container .text{
+    display: none;
+}
+.two_column_right_layout .middle-col,
+.top_two_column_right_layout .middle-col,
+.bottom_two_column_right_layout .middle-col
+{
+    padding-left: 15px !important;
+    padding-right: 0 !important;
+}
+.two_column_left_layout .middle-col,
+.top_two_column_left_layout .middle-col,
+.bottom_two_column_left_layout .middle-col
+{
+    padding-right:15px !important;
+    padding-left: 0px !important;
+}
+.box{
+    text-align: right;
+
+}
+.box .title{
+    text-align: right;
+}
+.box .title .action {
+    float: left;
+    left: 0 !important;
+
+}
+.pull-right{
+    float: left !important;
+    left: 0 !important;
+}
+.pull-left{
+    float: right !important;
+}
+a{
+    text-align: right;
+}
+label{
+    float: right;
+}
+#dashboard-filter-menu .left li a{
+    border-right: none;
+    border-left: solid 1px #d3d3d3;
+}
+
+#explore-menu #all-container{
+    position: absolute !important;
+    width: 160px;
+    right: auto !important;
+    float: left !important;
+    left: 0 !important;
+}
+.media .action{
+    left: 10px;
+    right: auto !important;
+}
+.media .media-body{
+    text-align: right;
+}
+
+#feed-editor .feed-editor-footer .menu > li:first-child{
+    border-right: none;
+}
+#feed-editor .feed-editor-footer .menu > li:last-child{
+    border-right: solid 1px #C0C0C0 !important;
+}
+
+.feed-wrapper .feed-header {
+    text-align: right;
+}
+
+.feed-wrapper .feed-header > .right .feed-menu {
+    left: 0;
+    right: auto !important;
+}
+
+.feed-wrapper .feed-files .media .media-body > a {
+    left: 10px;
+    right: auto !important;
+}
+
+#social-links-container .arrow-up{
+    display: none;
+}
+
+.profile-card {
+    right: 0;
+}
+
+.feed-pinned{
+    right:-20px !important
+}
+
+.feed-footer-menu {
+    text-align:right;
+}
+
+.chat-box .head .actions{
+    left:10px !important;
+    right:auto !important;
+
+}
+.chat-message .arrow-left, .chat-message .arrow-right{
+    display:none;
+}
+
+.comment-footer .right{
+    left:10px !important;
+    right:auto !important;
+
+}
+.comment-content .preview-card{
+    float:right !important;
+}
+
+.ads-sponsored-title {
+    text-align:right;
+}
+
+.ads-create-left h6{
+    text-align:right;
+}
+
+.country-lists span{
+
+    display:block !important;
+}
+
+.help-block{
+    text-align:right
+}
+
+.progress{
+    display:block !important;
+}
+
+.messages-pane-title .action{
+    left: 20px !important;
+    right:auto !important;
+}
+
+#profile-side-info li{
+    text-align:right;
+}

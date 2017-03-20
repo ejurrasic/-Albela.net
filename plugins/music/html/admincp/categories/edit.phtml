@@ -1,0 +1,43 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang('music::music-categories') ?>
+    </div>
+    <div class="wrapper-content">
+        <form class="wrapper-form" method="post" action="">
+            <?php CSRFProtection::embed() ?>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::category-title') ?></label>
+                <div class="col-sm-9">
+                    <label>(English)</label>
+                    <input type="text" name="val[title][english]" value="<?php echo get_phrase('english', $category['title']) ?>" class="form-control" placeholder="<?php echo lang('music::category-title') ?>"/>
+                    <a href="" class="other-languages-link"  onclick="return show_other_languages('#music-category-info-other-languages')"><?php echo lang('edit-other-languages') ?></a>
+                    <div class="other-languages" id="music-category-info-other-languages">
+                        <?php foreach(get_all_languages() as $language): ?>
+                            <?php if($language['language_id'] != 'english'): ?>
+                                <input class="form-control" value="<?php echo get_phrase($language['language_id'], $category['title']) ?>"   type="text" name="val[title][<?php echo $language['language_id'] ?>]" placeholder="<?php echo lang('music::category-title') ?>"/><br>
+                                <p class="help-block"><?php echo $language['language_title'] ?></p>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::parent-category') ?></label>
+                <div class="col-sm-9">
+                    <select class="c-select" name="val[category]">
+                        <option value="0"><?php echo lang('music::none') ?></option>
+                        <?php foreach(get_music_categories() as $cat): ?>
+                            <option <?php echo ($cat['id'] == $category['parent_id']) ? 'selected' : null ?> value="<?php echo $cat['id'] ?>"><?php echo lang($cat['title']) ?></option>
+                        <?php endforeach ?>
+                    </select>
+
+                </div>
+            </div>
+
+            <button class="btn btn-info"><?php echo lang('save-category') ?></button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="box">
+    <div class="box-content">
+        <?php if(!$events->total):?>
+            <div class="alert alert-info"><?php _lang('event::no-event-display')?></div>
+        <?php else:?>
+            <?php foreach($events->results() as $event):$event = arrange_event($event);?>
+                <div class="media media-lg event">
+                    <div class="media-left">
+                        <a href="<?php echo event_url(null, $event)?>" ajax="true">
+                            <div class="media-object" style="background-image: url(<?php echo get_event_logo($event)?>)">
+                                <div class="info">
+                                    <span><?php echo get_event_date($event)?></span>
+
+                                    <span><?php echo get_event_date($event, 'day', 'd')?></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading"><a class="bold" href="<?php echo event_url(null, $event)?>" ajax="true"><?php echo $event['event_title']?></a> </h6>
+                        <p class="help-block">
+                            <i class="ion-android-time"></i>
+                            <?php echo get_event_date($event, 'day', 'd')?>,
+                            <?php if(get_event_date($event, 'year', 'Y') != date('Y')):?>
+                                <?php echo get_event_date($event, 'year', 'Y')?>
+                            <?php endif?>
+                            <?php echo get_event_date($event)?> <?php _lang('event::at')?>
+                            <?php echo get_event_date($event, 'time', 'g : i')?>
+                            <?php echo strtoupper($event['start_time_type'])?>
+                        </p>
+
+                        <p>
+                            <?php echo output_text(str_limit($event['event_desc'], 50))?>
+                        </p>
+                    </div>
+                </div>
+            <?php endforeach?>
+
+            <?php echo $events->links(true)?>
+        <?php endif?>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="row form-group">
+    <div class="col-md-5">
+        <h6><?php echo 'Who can see my latest profile visitors' // _lang('lastvisitor::who-can-see-visitors')?></h6>
+
+    </div>
+    <div class="col-md-7" >
+        <select class="c-select" name="val[who_can_see_visitors]">
+            <option <?php echo (get_privacy('who_can_see_visitors', config('default-latestvisitor-privacy', 1)) == '1') ? 'selected' : null?> value="1" ><?php _lang('everyone')?></option>
+            <option <?php echo (get_privacy('who_can_see_visitors', config('default-latestvisitor-privacy', 1)) == '2') ? 'selected' : null?> value="2"><?php echo lang('friends-only') ?></option>
+            <option <?php echo (get_privacy('who_can_see_visitors', config('default-latestvisitor-privacy', 1)) == '3') ? 'selected' : null?> value="3"><?php _lang('only-me')?></option>
+        </select>
+        <p class="text-muted"><?php lang('lastvisitor::who-can-see-visitors')?></p>
+    </div>
+</div>

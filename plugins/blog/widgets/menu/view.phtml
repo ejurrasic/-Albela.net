@@ -1,0 +1,20 @@
+<div class="box ">
+    <?php if(is_loggedIn() and user_has_permission('can-create-blog') and config('allow-members-create-blog', true)):?>
+        <div class="box-content">
+            <a  href="<?php echo url('blog/add')?>"  class="btn btn-info btn-block"><?php _lang('blog::write-new-entry')?></a>
+
+
+        </div>
+    <?php endif?>
+
+    <ul class="menu">
+        <?php foreach(get_menus("blogs-menu") as $menu):?>
+            <li><a <?php echo ($menu->ajax) ? 'ajax="true"' : null?> <?php echo ($menu->tab) ? 'onclick="return window.open(\''.$menu->link.'\')"' : null?>  href="<?php echo ($menu->tab) ? 'javascript:void(0)' : $menu->link?>"><?php echo _lang($menu->title)?></a> </li>
+        <?php endforeach?>
+        <?php if(is_loggedIn()):?>
+            <li><a href="<?php echo url('blogs?type=mine')?>" ajax="true" ><?php _lang('blog::my-blogs')?></a></li>
+        <?php endif?>
+    </ul>
+
+
+</div>

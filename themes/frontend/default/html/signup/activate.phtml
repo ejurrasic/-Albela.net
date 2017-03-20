@@ -1,0 +1,32 @@
+<div class="lg-title"><?php _lang('activate-account')?></div>
+<div class="container">
+    <div class="panel-container card">
+        <div class="card-block">
+
+            <?php if($message):?>
+                <div class="alert  alert-danger">
+                    <?php echo $message?><br/>
+
+                </div>
+            <?php else:?>
+                <div class="alert alert-success">
+                    <?php echo lang('signup-activation-success')?>
+                </div>
+            <?php endif?>
+
+            <form action=""  class="col s12" method="post">
+				<?php CSRFProtection::embed() ?>
+                <fieldset class="form-group">
+                    <label class="control-label"><?php _lang('your-email-address')?></label>
+                    <input type="text" class="form-control form-control-lg" name="email"  >
+                </fieldset>
+
+
+                <button  class="btn btn-info btn-block"><?php _lang('resend-activation-link')?> </button>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

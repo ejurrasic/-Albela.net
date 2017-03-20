@@ -1,0 +1,59 @@
+
+<?php if(is_loggedIn() or (config('show-main-menu-guest', false) and !isMobile())):?>
+    <div id="explore-menu" class="<?php echo (!is_loggedIn()) ? 'hide-in-mobile' : null?>">
+        <div class="container">
+            <?php $menus = get_menus("main-menu");
+                  $limit = config('main-menu-limit', 4);
+            ?>
+            <ul class="lg-menu">
+                <?php $i = 1; foreach($menus as $menu):?>
+                    <?php if($i <= $limit):?>
+                        <li class="<?php echo $menu->id?>">
+                            <a  class="dropdown-item <?php echo $menu->id?>" <?php echo ($menu->ajax) ? 'ajax="true"' : null?> <?php echo ($menu->tab) ? 'onclick="return window.open(\''.$menu->link.'\')"' : null?>  href="<?php echo ($menu->tab) ? 'javascript:void(0)' : $menu->link?>">
+                                <i class="<?php echo $menu->icon?>"></i>
+                                <span><?php echo _lang($menu->title)?></span>
+                            </a>
+                            <?php if($menu->isActive()):?>
+                                <div class="arrow-up"></div>
+                            <?php endif?>
+                        </li>
+                        <?php endif?>
+                    <?php $i++?>
+                <?php endforeach?>
+                <?php if(count($menus) > $limit):?>
+                    <li id="all-container" class="dropdown">
+                        <a href="" data-toggle="dropdown" class="dropdown-button"><i class="ion-more"></i> <span><?php _lang('explore')?></span></a>
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <?php $i = 1; foreach($menus as $menu):?>
+                                <?php if($i > $limit):?>
+                                    <li>
+                                        <a  class="dropdown-item" <?php echo ($menu->ajax) ? 'ajax="true"' : null?> <?php echo ($menu->tab) ? 'onclick="return window.open(\''.$menu->link.'\')"' : null?>  href="<?php echo ($menu->tab) ? 'javascript:void(0)' : $menu->link?>">
+                                            <i class="<?php echo $menu->icon?>"></i>
+                                            <span><?php echo lang($menu->title)?></span>
+                                        </a>
+
+                                    </li>
+                                <?php endif?>
+                                <?php $i++?>
+                            <?php endforeach?>
+
+
+                        </ul>
+                    </li>
+                <?php endif?>
+
+            </ul>
+
+
+            <ul class="mobile-menu">
+                <li><a href="<?php echo url('feed')?>" ajax="true"><i class="ion-home"></i></a> </li>
+                <li class="" id="message-dropdown-container">
+                    <a  href="<?php echo url_to_pager("messages")?>" ajax="true"><i class="ion-android-chat"></i></a></li>
+                <li id="friend-request-dropdown-container"><a  href="<?php echo url_to_pager("friend-requests")?>" ajax="true">
+                        <i class="ion-person-stalker"></i>
+                    </a></li>
+                <li id="notification-dropdown-container"  class="" ><a ajax="true" href="<?php echo url_to_pager("notifications")?>"><i class="ion-android-globe"></i> </a></li>
+            </ul>
+        </div>
+    </div>
+<?php endif?>

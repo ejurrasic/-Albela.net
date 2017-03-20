@@ -1,0 +1,24 @@
+<div id="delete-listing-photo" class="marketplace marketplace-content box">
+    <?php if(!is_loggedIn()): ?>
+    <span class="error"><?php echo lang('marketplace::marketplace-create-login-error') ?></span>
+    <?php else: ?>
+        <?php if($message): ?>
+    <div class="alert alert-danger"><?php echo $message ?></div>
+        <?php endif ?>
+    <form action="" method="post" class="adm">
+		<?php CSRFProtection::embed() ?>
+        <div class="alert alert-warning">
+            <img src="<?php echo getBase().marketplace_get_image_size($listing_image['image'], 75) ?>">
+            <?php echo lang('marketplace::delete-image-warning')?>
+        </div>
+        <div class="row">
+            <div class="col-sm-5"></div>
+            <div class="col-sm-7">
+                <input type="submit" value="<?php echo lang('marketplace::delete') ?>" class="btn btn-danger" />
+            </div>
+        </div>
+        <input type="hidden" name="val[image_id]" value="<?php echo $listing_image['id'] ?>" />
+        <input type="hidden" name="val[type]" value="delete_photo" />
+    </form>
+    <?php endif ?>
+</div>

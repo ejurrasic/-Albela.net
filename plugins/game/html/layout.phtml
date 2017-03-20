@@ -1,0 +1,19 @@
+<!--<div id="dashboard-filter-menu" class="box  clearfix">
+    <ul class="pull-left left">
+        <li class="<?php echo ($type == 'all') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('games')?>"><?php _lang('game::find-games')?></a> </li>
+        <li class="<?php echo ($type == 'me') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('games')?>?type=me"><?php _lang('game::your-games')?></a> </li>
+        <?php if(can_create_game()):?>
+
+            <li class="<?php echo ($type == 'create') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('game-create')?>"><?php _lang('game::add-game')?></a> </li>
+        <?php endif?>
+    </ul>
+
+    <div class="pull-right action">
+        <?php if(can_create_game()):?>
+            <a href="<?php echo url_to_pager('game-create')?>" ajax="true" class="btn btn-info btn-sm"><?php _lang('game::add-game')?></a>
+        <?php endif?>
+    </div>
+
+</div>-->
+
+<?php echo $content?>

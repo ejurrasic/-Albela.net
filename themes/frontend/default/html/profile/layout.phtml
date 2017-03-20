@@ -1,0 +1,129 @@
+<?php echo view('layouts/menu')?>
+<div class="container">
+    <div  class="" style="padding: 0;">
+        <div data-width="950" class="profile-container" >
+            <?php if(config('design-profile', true) and is_profile_owner()):?>
+                <?php echo view('design/pane', array('default' => get_user_design_details($app->profileUser)))?>
+            <?php endif?>
+            <div id="profile-cover" class="box" >
+                <?php if(config('design-profile', true) and is_profile_owner()):?>
+                    <a onclick="return open_designer()" href="" data-toggle="tooltip" title="<?php _lang('design-your-profile')?>" class="btn btn-secondary btn-sm design-button"><i class="ion-paintbucket"></i></a>
+                <?php endif?>
+                <div class="profile-cover-indicator">
+                    <img src="<?php echo img('images/loading.gif')?>"/>
+                </div>
+                <a href="javascript::void(0)" id="profile-cover-viewer" data-id="<?php echo ($app->profileUser['cover'])? get_media_id($app->profileUser['cover']) : null?>" data-image="<?php echo get_user_cover(app()->profileUser)?>" class="<?php echo ($app->profileUser['cover'])? 'photo-viewer' : null?>">
+                    <div class="profile-cover-wrapper">
+                        <img src="<?php echo get_user_cover(app()->profileUser, false)?>"/>
+                    </div>
+                </a>
+                <?php if(is_profile_owner()):?>
+                    <div class="profile-resize-cover-wrapper">
+                        <div class="drag-info"><?php _lang('drag-to-position-cover')?></div>
+                        <img src="<?php echo get_user_cover(app()->profileUser)?>"/>
+                    </div>
+
+                    <form id="profile-cover-change-form" enctype="multipart/form-data" method="post">
+						<?php CSRFProtection::embed() ?>
+                        <span class="file-input"><input accept="image/*" multiple onchange="return upload_user_profile_cover()" type="file" id="user-profile-cover-input" name="cover"/> </span>
+                        <button  class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown"><i class="ion-camera"></i> <span class="hide-in-mobile"><?php _lang('change-cover')?></span></button>
+                        <ul style="width: 240px" class="dropdown-menu dropdown-menu-right" id="profile-cover-dropdown-menu">
+                            <li><a class="dropdown-item" onclick="return file_chooser('#user-profile-cover-input')" href=""><?php _lang('upload-photo')?>...</a> </li>
+                            <li class="hide-in-mobile"><a class="dropdown-item" onclick="return reposition_user_profile_cover()" href=""><?php _lang('reposition')?>...</a> </li>
+                            <li><a class="dropdown-item" onclick="return remove_user_profile_cover('<?php echo img("images/cover.jpg")?>')" href=""><?php _lang('remove')?>...</a> </li>
+                        </ul>
+                    </form>
+                    <div class="profile-cover-reposition-button">
+                        <input type="hidden" id="profile-cover-resized-top" value="0"/>
+                        <a onclick="return cancel_profile_cover_position()" class="btn-danger-outline btn" href="#!"><?php _lang('cancel')?></a>
+                        <a onclick="return save_user_profile_cover()" class="btn btn-info btn-upper" href=""><?php _lang('save')?></a>
+                    </div>
+                <?php endif?>
+                <div class="user-avatar box">
+                    <?php if(is_profile_owner()):?>
+                        <form  id="user-profile-image-form" action="" method="post" enctype="multipart/form-data">
+							<?php CSRFProtection::embed() ?>
+                            <span class="file-input"><input accept="image/*" multiple onchange="upload_user_avatar()" type="file" id="user-avatar-input" name="avatar"/> </span>
+                            <a class="profile-image-selector" id="profile-image-selector" href="" onclick="return file_chooser('#user-avatar-input')"><i class="ion-ios-camera"></i> <span></span> </a>
+                        </form>
+                    <?php endif?>
+                    <div class="profile-image-indicator">
+                        <img src="<?php echo img("images/loading.gif")?>"/>
+                        <span class="percent-indicator">0%</span>
+                    </div>
+                    <a id="profile-image-viewer" style="display: block" href="javascript::void(0)" data-id="<?php echo ($app->profileUser['avatar'])? get_media_id($app->profileUser['avatar']) : null?>" data-image="<?php echo get_avatar(920, app()->profileUser)?>" class="<?php echo ($app->profileUser['avatar'])? 'photo-viewer' : null?>">
+                        <img class="profile-image" src="<?php echo get_avatar(200, app()->profileUser)?>"/>
+                    </a>
+                </div>
+                <div class="user-info">
+                    <h4 class="user-name left"><?php echo get_user_name(app()->profileUser)?> <?php echo verify_badge(app()->profileUser)?></h4>
+                </div>
+
+                <nav id="profile-menu" class="">
+                    <div class="navbar navbar-light">
+                        <ul id="menu" class="nav navbar-nav">
+                        <?php foreach(get_menus("user-profile") as $menu):?>
+                            <li class="<?php echo ($menu->isActive() == 1) ? 'active' : null?> "><a class="item" ajax="true" href="<?php echo $menu->link?>"><?php echo $menu->title?></a></li>
+                        <?php endforeach?>
+                        <?php $user_profile_more = get_menus("user-profile-more") ?>
+                        <?php if(!empty($user_profile_more)): ?>
+                        <li class="dropdown">
+                            <a  href="#" class="dropdown-toggle" data-toggle="dropdown" > <i class="ion-ios-more"></i></a>
+                            <ul style="width: 250px;" id="profile-more-menu" class="dropdown-menu">
+                                <?php foreach($user_profile_more as $menu):?>
+                                    <li ><a ajax="true" class="dropdown-item" href="<?php echo $menu->link?>"><?php echo $menu->title?></a></li>
+                                <?php endforeach?>
+
+                            </ul>
+                        </li>
+                        <?php endif ?>
+                        </ul>
+
+                    </div>
+                </nav>
+            </div>
+            <div class="profile-actions">
+                <?php if(plugin_loaded('relationship')):?>
+                    <?php echo view('relationship::button', array('userid' => $app->profileUser['id'], 'follow' => true))?>
+                <?php endif?>
+                <?php echo theme_extend('user.profile.buttons', null, array('user' => $app->profileUser))?>
+                <?php if(is_loggedIn() and !is_profile_owner() and can_send_message($app->profileUser['id'])):?>
+                    <a ajax="true" href="<?php echo url('messages?userid='.$app->profileUser['id'])?>"  class="btn btn-secondary btn-sm message-me-small"><?php _lang('chat::send-message')?></a>
+                    <a href="" onclick="return Chat.open(null, '<?php echo $app->profileUser['id']?>', '<?php echo htmlentities(get_user_name($app->profileUser))?>', '<?php echo get_avatar(75, $app->profileUser)?>')" class="btn btn-secondary btn-sm message-me-large"><?php _lang('chat::send-message')?></a>
+                <?php endif?>
+                <span class="dropdown">
+                        <?php if(is_loggedIn()):?>
+                            <button data-toggle="dropdown" class="dropdown-button btn btn-secondary btn-sm"><i class="ion-android-menu"></i></button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <?php if(!is_profile_owner() ):?>
+                                    <?php if(is_loggedIn() and  plugin_loaded('report')):?>
+                                        <li><a  data-type="profile" data-link="<?php echo profile_url(null, $app->profileUser)?>" class="report-btn dropdown-item" href=""><i class="ion-flag"></i><?php _lang('report-profile')?></a> </li>
+                                    <?php endif?>
+                                    <li><a onclick="return confirm.url('<?php echo url_to_pager('block-user', array('id' => $app->profileUser['id']))?>', '<?php _lang('block-user-warning')?>')" class="dropdown-item" href="<?php echo url_to_pager('block-user', array('id' => $app->profileUser['id']))?>"><i class="ion-eye-disabled"></i> <?php _lang('block-user')?></a> </li>
+                                <?php endif?>
+
+                                <?php if(is_profile_owner()):?>
+                                    <li><a href="<?php echo url_to_pager('account')?>" class="dropdown-item" ajax="true"><?php _lang('edit-profile')?></a> </li>
+                                <?php endif?>
+                            </ul>
+                        <?php endif?>
+                    </span>
+            </div>
+        </div>
+
+    </div>
+</div>
+<?php if(can_view_profile(app()->profileUser)):?>
+    <div id="user-profile-content-container">
+        <?php echo $content?>
+    </div>
+
+<?php else:?>
+   <div class="container">
+       <div class="box">
+           <div class="box-content">
+               <h5><?php _lang('profile-is-private')?></h5>
+           </div>
+       </div>
+   </div>
+<?php endif?>

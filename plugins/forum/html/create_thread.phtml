@@ -1,0 +1,74 @@
+<div id="forum-create-thread" class="forum ajax">
+    <div class="forum-content create-thread-content box">
+		<div class="forum-title"><h1><?php echo lang('forum::create-topic') ?></h1></div>
+		<?php if(!is_loggedIn()): ?>
+		<span class="error"><?php echo lang('forum::forum-create-login-error') ?></span>
+		<?php else: ?>
+		    <?php if($messages): ?>
+        <div class="alert alert-danger"><?php echo $messages ?></div>
+		    <?php endif ?>
+		<form action="" method="post" id="postform">
+            <?php CSRFProtection::embed() ?>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-4">
+                    <h6><label for="category"><?php echo lang('forum::category') ?>:</label></h6>
+                    <p class="form-description"><?php echo lang('forum::create-thread-category-desc') ?></p>
+                </div>
+                <div class="col-sm-8">
+                    <div class="input-field col s10">
+                        <select name="category_id" class="form-control">
+                            <?php foreach($categories as $category): ?>
+                                <option value="<?php echo $category['id'] ?>"><?php echo lang($category['title']) ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-4">
+                    <h6><label for="subject"><?php echo lang('forum::subject') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('forum::create-thread-subject-desc') ?></p>
+                </div>
+                <div class="col-sm-8">
+                    <div class="input-field col s10">
+                        <input name="subject" type="text" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-4">
+                    <h6><label for="post"><?php echo lang('forum::post') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('forum::create-thread-post-desc') ?></p>
+                </div>
+                <div class="col-sm-8">
+                    <div class="input-field col s10">
+                        <textarea name="postbox" id="postbox" class="ckeditor"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-4">
+                    <h6><label for="tags"><?php echo lang('forum::tags') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('forum::create-thread-tags-desc').implode(', ', forum_get_tag_names()) ?>.</p>
+                </div>
+                <div class="col-sm-8">
+                    <div class="input-field col s10">
+                        <input name="tags" type="text" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-field col s12">
+						<input type="submit" value="<?php echo lang('forum::create') ?>" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+			<input type="hidden" name="val" value=true />
+            <input type="hidden" name="type" value="create_thread" />
+        </form>
+		<?php endif ?>
+    </div>
+</div>

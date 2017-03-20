@@ -1,0 +1,66 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('booster::manage-boosts') ?>
+
+    </div>
+    <div class="wrapper-content">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+
+                <th style="width: 10%"><?php _lang('ads::creator') ?></th>
+                <th style="width: 15%"><?php _lang('ads::campaign-name') ?></th>
+                <th style="width: 15%"><?php _lang('ads::bid-type') ?></th>
+
+                <th style="width: 10%"><?php _lang('booster::boost-type') ?></th>
+                <th style="width: 15%"><?php _lang('ads::plan') ?></th>
+                <th style="width: 5%"><?php _lang('ads::usage') ?></th>
+                <th style="width: 5%"><?php _lang('ads::impressions') ?></th>
+
+                <th style="width: 5%"><?php _lang('ads::paid') ?></th>
+                <th style="width: 5%"><?php _lang('ads::status') ?></th>
+                <th style="width: 25%"><?php _lang('actions') ?></th>
+            </tr>
+            </thead>
+
+            <?php if ($posts->total): ?>
+                <tbody>
+
+                <?php foreach ($posts->results() as $post): ?>
+                    <tr id="<?php echo $post['pb_id'] ?>">
+                        <td>
+                            <?php $user = find_user($post['user_id']) ?>
+                            <a href="<?php echo profile_url(null, $user) ?>"><img
+                                    src="<?php echo get_avatar(75, $user) ?>" style="width: 35px"/></a>
+
+                        </td>
+                        <td><?php echo $post['name'] ?></td>
+                        <td><?php echo ($post['plan_type'] == 1) ? lang('ads::cost-per-click') : lang('ads::cost-per-impression')?></td>
+                        <td><?php echo $post['type']; ?></td>
+                        <td><?php
+                            $plan = get_plan($post['plan_id']);
+                            if ($plan) echo lang($plan['name']);
+                            ?></td>
+                        <td><?php echo $post['quantity'] ?></td>
+                        <td><?php echo $post['impression_stats'] ?></td>
+
+                        <td><?php echo ($post['paid'] == 1) ? lang('yes') : lang('no') ?></td>
+                        <td><?php echo ($post['status'] == 1) ? lang('active') : lang('not-active') ?></td>
+                        <td>
+                            <a class="btn btn-sm btn-success" ajax="true"
+                               href="<?php echo url_to_pager('admin-activate-boost', array('id' => $post['pb_id'])) ?>"><?php _lang('manage') ?></a>
+                            <a  onclick="return admin_delete_pb('<?php echo $post['pb_id']; ?>')" class="btn btn-sm btn-danger"
+                               href="#"><i
+                                    class="ion-android-delete"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+
+                </tbody>
+                <?php echo $posts->links() ?>
+            <?php endif; ?>
+
+        </table>
+
+    </div>
+</div>

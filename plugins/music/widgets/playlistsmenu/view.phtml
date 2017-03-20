@@ -1,0 +1,14 @@
+<div class="box ">
+    <?php if(user_has_permission('can-add-playlist') && is_loggedIn()): ?>
+        <div class="box-content">
+            <a href="<?php echo url_to_pager('music-playlist-create') ?>" ajax="true" class="btn btn-block btn-secondary"><i class="ion-ios-plus-empty"></i> <?php echo lang('music::add-new-playlist') ?></a>
+        </div>
+    <?php endif ?>
+    <ul class="menu">
+        <li><a ajax="true" href="<?php echo url_to_pager('music-playlists')?>"><?php echo lang('music::playlists')?></a></li>
+        <?php if(is_loggedIn()): ?>
+        <li><a ajax="true" href="<?php echo url_to_pager('music-playlists').'?type=mine' ?>"><?php echo lang('music::my-playlists') ?></a></li>
+        <?php endif ?>
+        <li><a ajax="true" href="<?php echo url_to_pager('musics')?>"><?php echo lang('music::musics')?></a></li>
+    </ul>
+</div>

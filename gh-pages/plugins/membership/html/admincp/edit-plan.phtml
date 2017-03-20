@@ -1,0 +1,91 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('membership::membership-plans')?>
+
+    </div>
+    <div class="wrapper-content">
+        <?php if($message):?>
+            <div class="alert alert-danger"><?php echo $message?></div>
+        <?php endif?>
+        <form method="post" action="" class="wrapper-form">
+			<?php CSRFProtection::embed() ?>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('membership::plan-type')?></label>
+                <div class="col-sm-9">
+
+                    <select onchange="membership_admin_change_form(this)" class="c-select" name="val[type]">
+                        <option <?php echo ($plan['type'] =='free') ? 'selected' : null?> value="free"><?php _lang('membership::free')?></option>
+                        <option <?php echo ($plan['type'] =='one-time') ? 'selected' : null?> value="one-time"><?php _lang('membership::one-time-payment')?></option>
+                        <option <?php echo ($plan['type'] =='recurring') ? 'selected' : null?> value="recurring"><?php _lang('membership::recurring')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row plan-price" style="<?php echo ($plan['type'] =='free') ? 'display:none' : null?>">
+                <label class="col-sm-3 form-control-label"><?php _lang('membership::plan-price')?> (<?php echo config('default-currency')?>)</label>
+                <div class="col-sm-9">
+
+                    <input type="text" value="<?php echo $plan['price']?>" class="form-control" name="val[price]" placeholder="<?php _lang('membership::plan-price')?>"/><br/>
+                </div>
+            </div>
+            <div class="form-group row recurring-container" style="<?php echo ($plan['type'] =='free') ? 'display:none' : null?>">
+                <label class="col-sm-3 form-control-label"><?php _lang('membership::recurring-cycle')?></label>
+                <div class="col-sm-9">
+                    <input type="text" value="<?php echo $plan['expire_no']?>" class="form-control" name="val[cycle_number]" placeholder="<?php _lang('membership::number')?>"/><br/>
+                    <select class="c-select" name="val[cycle_type]">
+                        <option <?php echo ($plan['expire_type'] =='day') ? 'selected' : null?> value="day"><?php _lang('membership::days')?></option>
+                        <option <?php echo ($plan['expire_type'] =='week') ? 'selected' : null?> value="week"><?php _lang('membership::weeks')?></option>
+                        <option <?php echo ($plan['expire_type'] =='month') ? 'selected' : null?> value="month"><?php _lang('membership::months')?></option>
+                        <option <?php echo ($plan['expire_type'] =='year') ? 'selected' : null?> value="year"><?php _lang('membership::years')?></option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('membership::plan-user-role')?></label>
+                <div class="col-sm-9">
+
+                    <select class="c-select" name="val[role]">
+                        <?php foreach(list_user_roles() as $role):?>
+                            <option <?php echo ($plan['user_role'] == $role['role_id']) ? 'selected' : null?>  value="<?php echo $role['role_id']?>"><?php echo $role['role_title']?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('membership::plan-title')?></label>
+                <div class="col-sm-9">
+                    <?php foreach(get_all_languages() as $language):?>
+                        <input class="form-control" value="<?php echo get_phrase($language['language_id'], $plan['title'])?>" type="text" name="val[title][<?php echo $language['language_id']?>]" placeholder="<?php _lang('membership::plan-title')?>"/><br>
+                        <p class="help-block"><?php echo $language['language_title']?></p>
+                    <?php endforeach?>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('membership::plan-description')?></label>
+                <div class="col-sm-9">
+
+                    <?php foreach(get_all_languages() as $language):?>
+                        <textarea name="val[desc][<?php echo $language['language_id']?>]" class="form-control" placeholder="<?php _lang('membership::plan-title')?>"><?php echo get_phrase($language['language_id'], $plan['description'])?></textarea>
+                        <p class="help-block"><?php echo $language['language_title']?></p>
+                    <?php endforeach?>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('membership::recommended')?></label>
+                <div class="col-sm-9">
+
+                    <select class="c-select" name="val[recommend]">
+                        <option <?php echo ($plan['recommend'] == 0) ? 'selected' : null?> value="0"><?php _lang('no')?></option>
+                        <option <?php echo ($plan['recommend'] == 1) ? 'selected' : null?>  value="1"><?php _lang('yes')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-info"><?php _lang('membership::save-plan')?></button>
+        </form>
+    </div>
+</div>

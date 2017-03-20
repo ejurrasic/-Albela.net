@@ -1,0 +1,89 @@
+<?php
+$avatar = (isset($avatar)) ? $avatar : $comment['editor']['avatar'];
+$entityId = (isset($entityId)) ? $entityId : $comment['editor']['id'];
+$entityType = (isset($entityType)) ? $entityType : $comment['editor']['type'];
+$generatedId = md5(time().'comment-'.$comment['comment_id']);
+?>
+<div class="comment comment-<?php echo $comment['comment_id']?> comment-<?php echo $generatedId?>" id="comment-<?php echo $comment['comment_id']?>" data-id="<?php echo $comment['comment_id']?>">
+    <div class="media">
+        <div class="media-left">
+            <div class="avatar media-object"><a ajax="true" href="<?php echo $comment['publisher']['url']?>"><img src="<?php echo $comment['publisher']['avatar']?>"/></a> </div>
+        </div>
+        <div class="comment-content media-body">
+            <div class="clearfix">
+                <span data-type="<?php echo $comment['entity_type']?>" data-id="<?php echo $comment['entity_id']?>" class=" preview-card">
+                     <a  style="float: left; margin-right: 8px;" class="comment-title"  ajax="true" href="<?php echo $comment['publisher']['url']?>">
+                         <?php echo $comment['publisher']['name']?>
+                         <?php echo verify_badge($comment['publisher'])?>
+                     </a>
+                </span>
+                <span style="float: left;margin-left: 10px" class="comment-text-content"><?php echo output_text($comment['text'])?></span>
+            </div>
+            <?php if($comment['image']):?>
+                <a href="" class="photo-viewer" data-image="<?php echo url_img($comment['image'], 920)?>">
+                    <div class="comment-image"><img src="<?php echo url_img($comment['image'], 600)?>"/> </div>
+                </a>
+            <?php endif?>
+            <form onsubmit="return save_comment('<?php echo $comment['comment_id']?>', '<?php echo $generatedId?>')" action="" method="post" class="comment-edit-form">
+            <?php CSRFProtection::embed() ?>
+                <textarea name="text" style="height: 50px" class="auto-grow-input" data-height="50px"><?php echo $comment['text']?></textarea>
+                <button class="btn btn-sm btn-info"><?php echo lang('save')?></button> <img src="<?php echo img('images/loading.gif')?>" class="comment-edit-form-indicator"/>
+            </form>
+            <?php if(can_edit_comment($comment)):?>
+                <div class=" comment-actions-button comment-actions-button-<?php echo $comment['comment_id']?>" id="comment-actions-button-<?php echo $comment['comment_id']?>">
+                    <a title="Edit comment" onclick="return edit_comment('<?php echo $generatedId?>')" href=""><i class="ion-edit"></i></a>
+                    <a title="Delete" onclick="return delete_comment('<?php echo $comment['comment_id']?>')" class="comment-remove-button" href=""><i class="ion-close"></i></a>
+                </div>
+            <?php endif?>
+            <div class="comment-footer">
+                <ul class="left" style="width: 80%">
+                    <?php if(plugin_loaded('like')):?>
+                        <?php load_functions('like::like');?>
+                        <li><a id="like-button-comment-<?php echo $comment['comment_id']?>" onclick="return like_item('comment', '<?php echo $comment['comment_id']?>')" data-status="<?php echo (has_liked('comment', $comment['comment_id'])) ? '1'  : 0?>" class="like-button-comment-<?php echo $comment['comment_id']?> like-button <?php echo (has_liked('comment', $comment['comment_id'])) ? 'liked'  : null?>" href=""><?php echo lang('like::like')?> </a> </li>
+                        <?php if (config('enable-dislike', false)):?>
+                            <li><a id="dislike-button-comment-<?php echo $comment['comment_id']?>" onclick="return dislike_item('comment', '<?php echo $comment['comment_id']?>')" data-status="<?php echo (has_disliked('comment', $comment['comment_id'])) ? '1'  : 0?>" class="dislike-button-comment-<?php echo $comment['comment_id']?> like-button <?php echo (has_disliked('comment', $comment['comment_id'])) ? 'disliked'  : null?>" href=""><?php echo lang('like::dislike')?> </a> </li>
+                        <?php endif?>
+                    <?php endif?>
+
+                    <?php if(config('enable-comment-replies', true) and $comment['type'] !='comment'):?>
+                        <li><a onclick="return show_comment_replies('<?php echo $comment['comment_id']?>', '<?php echo $generatedId?>')" href=""><?php _lang('reply')?></a> </li>
+                    <?php endif?>
+                    <li> <span class="hidden-md-down">-</span> <span class="timeago" title="<?php echo date('c', $comment['time'])?>"><?php echo date('c', $comment['time'])?></span></li>
+                </ul>
+                <ul class="right">
+                    <?php if(plugin_loaded('like')):?>
+                        <?php load_functions('like::like');?>
+                        <li><a onclick="return show_likes('comment', '<?php echo $comment['comment_id']?>')" href="">
+                                <i class="ion-thumbsup"></i>
+                                <span class="like-count-comment-<?php echo $comment['comment_id']?>"><?php echo count_likes('comment', $comment['comment_id'])?></span>
+                            </a> </li>
+                        <?php if (config('enable-dislike', false)):?>
+                            <li><a onclick="return show_dislikes('comment', '<?php echo $comment['comment_id']?>')" href="">
+                                    <i class="ion-thumbsdown"></i>
+                                    <span class="dislike-count-comment-<?php echo $comment['comment_id']?>"><?php echo count_dislikes('comment', $comment['comment_id'])?></span>
+                                </a> </li>
+                        <?php endif?>
+                    <?php endif?>
+                </ul>
+            </div>
+            <?php if(config('enable-comment-replies', true) and $comment['type'] !='comment'):?>
+                <div id="" class="comment-replies comment-comment-container comment-replies-<?php echo $generatedId?>">
+                    <?php if($comment['replies']):?>
+                        <a class="load-replies-link" onclick="return show_comment_replies('<?php echo $comment['comment_id']?>', '<?php echo $generatedId?>')" href=""><i class="ion-reply"></i> <?php _lang('comment::view')?> <?php echo $comment['replies']?> <?php echo ($comment['replies'] > 1) ? lang('comment::replies') : lang('comment::reply')?> <img src="<?php echo img('images/loading.gif')?>"/></a>
+                    <?php endif?>
+
+                    <?php if($comment['replies'] > config('comment-replies-limit', 3)):?>
+                        <a  id="comment-view-more-button-comment-<?php echo $comment['comment_id']?>" class="comment-view-more-button" onclick="return show_more_comment('comment', '<?php echo $comment['comment_id']?>', 'comment-replies-view-more-indicator-<?php echo $comment['comment_id']?>')"  href=""><?php _lang('view-previous-replies')?></a>
+                        <img class="comment-view-more-indicator" id="comment-replies-view-more-indicator-<?php echo $comment['comment_id']?>" src="<?php echo img('images/loading.gif')?>" />
+                    <?php endif?>
+
+                    <div data-offset="<?php echo config('comment-replies-limit', 3)?>" data-limit="<?php echo config('comment-replies-limit', 3)?>" class="comment-lists comment-lists-comment-<?php echo $comment['comment_id']?>" id="">
+
+                    </div>
+                    <?php echo view('comment::editor', array('typeId' => $comment['comment_id'], 'type' => 'comment', 'avatar' => $avatar, 'entityId' => $entityId, 'entityType' => $entityType))?>
+
+                </div>
+            <?php endif?>
+        </div>
+    </div>
+</div>

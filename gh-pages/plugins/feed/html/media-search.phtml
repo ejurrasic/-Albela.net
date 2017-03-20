@@ -1,0 +1,28 @@
+<?php foreach($medias as $media):?>
+
+        <div class="media media-sm">
+            <div class="media-left">
+                <div class="media-object">
+                    <a
+                        data-title="<?php echo $media['title']?>"
+                        data-content="<?php echo perfectSerialize($media)?>"
+                        data-image="<?php echo $media['image']?>"
+                        onclick="return feedEditor.insertFeelingMedia(this)"
+                        href="">
+                    <img style="width: 30px;height: 20px !important;background: #d3d3d3;border-radius: 3px" src="<?php echo $media['image']?>"/>
+                    </a>
+                </div>
+            </div>
+            <div class="media-body">
+                <a
+                    data-title="<?php echo $media['title']?>"
+                    data-content="<?php echo perfectSerialize($media)?>"
+                    data-image="<?php echo $media['image']?>"
+                    onclick="return feedEditor.insertFeelingMedia(this)" href="">
+                <h6 class="media-heading"><?php echo str_limit($media['title'], 30)?></h6>
+                    </a>
+                <a class="close" href="" onclick="return feedEditor.removeFeelingMedia()"><i class="ion-android-close"></i></a>
+            </div>
+        </div>
+
+<?php endforeach?>

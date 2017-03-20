@@ -1,0 +1,16 @@
+
+<?php if(is_loggedIn() or (config('show-main-menu-guest', true) and !isMobile())):?>
+    <div id="explore-menu" class="<?php echo (!is_loggedIn()) ? 'hide-in-mobile' : null?>">
+        <div class="container">
+            <ul class="mobile-menu">
+                <li><a href="<?php echo url('feed')?>" ajax="true"><i class="ion-home"></i></a> </li>
+                <li class="" id="message-dropdown-container">
+                    <a  href="<?php echo url_to_pager("messages")?>" ajax="true"><i class="ion-android-chat"></i></a></li>
+                <li id="friend-request-dropdown-container"><a  href="<?php echo url_to_pager("friend-requests")?>" ajax="true">
+                        <i class="ion-person-stalker"></i>
+                    </a></li>
+                <li id="notification-dropdown-container"  class="" ><a ajax="true" href="<?php echo url_to_pager("notifications")?>"><i class="ion-android-globe"></i> </a></li>
+            </ul>
+        </div>
+    </div>
+<?php endif?>

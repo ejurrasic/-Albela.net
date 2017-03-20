@@ -1,0 +1,13 @@
+<div id="dashboard-filter-menu" class="box  clearfix">
+    <ul class="pull-left left">
+        <li class="<?php echo ($type == 'manage') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('ads-manage')?>"><?php _lang('ads::ads')?></a> </li>
+        <li class="<?php echo ($type == 'create') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('ads-create')?>"><?php _lang('ads::create-ads')?></a> </li>
+    </ul>
+
+    <div class="pull-right action">
+        <a href="<?php echo url_to_pager('ads-create')?>" ajax="true" class="btn btn-info btn-sm"><?php _lang('ads::create-ads')?></a>
+    </div>
+
+</div>
+
+<?php echo $content?>

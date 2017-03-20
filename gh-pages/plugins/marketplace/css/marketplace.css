@@ -1,0 +1,422 @@
+.marketplace a {
+	font-size: inherit !important;
+}
+
+.marketplace .marketplace-title {
+	margin-bottom: 24px;
+	padding: 16px;
+	font: bold small-caps 24px "Arial";
+	text-align: center;
+}
+
+.marketplace .marketplace-float-left {
+    float: left;
+}
+
+.marketplace .marketplace-display-inline-block {
+    display: inline-block;
+}
+
+.marketplace .share-link {
+	position: absolute;
+    top: -13px;
+    right: -4px;
+    display: inline-block;
+}
+
+.marketplace .marketplace-featured-listing {
+	position: absolute;
+	top: 8px;
+	left: 0px;
+	display: inline-block;
+	border-radius: 0px 0px 18px 0px;
+	width: 100px;
+	padding: 0px 4px 2px 4px;
+	background: rgba(255, 0, 0, 0.5);
+	font: bolder small-caps 12px 'Arial black';
+	color: #FFCCCC !important;
+}
+
+.marketplace .marketplace-approval {
+	position: absolute;
+	top: 80px;
+	right: 2px;
+    padding: 0px 2px;
+    background: rgb(0, 53, 217);
+    background: rgba(0, 53, 217, .2);
+	color: #FFFFFF !important;
+    display: inline-block;
+}
+
+.marketplace-content {
+    margin-bottom: 16px;
+    padding: 16px;
+    min-height: 500px;
+}
+
+#create-listing .content {
+    padding: 32px 128px;
+}
+
+.marketplace .marketplace-search-form {
+    margin: 0px;
+    text-align: center;
+}
+
+.marketplace .marketplace-search-form > * {
+    margin-top: 4px;
+}
+
+.marketplace .marketplace-search-input {
+    width: 85%;
+    height: 40px;
+    display: table-cell;
+    vertical-align: top;
+}
+
+.marketplace .marketplace-search-button {
+    width: 14%;
+    display: table-cell;
+    height: 40px;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.marketplace-listings {
+    padding: 16px 0px;
+}
+
+.marketplace .listing-card {
+    position: relative;
+    width: 200px;
+    margin: 4px;
+    vertical-align: top;
+    display: inline-block;
+}
+
+.marketplace .listing-card-img-top {
+    width: 100%;
+    height: 100px;
+    padding: 0px;
+    background-position: center;
+}
+
+.marketplace .listing-card-block > div {
+    padding: 0px 2px;
+}
+
+.marketplace .listing-card-title {
+    text-align: justify;
+    padding: 2px 0px !important;
+    background-color:  #F0FCFF;
+    line-height: 10px;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.marketplace .listing-card-desc {
+    height: 40px;
+    background-color: #FFFCF0;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+.marketplace .listing-card-stats {
+    width: 100%;
+    padding: 0px !important;
+    background-color: #5C5CB8;
+}
+
+.marketplace .listing-card-stat {
+    padding: 0px 8px;
+    text-align: center !important;
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF !important;
+    white-space: nowrap;
+    display: table-cell;
+}
+
+.marketplace .listing-card-date {
+    background-color: #5CB8EC;
+}
+
+.marketplace .listing-card-views {
+    background-color: #5C5CB8;
+}
+
+.marketplace .listing-card-price-free {
+    background-color: #5CB85C;
+}
+
+.marketplace .listing-card-price-paid {
+    background-color: #B85C5C;
+}
+
+.marketplace .feed-comment-container .media {
+	border: none;
+}
+
+.marketplace .feed-comment-container .media-body {
+	border: none;
+    padding-top: 0px;
+    padding-left: 0px;
+}
+
+.marketplace .listing-head {
+    background-color: #F0FCFF;
+}
+
+.marketplace .listing-image {
+    position: relative;
+    max-width: 200px;
+    max-height: 200px;
+    vertical-align: top;
+}
+
+.marketplace .listing-image img {
+    max-height: 200px;
+}
+
+.marketplace .listing-details {
+    position: relative;
+    max-width: 470px;
+    vertical-align: top;
+    text-align: left;
+    display: block;
+}
+
+.marketplace .listing-detail {
+    padding: 4px 8px;
+}
+
+.marketplace .listing-title, .marketplace .listing-title h1 {
+    background-color: #F0FCFF;
+    vertical-align: top;
+    font: normal small-caps 24px "Arial";
+    color: #373A3C;
+}
+
+.marketplace .listing-desc {
+    min-height: 64px;
+    background-color: #FFFCF0;
+    text-align: justify;
+}
+
+.marketplace .listing-detail-group {
+    padding: 4px 8px;
+    background-color: #FCF0FF;
+}
+
+.marketplace .listing-detail-group > .listing-detail {
+    font-weight: bold;
+    color: #FFFFFF !important;
+    display: inline-block;
+}
+
+.marketplace .listing-category {
+    background-color: #B85C5C;
+}
+
+.marketplace .listing-tags {
+    position: relative;
+    top: 8.5px;
+    margin-top: -8.5px;
+    max-width: 100px;
+    max-height: 26.5667px;
+    background-color: #ECB85C;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marketplace .listing-date {
+    background-color: #5CB8EC;
+}
+
+.marketplace .listing-views {
+    background-color: #5C5CB8;
+}
+
+.marketplace .listing-price {
+    background-color: #5CB85C;
+}
+
+.marketplace .listing-address{
+    background-color: #FCFFF0;
+}
+
+.marketplace .listing-links {
+    background-color: #F0FFFC;
+}
+
+.marketplace .listing-links .btn {
+    border-radius: 0px !important;
+}
+
+.marketplace #listing .row {
+    padding: 12px;
+}
+
+.marketplace #googleMap {
+	margin-top: 10px;
+	width: 100%;
+	height: 400px;
+}
+
+.marketplace .listing-photos {
+    text-align: center;
+    background-color: #F0FCFF;
+}
+
+.marketplace .listing-photo {
+    position: relative;
+    margin: 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.marketplace .listing-photo:hover {
+    box-shadow: 0px 0px 2px 0px #0099FF;
+}
+
+.marketplace .listing-photo .delete-photo {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    border-radius: 0px;
+    padding: 0px 4px;
+    background: rgb(217, 53, 79);
+    background: rgba(217, 53, 79, .2);
+}
+
+.marketplace .listing-photo .delete-photo:hover {
+    background: rgb(217, 53, 79);
+    background: rgba(217, 53, 79, .5);
+}
+
+.marketplace .pop {
+	cursor: pointer;
+}
+
+.marketplace #imagepreview {
+	 width: 100%;
+}
+
+.listings-box .listing{
+    width: 32.3%;
+    height: 100px;
+    display: block;
+    float: left;
+    margin: .5%;
+    background-size: cover;
+    background-position:center;
+    padding: 5px;
+    word-wrap: break-word;
+}
+
+.listings-box .listing .name{
+    color: #ffffff;
+    text-shadow: #000000 1px 0px;
+    font-size: 12px;
+}
+
+.listings-box .listing{
+        width: 48.45%;
+    }
+
+
+.listings-box .listing{
+        width: 32.3%;
+}
+
+.marketplace #map {
+	width: 100%;
+	height: 400px;
+	background-color: #CCCCCC;
+}
+
+#floating-panel {
+	background-color: #fff;
+	padding: 5px;
+	border: 1px solid #999;
+	text-align: center;
+	font-family: 'Roboto','sans-serif';
+	line-height: 30px;
+	padding-left: 10px;
+	}
+
+.marketplace .btn-primary, .marketplace .btn-success, .marketplace .btn-info, .marketplace .btn-danger {
+    color: #FFFFFF !important;
+}
+
+.marketplace .dropdown {
+    margin: 16px 0px;
+}
+
+.marketplace .marketplace.dropdown-toggle {
+    min-width: 200px;
+    border: solid 1px #CCCCCC;
+    border-radius: 0px !important;
+    background-color: transparent;
+    text-align: left;
+}
+
+.marketplace .dropdown-menu {
+    min-width: 200px;
+    border-radius: 0px !important;
+}
+
+.marketplace .dropdown-menu li {
+    padding: 2px 8px;
+}
+
+.marketplace .dropdown-menu a{
+    text-decoration: none;
+    display: block;
+}
+
+.marketplace .dropdown-menu li:hover {
+    background-color: #F0F0F0;
+}
+
+.marketplace .admin-delete-listing {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    border-radius: 0px;
+    width: 32px;
+    height: 32px;
+    background: rgb(217, 53, 79);
+    background: rgba(217, 53, 79, .2);
+    text-align: center;
+    font-size: 24px !important;
+}
+
+.marketplace .admin-delete-listing:hover {
+    background: rgb(217, 53, 79);
+    background: rgba(217, 53, 79, .5);
+}
+
+.marketplace .admin-edit-listing {
+    position: absolute;
+    top: 0px;
+    right: 32px;
+    border-radius: 0px;
+    width: 32px;
+    height: 32px;
+    background: rgb(0, 153, 255);
+    background: rgba(0, 153, 255, .2);
+    text-align: center;
+    font-size: 24px !important;
+}
+
+.marketplace .admin-edit-listing:hover {
+    background: rgb(0, 153, 255);
+    background: rgba(0, 153, 255, .5);
+}
+
+.marketplace .pagination > .active > a{
+    border-color: #0275d8;
+    background-color: #0275d8;
+    color: #FFFFFF !important;
+}

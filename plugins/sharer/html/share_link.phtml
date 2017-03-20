@@ -1,0 +1,18 @@
+<?php if(!config('disable-inline-link-sharer', false)): ?>
+    <?php $link = isset($link) ? preg_replace('/^.*?:\/\//i', '', urldecode($link)) : null ?>
+    <?php $link = isset($link) ? urlencode($link) : urlencode(urlencode(preg_replace('/^.*?:\/\//i', '', urldecode(sharer_self_url())))); $name = get_setting("site_title", "crea8socialPRO"); $specs = 'width = 500, height = 500, scrollbars = yes' ?>
+    <div class="dropup sharer share-link">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="ion-android-share-alt"></i> <?php echo lang('sharer::share') ?>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <?php if(config('facebook-button', true)): ?><a href="javascript:void(0)" class="ion-social-facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=<?php echo $link ?>', '<?php echo $name ?>', '<?php echo $specs ?>')"></a><?php endif ?>
+            <?php if(config('twitter-button', true)): ?><a href="javascript:void(0)" class="ion-social-twitter" onclick="window.open('https://twitter.com/home?status=<?php echo $link ?>', '<?php echo $name ?>', '<?php echo $specs ?>')"></a><?php endif ?>
+            <?php if(config('googleplus-button', true)): ?><a href="javascript:void(0)" class="ion-social-googleplus" onclick="window.open('https://plus.google.com/share?url=<?php echo $link ?>', '<?php echo $name ?>', '<?php echo $specs ?>')"></a><?php endif ?>
+            <?php if(config('linkedin-button', true)): ?><a href="javascript:void(0)" class="ion-social-linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $link ?>', '<?php echo $name ?>', '<?php echo $specs ?>')"></a><?php endif ?>
+            <!--<a href="javascript:void(0)" class="ion-social-pinterest" onclick="window.open('https://pinterest.com/pin/create/button/?url=<?php echo $link ?>&media=<?php echo $name ?>&description=', '<?php echo $name ?>', '<?php echo $specs ?>')"></a> -->
+            <?php if(config('email-button', true)): ?><a href="javascript:void(0)" class="ion-email" onclick="window.open('mailto:?subject=<?php echo $app->title ?>&body=<?php echo $link ?>', '_self', '<?php echo $specs ?>')"></a><?php endif ?>
+            <?php if(config('feed-button', true)): ?><a href="javascript:void(0)" class="ion-share" onclick="window.open('<?php echo url('sharer') ?>?url=<?php echo $link ?>', '<?php echo $name ?>', '<?php echo $specs ?>')"></a><?php endif ?>
+        </div>
+    </div>
+<?php endif ?>

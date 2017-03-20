@@ -1,0 +1,11 @@
+<?php $threads = forum_get_threads(null, null, null, 't', 1, $limit); ?>
+<?php if(count($threads->results()) > 0): ?>
+    <div class="forum box threads-box">
+        <div class="title"><?php echo lang('forum::top-topics')?> <a ajax="true" href="<?php echo url_to_pager('forum-slug', array('appends' => '/top'))?>" class="more-link pull-right"><i class="ion-ios-arrow-forward"></i></a></div>
+        <ul class="menu">
+            <?php foreach($threads->results() as $thread): ?>
+                <li><a href="<?php echo forum_get_thread_slug_link($thread['id']) ?>" ajax="true"><?php echo str_limit($thread['subject'], $str_limit) ?></a></li>
+            <?php endforeach?>
+        </ul>
+    </div>
+<?php endif ?>

@@ -1,0 +1,13 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang('add')?> <?php echo ucwords($type)?> <?php echo lang('ban-filters')?> </div>
+    <div class="wrapper-content">
+
+        <form action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <textarea class="form-control" name="val[<?php echo $var?>]"><?php echo config($var)?></textarea>
+            <p><?php echo lang('separate-by-comma')?></p>
+            <button class="btn red lighten-3"><?php echo lang('save')?></button>
+        </form>
+
+    </div>
+</div>

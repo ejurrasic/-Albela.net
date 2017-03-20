@@ -1,0 +1,94 @@
+<?php echo view('layouts/menu')?>
+
+<div class="container">
+    <?php if(segment(1) != 'play'):?>
+
+        <div data-width="950" class="profile-container" id="game-profile-container" data-id="<?php echo get_game_details('game_id')?>">
+            <div id="profile-cover" class="box">
+                <div class="profile-cover-indicator">
+                    <img src="<?php echo img('images/loading.gif')?>"/>
+                </div>
+                <div class="profile-cover-wrapper">
+
+                    <img src="<?php echo get_game_cover(app()->profileGame, false)?>"/>
+                </div>
+                <?php if(is_game_admin($app->profileGame)):?>
+
+                    <div class="profile-resize-cover-wrapper">
+                        <div class="drag-info"><?php _lang('drag-to-position-cover')?></div>
+                        <img src="<?php echo get_game_cover(app()->profileGame)?>"/>
+                    </div>
+                    <form id="profile-cover-change-form" enctype="multipart/form-data" method="post">
+						<?php CSRFProtection::embed() ?>
+                        <span class="file-input"><input accept="image/*" multiple onchange="return upload_game_profile_cover()" type="file" id="user-profile-cover-input" name="image"/> </span>
+                        <button   class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown"><i class="ion-camera"></i> <?php _lang('change-cover')?></button>
+                        <ul style="width: 240px" class="dropdown-menu dropdown-menu-right" id="profile-cover-dropdown-menu">
+                            <li><a class="dropdown-item" onclick="return file_chooser('#user-profile-cover-input')" href=""><?php _lang('upload-photo')?>...</a> </li>
+                            <li><a class="dropdown-item" onclick="return reposition_user_profile_cover()" href=""><?php _lang('reposition')?>...</a> </li>
+                            <li><a class="dropdown-item" onclick="return remove_game_profile_cover('<?php echo img("images/cover.jpg")?>')" href=""><?php _lang('remove')?>...</a> </li>
+                        </ul>
+                    </form>
+                    <div class="profile-cover-reposition-button">
+                        <input type="hidden" id="profile-cover-resized-top" value="0"/>
+                        <a onclick="return cancel_profile_cover_position()" class="btn-danger-outline btn btn-sm" href="#!"><?php _lang('cancel')?></a>
+                        <a onclick="return save_game_profile_cover()" class="btn btn-success btn-upper btn-sm" href=""><?php _lang('save')?></a>
+                    </div>
+                <?php endif?>
+                <div class="user-avatar box">
+
+
+                    <img class="profile-image"  src="<?php echo get_game_logo(200, app()->profileGame)?>"/>
+                </div>
+                <div class="user-info">
+                    <h4 class="user-name left"><?php echo get_game_details('game_title')?></h4>
+                </div>
+                <div class="profile-actions">
+                    <?php if(is_loggedIn()):?>
+
+                        <?php if(is_game_admin($app->profileGame)):?>
+                            <a ajax="true" href="<?php echo game_url('edit', $app->profileGame)?>" class="btn btn-secondary "><i class="ion-edit"></i> <?php _lang('edit')?></a>
+                        <?php endif?>
+                    <?php endif?>
+
+                    <?php if(is_loggedIn() and plugin_loaded('report')):?>
+                        <a  data-type="game" data-link="<?php echo game_url(null, $app->profileGame)?>" class="report-btn btn btn-secondary " href=""><i class="ion-flag"></i></a>
+                    <?php endif?>
+
+                    <?php if(is_loggedIn()):?>
+                        <span class="dropdown">
+                        <a  href="" class="dropdown-toggle btn btn-secondary" data-toggle="dropdown" style=""><i class="ion-android-more-vertical"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a onclick="return process_user_save(this, 'game', '<?php echo $app->profileGame['game_id']?>')" href="" class="dropdown-item user-save" data-status="<?php echo (user_saved('game', $app->profileGame['game_id'])) ? 1 : 0?>">
+                                    <i class="ion-android-bookmark"></i>
+                                    <span><?php echo (user_saved('game', $app->profileGame['game_id'])) ? lang('unsave-post') : lang('save-post')?></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </span>
+
+                    <?php endif?>
+                </div>
+                <nav id="profile-menu" class="">
+
+                    <div class="navbar navbar-light">
+
+                        <ul id="menu" class="nav navbar-nav">
+                        <li style="border: none !important">
+                            <i class="ion-ios-game-controller-b"></i>
+                            <?php if(isset($app->profileGame['category'])):?>
+                                <?php _lang($app->profileGame['category']['title'])?>
+                            <?php endif?>
+                            <?php _lang('by')?> <a ajax="true" href="<?php echo profile_url(null, $app->profileGame['owner'])?>"><?php echo get_user_name($app->profileGame['owner'])?></a>
+
+                            - <?php echo $app->profileGame['players_count']?> <?php _lang('game::players')?>&#x200E;
+                        </li>
+                        </ul>
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    <?php endif?>
+    <?php echo $content?>
+</div>

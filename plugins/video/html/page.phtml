@@ -1,0 +1,116 @@
+<?php
+$refId = $video['id'];
+$refName = 'video';
+
+?>
+<div class="box">
+    <div class="title" style="min-height: 45px">
+    <?php echo $video['title']?>
+    <div class="action">
+        <?php if(is_video_owner($video)):?>
+        <a ajax="true" href="<?php echo url('video/edit?id='.$video['id'])?>" class="btn btn-success btn-sm "><?php _lang('edit')?></a>
+        <a href="<?php echo url('video/delete?id='.$video['id'])?>" class="btn btn-danger confirm btn-sm"><?php _lang('video::delete-video')?></a>
+        <?php elseif(is_loggedIn() and plugin_loaded('report')): ?>
+        <a data-type="group" data-link="<?php echo url_to_pager('video-page', array('id' => $video['slug'])) ?>" class="report-btn btn btn-secondary" href=""><i class="ion-flag"></i></a>
+        <?php endif?>
+    </div>
+        </div>
+    <div class="box-content video-player-container">
+        <?php if($video['source'] == 'upload'):?>
+               <?php if($video['status'] == 0):?>
+                    <div class="video-in-processing">
+                        <?php _lang('video::video-in-processing')?>
+                    </div>
+                <?php else:?>
+                <iframe class="" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" style="border: none;padding: 0 !important;margin:0 10px;border-radius: 3px;overflow: hidden;width: 96%;" src="<?php echo url_to_pager("play-video").'?link='.$video['file_path']?>&height=430" width="94%" height="450"></iframe>
+                <?php endif?>
+        <?php else:?>
+            <div class="external-video"><?php echo set_youtube_param($video['code'], array('rel' => 0)) ?></div>
+        <?php endif?>
+        <?php echo fire_hook('videoauthor.name', null, array($video));?>
+        </div>
+    <?php if(plugin_loaded('like') and config('feed-like-type', 'regular') != 'regular'):?>
+        <div class="reactors reactors-<?php echo $refName?>-<?php echo $refId?>">
+            <?php echo view('like::reacts', array('type' => $refName, 'type_id' => $refId))?>
+        </div>
+    <?php endif?>
+    <div class="feed-footer">
+        <ul class=" feed-footer-menu clearfix">
+
+
+            <?php if(plugin_loaded('like')):?>
+                <?php load_functions('like::like');?>
+                <?php if(config('feed-like-type', 'regular') == 'regular'):?>
+
+                    <li><a  onclick="return like_item('<?php echo $refName?>', '<?php echo $refId?>')" data-status="<?php echo (has_liked($refName, $refId)) ? '1'  : 0?>" class=" like-button-<?php echo $refName?>-<?php echo $refId?> like-button <?php echo (has_liked($refName, $refId)) ? 'liked'  : null?>" href=""> <i class="ion-thumbsup"></i> <?php echo lang('like::like')?></a> </li>
+                    <?php if (config('enable-dislike', false)):?>
+                        <li><a id="" onclick="return dislike_item('<?php echo $refName?>', '<?php echo $refId?>')" data-status="<?php echo (has_disliked($refName, $refId)) ? '1'  : 0?>" class="dislike-button-<?php echo $refName?>-<?php echo $refId?> like-button <?php echo (has_disliked($refName, $refId)) ? 'disliked'  : null?>" href=""> <i class="ion-thumbsdown"></i> <?php echo lang('like::dislike')?></a> </li>
+                    <?php endif?>
+                <?php else:?>
+                    <li class="feed-react">
+                        <div class="react-items react-items-<?php echo $refId?>" id="">
+                            <ul>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="1" data-toggle="tooltip" title="<?php _lang('like::like')?>"><img src="<?php echo img('images/reaction/like.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="4" data-toggle="tooltip" title="<?php _lang('like::love')?>"><img src="<?php echo img('images/reaction/love.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="5" data-toggle="tooltip" title="<?php _lang('like::haha')?>"><img src="<?php echo img('images/reaction/haha.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="6" data-toggle="tooltip" title="<?php _lang('like::yay')?>"><img src="<?php echo img('images/reaction/yay.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="7" data-toggle="tooltip" title="<?php _lang('like::wow')?>"><img src="<?php echo img('images/reaction/wow.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="8" data-toggle="tooltip" title="<?php _lang('like::sad')?>"><img src="<?php echo img('images/reaction/sad.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="9" data-toggle="tooltip" title="<?php _lang('like::angry')?>"><img src="<?php echo img('images/reaction/angry.png')?>"/></a></li>
+
+                            </ul>
+                        </div>
+                        <a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>"  data-status="<?php echo (has_reacted($refName, $refId)) ? '1'  : 0?>" class=" react-button-<?php echo $refName?>-<?php echo $refId?> react-button <?php echo (has_reacted($refName, $refId)) ? 'liked'  : null?>" href=""> <i class="ion-thumbsup"></i> <span class="hidden-md-down"><?php echo lang('like::like')?></span></a>
+                    </li>
+                <?php endif?>
+            <?php endif?>
+                <li><a href=""><i class="ion-ios-eye"></i> <?php echo $video['view_count']?> <?php _lang('video::views')?></a> </li>
+                <li class="video-social-share-link"><?php if(plugin_loaded('sharer')) echo view('sharer::share_link', array('link' => url("video/".$video['slug']))) ?></li>
+
+            <li class="pull-right">
+                <ul class="feed-statistics">
+                    <?php if(plugin_loaded('like') and config('feed-like-type', 'regular') == 'regular'):?>
+                        <?php if(plugin_loaded('like')):?>
+                            <li><a onclick="return show_likes('<?php echo $refName?>', '<?php echo $refId?>')" href=""> <i class="ion-thumbsup"></i> <span class="like-count-<?php echo $refName?>-<?php echo $refId?>"><?php echo count_likes($refName, $refId)?></span></a></li>
+                            <?php if (config('enable-dislike', false)):?>
+                                <li><a onclick="return show_dislikes('<?php echo $refName?>', '<?php echo $refId?>')" href=""> <i class="ion-thumbsdown"></i> <span class="dislike-count-<?php echo $refName?>-<?php echo $refId?>"><?php echo count_dislikes($refName, $refId)?></span></a></li>
+                            <?php endif?>
+
+                        <?php endif?>
+                    <?php endif?>
+
+                    <?php if(plugin_loaded('comment')):?>
+                        <?php load_functions('comment::comment')?>
+                        <?php $countComments = count_comments($refName, $refId);?>
+                        <li> <i class="ion-chatbubbles"></i> <span class="comment-count-<?php echo $refName?>-<?php echo $refId?>"><?php echo ($countComments) ? $countComments : null?></span></li>
+                    <?php endif?>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="box">
+    <div class="box-content feed-footer">
+        <?php if(plugin_loaded('comment')):?>
+            <div class="feed-comment-container">
+
+                <?php if($countComments > config('feed-comment-limit', 3)):?>
+                    <a id="comment-view-more-button-<?php echo $refName?>-<?php echo $refId?>" class="comment-view-more-button comment-view-more-button-<?php echo $refName?>-<?php echo $refId?>" onclick="return show_more_comment('<?php echo $refName?>', '<?php echo $refId?>', 'comment-view-more-indicator-<?php echo $refId?>')"  href=""><?php _lang('view-previous-comments')?></a>
+                    <img class="comment-view-more-indicator" id="comment-view-more-indicator-<?php echo $refId?>" src="<?php echo img('images/loading.gif')?>" />
+                <?php endif?>
+                <div data-offset="<?php echo config('feed-comment-limit', 3)?>" data-limit="<?php echo config('feed-comment-limit', 3)?>" class="comment-lists comment-lists-<?php echo $refName?>-<?php echo $refId?>" id="">
+                    <?php foreach(get_comments($refName, $refId, config('feed-comment-limit', 3), 0) as $comment):?>
+                        <?php echo view('comment::display', array('comment' => $comment))?>
+                    <?php endforeach;?>
+                </div>
+                <?php echo view('comment::editor', array(
+                    'typeId' => $video['id'],
+                    'type' => 'video',
+                    'textLimit' => (config('enable-feed-text-limit', false)) ? config('maximum-feed-text-limit', 150) : false))?>
+
+            </div>
+        <?php endif?>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="box ">
+    <?php if(isset($app->profileUser)):?>
+    <div class="title"><?php _lang('about')?></div>
+    <div class="box-content" style="padding-top: 0">
+        <ul id="profile-side-info">
+            <?php if(config('enable-last-seen', true)):?>
+                <li><span class="online-status <?php echo get_online_status_icon($app->profileUser) ?>"></span>
+                    <span style="margin-left:10px;color:grey !important"><span style="color:#ABACAD !important;font-weight:normal !important" class="timeago " title="<?php echo date('c', $app->profileUser['online_time'])?>"><?php echo date('c', $app->profileUser['online_time'])?></span></span>
+                </li>
+            <?php endif?>
+            <?php if($app->profileUser['country']):?>
+                <li><span><i class="ion-ios-location"></i> <?php _lang('from')?></span>
+                    <?php echo (app()->profileUser['city']) ? app()->profileUser['city'].',' : null?>
+                    <?php echo (app()->profileUser['state']) ? app()->profileUser['state'].',' : null?>
+                    <?php echo ucwords(app()->profileUser['country'])?>
+                </li>
+            <?php endif?>
+            <li><span><i class="<?php echo (app()->profileUser['gender'] == 'male') ? 'ion-man' : 'ion-woman'?>"></i></span> <?php echo ucwords(lang(app()->profileUser['gender']))?></li>
+            <?php if(config('enable-birthdate', true)):?>
+                <li><span><i class="ion-android-calendar"></i></span>
+                    <?php echo app()->profileUser['birth_day']?>,
+                    <?php echo lang(app()->profileUser['birth_month'])?>
+                    <?php if(can_view_birthdate($app->profileUser)):?>
+                        ,<?php echo app()->profileUser['birth_year']?>
+                    <?php endif?>
+                </li>
+            <?php endif?>
+
+            <?php if($app->profileUser['bio']):?>
+                <li><span><i class="ion-ios-information-outline"></i> <?php _lang('bio')?></span> <?php echo output_text(app()->profileUser['bio'])?></li>
+            <?php endif?>
+
+            <?php $i=0;foreach(get_all_custom_fields('user') as $field):?>
+            <?php $field_data = output_text(get_user_data($field['title'], $app->profileUser)) ?>
+            <?php if($field['field_type'] == 'boolean'):?>
+                <?php $field_data = substr(preg_replace('/[^10]/', '', $field_data), -1) ?>
+                <?php $field_data = $field_data === "1" ? 'Yes' : 'No' ?>
+            <?php endif ?>
+            <?php if($i <= 3 and get_user_data($field['title'], $app->profileUser) != null):?>
+                <li>
+                    <span><i class="ion-ios-information-outline"></i> <?php _lang($field['title'])?>:</span> <?php echo $field_data?>
+                </li>
+            <?php else:break;endif?>
+            <?php $i++; endforeach?>
+        </ul>
+    </div>
+
+    <a ajax="true" href="<?php echo profile_url('about', app()->profileUser)?>" class="right btn-flat ">
+        <div class="title">
+
+            <?php _lang('more')?>
+            <i class="ion-ios-arrow-forward pull-right"></i>
+        </div>
+    </a>
+
+    <?php elseif(!isset($app->profileUser)):?>
+    <div class="title"><?php _lang('not-profile-page')?></div>
+    <div class="box-content" style="padding-top: 0">
+        <ul id="profile-side-info">
+            <li>This widget can only work on a profile page</li>
+        </ul>
+    </div>
+    <?php endif?>
+</div>

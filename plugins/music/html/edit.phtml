@@ -1,0 +1,60 @@
+<div class="box music">
+    <div class="title">
+        <?php echo $music['title'] ?>
+        <a href="<?php echo url_to_pager('music-delete').'?id='.$music['id'] ?>" class="btn btn-danger action btn-sm confirm"><?php echo lang('music::delete-music') ?></a>
+    </div>
+    <div class="box-content" style="padding: 20px 10%">
+        <?php if($message): ?><div class="alert alert-danger"><?php echo $message ?></div><?php endif ?>
+        <?php $current = (config('external-music', false)) ? 'external' : 'upload'; ?>
+        <form action="" method="post" enctype="multipart/form-data">
+			<?php CSRFProtection::embed() ?>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php echo lang('category') ?></label>
+                <div class="col-sm-8">
+                    <select name="val[category_id]" class=" c-select" >
+                    <?php foreach(get_music_categories() as $category): ?>
+                        <?php $subCategories = get_music_parent_categories($category['id']) ?>
+                        <?php if($subCategories): ?>
+                        <optgroup label="<?php echo lang($category['title']) ?>">
+                            <?php foreach($subCategories as $cat): ?>
+                            <option value="<?php echo $cat['id'] ?>" <?php if($cat['id'] == $music['category_id']): ?> selected <?php endif ?> ><?php echo lang($cat['title']) ?></option>
+                            <?php endforeach ?>
+                        </optgroup>
+                        <?php else: ?>
+                        <option value="<?php echo $category['id'] ?>" <?php if($category['id'] == $music['category_id']): ?> selected <?php endif ?> ><?php echo lang($category['title']) ?></option>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php echo lang('music::title') ?></label>
+                <div class="col-sm-8"><input value="<?php echo $music['title'] ?>" type="text" name="val[title]" class="form-control "/></div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php echo lang('music::artist') ?></label>
+                <div class="col-sm-8"><input value="<?php echo $music['artist'] ?>" type="text" name="val[artist]" class="form-control "/></div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php echo lang('music::album') ?></label>
+                <div class="col-sm-8"><input value="<?php echo $music['album'] ?>" type="text" name="val[album]" class="form-control "/></div>
+            </div>
+            <div class="form-group row">
+                <label for="val[cover_art]" class="control-label col-sm-4"><?php echo lang('music::cover-art') ?></label>
+                <div class="col-sm-8"><input type="file" id="cover_art" name="cover_art" accept="image/jpeg" class="form-control" /></div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php echo lang('privacy') ?></label>
+                <div class="col-sm-8">
+                    <?php $default = $music['privacy']; ?>
+                    <select class="c-select" name="val[privacy]">
+                        <option <?php echo ($default == 1) ? 'selected' : null ?> value="1" ><?php echo lang('everyone') ?></option>
+                        <option <?php echo ($default == 2) ? 'selected' : null ?> value="2"><?php echo (config('relationship-method', 2) == 2 or config('relationship-method', 2) == 3) ? lang('friends-only') : lang('followers-only') ?></option>
+                        <option <?php echo ($default == 3) ? 'selected' : null ?> value="3"><?php echo lang('only-me') ?></option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-info"><?php echo lang('music::save-music') ?></button>
+        </form>
+    </div>
+</div>

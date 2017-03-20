@@ -1,0 +1,26 @@
+<div class=" lg-title"><?php _lang('membership::choose-plan')?></div>
+<div class="container">
+    <div class="membership-plans-container clearfix">
+        <?php foreach(get_membership_plans() as $plan):?>
+            <div class="each-plan <?php echo ($plan['recommend'])? 'recommend' : false?>">
+                <span class="title"><?php _lang($plan['title'])?></span>
+                <span class="description"><?php _lang($plan['description'])?></span>
+
+                <span class="price"><?php echo $plan['price']?> <?php echo config('default-currency')?></span>
+                <?php if($plan['type'] == 'recurring'):?>
+                    <span class="price-add"></span>
+                <?php endif?>
+
+                <span class="type">
+                    <?php if($plan['type'] == 'recurring'):?>
+                        <?php _lang('membership::recurring-per', array('n' => $plan['expire_no'], 'm' => lang('membership::'.$plan['expire_type'].'s')))?>
+                    <?php else:?>
+                        <?php _lang("membership::".$plan['type'])?>
+                    <?php endif?>
+                </span>
+
+                <a href="<?php echo url("membership/payment?plan=".$plan['id'])?>" class="btn btn-info btn-sm"><?php _lang('membership::choose-plan')?></a>
+            </div>
+        <?php endforeach?>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<?php if(!count($likes)):?>
+    <div class="alert alert-info"><?php _lang('no-people-found')?></div>
+<?php endif?>
+
+<?php foreach($likes as $user):?>
+    <a href="<?php echo profile_url(null, $user)?>">
+        <div class="media media-md">
+            <div class="media-left">
+                <div class="media-object"><img src="<?php echo get_avatar(75, $user)?>"/></div>
+            </div>
+            <div class="media-body">
+                <h6 class="media-heading"><?php echo get_user_name($user)?> <?php echo verify_badge($user)?></h6>
+            </div>
+        </div>
+    </a>
+<?php endforeach?>

@@ -1,0 +1,29 @@
+<div class="wrapper">
+    <div class="wrapper-title "><?php echo lang('manage-countries')?> - <a href="<?php echo url_to_pager("admin-country-manager")?>?action=add"><?php echo lang("add-country")?></a></div>
+    <div class="wrapper-content">
+
+        <table class="table table-bordered ">
+            <thead>
+            <tr>
+                <th>#ID</th>
+                <th><?php echo lang('name')?></th>
+
+                <th><?php echo lang('action')?></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <?php foreach(get_countries() as $id => $country):?>
+                <tr>
+                    <td><?php echo $id?></td>
+                    <td><?php echo ucwords($country)?></td>
+                    <td>
+                        <a class="btn btn-success btn-sm" href="<?php echo url_to_pager("admin-country-manager")?>?action=edit&id=<?php echo $id?>"><?php echo lang('edit')?></a>
+                        <a class="btn btn-danger btn-sm" href="<?php echo url_to_pager("admin-country-manager")?>?action=delete&id=<?php echo $id?>"><?php echo lang('delete')?></a>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

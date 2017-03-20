@@ -1,0 +1,20 @@
+<?php foreach($pages->results() as $page):?>
+    <div class="media media-md" style="padding: 5px">
+        <div class="media-left">
+            <a href="<?php echo page_url(null, $page)?>" ajax="true">
+                <div class="media-object"><img src="<?php echo get_page_logo(75, $page)?>"/> </div>
+            </a>
+        </div>
+        <div class="media-body">
+            <a href="<?php echo page_url(null, $page)?>" ajax="true"><h6 class="media-heading"><?php echo $page['page_title']?> <?php echo verify_badge($page)?></h6></a>
+
+            <div class="action">
+                <?php if(plugin_loaded('like')):?>
+                    <?php load_functions('like::like');?>
+                    <a  onclick="return like_item('page', '<?php echo $page['page_id']?>')" data-status="<?php echo (has_liked('page', $page['page_id'])) ? '1'  : 0?>" class="btn btn-secondary btn-sm like-button-page-<?php echo $page['page_id']?> like-button <?php echo (has_liked('page', $page['page_id'])) ? 'liked'  : null?>" href=""> <i class="ion-thumbsup"></i> <?php echo lang('like::like')?></a>
+
+                <?php endif?>
+            </div>
+        </div>
+    </div>
+<?php endforeach?>

@@ -1,0 +1,10 @@
+<div class="row" id="dropdown-search-results">
+    <div class="col-sm-4 left">
+        <h6><?php _lang('discover')?></h6>
+    </div>
+    <div class="col-sm-8 right">
+        <?php foreach($hashtags as $hashtag):?>
+            <a ajax="true" href="<?php echo url_to_pager('hashtag')?>?t=<?php echo str_replace('#', '', $hashtag['hashtag'])?>"><?php echo $hashtag['hashtag']?></a>
+        <?php endforeach?>
+    </div>
+</div>
