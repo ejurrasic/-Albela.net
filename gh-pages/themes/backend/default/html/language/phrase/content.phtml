@@ -1,0 +1,66 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang("phrase-manager")?>
+        <a href="<?php echo url_to_pager("admin-languages")."?action=export&id=".$id?>"><?php echo lang("export-language-pack")?></a>
+        <span><?php  echo lang('phrase-manager-desc')?></span>
+    </div>
+    <div class="wrapper-content">
+        <div class="row" style="margin: 20px 0">
+            <div class="col-sm-7">
+                <form action="" method="get">
+					<?php CSRFProtection::embed() ?>
+                    <input type="hidden" name="id" value="<?php echo $id?>"/>
+                    <input class="form-control" type="text" name="term" placeholder="<?php echo lang('search-phrase-placeholder')?>" value="<?php echo input('term')?>"/>
+                    <button class="btn waves-effect waves-light red lighten-3"><?php echo lang('search')?></button>
+                </form>
+            </div>
+
+            <div class="col-sm-5">
+                <form action="" method="get">
+					<?php CSRFProtection::embed() ?>
+                    <select class="c-select" name="id">
+                        <?php foreach(get_all_languages() as $language):?>
+                            <option <?php echo ($id == $language['language_id']) ? 'selected' : null?> value="<?php echo $language['language_id']?>"><?php echo $language['language_title']?></option>
+                        <?php endforeach?>
+                    </select>
+                    <button class="btn waves-effect waves-light red lighten-3"><?php echo lang('go')?></button>
+                </form>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <form action="" method="post">
+            <?php CSRFProtection::embed() ?>
+            <input type="hidden" name="lang_id" value="<?php echo $id?>"/>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th style="width: 20%"><?php echo lang('variable')?></th>
+                    <th style="width: 10%"><?php echo lang('language')?></th>
+                    <th style="width: 35%"><?php echo lang('original')?></th>
+                    <th style="width: 35%"><?php echo lang('edit')?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($phrases->results() as $phrase):?>
+                    <tr>
+                        <td><?php echo $phrase['phrase_id']?></td>
+                        <td><?php echo $phrase['language_id']?></td>
+                        <td><?php echo $phrase['phrase_original']?></td>
+                        <td>
+
+                                <textarea class="form-control" name="val[<?php echo $phrase['phrase_id']?>]"><?php echo $phrase['phrase_translation']?></textarea>
+
+                        </td>
+                    </tr>
+                <?php endforeach?>
+                </tbody>
+            </table>
+
+            <div class="divider"></div>
+            <button class="btn"><?php echo lang('save-phrases')?></button>
+            <div style="display: block;width: 100%"><?php echo $phrases->append(array('id'=>$id, 'term' => input('term')))->links()?></div>
+
+
+        </form>
+    </div>
+</div>

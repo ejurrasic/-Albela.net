@@ -1,0 +1,115 @@
+<?php
+    $default = (isset($default) and !empty($default)) ? $default : get_default_design_template();
+    $type = (isset($type)) ? $type : 'user';
+    $typeId = (isset($typeId)) ? $typeId : get_userid();
+    $active = (isset($default['active'])) ? $default['active'] : 'default';
+?>
+
+<div class="box" id="design-pane">
+    <div class="box-content">
+        <form enctype="multipart/form-data" onsubmit="return hide_design_pane();" action="<?php echo url_to_pager('save-design')?>" method="post">
+            <?php CSRFProtection::embed() ?>
+            <input type="hidden" name="val[url]" value="<?php echo getFullUrl(true)?>"/>
+            <input type="hidden" name="val[type]" value="<?php echo $type?>"/>
+            <input type="hidden" name="val[type_id]" value="<?php echo $typeId?>"/>
+            <input type="hidden" name="val[active]" id="design-active" value="<?php echo $active?>"/>
+            <div class="row">
+                <div class="col-sm-4 left " >
+                    <div class="clearfix slimscroll" data-height="230px">
+                        <?php foreach(get_design_template() as $id => $design):?>
+                            <a class="<?php echo ($id == $active) ? 'active' : null?>" onclick="return display_design(
+                                '<?php echo img($design['image'])?>',
+                                '<?php echo $design['repeat']?>',
+                                '<?php echo $design['color']?>',
+                                '<?php echo $design['position']?>',
+                                '<?php echo $design['link']?>',
+                                '<?php echo $design['container']?>',
+                                '<?php echo $id?>'
+                                )" href="">
+                                <img src="<?php echo $design['preview']?>"/>
+                            </a>
+                        <?php endforeach?>
+                    </div>
+                </div>
+                <div class="col-sm-8 right">
+
+                    <input type="hidden" name="val[image]" value="<?php echo $default['image']?>" id="design-image-input"/>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label><?php _lang('background-image')?></label>
+                            <input accept="image/*" onchange="design_change_image(this)" type="file"  class="form-control" name="image"/>
+
+                            <label><?php _lang('background-position')?></label>
+                            <div class="c-inputs-stacked">
+                                <label class="c-input c-radio">
+                                    <input class="design-position design-position-left" onchange="design_bg_position(this)" <?php echo ($default['position'] == 'left') ? 'checked' : null?> id="radioStacked1" name="val[position]" value="left" type="radio">
+                                    <span class="c-indicator"></span>
+                                    <?php _lang('left')?>
+                                </label>
+                                <label class="c-input c-radio">
+                                    <input class="design-position design-position-center" onchange="design_bg_position(this)" <?php echo ($default['position'] == 'center') ? 'checked' : null?>  id="radioStacked2" name="val[position]" value="center" type="radio">
+                                    <span class="c-indicator"></span>
+                                    <?php _lang('center')?>
+                                </label>
+                                <label class="c-input c-radio">
+                                    <input class="design-position design-position-right" onchange="design_bg_position(this)" <?php echo ($default['position'] == 'right') ? 'checked' : null?>  id="radioStacked3" name="val[position]" value="right" type="radio">
+                                    <span class="c-indicator"></span>
+                                    <?php _lang('right')?>
+                                </label>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-6"><?php _lang('background-color')?></label>
+                                <div class="col-sm-6">
+                                    <input type="text" data-color="<?php echo $default['color']?>" value="<?php echo $default['color']?>" name="val[color]" id="bgcolor"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label><?php _lang('background-image-style')?></label>
+                            <div class="c-inputs-stacked">
+                                <label class="c-input c-radio">
+                                    <input class="design-repeat design-repeat-no-repeat" onchange="design_bg_repeat(this)" <?php echo ($default['repeat'] == 'no-repeat') ? 'checked' : null?> id="radioStacked1" name="val[repeat]" value="no-repeat" type="radio">
+                                    <span class="c-indicator"></span>
+                                    <?php _lang('dont-repeat')?>
+                                </label>
+                                <label class="c-input c-radio">
+                                    <input class="design-repeat design-repeat-repeat" onchange="design_bg_repeat(this)" <?php echo ($default['repeat'] == 'repeat') ? 'checked' : null?> id="radioStacked2" name="val[repeat]" value="repeat" type="radio">
+                                    <span class="c-indicator"></span>
+                                    <?php _lang('repeat-hor-ver')?>
+                                </label>
+                                <label class="c-input c-radio">
+                                    <input class="design-repeat design-repeat-repeat-x" onchange="design_bg_repeat(this)" <?php echo ($default['repeat'] == 'repeat-x') ? 'checked' : null?> id="radioStacked3" name="val[repeat]" value="repeat-x" type="radio">
+                                    <span class="c-indicator"></span>
+                                    <?php _lang('repeat-horizontally')?>
+                                </label>
+                                <label class="c-input c-radio">
+                                    <input  class="design-repeat design-repeat-repeat-y" onchange="design_bg_repeat(this)" <?php echo ($default['repeat'] == 'repeat-y') ? 'checked' : null?> id="radioStacked2" name="val[repeat]" value="repeat-y" type="radio">
+                                    <span class="c-indicator"></span>
+                                    <?php _lang('repeat-vertically')?>
+                                </label>
+                            </div>
+                            <div  class="form-group row">
+                                <label class="col-sm-6"><?php _lang('link-color')?></label>
+                                <div class="col-sm-6">
+                                    <input  type="text" data-color="<?php echo $default['link']?>" value="<?php echo $default['link']?>" name="val[link]" id="linkcolor"/>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 20px" class="form-group row">
+                                <label class="col-sm-6"><?php _lang('transparent-color')?></label>
+                                <div class="col-sm-6">
+                                    <input type="text" data-color="<?php echo $default['container']?>" value="<?php echo $default['container']?>" name="val[container]" id="containercolor"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="design-footer">
+                <button class="btn btn-info btn-sm"><?php _lang('save-design')?></button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang('blocks-manager')?>
+        <span><?php echo lang('blocks-manager-description')?></span>
+    </div>
+    <div class="wrapper-content">
+
+        <div class="row" id="page-blocks-container">
+            <div class="col-sm-5 bordered" style="padding: 20px;height: 600px">
+                <form style="margin-bottom: 10px" action="<?php echo url_to_pager("admin-blocks")?>" method="get">
+					<?php CSRFProtection::embed() ?>
+                    <div class="input-field">
+                        <select class="form-control" name="page">
+                            <option <?php echo ($page == "all") ? "selected" : null?> value="all">All Pages</option>
+                            <?php foreach(get_block_pages() as $id => $title):?>
+                                <option <?php echo ($page == $id) ? "selected" : null?> value="<?php echo $id?>"><?php echo ucwords($title)?></option>
+                            <?php endforeach?>
+                        </select>
+
+                    </div>
+
+                    <button class="btn btn-info" style="margin-top: 10px"><?php echo lang('go')?></button>
+                </form>
+                <div class="divider" style="margin-bottom: 20px"></div>
+                <div id="page-blocks" style="height:450px;overflow: auto">
+                    <?php foreach(get_blocks($page) as $view => $details):?>
+                        <div data-settings="<?php echo perfectSerialize($details['settings'])?>" data-page="<?php echo $page?>"  class="each-block" data-title="<?php echo $details['title']?>"  data-view="<?php echo $view?>">
+                            <?php echo $details['title']?>
+                            <?php if($details['settings']):?>
+                                <form  class="" action="" method="post">
+									<?php CSRFProtection::embed() ?>
+                                    <?php foreach($details['settings'] as $settingId => $settingDetails):?>
+                                        <?php echo view('blocks/display-setting', array('key' => $settingId, 'setting' => $settingDetails))?>
+                                    <?php endforeach?>
+
+                                    <button class="btn btn-secondary btn-sm"><?php echo lang('save')?></button>
+                                </form>
+                            <?php endif?>
+                        </div>
+                    <?php endforeach?>
+                </div>
+            </div>
+            <div class="col-sm-5  bordered" style="margin-left: 20px;padding: 0;">
+                <div class="wrapper-title" style="padding: 10px;"><?php echo ucwords($page)?> <?php echo lang('page-blocks')?></div>
+
+                <div data-page="<?php echo $page?>" class="wrapper-content" id="page-blocks-droppable" style="height: 500px;overflow: auto">
+                    <?php
+                        $pageBlocks = get_page_registered_blocks($page);
+                        $definedBlocks = get_blocks($page);
+                    ?>
+                    <?php foreach($pageBlocks as $details):?>
+                            <?php if(isset($definedBlocks[$details['block_view']])):?>
+                                <?php $definedBlock = $definedBlocks[$details['block_view']]?>
+                                <div id="<?php echo $details['id']?>-block" data-page="<?php echo $page?>"  class="each-block"
+                                     data-title="<?php echo $definedBlock['title']?>"
+
+                                     data-view="<?php echo $details['block_view']?>">
+                                    <?php echo $definedBlock['title']?>
+                                    <div class="action">
+                                        <?php if($definedBlock['settings']):?>
+                                            <a href="" class="edit-button" data-id="<?php echo $details['id']?>-block"><i class="ion-edit"></i></a> |
+                                        <?php endif?>
+                                        <a class="delete-button" data-id="<?php echo $details['id']?>" href=""><i class="ion-close"></i></a>
+                                    </div>
+                                    <?php if($definedBlock['settings']):?>
+                                        <form data-id="<?php echo $details['id']?>"  id="<?php echo $details['id']?>-form"  class="" action="" method="post">
+											<?php CSRFProtection::embed() ?>
+                                            <?php foreach($definedBlock['settings'] as $settingId => $settingDetails):?>
+                                                <?php echo view('blocks/display-setting', array('key' => $settingId, 'setting' => $settingDetails, 'value' => perfectUnserialize($details['settings'])))?>
+                                            <?php endforeach?>
+
+                                            <button class="btn btn-secondary btn-sm" style="margin-top: 5px"><?php echo lang('save')?></button>
+                                        </form>
+                                    <?php endif?>
+                                </div>
+                            <?php endif?>
+                    <?php endforeach?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

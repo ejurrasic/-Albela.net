@@ -1,0 +1,155 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <p><?php echo lang('marketplace::edit-listing') ?></p>
+        <span><?php echo lang('marketplace::edit-listing-desc') ?></span>
+    </div>
+    <div class="wrapper-content">
+        <?php if($message): ?>
+            <div class="alert alert-danger"><?php echo $message ?></div>
+        <?php endif ?>
+        <form action="" class="adm" method="post" enctype="multipart/form-data">
+			<?php CSRFProtection::embed() ?>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[category_id]"><?php echo lang('marketplace::category') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('marketplace::edit-listing-category-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <select name="val[category_id]" class="form-control">
+                            <?php foreach($categories as $category): ?>
+                                <option value="<?php echo $category['id'] ?>" <?php if($category['id'] == $category_id): ?> selected="selected" <?php endif ?>><?php echo lang($category['title']) ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[title]"><?php echo lang('marketplace::title') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('marketplace::edit-listing-title-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <input name="val[title]" type="text" value="<?php echo $listing['title'] ?>" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[description]"><?php echo lang('marketplace::description') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('marketplace::edit-listing-description-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <textarea name="val[description]" class="form-control"><?php echo $listing['description'] ?></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[tags]"><?php echo lang('marketplace::tags') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('marketplace::edit-listing-tags-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <input name="val[tags]" type="text" value="<?php echo $listing['tags'] ?>" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[address]"><?php echo lang('marketplace::address') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('marketplace::edit-listing-address-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <input type="text" name="val[address]" value="<?php echo $listing['address'] ?>" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[link]"><?php echo lang('marketplace::link') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('marketplace::edit-listing-link-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <input type="url" name="val[link]" value="<?php echo $listing['link'] ?>" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[price]"><?php echo lang('marketplace::price') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('marketplace::edit-listing-price-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <input name="val[price]" type="text" value="<?php echo $listing['price'] ?>" class="form-control" placeholder="<?php echo config('currency', '$') ?> 0.00" />
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[featured]"><?php echo lang('marketplace::listing-feature') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('marketplace::edit-listing-featured-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <select name="val[featured]" class="form-control">
+                            <option value="0" <?php if($listing['featured'] == 0): ?> selected="selected" <?php endif ?>><?php echo lang('marketplace::not-featured') ?></option>
+                            <option value="1" <?php if($listing['featured'] == 1): ?> selected="selected" <?php endif ?>><?php echo lang('marketplace::featured') ?></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[approved]"><?php echo lang('marketplace::listing-approval') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('marketplace::edit-listing-approval-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <select name="val[approved]" class="form-control">
+                            <option value="0" <?php if($listing['approved'] == 0): ?> selected="selected" <?php endif ?>><?php echo lang('marketplace::not-approved') ?></option>
+                            <option value="1" <?php if($listing['approved'] == 1): ?> selected="selected" <?php endif ?>><?php echo lang('marketplace::approved') ?></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[active]"><?php echo lang('marketplace::active') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('marketplace::edit-listing-active-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <select name="val[active]" class="form-control">
+                            <option value="0" <?php if($listing['active'] == 0): ?> selected="selected" <?php endif ?>><?php echo lang('marketplace::not-active') ?></option>
+                            <option value="1" <?php if($listing['active'] == 1): ?> selected="selected" <?php endif ?>><?php echo lang('marketplace::active') ?></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <h6><label class="control-label" for="image"><?php echo lang('marketplace::image') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('marketplace::edit-listing-image-desc') ?></p>
+                </div>
+                <div class="col-sm-5">
+                    <span class="file-input"><input type="file" name="image" id="listing-image-file" style="display: none;" /></span>
+                    <button onclick="return marketplace_file_chooser('#listing-image-file')" type="button" class="btn btn-secondary"><?php echo lang('marketplace::select-image')?></button>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 32px;">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7">
+                    <input type="submit" value="<?php echo lang('marketplace::save') ?>" class="btn btn-info" />
+                </div>
+            </div>
+            <input type="hidden" name="val[image_path]" value="<?php echo $listing['image'] ?>" />
+            <input type="hidden" name="val[listing_id]" value="<?php echo $listing_id ?>" />
+            <input type="hidden" name="val[type]" value="edit_listing_admin" />
+        </form>
+    </div>

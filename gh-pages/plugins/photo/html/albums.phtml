@@ -1,0 +1,66 @@
+<div id="photos-list-container" class="box box-content clearfix <?php echo (config('default-photo-list-type', 'list') != 'list') ? 'list-listing-container' : 'grid-listing-container'?>">
+    <div class="global-filter-container" data-url="">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3><?php _lang('photo::albums')?></h3>
+            </div>
+            <!--
+            <div class="col-sm-6">
+                <form id="photo-list-search" method="post" onsubmit=" return run_global_filter()" action="" class="form-inline pull-right">
+					<?php CSRFProtection::embed() ?>
+                    <input type="hidden" class="photo-type-input filter-input" data-name="type" value="<?php echo input('type','browse')?>"/>
+                    <input value="<?php echo input('term')?>" type="text" class="form-control filter-input" data-name="term" placeholder="<?php _lang('photo::search-albums')?>"/>
+                    <button class="btn btn-info"><i class="ion-search"></i></button>
+                </form>
+            </div>
+            -->
+        </div>
+        <!--
+        <div class="  filter-pane">
+            <div class="list-layout-type">
+                <a href="" onclick="return change_listing_layout('#photos-list-container', 'list')"><i class="ion-ios-list-outline"></i></a>
+                <a href="" onclick="return change_listing_layout('#photos-list-container', 'grid')"><i class="ion-android-apps"></i></a>
+            </div>
+        </div>
+        -->
+    </div>
+    <div  id="photo-album-lists" class="box-content photos-list clearfix" data-type="all" data-link="<?php echo url_to_pager('photo-album-photos') ?>" data-offset="0" style="margin: 0px;box-shadow: 0px 0px 0px #FFFFFF;border-radius: 0px;border: none;">
+        <div class="upload-photo  photo album">
+            <div>
+                <form  action="" method="post">
+					<?php CSRFProtection::embed() ?>
+                    <a ajax="true" href="<?php echo url_to_pager('photo-create-album')?>">
+                        <i  class="ion-android-add-circle"></i>
+                        <?php _lang('photo::create-new-album')?>
+                    </a>
+                </form>
+            </div>
+        </div>
+        <?php foreach($albums as $album):?>
+            <?php
+            $user = find_user($album['entity_id']);
+            $username = $user['username'];
+            $first_name = $user['first_name'];
+            $last_name = $user['last_name'];
+            $user_name = "$first_name $last_name";
+            $user_name = trim($user_name) == '' ? $username : $user_name;
+            ?>
+            <?php $album = arrange_photo_album($album); ?>
+            <div class="photo album">
+                <div>
+                    <a class="image" style="background-image:url(<?php echo $album['image']?>)" ajax="true" href="<?php echo (isset($link)) ? $link : url_to_pager('photo-album-photos').'?id='.$album['id'] ?>">
+
+                    </a>
+                    <div class="info">
+                        <span class="album-title"><?php echo str_limit($album['title'], 22)?></span>
+                        <span class="album-photos-count pull-right"><i class="ion-camera"></i> <?php echo $album['photo-count']?></span>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach ?>
+    </div>
+    <a id="photos-list-indicator" href="" onclick="return paginate_photo_albums()" class="title" style="display: block;text-align: center">
+        <?php _lang('view-more')?>
+        <img src="<?php echo img('images/loading.gif')?>" style="width: 10px;display: none"/>
+    </a>
+</div>

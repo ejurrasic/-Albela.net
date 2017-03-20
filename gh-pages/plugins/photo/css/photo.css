@@ -1,0 +1,301 @@
+.photos-list{
+    padding: 10px !important;
+}
+
+.photos-list .photo{
+    width: 25%;
+    height: 200px;
+    position: relative;
+    float: left;
+    margin-bottom: 0.5%;
+    border: solid 3px #ffffff;
+    box-sizing: border-box;
+}
+.photos-list .photo .image{
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+.photos-list .upload-photo{
+
+}
+.photos-list .upload-photo form {
+    border: dashed 2px #d3d3d3;
+    width: 100%;
+    height: 100%;
+}
+.photos-list .upload-photo form > a{
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+    color: #808080;
+}
+.photos-list .upload-photo form > a i{
+    display: block;
+    font-size: 70px;
+    margin-top: 20px;
+}
+.photos-list .upload-photo .indicator{
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255, 0.8);
+    position: absolute;
+    top: 0;
+    z-index: 99;
+    text-align: center;
+    padding: 20% 0;
+    font-weight: bold;
+    display: none;
+}
+.photos-list .upload-photo .indicator img{
+    width: 30px;
+    display: block;
+    margin: 20px auto;
+}
+
+.photos-list .album{
+    height: 250px;
+}
+.photos-list .album > div{
+    border: solid 1px #d3d3d3;
+    height: 100%;
+}
+.photos-list .album .info{
+    padding: 10px;
+    position: relative;
+    height: 30%;
+}
+.photos-list .album .info .album-photos-count{
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+    display: block;
+    font-size: 20px;
+}
+.photos-list .album .image{
+    height: 70%;
+}
+
+.box .photos-profile-title{
+    font-size: 20px !important;
+    padding-bottom: 0 !important;
+}
+.box .photos-profile-title .nav{
+    position: relative;
+    margin-top: 20px;
+    border-bottom: 0;
+}
+
+@media(max-width: 700px) {
+    .photos-list .photo {
+        width: 33%;
+    }
+}
+@media(max-width: 500px) {
+    .photos-list .photo {
+        width: 49%;
+    }
+}
+
+#photoViewer .viewer-container{
+    background: #ffffff;
+    width: 90%;
+    height: 90%;
+    position: relative;
+}
+#photoViewer .viewer-container .close{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+#photoViewer .viewer-container .modal-content{
+    border: none;
+    padding: 0;
+    height: 100%;
+}
+#photoViewer .viewer-container .modal-content .viewer-left{
+    width: 70% !important;
+    background: #000000;
+    height: 100%;
+    float: left;
+
+    overflow: auto !important;
+    overflow-x: hidden !important;
+    position:relative !important;
+}
+.photo-viewer-container{
+    background: #000000 !important;
+    padding: 20px;
+    position: relative;
+
+}
+#photoViewer .viewer-container .modal-content .viewer-left img,
+.photo-viewer-container img
+{
+    margin: auto auto;
+    max-width: 100%;
+    display: block;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    max-height: -moz-calc(100vh - 92px);
+    max-height: -webkit-calc(100vh - 92px);
+    max-height: -o-calc(100vh - 92px);
+    max-height: calc(100vh - 92px);
+
+}
+.photo-viewer-container img{
+    position: relative;
+}
+#photoViewer .viewer-container .modal-content .viewer-left .navigate,
+.photo-viewer-container .navigate
+{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 5%;
+    z-index: 99;
+    color: #ffffff;
+}
+#photoViewer .viewer-container .modal-content .viewer-left .navigate a,
+.photo-viewer-container .navigate a
+{
+    font-size: 80px;
+    height: 100%;
+    display: block;
+    color: #ffffff;
+}
+#photoViewer .viewer-container .modal-content .viewer-left .navigate a i,
+.photo-viewer-container .navigate a i
+{
+    position: relative;
+    top: 40%;
+    text-shadow: 2px 2px 4px black;
+}
+#photoViewer .viewer-container .modal-content .viewer-left .nav-left,
+.photo-viewer-container .nav-left
+{
+    left: 2%;
+}
+#photoViewer .viewer-container .modal-content .viewer-left .nav-right,
+.photo-viewer-container .nav-right
+{
+    right: 2%;
+}
+#photoViewer .viewer-container .modal-content .viewer-right{
+    float: left;
+    padding: 10px;
+    width: 100% !important;
+    height: 100%;
+    overflow: hidden;
+    display:block;
+
+}
+
+.photo-viewer-footer{
+    margin-top: 5px;
+}
+
+.photo-action-dropdown{
+    position: absolute;
+    top: 0;
+    right: 40px;
+}
+
+@media(max-width: 1200px) {
+    #photoViewer .viewer-container {
+        width: 100%;
+        margin: 0;
+    }
+    #photoViewer .viewer-container,
+    #photoViewer .viewer-container .modal-content
+    {
+        height: 100%;
+    }
+}
+@media(max-width: 800px) {
+    #photoViewer{
+        margin: 0;
+        top: 0;
+        padding: 0;
+
+    }
+
+
+    #photoViewer .viewer-container .modal-content .viewer-left,
+    #photoViewer .viewer-container .modal-content .viewer-right
+    {
+        width: 100% !important;
+
+    }
+    #photoViewer .viewer-container .modal-content .viewer-right{
+
+        position: relative;
+        display: none !important;
+    }
+    #photoViewer .viewer-container .close{
+        color: #ffffff;
+        z-index: 999;
+    }
+}
+
+
+/********Photos Directory********/
+.clear{
+    clear:both;
+}
+.list-listing-container .each-item .left{
+    width: 200px;
+    height: 150px;
+    border-radius: 2px;
+    position: relative;
+}
+
+
+.list-listing-container .each-item .right{
+    margin-left: 20px;
+    width: 60%;
+}
+.grid-listing-container .each-item {
+    width:32.3333333%;
+    height:230px
+}
+.grid-listing-container .each-item .left{
+    overflow: hidden;
+    height: 150px;
+    position: relative;
+}
+.list-listing-container .each-item .right .item-title a, .grid-listing-container .each-item .right .item-title a{
+    color: #000000;
+    font-size: 14px !important;
+}
+.list-listing-container .each-item .right .item-title a:hover, .grid-listing-container .each-item .right .item-title a:hover{
+    color: #808080;
+}
+
+
+
+.alert{
+    text-align:center;
+}
+
+.photo-directory .photo {
+    float: none;
+    display: inline-block;
+    width: 24.5% !important;
+    height: 155px !important;
+}
+
+@media(max-width:640px){
+    .photo-directory .photo {
+        width: 49.5% !important;
+    }
+}
+@media(max-width:480px){
+    .photo-directory .photo {
+        width: 49% !important;
+        height: 120px !important;
+    }
+}

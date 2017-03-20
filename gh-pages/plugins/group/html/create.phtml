@@ -1,0 +1,46 @@
+<div class="box">
+    <div class="box-content" style="padding: 20px 10%">
+        <?php if($message):?>
+            <div class="alert alert-danger"><?php echo $message?></div>
+        <?php endif?>
+        <form action="" method="post">
+            <?php CSRFProtection::embed() ?>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('group::group-title')?></label>
+                <div class="col-sm-8">
+                    <input value="<?php echo input('val.title')?>" type="text" name="val[title]" class="form-control"/>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('group::description')?></label>
+                <div class="col-sm-8">
+                    <textarea name="val[description]" class="form-control auto-grow-input"><?php echo input('val.description')?></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('privacy')?></label>
+                <div class="col-sm-8">
+                    <select class="c-select" name="val[privacy]">
+                        <option value="1"><?php _lang('public')?></option>
+                        <option value="2"><?php _lang('private')?></option>
+                    </select>
+                    <p class="help-block">
+                    <p><strong><?php _lang('public')?>: </strong>
+                        <?php _lang('group::group-public-note')?></p>
+                    <p>
+                        <strong><?php _lang('private')?>: </strong>
+                        <?php _lang('group::group-private-note')?>
+                    </p>
+                    </p>
+                </div>
+            </div>
+
+
+
+            <button class="btn btn-secondary"><?php _lang('group::create-group')?></button>
+        </form>
+    </div>
+</div>

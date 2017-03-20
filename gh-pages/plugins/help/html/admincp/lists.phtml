@@ -1,0 +1,40 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('help::manage-help')?> <a href="<?php echo url_to_pager('admincp-help-add')?>"><?php _lang('help::add-help')?></a> |
+        <a href="<?php echo url_to_pager('admincp-help-add')?>?category=1"><?php _lang('help::add-category')?></a>
+    </div>
+    <div class="wrapper-content">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th><?php _lang('help::title')?></th>
+                <th><?php _lang('help::category')?></th>
+                <th><?php _lang('help::modify-time')?></th>
+                <th><?php _lang('actions')?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($helps->results() as $help):?>
+                <tr class="item" id="<?php echo $help['id']?>">
+                    <td><?php echo $help['id']?></td>
+                    <td><?php echo lang($help['title'])?></td>
+                    <td><?php
+                            $category = get_help($help['category']);
+                            echo $category['title'];
+                        ?></td>
+                    <td>
+                        <?php echo date('d F Y  g:ia', $help['modify_time'])?>
+                    </td>
+                    <td>
+                        <a href="<?php echo url_to_pager('admincp-help-manage').'?action=edit&id='.$help['id']?>"><?php _lang('edit')?></a>
+                        <a href="<?php echo url_to_pager('admincp-help-manage').'?action=delete&id='.$help['id']?>"><?php _lang('delete')?></a>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+
+        <?php echo $helps->links()?>
+    </div>
+</div>

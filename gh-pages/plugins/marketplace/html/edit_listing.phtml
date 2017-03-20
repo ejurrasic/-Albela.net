@@ -1,0 +1,113 @@
+
+<div  id="edit-listing" class="marketplace marketplace-content box">
+    <div class="marketplace-title"><?php echo lang('marketplace::edit-listing') ?></div>
+    <?php if($message): ?>
+        <div class="alert alert-danger"><?php echo $message ?></div>
+    <?php endif ?>
+    <form action="" method="post" enctype="multipart/form-data">
+		<?php CSRFProtection::embed() ?>
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <h6><label class="control-label" for="val[category]"><?php echo lang('marketplace::category') ?>:</label></h6>
+                <p class="form-description"><?php echo lang('marketplace::edit-listing-category-desc') ?></p>
+            </div>
+            <div class="col-sm-8">
+                <div class="input-field col s10">
+                    <select name="val[category_id]" class="form-control c-select">
+                        <?php foreach($categories as $category): ?>
+                            <option value="<?php echo $category['id'] ?>"><?php echo lang($category['title']) ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <h6><label class="control-label" for="val[title]"><?php echo lang('marketplace::title') ?>: </label></h6>
+                <p class="form-description"><?php echo lang('marketplace::edit-listing-title-desc') ?></p>
+            </div>
+            <div class="col-sm-8">
+                <div class="input-field col s10">
+                    <input name="val[title]" type="text" value="<?php echo $listing['title'] ?>" class="form-control" required />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <h6><label class="control-label" for="val[description]"><?php echo lang('marketplace::description') ?>: </label></h6>
+                <p class="form-description"><?php echo lang('marketplace::edit-listing-description-desc') ?></p>
+            </div>
+            <div class="col-sm-8">
+                <div class="input-field col s10">
+                    <textarea name="val[description]" class="form-control" maxlength="500"><?php echo $listing['description'] ?></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <h6><label class="control-label" for="val[tags]"><?php echo lang('marketplace::tags') ?>: </label></h6>
+                <p class="form-description"><?php echo lang('marketplace::edit-listing-tags-desc') ?>.</p>
+            </div>
+            <div class="col-sm-8">
+                <div class="input-field col s10">
+                    <input name="val[tags]" type="text" value="<?php echo $listing['tags'] ?>" class="form-control" maxlength="128" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <h6><label class="control-label" for="val[address]"><?php echo lang('marketplace::address') ?>: </label></h6>
+                <p class="form-description"><?php echo lang('marketplace::edit-listing-address-desc') ?>.</p>
+            </div>
+            <div class="col-sm-8">
+                <div class="input-field col s10">
+                    <input name="val[address]" value="<?php echo $listing['address'] ?>" class="form-control" required />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <h6><label class="control-label" for="val[link]"><?php echo lang('marketplace::link') ?>: </label></h6>
+                <p class="form-description"><?php echo lang('marketplace::edit-link-link-desc') ?>.</p>
+            </div>
+            <div class="col-sm-8">
+                <div class="input-field col s10">
+                    <input type="url" name="val[link]" value="<?php echo $listing['link'] ?>" class="form-control" placeholder="http://domain.com" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <h6><label class="control-label" for="val[price]"><?php echo lang('marketplace::price') ?>: </label></h6>
+                <p class="form-description"><?php echo lang('marketplace::edit-listing-price-desc') ?>.</p>
+            </div>
+            <div class="col-sm-8">
+                <div class="input-field col s10">
+                    <input name="val[price]" type="text" value="<?php echo $listing['price'] ?>" class="form-control" placeholder="<?php echo config('currency', '$') ?> 0.00" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <h6><label class="control-label" for="val[post]"><?php echo lang('marketplace::image') ?>: </label></h6>
+                <p class="form-description"><?php echo lang('marketplace::edit-listing-image-desc') ?></p>
+            </div>
+            <div class="col-sm-8">
+                <span class="file-input"><input type="file" name="image" id="listing-image-file" /></span>
+                <button onclick="return file_chooser('#listing-image-file')" type="button" class="btn btn-secondary"><?php echo lang('marketplace::select-image')?></button>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-5">
+            </div>
+            <div class="col-sm-4">
+                <div class="input-field col s12">
+                    <input type="submit" value="<?php echo lang('marketplace::save') ?>" class="btn btn-info" />
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="val[image_path]" value="<?php echo $listing['image'] ?>" />
+        <input type="hidden" name="val[listing_id]" value="<?php echo $listing['id'] ?>" />
+        <input type="hidden" name="val[type]" value="edit_listing" />
+    </form>
+</div>

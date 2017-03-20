@@ -1,0 +1,67 @@
+.follow-button,
+.follow-button:active,
+.follow-button:visited,
+.ready-friend,
+.ready-friend:active,
+.ready-friend:visited
+{
+    padding:0 10px;
+    height: 30px;
+    line-height: 30px;
+    text-transform: capitalize;
+}
+.followed{
+
+}
+.followed:hover,
+.followed:focus,
+.followed:active
+{
+    background: #CF433E;
+    border-color: #CF433E;
+    color: #ffffff;
+}
+.friend-button{
+    padding:0 10px;
+    height: 30px;
+    line-height: 30px;
+    text-transform: capitalize;
+}
+.ready-friend{
+
+}
+.ready-friend:hover,
+.ready-friend:focus,
+.ready-friend:active{
+    background: #CF433E;
+    border-color: #CF433E;
+    color: #ffffff;
+}
+.friend-request-dropdown-result-container{
+
+}
+.friend-request-dropdown-result-container .user{
+    padding:10px;
+    background: #F9FAFB;
+    margin: 0;
+}
+.friend-request-dropdown-result-container .user:hover{
+    background: #E5E9EF;
+}
+#people-suggestion-box .user{
+    border-bottom: solid 1px #F1F3F6;
+    padding-bottom: 4px;
+}
+
+.feed-new-friends{
+    margin: 0 10px;
+    border: solid 1px #ECECEC;
+}
+.feed-new-friends .media{
+    padding: 10px;
+    border-bottom: solid 1px #F1F1F1;
+    margin: 0;
+}
+.feed-new-friends .media:last-child{
+    border-bottom: none;
+}

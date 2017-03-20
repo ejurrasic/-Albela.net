@@ -1,0 +1,17 @@
+<?php if(plugin_loaded('comment')): ?>
+    <?php $countComments = count_comments($refName, $refId); ?>
+    <div class="box-content feed-footer">
+        <div class="feed-comment-container">
+            <?php if($countComments > config('feed-comment-limit', 3)): ?>
+                <a id="comment-view-more-button-<?php echo $refName ?>-<?php echo $refId ?>" class="comment-view-more-button comment-view-more-button-<?php echo $refName ?>-<?php echo $refId ?>" onclick="return show_more_comment('<?php echo $refName ?>', '<?php echo $refId ?>', 'comment-view-more-indicator-<?php echo $refId ?>')"  href=""><?php echo lang('view-previous-comments') ?></a>
+                <img class="comment-view-more-indicator" id="comment-view-more-indicator-<?php echo $refId ?>" src="<?php echo img('images/loading.gif') ?>" />
+            <?php endif ?>
+            <div data-offset="<?php echo config('feed-comment-limit', 3) ?>" data-limit="<?php echo config('feed-comment-limit', 3) ?>" class="comment-lists comment-lists-<?php echo $refName ?>-<?php echo $refId ?>" id="">
+                <?php foreach(get_comments($refName, $refId, config('feed-comment-limit', 3), 0) as $comment): ?>
+                    <?php echo view('comment::display', array('comment' => $comment)) ?>
+                <?php endforeach; ?>
+            </div>
+            <?php echo view('comment::editor', array('typeId' => $music['id'], 'type' => 'music', 'textLimit' => (config('enable-feed-text-limit', false)) ? config('maximum-feed-text-limit', 150) : false)) ?>
+        </div>
+    </div>
+<?php endif ?>

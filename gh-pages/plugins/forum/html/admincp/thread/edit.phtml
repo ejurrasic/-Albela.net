@@ -1,0 +1,128 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <p><?php echo lang('forum::edit-thread') ?></p>
+        <span><?php echo lang('forum::edit-thread-desc') ?></span>
+    </div>
+    <div class="wrapper-content">
+        <?php if($messages): ?>
+        <div class="alert alert-danger"><?php echo $messages ?></div>
+        <?php endif ?>
+        <form action="" class="adm" method="post">
+            <?php CSRFProtection::embed() ?>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[subject]"><?php echo lang('forum::subject') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('forum::edit-thread-subject-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <input name="val[subject]" type="text" value="<?php echo $thread['subject'] ?>" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[category_id]"><?php echo lang('forum::category') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('forum::edit-thread-category-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <select name="val[category_id]" class="form-control">
+                            <?php foreach($categories as $category): ?>
+                            <option value="<?php echo $category['id'] ?>" <?php if($category['id'] == $category_id): ?> selected="selected" <?php endif ?>><?php echo lang($category['title']) ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[tags]"><?php echo lang('forum::tags') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('forum::edit-thread-tags-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <input name="val[tags]" type="text" value="<?php echo $thread['tags'] ?>" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[pinned]"><?php echo lang('forum::thread-pin') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('forum::edit-thread-thread-pin-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <select name="val[pinned]" class="form-control">
+                            <option value="0" <?php if($thread['pinned'] == 0): ?> selected="selected" <?php endif ?>><?php echo lang('forum::not-pinned') ?></option>
+                            <option value="1" <?php if($thread['pinned'] == 1): ?> selected="selected" <?php endif ?>><?php echo lang('forum::pinned') ?></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[hidden]"><?php echo lang('forum::hidden') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('forum::edit-thread-hidden-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <select name="val[hidden]" class="form-control">
+                            <option value="0" <?php if($thread['hidden'] == 0): ?> selected="selected" <?php endif ?>><?php echo lang('forum::not-hidden') ?></option>
+                            <option value="1" <?php if($thread['hidden'] == 1): ?> selected="selected" <?php endif ?>><?php echo lang('forum::hidden') ?></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[active]"><?php echo lang('forum::active') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('forum::edit-thread-active-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <select name="val[active]" class="form-control">
+                            <option value="0" <?php if($thread['active'] == 0): ?> selected="selected" <?php endif ?>><?php echo lang('forum::not-active') ?></option>
+                            <option value="1" <?php if($thread['active'] == 1): ?> selected="selected" <?php endif ?>><?php echo lang('forum::active') ?></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[closed]"><?php echo lang('forum::closed') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('forum::edit-thread-closed-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <select name="val[closed]" class="form-control">
+                            <option value="0" <?php if($thread['closed'] == 0): ?> selected="selected" <?php endif ?>><?php echo lang('forum::not-closed') ?></option>
+                            <option value="1" <?php if($thread['closed'] == 1): ?> selected="selected" <?php endif ?>><?php echo lang('forum::closed') ?></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="val[featured]"><?php echo lang('forum::featured') ?>: </label></h6>
+                    <p class="form-description"><?php echo lang('forum::edit-thread-featured-desc') ?>.</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <select name="val[featured]" class="form-control">
+                            <option value="0" <?php if($thread['featured'] == 0): ?> selected="selected" <?php endif ?>><?php echo lang('forum::not-featured') ?></option>
+                            <option value="1" <?php if($thread['featured'] == 1): ?> selected="selected" <?php endif ?>><?php echo lang('forum::featured') ?></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7">
+                    <input type="submit" value="<?php echo lang('forum::save') ?>" class="btn btn-info" />
+                </div>
+            </div>
+            <input type="hidden" name="val[thread_id]" value="<?php echo $thread_id ?>" />
+            <input type="hidden" name="val[type]" value="edit_thread" />
+        </form>
+</div>

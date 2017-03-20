@@ -1,0 +1,27 @@
+<?php
+return array(
+    'social-setting-description' => 'Manage social integration set up here, set your facebook,twitter and vk e.t.c keys here',
+    'enable-facebook' => 'Enable Facebook',
+    'enable-twitter' => 'Enable Twitter',
+    'enable-vk' => 'Enable VK',
+    'login-with-vk' => 'Login with VK',
+    'login-with-g+' => 'Login with G+',
+    'enable-g+' => 'Enable G+',
+    'import-contacts' => 'Import Contacts',
+    'search-address-for-friends' => 'Search your address book for friends',
+    'search-address-for-friends-note' => 'Choosing a service will open a window for you to log in securely and import your contacts',
+    'find-friends' => 'Find Friends',
+    'gmail-contacts' => 'Gmail Contacts',
+    'try-other-services' => 'Try other services',
+    'invite-all' => 'Invite All',
+    'facebook-friends' => 'Facebook Friends',
+    'facebook-friends-note' => 'Below are your facebook friends who are here',
+    'invite-other-friends' => 'Invite Other Friends',
+    'social-invite-friends' => 'Social Invite Friends',
+    'not-contacts-found-from-social' => 'No contacts found from the selected service',
+    'invite-by-email' => 'Invite by Email Address',
+    'invite-by-email-desc' => 'Enter friend email address seperated by comma (,)',
+    'send-invites' => 'Send Invites',
+    'invite-mail-sent' => 'Invite mail has been sent successfully',
+);
+ 

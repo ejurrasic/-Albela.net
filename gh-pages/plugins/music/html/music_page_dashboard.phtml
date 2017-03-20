@@ -1,0 +1,57 @@
+<?php if(plugin_loaded('like') and config('feed-like-type', 'regular') != 'regular'): ?>
+<div class="reactors reactors-<?php echo $refName ?>-<?php echo $refId ?>">
+    <?php echo view('like::reacts', array('type' => $refName, 'type_id' => $refId)) ?>
+</div>
+<?php endif ?>
+<div class="feed-footer">
+    <ul class=" feed-footer-menu clearfix">
+        <?php if(plugin_loaded('like')): ?>
+            <?php load_functions('like::like'); ?>
+            <?php if(config('feed-like-type', 'regular') == 'regular'): ?>
+                <li><a  onclick="return like_item('<?php echo $refName ?>', '<?php echo $refId ?>')" data-status="<?php echo (has_liked($refName, $refId)) ? '1'  : 0 ?>" class=" like-button-<?php echo $refName ?>-<?php echo $refId ?> like-button <?php echo (has_liked($refName, $refId)) ? 'liked'  : null ?>" href=""> <i class="ion-thumbsup"></i> <?php echo lang('like::like') ?></a> </li>
+                <?php if (config('enable-dislike', false)): ?>
+                <li><a id="" onclick="return dislike_item('<?php echo $refName ?>', '<?php echo $refId ?>')" data-status="<?php echo (has_disliked($refName, $refId)) ? '1'  : 0 ?>" class="dislike-button-<?php echo $refName ?>-<?php echo $refId ?> like-button <?php echo (has_disliked($refName, $refId)) ? 'disliked'  : null ?>" href=""> <i class="ion-thumbsdown"></i> <?php echo lang('like::dislike') ?></a> </li>
+                <?php endif ?>
+            <?php else: ?>
+                <li class="feed-react">
+                    <div class="react-items react-items-<?php echo $refId ?>" id="">
+                        <ul>
+                            <li><a data-type="<?php echo $refName ?>" data-target="<?php echo $refId ?>" href="" data-code="1" data-toggle="tooltip" title="<?php echo lang('like::like') ?>"><img src="<?php echo img('images/reaction/like.png') ?>"/></a></li>
+                            <li><a data-type="<?php echo $refName ?>" data-target="<?php echo $refId ?>" href="" data-code="4" data-toggle="tooltip" title="<?php echo lang('like::love') ?>"><img src="<?php echo img('images/reaction/love.png') ?>"/></a></li>
+                            <li><a data-type="<?php echo $refName ?>" data-target="<?php echo $refId ?>" href="" data-code="5" data-toggle="tooltip" title="<?php echo lang('like::haha') ?>"><img src="<?php echo img('images/reaction/haha.png') ?>"/></a></li>
+                            <li><a data-type="<?php echo $refName ?>" data-target="<?php echo $refId ?>" href="" data-code="6" data-toggle="tooltip" title="<?php echo lang('like::yay') ?>"><img src="<?php echo img('images/reaction/yay.png') ?>"/></a></li>
+                            <li><a data-type="<?php echo $refName ?>" data-target="<?php echo $refId ?>" href="" data-code="7" data-toggle="tooltip" title="<?php echo lang('like::wow') ?>"><img src="<?php echo img('images/reaction/wow.png') ?>"/></a></li>
+                            <li><a data-type="<?php echo $refName ?>" data-target="<?php echo $refId ?>" href="" data-code="8" data-toggle="tooltip" title="<?php echo lang('like::sad') ?>"><img src="<?php echo img('images/reaction/sad.png') ?>"/></a></li>
+                            <li><a data-type="<?php echo $refName ?>" data-target="<?php echo $refId ?>" href="" data-code="9" data-toggle="tooltip" title="<?php echo lang('like::angry') ?>"><img src="<?php echo img('images/reaction/angry.png') ?>"/></a></li>
+                        </ul>
+                    </div>
+                    <a data-type="<?php echo $refName ?>" data-target="<?php echo $refId ?>"  data-status="<?php echo (has_reacted($refName, $refId)) ? '1'  : 0 ?>" class=" react-button-<?php echo $refName ?>-<?php echo $refId ?> react-button <?php echo (has_reacted($refName, $refId)) ? 'liked'  : null ?>" href=""> <i class="ion-thumbsup"></i> <span class="hidden-md-down"><?php echo lang('like::like') ?></span></a>
+                </li>
+            <?php endif ?>
+        <?php endif ?>
+        <li><a href="#"><i class="ion-play"></i> <?php echo $music['play_count'] ?> <?php echo $music['play_count'] > 1 ? lang('music::plays') : lang('music::play') ?></a> </li>
+        <li class="music-social-share-link"><?php if(plugin_loaded('sharer')) echo view('sharer::share_link', array('link' => url_to_pager('music-page', array('id' => $music['slug'])))) ?></li>
+        <?php if(config('enable-music-download')): ?>
+        <li><a href="<?php echo url_to_pager('music-download', array('id' => $refId)) ?>" class="music-download-button ion-android-download" title="<?php echo lang('music::download-mp3'); ?>" style="font-size: 24px; position: relative; top: 2px; vertical-align: middle;" download></a></li>
+        <?php endif ?>
+        <li class="pull-right">
+            <ul class="feed-statistics">
+                <?php if(plugin_loaded('like') and config('feed-like-type', 'regular') == 'regular'): ?>
+                    <?php if(plugin_loaded('like')): ?>
+                        <li><a onclick="return show_likes('<?php echo $refName ?>', '<?php echo $refId ?>')" href=""> <i class="ion-thumbsup"></i> <span class="like-count-<?php echo $refName ?>-<?php echo $refId ?>"><?php echo count_likes($refName, $refId) ?></span></a></li>
+                        <?php if (config('enable-dislike', false)): ?>
+                            <li><a onclick="return show_dislikes('<?php echo $refName ?>', '<?php echo $refId ?>')" href=""> <i class="ion-thumbsdown"></i> <span class="dislike-count-<?php echo $refName ?>-<?php echo $refId ?>"><?php echo count_dislikes($refName, $refId) ?></span></a></li>
+                        <?php endif ?>
+                    <?php endif ?>
+                <?php endif ?>
+                <?php if(plugin_loaded('comment')): ?>
+                    <?php load_functions('comment::comment') ?>
+                    <?php $countComments = count_comments($refName, $refId); ?>
+                    <?php if($countComments): ?>
+                    <li> <i class="ion-chatbubbles"></i> <span class="comment-count-<?php echo $refName ?>-<?php echo $refId ?>"><?php echo $countComments ?></span></li>
+                    <?php endif ?>
+                <?php endif ?>
+            </ul>
+        </li>
+    </ul>
+</div>

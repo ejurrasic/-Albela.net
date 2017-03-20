@@ -1,0 +1,3 @@
+<?php foreach(get_user_conversations(null, true) as $conversation):?>
+   <?php echo view('chat::conversation/display', array('conversation' => $conversation, 'box' => true, 'limited' => true))?>
+<?php endforeach?>

@@ -1,0 +1,48 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang("language-packs")?>
+        <a href="<?php echo url_to_pager("admin-languages")."?action=create"?>"><?php echo lang("create-language-pack")?></a> |
+        <a href="<?php echo url_to_pager("admin-languages")."?action=import"?>"><?php echo lang("import-language-pack")?></a>
+        <span><?php echo lang('manage-language-packs')?></span>
+    </div>
+    <div class="wrapper-content">
+
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th><?php echo lang('language-title')?></th>
+                <th><?php echo lang('active')?></th>
+                <th><?php echo lang('direction')?></th>
+                <th><?php echo lang('action')?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach(get_all_languages() as $language):?>
+                <tr>
+                    <td><?php echo $language["language_id"]?></td>
+                    <td><?php echo $language["language_title"]?></td>
+                    <td><?php echo ($language["active"] == 1) ? lang('active') : "Nill"?></td>
+                    <td>
+                        <?php echo $language['dir']?>
+                    </td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="<?php echo url_to_pager("admin-languages-phrase")?>?id=<?php echo $language["language_id"]?>"><?php echo lang('manage-phrases')?></a>
+                        <a class="btn btn-success btn-sm" href="<?php echo url_to_pager("admin-languages")?>?action=edit&id=<?php echo $language["language_id"]?>"><?php echo lang('edit')?></a>
+
+                        <?php if( $language["language_id"] != "english"):?>
+                            <a class="btn btn-danger admin-confirm btn-sm" href="<?php echo url_to_pager("admin-languages")?>?action=delete&id=<?php echo $language["language_id"]?>"><?php echo lang('delete')?></a>
+                        <?php endif?>
+                        <?php if($language['active'] == 1):?>
+                            <a href="#" disabled class="disabled" style="color: grey"><?php echo lang('active')?></a>
+                        <?php else:?>
+                            <a class="btn btn-success btn-sm" href="<?php echo url_to_pager("admin-languages")?>?action=activate&id=<?php echo $language["language_id"]?>"><?php echo lang('activate')?></a>
+                        <?php endif?>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

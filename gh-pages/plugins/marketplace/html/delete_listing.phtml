@@ -1,0 +1,14 @@
+<div id="delete-listing" class="marketplace marketplace-content box">
+    <form action="" method="post" class="adm">
+		<?php CSRFProtection::embed() ?>
+        <div class="alert alert-warning"><?php echo lang('marketplace::delete-warning')?> <strong><?php echo $listing['title'] ?></strong>?</div>
+        <div class="row">
+            <div class="col-sm-5"></div>
+            <div class="col-sm-7">
+                <input type="submit" value="<?php echo lang('marketplace::delete') ?>" class="btn btn-danger" />
+            </div>
+        </div>
+        <input type="hidden" name="val[listing_id]" value="<?php echo $listing['id'] ?>" />
+        <input type="hidden" name="val[type]" value="delete_listing" />
+    </form>
+</div>

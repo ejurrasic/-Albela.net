@@ -1,0 +1,72 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php _lang('video::videos-manager')?></div>
+    <div class="wrapper-content">
+        <form action="" method="get" class="form-inline" style="margin: 20px 0">
+			<?php CSRFProtection::embed() ?>
+            <select id="video-category-list" name="category" class="c-select" >
+                <option <?php echo (input('category', 'all') == 'all') ? 'selected'  : null?>  value="all"><?php _lang('video::all-categories')?></option>
+                <?php foreach(get_video_categories() as $category):?>
+                    <?php $subCategories = get_video_parent_categories($category['id'])?>
+                    <?php if($subCategories):?>
+                        <optgroup label="<?php _lang($category['title'])?>">
+                            <?php foreach($subCategories as $cat):?>
+                                <option <?php echo (input('category', 'all') == $cat['id']) ? 'selected'  : null?> value="<?php echo $cat['id']?>"><?php _lang($cat['title'])?></option>
+                            <?php endforeach?>
+                        </optgroup>
+                    <?php else:?>
+                        <option <?php echo (input('category', 'all') == $category['id']) ? 'selected'  : null?> value="<?php echo $category['id']?>"><?php _lang($category['title'])?></option>
+                    <?php endif?>
+                <?php endforeach?>
+            </select>
+            <select class="c-select" name="limit">
+                <option value="10">10 Per Page</option>
+                <option value="20">20 Per Page</option>
+                <option value="50">50 Per Page</option>
+                <option value="100">100 Per Page</option>
+                <option value="150">150 Per Page</option>
+                <option value="200">200 Per Page</option>
+            </select>
+            <input type="hidden" class="video-type-input" value="<?php echo input('type','browse')?>"/>
+            <input name="term" value="<?php echo input('term')?>" type="text" class="form-control" placeholder="<?php _lang('video::search-videos')?>"/>
+            <button class="btn btn-info"><?php _lang('go')?></button>
+        </form>
+        <table class="table table-borderd">
+            <thead>
+                <tr>
+                    <th style="width:5%">ID</th>
+                    <th style="width:25%"><?php _lang('title')?></th>
+                    <th style="width:20%"><?php _lang('owner')?></th>
+                    <th style="width:10%"><?php _lang('featured')?></th>
+                    <th style="width:10%"><?php _lang('video::source')?></th>
+                    <th style="width:10%"><?php _lang('video::view-count')?></th>
+                    <th style="widows: 20;%"><?php _lang('actions')?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($videos->results() as $video):?>
+                    <tr>
+                        <td><?php echo $video['id']?></td>
+                        <td><a href="<?php echo get_video_url($video)?>"><?php echo $video['title']?></a> </td>
+                        <td>
+                            <?php $owner = get_video_owner($video)?>
+                            <a href="<?php echo $owner['link']?>"><?php echo $owner['name']?></a>
+                        </td>
+                        <td>
+                            <?php echo ($video['featured']) ? lang('yes') : lang('no')?>
+                        </td>
+                        <td>
+                            <?php echo ucwords($video['source'])?>
+                        </td>
+                        <td><?php echo $video['view_count']?></td>
+                        <td>
+                            <a href="<?php echo url('admincp/videos/manage?action=edit&id='.$video['id'])?>" class="btn btn-success"><i class="ion-edit"></i></a>
+                            <a href="<?php echo url('admincp/videos/manage?action=delete&id='.$video['id'])?>" class="btn btn-danger admin-confirm"><i class="ion-ios-close-empty"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+
+        <?php echo $videos->links()?>
+    </div>
+</div>

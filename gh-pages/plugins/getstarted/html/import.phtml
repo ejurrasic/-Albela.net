@@ -1,0 +1,45 @@
+<div class="panel-container card">
+    <div class="title"><i class="ion-android-person-add"></i> <?php _lang('social::import-contacts')?></div>
+    <div class="card-block" style="padding: 0">
+        <div class="getstarted-content">
+            <div id="social-import-services-pane">
+                <h6><?php _lang('social::search-address-for-friends')?></h6>
+                <?php _lang('social::search-address-for-friends-note')?>
+                <ul class="services">
+                    <li class="clearfix">
+                        <div class="pull-left">
+                            <img src="<?php echo img('images/social/facebook.png')?>"/> Facebook
+                        </div>
+                        <div class="pull-right">
+                            <button class="btn btn-secondary social-search-contact-button " data-url="<?php echo url_to_pager('social-import-facebook')?>"><?php _lang('social::find-friends')?></button>
+                        </div>
+                    </li>
+
+                    <li class="clearfix">
+                        <div class="pull-left">
+                            <img src="<?php echo img('images/social/gmail.png')?>"/> Gmail
+                        </div>
+                        <div class="pull-right">
+                            <button class="btn btn-secondary social-search-contact-button " data-url="<?php echo url_to_pager('social-import-gmail')?>"><?php _lang('social::find-friends')?></button>
+                        </div>
+                    </li>
+
+
+
+                </ul>
+            </div>
+            <div id="social-imported-contacts-pane">
+
+            </div>
+
+        </div>
+
+        <div class="getstarted-footer clearfix">
+            <div class="pull-right">
+                <a ajax="true" href="<?php echo url_to_pager("signup-welcome").'?step=add-people'?>" class="btn btn-secondary"><?php _lang('skip')?></a>
+                <a ajax="true" href="<?php echo url_to_pager("signup-welcome").'?step=add-people'?>" class="btn btn-info"><?php _lang('continue')?></a>
+            </div>
+        </div>
+
+    </div>
+</div>

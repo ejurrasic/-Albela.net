@@ -1,0 +1,26 @@
+<div class="box">
+    <div class="title"><?php _lang('blocked-members')?></div>
+    <div class="box-content">
+        <?php if(!$users):?>
+            <div class="alert alert-info"><?php _lang('no-members-to-display')?></div>
+        <?php else:?>
+
+            <?php foreach($users->results() as $user):?>
+                <div class="media <?php echo (isset($type)) ? $type : 'media-lg'?> user">
+                    <div class="media-left">
+                        <a ajax="true" href="<?php echo profile_url(null, $user)?>" class="media-object"><img class="responsive-img" src="<?php echo get_avatar(200, $user)?>"/> </a>
+                    </div>
+                    <div class="media-body">
+
+                        <a ajax="true" href="<?php echo profile_url(null, $user)?>"><?php echo get_user_name($user)?></a>
+
+                        <div class="action">
+                            <a href="<?php echo url_to_pager('unblock-user', array('id' => $user['id']))?>" class="btn btn-danger"><?php _lang('unblock')?></a>
+                        </div>
+                    </div>
+                </div>
+
+            <?php endforeach?>
+        <?php endif?>
+    </div>
+</div>

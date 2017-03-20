@@ -1,0 +1,34 @@
+<?php if($users->total):?>
+    <div class="box">
+        <div class="title"><?php _lang('search::people')?></div>
+        <div class="search-users-result box-content">
+            <?php foreach($users->results() as $user):?>
+
+                <?php echo view('user/display', array('user' => $user))?>
+            <?php endforeach?>
+
+
+        </div>
+        <a href="<?php echo form_search_link('user', $term)?>"><div class="title" style="text-align: center"><?php _lang('search::more-results')?></div></a>
+    </div>
+<?php endif?>
+
+<h5><?php _lang('search::results-from-posts')?></h5>
+
+    <div  id="feed-lists" data-type="search" data-type-id="<?php echo $term?>" data-offset="0" style="margin-top: 0">
+        <?php $i = 0; foreach($feeds as $feed):fire_hook('feed.lists.inline', null, array($i));$i++?>
+            <?php echo view('feed::feed', array('feed' => $feed))?>
+        <?php endforeach?>
+
+
+    </div>
+
+<?php if(count($feeds)):?>
+    <div class="feed-load-more">
+        <div class="col-sm-2 no-padding"></div>
+        <div class="col-sm-10 no-padding">
+            <a href="" class="z-depth-1"><?php _lang('load-more')?></a>
+            <img src="<?php echo img('images/loading.gif')?>" class=""/>
+        </div>
+    </div>
+<?php endif?>

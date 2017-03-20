@@ -1,0 +1,52 @@
+<?php $users = event_get_today_birthdays()?>
+
+<?php if($users):?>
+    <div class="box">
+        <div class="title"><?php _lang('event::todays-birthdays')?></div>
+        <div class="box-content">
+            <?php foreach($users as $user):?>
+                <div class="media media-lg">
+                    <div class="media-left">
+                        <a  href="<?php echo profile_url(null, $user)?>" ajax="true">
+                            <div class="media-object">
+                                <img src="<?php echo get_avatar(200, $user)?>"/>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading"><a class="bold" href="<?php echo profile_url(null, $user)?>" ajax="true"><?php echo get_user_name($user)?></a> </h6>
+                        <a href="<?php echo profile_url(null, $user)?>" ajax="true" class="pull-right">
+                            <p class="help-block"><?php _lang('event::write-on-his-wall', array('g' => ($user['gender'] == 'male') ? lang('his') : lang('her')))?></p>
+                        </a>
+                    </div>
+                </div>
+            <?php endforeach?>
+        </div>
+    </div>
+
+<?php endif?>
+
+<?php $users = event_get_month_birthdays()?>
+
+<?php if($users):?>
+     <div class="box">
+         <div class="title"><?php _lang('event::later-in-month', array('month' => lang(strtolower(date('F')))))?></div>
+         <div class="box-content birthday-users clearfix">
+             <?php $month = date('n');?>
+             <?php foreach($users as $user):?>
+                 <a data-toggle="tooltip" title="<?php echo get_user_name($user)?> (<?php echo $month?>/<?php echo $user['birth_day']?>)" href="<?php echo profile_url(null, $user)?>"><img src="<?php echo get_avatar(75, $user)?>"/> </a>
+             <?php endforeach?>
+         </div>
+     </div>
+<?php endif?>
+
+<?php foreach(event_get_user_months_birthdays() as $month => $users):?>
+    <div class="box">
+        <div class="title"><?php echo lang(event_get_month_name($month))?></div>
+        <div class="box-content birthday-users clearfix">
+            <?php foreach($users as $user):?>
+                <a data-toggle="tooltip" title="<?php echo get_user_name($user)?> (<?php echo $month?>/<?php echo $user['birth_day']?>)" href="<?php echo profile_url(null, $user)?>"><img src="<?php echo get_avatar(75, $user)?>"/> </a>
+            <?php endforeach?>
+        </div>
+    </div>
+<?php endforeach?>

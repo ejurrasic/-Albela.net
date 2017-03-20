@@ -1,0 +1,80 @@
+
+.notifications-dropdown .arrow-up{
+
+    right: 5px;
+}
+.notifications-dropdown .header-dropdown-content{
+    top: 10px;
+}
+.notification{
+    position: relative;
+    padding: 10px;
+    border-bottom: solid 1px #EBEEF2;
+    margin: 0;
+    display: block;
+    width: 100%;
+
+}
+.notification .notification-column .left{
+    float: left;
+    width: 80%;
+}
+.notification .notification-column .right{
+    float: left;
+    width: 20%;
+}
+.notification .notification-column .right a{
+    display: block;
+    overflow: hidden;
+    max-height: 60px;
+}
+.notification .notification-column .right a img{
+    width: 100%;
+    border: solid 1px #d3d3d3;
+}
+.notification .timeago{
+    display: block;
+}
+.notification:hover{
+    background: #F1F3F6;
+}
+.notification .media-heading{
+    font-size: 13px;
+    color: #4F5153;
+}
+.notification .actions{
+    position: absolute;
+    top: 10px;
+    right:10px;
+    display: none;
+}
+.notification .actions a{
+
+}
+.notification .actions i:hover{font-weight: bold}
+.notification .actions i{
+    font-size: 13px;
+}
+
+#notification-popup{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    background:#FAFAFA;
+    border:solid 2px #A2A3A4;
+    padding:5px;
+    width:300px;
+    min-height:100px;
+    display:none;
+    max-height:400px;
+    overflow:hidden;
+}
+#notification-popup .close{
+    font-size:15px;
+}
+
+@media(max-width: 28em) {
+    #notification-popup {
+        display: none;
+    }
+}

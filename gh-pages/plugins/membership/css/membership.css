@@ -1,0 +1,78 @@
+.membership-plans-container{
+    padding:30px; 0;
+}
+
+.membership-plans-container .each-plan{
+    width:30%;
+    background:white;
+    border-radius:5px;
+    padding:20px;
+    float:left;
+    margin-right:2%;
+    text-align:center;
+}
+.membership-plans-container .each-plan .title{
+    font-size:20px;
+    font-weight:bold;
+    display:block;
+    margin-bottom:5px;
+}
+.membership-plans-container .each-plan  .description{
+    color:grey;
+    font-size:12px;
+    display:block;
+    margin-bottom:10px;
+}
+.membership-plans-container .each-plan .price{
+    font-size:30px;
+    display:block;
+    color:grey;
+    margin:20px 0;
+}
+.membership-plans-container .each-plan .type{
+    color:grey;
+    display:block;
+    margin-bottom:20px;
+    font-style:italic;
+}
+
+.membership-plans-container .recommend
+{
+    background : #36D7B7;
+    color:white !important
+}
+.membership-plans-container .recommend .price{
+    color:white;
+}
+.membership-payment-method{
+    margin:30px 0;
+}
+.membership-payment-method li img{
+    width: 180px;
+}
+.membership-payment-method li{
+    display:inline-block;
+    width:45%;
+    text-align:center;
+}
+
+.membership-info .media{
+    border-bottom:solid 1px lightgrey;
+    margin-bottom:20px;
+    padding:10px 0;
+}
+.membership-info .media i{
+    font-size:50px
+}
+
+@media(max-width:600px) {
+    .membership-plans-container .each-plan {
+        width:100%;
+        border-radius:0;
+        border-bottom: solid 1px #36D7B7;
+    }
+
+    .membership-plans-container .each-plan:last-child{
+        border:none;
+    }
+}

@@ -1,0 +1,152 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang("announcement::add-new")?>
+
+    </div>
+
+    <div class="wrapper-content">
+        <form method="post" action="" class="wrapper-form">
+            <?php CSRFProtection::embed() ?>
+            <?php if($message):?>
+                <div class="alert alert-danger"><?php echo $message?></div>
+            <?php endif?>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('announcement::type')?></label>
+                <div class="col-sm-9">
+                    <select class="c-select" name="val[type]">
+                        <option value="success"><?php _lang('announcement::success')?></option>
+                        <option value="warning"><?php _lang('announcement::warning')?></option>
+                        <option value="danger"><?php _lang('announcement::danger')?></option>
+                        <option value="info"><?php _lang('announcement::info')?></option>
+                    </select>
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('announcement::content')?></label>
+                <div class="col-sm-9">
+
+                    <?php foreach(get_all_languages() as $language):?>
+                        <textarea name="val[content][<?php echo $language['language_id']?>]" class="form-control" placeholder="<?php _lang('announcement::content')?>"></textarea>
+                        <p class="help-block"><strong><?php echo $language['language_title']?></strong></p>
+                    <?php endforeach?>
+                </div>
+            </div>
+
+            <h5><?php _lang('announcement::display-options')?></h5>
+            <hr/>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('active')?></label>
+                <div class="col-sm-9">
+
+                    <div class="c-inputs-stacked">
+                        <label class="c-input c-radio">
+                            <input checked="checked" id="radioStacked1" value="1" name="val[active]" type="radio">
+                            <span class="c-indicator"></span>
+                            <?php _lang('yes')?>
+                        </label>
+                        <label class="c-input c-radio">
+                            <input id="radioStacked2" name="val[active]" value="0" type="radio">
+                            <span class="c-indicator"></span>
+                            <?php _lang('no')?>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('announcement::can-be-close')?></label>
+                <div class="col-sm-9">
+
+                    <div class="c-inputs-stacked">
+                        <label class="c-input c-radio">
+                            <input checked="checked" id="radioStacked1" value="1" name="val[closed]" type="radio">
+                            <span class="c-indicator"></span>
+                            <?php _lang('yes')?>
+                        </label>
+                        <label class="c-input c-radio">
+                            <input id="radioStacked2" name="val[closed]" value="0" type="radio">
+                            <span class="c-indicator"></span>
+                            <?php _lang('no')?>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('announcement::start-time')?></label>
+                <div class="col-sm-9">
+                    <select class="c-select" name="val[start_day]">
+                        <option value=""><?php _lang('day')?></option>
+                        <?php for($i=1;$i<=31;$i++):?>
+                            <option <?php echo (date('j') == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $i?></option>
+                        <?php endfor?>
+                    </select>
+                    <select  class="c-select" name="val[start_month]">
+                        <option value=""><?php _lang('month')?></option>
+                        <?php $i=1;foreach(config('months') as $name => $month):?>
+                            <option <?php echo (strtolower(date('F')) == $name) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $month?></option>
+                            <?php $i++;endforeach?>
+                    </select>
+                    <select class="c-select" name="val[start_year]">
+                        <option value=""><?php _lang('year')?></option>
+                        <?php for($i=date('Y');$i <= date('Y') + 5; $i++  ):?>
+                            <option <?php echo (date('Y') == $i) ? 'selected' : null?> value="<?php echo $i?>"><?php echo $i?></option>
+                        <?php endfor?>
+                    </select>
+
+
+                </div>
+            </div>
+
+
+            <h5><?php _lang('announcement::target-viewers')?></h5>
+            <hr/>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('announcement::user-group')?></label>
+                <div class="col-sm-9">
+
+                    <select name="val[role]" class="c-select">
+                        <option class="all" value="0"><?php _lang('announcement::any')?></option>
+                        <?php foreach(list_user_roles() as $role):?>
+                            <option  value="<?php echo $role['role_id']?>"><?php echo $role['role_title']?></option>
+                        <?php endforeach?>
+                        <option  value="100"><?php _lang('announcement::guests')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('announcement::location')?></label>
+                <div class="col-sm-9">
+
+                    <select name="val[location]" class="c-select">
+
+                        <option class="all" value="any"><?php _lang('announcement::any')?></option>
+                        <?php load_functions('country'); foreach(get_countries() as $country => $name):?>
+                            <option <?php echo (input("val.country") == $name) ? "selected" : null?> value="<?php echo $name?>"><?php echo ucwords($name)?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('gender')?></label>
+                <div class="col-sm-9">
+
+                    <select name="val[gender]" class="c-select">
+
+                        <option class="all"><?php _lang('announcement::any')?></option>
+                        <option value="male"><?php _lang('male')?></option>
+                        <option value="female"><?php _lang('female')?></option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-info"><?php _lang('announcement::add-announcement')?></button>
+        </form>
+    </div>
+</div>

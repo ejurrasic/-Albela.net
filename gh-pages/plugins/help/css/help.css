@@ -1,0 +1,15 @@
+.help-menu li a{
+    display: block;
+    padding: 10px;
+    border-bottom: solid 1px #ECECEC;
+    font-size: 15px;
+}
+.help-menu li ul{
+    background: #F5F5F5;
+    display: none;
+}
+
+.box.help-content {
+    padding: 16px;
+    min-height: 277px;
+}

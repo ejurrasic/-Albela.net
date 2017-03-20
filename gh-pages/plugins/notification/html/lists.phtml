@@ -1,0 +1,8 @@
+<div class="box z-depth-1">
+    <div class="title"><?php echo lang('notification::notifications')?></div>
+    <?php echo view('notification::display', array('notifications' => $notifications->results()))?>
+
+    <div class="box-content">
+        <?php echo $notifications->links()?>
+    </div>
+</div>

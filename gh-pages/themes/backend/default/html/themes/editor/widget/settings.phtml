@@ -1,0 +1,3 @@
+<?php foreach($settings as $settingId => $settingDetails):?>
+    <?php echo view('themes/editor/widget/display-setting', array('key' => $settingId, 'setting' => $settingDetails, 'value' => $old))?>
+<?php endforeach?>

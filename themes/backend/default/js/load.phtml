@@ -1,0 +1,4 @@
+<?php $widgets = Widget::getWidgetPages($page, $position);?>
+<?php foreach($widgets as $widget):?>
+    <?php echo Widget::load($widget, $content)?>
+<?php endforeach?>

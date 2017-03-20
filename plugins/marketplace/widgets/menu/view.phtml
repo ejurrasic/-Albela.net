@@ -1,0 +1,22 @@
+<?php
+$type = input('t') ? input('t') : null;
+$active_class = array('l' => '', 'm' => '', 'p' => '', 'c' => '');
+switch($type){case 'm': $active_class['m'] = ' active'; break; case 'p': $active_class['p'] = ' active'; break; default: $active_class['l'] = ' active'; break;}
+$url = http_build_query($_GET) == '' ? url_to_pager("marketplace-slug", array('appends' => '')) : url_to_pager("marketplace-slug", array('appends' => '')).'?'.http_build_query($_GET);
+?>
+<div class="box">
+    <?php if(user_has_permission('can-create-listing')): ?>
+    <div class="box-content">
+        <a class="btn btn-primary btn-block" href="<?php echo url_to_pager('marketplace-create-listing') ?>" ajax="true"><?php echo lang('marketplace::new-listing') ?></a>
+    </div>
+    <?php endif ?>
+    <ul class="menu">
+        <?php foreach(get_menus("marketplace-menu") as $menu):?>
+        <li><a <?php echo ($menu->ajax) ? 'ajax="true"' : null?> <?php echo ($menu->tab) ? 'onclick="return window.open(\''.$menu->link.'\')"' : null?>  href="<?php echo ($menu->tab) ? 'javascript:void(0)' : $menu->link?>"><?php echo _lang($menu->title)?></a> </li>
+        <?php endforeach?>
+        <li class="<?php echo $active_class['l'] ?>"><a href="<?php echo marketplace_get_marketplace_slug_link(marketplace_assign_get_var(marketplace_remove_get_var($url, 's'), 't', 'l')) ?>" ajax="true"><?php echo lang('marketplace::listings') ?></a></li>
+        <?php if(is_loggedIn()): ?>
+        <li class="<?php echo $active_class['m'] ?>"><a href="<?php echo marketplace_get_marketplace_slug_link(marketplace_assign_get_var(marketplace_remove_get_var($url, 's'), 't', 'm')) ?>" ajax="true"><?php echo lang('marketplace::my-listings') ?></a></li>
+        <?php endif ?>
+    </ul>
+</div>

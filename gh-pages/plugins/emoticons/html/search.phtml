@@ -1,0 +1,3 @@
+<?php foreach($emoticons as $e => $d):?>
+    <a data-symbol="<?php echo $e?>" data-target="<?php echo $target?>" class="add-emoticon" <?php echo ($d['width']) ? 'width="'.$d['width'].'"':null?> <?php echo ($d['height']) ? 'height="'.$d['height'].'"':null?> href="" data-symbol="<?php echo $e?>"><img src="<?php echo url_img($d['path'])?>"/></a>
+<?php endforeach?>

@@ -1,0 +1,13 @@
+<div class="navigate nav-left">
+    <?php if($photo['imageBefore']):?>
+        <a data-image="<?php echo url_img($photo['imageBefore']['path'], 920)?>" data-id="<?php echo $photo['imageBefore']['id']?>" class=" photo-viewer" href=""><i class="ion-ios-arrow-back"></i></a>
+    <?php endif?>
+
+</div>
+<img src="<?php echo url_img($photo['path'], 920)?>"/>
+
+<div class="navigate nav-right">
+    <?php if($photo['imageAfter']):?>
+        <a  data-image="<?php echo url_img($photo['imageAfter']['path'], 920)?>" data-id="<?php echo $photo['imageAfter']['id']?>" class=" photo-viewer" href=""><i class="ion-ios-arrow-forward"></i></a>
+    <?php endif?>
+</div>

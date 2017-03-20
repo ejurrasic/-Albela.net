@@ -1,0 +1,49 @@
+<div class="box">
+    <div class="title"><?php _lang('social::invite-friends')?></div>
+    <div class="box-content">
+        <?php if($message):?>
+            <div class="alert alert-success">
+                <?php echo $message?>
+            </div>
+        <?php endif?>
+        <div id="social-import-services-pane">
+            <h6><?php _lang('social::search-address-for-friends')?></h6>
+            <?php _lang('social::search-address-for-friends-note')?>
+            <ul class="services">
+                <li class="clearfix">
+                    <div class="pull-left">
+                        <img src="<?php echo img('images/social/facebook.png')?>"/> Facebook
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-secondary social-search-contact-button " data-url="<?php echo url_to_pager('social-import-facebook')?>"><?php _lang('social::find-friends')?></button>
+                    </div>
+                </li>
+
+                <li class="clearfix">
+                    <div class="pull-left">
+                        <img src="<?php echo img('images/social/gmail.png')?>"/> Gmail
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-secondary social-search-contact-button " data-url="<?php echo url_to_pager('social-import-gmail')?>"><?php _lang('social::find-friends')?></button>
+                    </div>
+                </li>
+
+
+
+            </ul>
+        </div>
+
+        <form action="" method="post" style="margin-top: 40px">
+			<?php CSRFProtection::embed() ?>
+            <h6><?php _lang('social::invite-by-email')?></h6>
+            <textarea rows="8" name="emails" class="form-control" placeholder="<?php _lang('social::invite-by-email-desc')?>"></textarea>
+            <p class="help-block"><?php _lang('social::invite-by-email-desc')?></p>
+
+            <button class="btn btn-info"><?php _lang('social::send-invites')?></button>
+        </form>
+        <div id="social-imported-contacts-pane" class="account-settings-contacts-pane">
+
+        </div>
+
+    </div>
+</div>

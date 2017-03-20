@@ -1,0 +1,21 @@
+<?php
+return array(
+    'manage-announcement' => 'Manage announcement',
+    'announcements' => 'Announcements',
+    'add-new' => 'Add New',
+    'subject' => 'Subject',
+    'content' => 'Content',
+    'add-announcement' => 'Add announcement',
+    'success' => 'Success',
+    'danger' => 'Danger',
+    'warning' => 'Warning',
+    'info' => 'Info',
+    'display-options' => "Display options",
+    'can-be-close' => "Can be closed",
+    'target-viewers' => "Target viewers",
+    "user-group" => "User group",
+    'any' => 'Any',
+    'start-time' => 'Start time',
+    'guests' => 'Guests',
+    'announcement' => 'Announcement',
+);

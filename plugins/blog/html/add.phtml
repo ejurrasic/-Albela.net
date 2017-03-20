@@ -1,0 +1,55 @@
+<div class="box">
+    <div class="box-content" style="padding: 20px 10%">
+        <?php if($message):?>
+            <div class="alert alert-danger"><?php echo $message?></div>
+        <?php endif?>
+        <form action="" method="post" enctype="multipart/form-data">
+            <?php CSRFProtection::embed() ?>
+            <?php if($message):?>
+                <div class="alert alert-danger"><?php echo $message?></div>
+            <?php endif?>
+            <fieldset class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('blog::category')?></label>
+                <select name="val[category]" class="c-select">
+                    <?php foreach(get_blog_categories() as $category):?>
+
+                        <option value="<?php echo $category['id']?>"><?php _lang($category['title'])?></option>
+                    <?php endforeach?>
+                </select>
+            </fieldset>
+            <fieldset>
+                <label class="control-label"><?php _lang('blog::blog-title')?></label>
+                <input value="<?php echo input('val.title')?>" type="text" class="form-control" name="val[title]"/>
+            </fieldset>
+
+
+
+            <fieldset>
+                <label class="control-label"><?php _lang('blog::blog-content')?></label>
+                <textarea name="val[content]" class="ckeditor"><?php echo input('val.content')?></textarea>
+            </fieldset>
+
+            <fieldset>
+                <label class="control-label"><?php _lang('blog::tags')?></label>
+                <input type="text" name="val[tags]" class="form-control" placeholder="<?php echo input('val.tags')?>">
+            </fieldset>
+
+            <fieldset>
+                <label class="control-label"><?php _lang('blog::preview-image')?></label>
+                <input type="file" name="image" class="form-control"/>
+            </fieldset>
+
+            <fieldset class="control-group">
+                <label class="control-label"><?php _lang('status')?></label>
+                <select class="form-control" name="val[status]">
+                    <option value="1"><?php _lang('blog::published')?></option>
+                    <option value="0"><?php _lang('blog::draft')?></option>
+                </select>
+            </fieldset>
+
+
+
+            <button class="btn btn-info" style="margin-top: 20px"><?php echo lang("blog::add")?></button>
+        </form>
+    </div>
+</div>

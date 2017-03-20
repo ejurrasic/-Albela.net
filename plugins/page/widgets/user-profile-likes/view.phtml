@@ -1,0 +1,15 @@
+<?php if(isset($app->profileUser)):?>
+    <?php $pages = get_pages('likes', $app->profileUser['id'], $settings['limit'])?>
+    <?php if($pages->total):?>
+        <div class="box users-box">
+            <div class="title"><?php _lang('page::likes')?> <a ajax="true" href="<?php echo profile_url('likes', $app->profileUser)?>" class="more-link pull-right"><i class="ion-ios-arrow-forward"></i></a></div>
+            <div class="clearfix">
+                <?php foreach($pages->results() as $page):?>
+                    <a  href="<?php echo page_url(null, $page)?>" ajax="true" class="user " style="background-image: url(<?php echo get_page_logo(200, $page)?>)">
+                        <h6 class="name"><?php echo $page['page_title']?></h6>
+                    </a>
+                <?php endforeach?>
+            </div>
+        </div>
+    <?php endif?>
+<?php endif?>

@@ -1,0 +1,287 @@
+
+<?php if(isMobile()):?>
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<?php else:?>
+    <!DOCTYPE html>
+<?php endif?>
+<html lang="en">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title><?php echo get_title()?></title>
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <?php echo render_assets('css')?>
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo (config('site-favicon')) ? url_img(config('site-favicon')) : img('images/favicon.ico')?>" />
+    <meta content="<?php echo $keywords?>" name="keywords"/>
+    <meta content="<?php echo $description?>" name="description"/>
+    <style>
+        #header{
+            background-color:<?php echo config('plus-header-bg-color','#000000')?>;
+        }
+
+        #header #header-search input[type=text]{
+            background:<?php echo config('plus-header-search-bar-bg-color','#ffffff')?>;
+        }
+
+        a{
+            color: <?php echo config('plus-link-color','#4C4C4E')?>;
+        }
+
+
+
+        #main-wrapper{
+            background-color: <?php echo app()->design['color']?>;
+            background-image: <?php echo (app()->design['image']) ? "url(".app()->design['image'].")" : 'none'?>;
+            background-attachment: fixed;
+            background-position: top <?php echo app()->design['position']?>;
+            background-repeat: <?php echo app()->design['repeat']?>;
+        }
+        #main-wrapper > .container {
+            <?php if(app()->design['container']):?>
+                background: <?php echo app()->design['container']?>;
+                padding:  10px !important;
+            <?php endif?>
+        }
+        #main-wrapper > .container a{
+            color : <?php echo app()->design['link']?>;
+        }
+        .btn-info {
+            background: <?php echo config('plus-button-bg-color','#F62459')?> !important;
+            border-color : <?php echo config('plus-button-bg-color','#F62459')?> !important;
+        }
+
+        .verify-badge{
+            color : <?php echo config('plus-verify-badge-color','#19B5FE')?> !important;
+        }
+
+        .feed-wrapper > .left .avatar {
+            border-radius:100px !important
+        }
+
+        #main-wrapper .box .title {
+            background-color:<?php echo config('plus-box-title-background-color','#d1d1d1')?> !important;
+            color:<?php echo config('plus-box-title-text-color','#000000')?> !important;
+        }
+    </style>
+    <?php echo html_entity_decode(config('google-analytics-code'), ENT_QUOTES)?>
+</head>
+
+
+<body data-general-error="<?php _lang('something-went-wrong')?>">
+<!--HEADER-->
+<?php if($app->onHeader and segment(0)):?>
+<nav id="header" class="navbar navbar-fixed-top  ">
+    <div id="loading-line"></div>
+
+    <?php if($app->onHeaderContent):?>
+        <div class="container" style="padding: 0">
+
+            <?php
+            $logo = config('site-logo');
+            $logo = (!$logo) ? img("images/logo.png") : url_img($logo);
+            $url = (is_loggedIn()) ? url('feed') : url();
+            ?>
+
+            <a <?php echo (is_loggedIn()) ? 'ajax="true"' : null?> class="navbar-brand <?php echo (!is_loggedIn()) ? 'brand-non-login' : null?>" href="<?php echo $url?>">
+                <img src="<?php echo $logo?>"/>
+                <span></span>
+            </a>
+            <?php if(is_loggedIn()):?>
+
+                <form action="<?php echo url_to_pager("search")?>" id="header-search" class="form-inline navbar-form pull-left">
+					<?php CSRFProtection::embed() ?>
+                    <div class="btn-group">
+                        <button class="btn btn-primary-outline" type="submit"><i class="ion-search"></i></button>
+                        <input autocomplete="off" name="term" onkeyup="process_search_dropdown()" id="header-search-input" style="" class="form-control pull-left " type="text" autocomplete="off" name="term" onfocus="process_search_dropdown()" placeholder="<?php echo lang('search::search-placeholder')?>">
+                    <span style="display: none" class="dropdown" id="explore-container">
+
+                       <a href="" class="" data-toggle="dropdown">
+                            <i class="ion-android-menu"></i>
+                            <span><?php echo $app->topMenu?></span>
+
+                        </a>
+                    <ul class="dropdown-menu" id="explore-dropdown">
+                        <?php foreach(get_menus("dashboard-menu") as $menu):?>
+                            <li>
+                                <a ajax="true" class="dropdown-item" href="<?php echo $menu->link?>">
+                                    <?php echo $menu->icon?>
+                                    <?php echo $menu->title?>
+                                </a>
+                            </li>
+                        <?php endforeach?>
+                    </ul>
+                    </span>
+                    </div>
+                    <div id="search-dropdown">
+                        <div class=" search-dropdown-content">
+                            <img style="" src="<?php echo img('images/loading.gif')?>" id="search-dropdown-indicator"/>
+                            <div class="search-dropdown-result-container slimscroll">
+
+                            </div>
+
+                            <a ajax="true" id="search-dropdown-full-search-button" class="" href=""><?php _lang('see-all-results')?></a>
+                        </div>
+                    </div>
+                </form>
+            <?php endif?>
+            <ul id="header-right" class="nav navbar-nav pull-right">
+
+                <?php if(is_loggedIn()):?>
+
+                    <li class="dropdown" id="header-explore-button">
+                        <?php if(isMobile()):?>
+                            <a onclick="return show_side_menu()" id="side-menu-toggle" href="" style="text-transform:uppercase;"><i class="ion-android-apps"></i> <span  style="position:relative;bottom:5px;"><?php _lang('explore')?></span></a>
+                        <?php else:?>
+                            <a class="dropdown-toggle " data-toggle="dropdown" href="" style="text-transform:uppercase;"><i class="ion-android-apps"></i> <span  style="position:relative;bottom:5px;"><?php _lang('explore')?></span></a>
+
+                            <div class="dropdown-menu " aria-labelledby="dropdownMenu1">
+                                <div class="slimscroll" data-height="500px" >
+                                    <?php foreach(get_menus("dashboard-main-menu") as $menu):?>
+                                        <a ajax="true" class="dropdown-item <?php echo $menu->id?>" href="<?php echo $menu->link?>">
+                                            <?php echo $menu->icon?>
+                                            <span><?php echo $menu->title?></span>
+                                        </a>
+                                    <?php endforeach?>
+                                    <div class="dropdown-divider"></div>
+                                    <?php foreach(get_menus("dashboard-menu") as $menu):?>
+                                        <a ajax="true" class="dropdown-item" href="<?php echo $menu->link?>">
+                                            <?php echo $menu->icon?>
+                                            <span><?php echo $menu->title?></span>
+                                        </a>
+                                    <?php endforeach?>
+                                </div>
+                            </div>
+                        <?php endif?>
+                    </li>
+                    <li>
+                        <a ajax="true" href="<?php echo url('feed')?>"><i class="ion-ios-home"></i></a>
+                    </li>
+                    <?php if(plugin_loaded('chat')):?>
+                        <li class="" id="message-dropdown-container">
+                            <a onclick="return show_message_dropdown()" href=""><i class="ion-android-chat"></i> </a>
+                            <div class="header-dropdown message-dropdown">
+                                <div class="arrow-up "></div>
+                                <div class="friend-request-dropdown-content header-dropdown-content z-depth-1">
+                                    <div class="dropdown-title">
+
+                                        <?php _lang('chat::messages')?>
+                                        - <a ajax="true" href="<?php echo url_to_pager("messages")?>?cid=new"><?php _lang('chat::new-message')?></a>
+                                        <img style="" src="<?php echo img('images/loading.gif')?>" id="message-dropdown-indicator" class="dropdown-indicator pull-right"/>
+                                    </div>
+
+                                    <div data-height="330px" class="slimscroll message-dropdown-result-container dropdown-result-container">
+
+                                    </div>
+
+                                    <a ajax="true" class="see-all-message see-all-button" href="<?php echo url_to_pager("messages")?>"><?php _lang('see-all')?></a>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endif?>
+                    <?php if(plugin_loaded('relationship') and config('relationship-method', 3) > 1):?>
+                        <li id="friend-request-dropdown-container"><a onclick="return show_friend_request_dropdown()" href="">
+                                <i class="ion-person-stalker"></i>
+                            </a>
+                            <div class="friend-request-dropdown header-dropdown">
+                                <div class="arrow-up "></div>
+                                <div class="friend-request-dropdown-content header-dropdown-content z-depth-1">
+                                    <div class="dropdown-title">
+
+                                        <?php _lang('relationship::friend-requests')?>
+                                        <img style="" src="<?php echo img('images/loading.gif')?>" id="friend-request-dropdown-indicator" class="dropdown-indicator pull-right"/>
+                                    </div>
+
+                                    <div data-height="330px" class="slimscroll friend-request-dropdown-result-container dropdown-result-container">
+
+                                    </div>
+
+                                    <a ajax="true" class="see-all-friend-request see-all-button" href="<?php echo url_to_pager("friend-requests")?>"><?php _lang('relationship::see-all-friend-request')?></a>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endif?>
+                    <?php load_functions("notification::notification"); if(plugin_loaded("notification")):?>
+                        <li class="" id="notification-dropdown-container"><a onclick="return show_notification_dropdown()" href=""><i class="ion-android-globe"></i>
+
+                            </a>
+                            <div style="" class="notifications-dropdown header-dropdown">
+                                <div class="arrow-up "></div>
+                                <div class="header-dropdown-content z-depth-1">
+                                    <div class="dropdown-title"><?php _lang('notification::notifications')?> <img style="" src="<?php echo img('images/loading.gif')?>" id="notification-dropdown-indicator" class="dropdown-indicator pull-right"/></div>
+                                    <div data-height="330px" class="dropdown-result-container slimscroll notification-dropdown-result-container">
+
+                                    </div>
+
+                                    <a ajax="true" class="see-all-button" href="<?php echo url_to_pager("notifications")?>"><?php _lang('notification::see-all-notifications')?></a>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endif?>
+
+                    <li  class="dropdown text-link" id="header-account-menu">
+                        <a  aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="<?php echo profile_url()?>"><span><img  src="<?php echo get_avatar(75)?>"/></span> <?php echo substr(get_first_name(), 0, 12)?></a>
+
+                        <ul style="width: 300px;" class="dropdown-menu <?php echo (!isRTL()) ? 'dropdown-menu-right' : null?>" id="account-menu-dropdown">
+                            <li><a class="dropdown-item" href="<?php echo profile_url()?>" ajax="true"><?php _lang('my-profile')?></a> </li>
+                            <li class="dropdown-divider"></li>
+                            <?php foreach(get_menus("header-account-menu") as $menu):?>
+                                <?php if ($menu->title == 'divider'):?>
+                                    <li class="dropdown-divider"></li>
+                                <?php else:?>
+                                    <li>
+                                        <a ajax="true" class="dropdown-item" href="<?php echo $menu->link?>">
+                                            <?php echo $menu->title?>
+                                        </a>
+
+                                    </li>
+
+                                <?php endif?>
+                            <?php endforeach?>
+
+                            <li><a href="<?php echo url_to_pager('saved')?>" class="dropdown-item" ajax="true"><?php _lang('saved')?></a> </li>
+                            <li ><a ajax="true" class="dropdown-item" href="<?php echo url_to_pager('account')?>"><?php _lang('account-settings')?></a> </li>
+                            <?php if(is_admin()):?>
+                                <li><a class="dropdown-item" href="<?php echo url_to_pager('admin-statistic')?>"><?php _lang('go-to-admincp')?></a> </li>
+                            <?php endif?>
+                            <li style="margin: 0" class="dropdown-divider"></li>
+                            <li ><a class="dropdown-item" href="<?php echo url('logout')?>"><?php _lang('logout')?></a> </li>
+                        </ul>
+                    </li>
+
+                <?php else:?>
+                    <li class="dropdown header-language-selection">
+                        <a href="" data-toggle="dropdown">
+
+                            <?php foreach(get_all_languages() as $lang):?>
+                                <?php if($lang['language_id'] == $app->lang):?>
+                                    <?php echo $lang['language_title'] ?>
+                                <?php endif?>
+                            <?php endforeach ?>
+                            <i class="ion-ios-flag-outline" style="position: relative;top: 3px;margin-left: 3px"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <?php foreach(get_all_languages() as $lang):?>
+                                <li><a class="dropdown-item" style="<?php echo ($lang['language_id'] == $app->lang) ? 'font-weight:bold' : null?>" href="<?php echo url_to_pager("change-language", array('lang' => $lang['language_id']))?>"> <?php echo $lang['language_title'] ?> </a>  </li>
+                            <?php endforeach ?>
+                        </ul>
+                    </li>
+                <?php endif?>
+            </ul>
+        </div>
+    <?php endif?>
+    <div id="site-wide-notification" class="success">
+        <span class="message"></span>
+        <a href="#" onclick="return closeNotify()" class="close"><i class="ion-close"></i></a>
+    </div>
+    <a id="feed-top-update-alert" href=""><div ><span></span> <br/><?php _lang('feed::new-feeds')?></div></a>
+</nav>
+
+<!-- END HEADER-->
+<?php theme_extend('header')?>
+<div id="main-wrapper" class="header-space">
+
+<?php endif?>

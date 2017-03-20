@@ -1,0 +1,50 @@
+<?php if(is_loggedIn()):?>
+    <?php
+    $textLimit = (isset($textLimit) and $textLimit) ? $textLimit : false;
+    $avatar = (isset($avatar)) ? $avatar : get_avatar(75);
+    $entityId = (isset($entityId)) ? $entityId : get_userid();
+    $entityType = (isset($entityType)) ? $entityType : 'user';
+    $generatedId = md5(time() . $type. $typeId );
+    ?>
+    <form data-type="<?php echo $type?>" data-type-id="<?php echo $typeId?>" enctype="multipart/form-data" id="comment-editor-<?php echo $generatedId?>" action="" class="comment-editor">
+		<?php CSRFProtection::embed() ?>
+        <input type="hidden" name="val[type]" value="<?php echo $type?>"/>
+        <input type="hidden" name="val[type_id]" value="<?php echo $typeId?>"/>
+        <input type="hidden" name="val[entity_id]" value="<?php echo $entityId?>"/>
+        <input type="hidden" name="val[entity_type]" value="<?php echo $entityType?>"/>
+        <div data-error="<?php echo lang('comment::comment-editor-error')?>" class="alert alert-warning" style="margin: 0;margin-bottom: 10px;display: none"></div>
+        <div class="media" >
+            <div class="media-left">
+                <div class="media-object"><img class="res-img" src="<?php echo $avatar?>"/> </div>
+            </div>
+            <div class="media-body" style="position: relative;overflow: visible">
+                <textarea id="comment-editor-textarea-<?php echo $generatedId?>" data-mention="#comment-editor-mention-<?php echo $generatedId?>" name="val[text]" data-target="#comment-editor-<?php echo $generatedId?>" data-height="35px" class="auto-grow-input mention-input <?php echo ($textLimit) ? 'textarea-limit' :null?>" data-text-limit="<?php echo $textLimit?>" data-text-limit-count-target="#comment-text-limit-counter-<?php echo $generatedId?>" placeholder="<?php echo lang('comment::write-comment')?>"></textarea>
+                <div id="comment-editor-mention-<?php echo $generatedId?>" class="mention-user-list box">
+                    <img src="<?php echo img('images/loading.gif')?>" class="indicator"/>
+                    <div class="listing user-suggestion-list"></div>
+                </div>
+                <div class="comment-editor-footer clearfix">
+                    <div class="pull-left">
+                        <button class="btn btn-sm btn-info"><?php echo lang('comment::reply')?></button>
+                        <?php if($textLimit):?>
+                            <span style="display: inline-block;margin: 10px 5px" id="comment-text-limit-counter-<?php echo $generatedId?>"><?php echo $textLimit?></span>
+                        <?php endif?>
+                        <img src="<?php echo img('images/loading.gif')?>" class="comment-editor-indicator"/>
+                    </div>
+                    <div class="pull-right">
+                        <span class="file-input"><input accept="image/*" id="comment-editor-<?php echo $generatedId?>-image" type="file" name="image"/></span>
+                        <a  onclick="return file_chooser('#comment-editor-<?php echo $generatedId?>-image')" href="" class="file-chooser">
+                            <i class="ion-camera"></i></a>
+                        <?php if(plugin_loaded('emoticons')):?>
+                            <span style="position: relative">
+                            <a data-target="comment-editor-textarea-<?php echo $generatedId?>" data-action="0"  title="<?php _lang('emoticons::add-emoticons')?>" class="emoticon-button" href="javascript::void(0)"><i class="ion-android-sad emo-button"></i></a>
+                        <div class="emoticon-box emoticon-bottom"></div>
+                        </span>
+                        <?php endif?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+<?php endif?>

@@ -1,0 +1,18 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang('edit-language')?></div>
+    <div class="wrapper-content">
+        <form class=" wrapper-form" action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <div class="row">
+                <div class="col s5"><?php echo lang('language-title')?></div>
+                <div class="col s7">
+                    <input class="form-control" type="text" name="title" value="<?php echo $language["language_title"]?>"/>
+                </div>
+            </div>
+
+
+
+            <button class="btn btn-info" style="margin-top: 20px"><?php echo lang('save-language')?></button>
+        </form>
+    </div>
+</div>

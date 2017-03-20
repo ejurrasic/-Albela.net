@@ -1,0 +1,17 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang("add-country")?></div>
+    <div class="wrapper-content">
+
+        <form class="wrapper-form" action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <div class="row">
+                <div class="col-sm-5"><?php echo lang("country-name")?></div>
+
+                <div class="col-sm-7">
+                    <input class="form-control" type="text" name="country" placeholder="<?php echo lang("country-name")?>"/>
+                </div>
+            </div>
+            <button class="btn btn-info"><?php echo lang("add-country")?></button>
+        </form>
+    </div>
+</div>

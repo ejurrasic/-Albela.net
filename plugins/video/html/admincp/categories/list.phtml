@@ -1,0 +1,39 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('video::video-categories')?>
+        <a class="btn btn-sm btn-danger" href="<?php echo url('admincp/video/categories/add')?>"><?php _lang('video::add-category')?></a>
+    </div>
+    <div class="wrapper-content">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 5%">ID</th>
+                    <th style="width: 55%"><?php _lang('title')?></th>
+                    <th style="width: 40%"><?php _lang('actions')?></th>
+                </tr>
+            </thead>
+            <tbody data-url="<?php echo url_to_pager('admin-video-manage-category').'?action=order&id='.input('id')?>" class="admincp-sortable">
+                <?php foreach($categories as $category):?>
+                    <tr class="item" id="<?php echo $category['id']?>">
+                        <td><?php echo $category['id']?></td>
+                        <td>
+
+                            <?php if(!input('id')):?>
+                                <a href="<?php echo url('admincp/videos/categories?id='.$category['id'])?>"><?php _lang($category['title'])?></a>
+                            <?php else:?>
+                                <?php _lang($category['title'])?>
+                            <?php endif?>
+                        </td>
+                        <td>
+                            <?php if(!input('id')):?>
+                                <a href="<?php echo url('admincp/videos/categories?id='.$category['id'])?>" class="btn btn-sm btn-secondary"><?php _lang('video::manage-categories')?></a>
+                            <?php endif?>
+                            <a href="<?php echo url_to_pager('admin-video-manage-category').'?action=edit&id='.$category['id']?>" class="btn btn-info btn-sm"><?php _lang('edit')?></a>
+                            <a href="<?php echo url_to_pager('admin-video-manage-category').'?action=delete &id='.$category['id']?>" class="btn btn-danger btn-sm"><?php _lang('delete')?></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

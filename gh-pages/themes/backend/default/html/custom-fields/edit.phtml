@@ -1,0 +1,114 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang('edit-custom-field')?>
+        <span><?php echo lang('add-new-custom-field-note')?></span>
+    </div>
+    <div class="wrapper-content">
+
+
+        <form class="col s12" action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <div class="form-group row">
+                <div class="col-sm-5">
+                    <h6><?php echo lang('custom-field-title')?></h6>
+                    <p class="form-description">
+                        <?php echo lang('custom-field-title-description')?>
+                    </p>
+                </div>
+                <div class="col-sm-7">
+                    <?php foreach(get_all_languages() as $language):?>
+                        <input value="<?php echo get_phrase($language['language_id'], $field['title'])?>" class="form-control" type="text" name="val[title][<?php echo $language['language_id']?>]" placeholder="<?php echo lang('custom-field-title')?>"/><br>
+                        <span><?php echo $language['language_title']?></span>
+                    <?php endforeach?>
+                </div>
+            </div>
+
+
+            <div class="divider"></div>
+
+            <div class="form-group row">
+                <div class="col-sm-5">
+                    <h6><?php echo lang('custom-field-category')?></h6>
+                    <p class="form-description"><?php echo lang('custom-field-category-description')?></p>
+                </div>
+                <div class="col-sm-7">
+                    <select class="c-select" name="val[category_id]">
+                        <?php foreach(get_custom_field_categories($type) as $category):?>
+                            <option value="<?php echo $category['id']?>" <?php if($field['category_id'] == $category['id']): ?>selected="selected"<?php endif ?> ><?php echo lang($category['title'])?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+
+            <div class="form-group row">
+                <div class="col-sm-5">
+                    <h6><?php echo lang('custom-field-description')?></h6>
+                    <p class="form-description"><?php echo lang('custom-field-description-note')?></p>
+                </div>
+                <div class="col-sm-7">
+                    <?php foreach(get_all_languages() as $language):?>
+                        <input value="<?php echo get_phrase($language['language_id'], $field['description'])?>" class="form-control" type="text" name="val[description][<?php echo $language['language_id']?>]" placeholder="<?php echo lang('custom-field-description')?>"/><br>
+                        <span><?php echo $language['language_title']?></span>
+                    <?php endforeach?>
+
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="form-group row">
+                <div class="col-sm-5">
+                    <h6><?php echo lang('custom-field-type')?></h6>
+                    <p class="form-description">
+                        <?php echo lang('custom-field-type-description')?>
+                    </p>
+                </div>
+                <div class="col-sm-7">
+                    <select class="c-select" id="custom-field-type-selection" name="val[field_type]">
+                        <option <?php echo ($field['field_type'] == 'text') ? 'selected' : null?> value="text">Text</option>
+                        <option <?php echo ($field['field_type'] == 'longtext') ? 'selected' : null?> value="longtext">Long Text</option>
+                        <option <?php echo ($field['field_type'] == 'selection') ? 'selected' : null?> value="selection">Selection</option>
+                        <option <?php echo ($field['field_type'] == 'boolean') ? 'selected' : null?> value="boolean">True/False</option>
+                    </select>
+
+                    <textarea id="custom-field-selection-data" style="display: none" class="" placeholder="Selection data" name="val[data]"><?php echo $field['field_data']?></textarea><br/>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="form-group row">
+                <div class="col-sm-5">
+                    <h6><?php echo lang('include-in-registration')?></h6>
+                    <p class="form-description"><?php echo lang('include-in-registration-description')?></p>
+                </div>
+                <div class="col-sm-7">
+                    <select class="c-select" name="val[show_in_form]">
+                        <option <?php echo ($field['show_in_form'] == '0') ? 'selected' : null?>  value="0"><?php echo lang('no')?></option>
+                        <option <?php echo ($field['show_in_form'] == '1') ? 'selected' : null?>  value="1"><?php echo lang('yes')?></option>
+                    </select>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="form-group row">
+                <div class="col-sm-5">
+                    <h6><?php echo lang('required')?></h6>
+                    <p class="form-description"><?php echo lang('custom-field-required-description')?> </p>
+                </div>
+                <div class="col-sm-7">
+                    <select class="c-select" name="val[required]">
+                        <option <?php echo ($field['required'] == '0') ? 'selected' : null?>  value="0"><?php echo lang('no')?></option>
+                        <option <?php echo ($field['required'] == '1') ? 'selected' : null?> value="1"><?php echo lang('yes')?></option>
+                    </select>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="form-group row">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7">
+                    <button class="btn red lighten-3"><?php echo lang('save-field')?></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

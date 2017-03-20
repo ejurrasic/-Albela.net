@@ -1,0 +1,12 @@
+<div class="box z-depth-1">
+    <div class="title"><?php echo lang('search::users-result')?> - <?php echo $term?></div>
+    <div class="search-users-result box-content">
+        <?php foreach($users->results() as $user):?>
+
+            <?php echo view('user/display', array('user' => $user))?>
+        <?php endforeach?>
+
+        <?php $users->append(array('type' => 'user', 'term' => input('term'))) ?>
+        <?php echo $users->links(true)?>
+    </div>
+</div>

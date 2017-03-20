@@ -1,0 +1,21 @@
+<?php $user = find_user($activity['user_id'], false);?>
+<?php if($user):?>
+    <?php $title = fire_hook("activity.title", "valid", array($activity, $user));?>
+    <?php if($title != "invalid"):?>
+        <div class="media <?php echo (isset($large)) ? 'media-lg' : 'media-sm'?>">
+            <div class="media-left">
+                <div class="media-object">
+                    <img src="<?php echo get_avatar(75 ,$user )?>"/>
+                </div>
+            </div>
+            <div class="media-body">
+                <h6 class="media-heading">
+                    <?php echo ($title == 'valid') ? $activity['title'] : $title?>
+                </h6>
+
+                <span class="feed-time"> <span class="timeago " title="<?php echo date('c', $activity['time'])?>"><?php echo date('c', $activity['time'])?></span></span>
+            </div>
+        </div>
+    <?php endif?>
+
+<?php endif?>

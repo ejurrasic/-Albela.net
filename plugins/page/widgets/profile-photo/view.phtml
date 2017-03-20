@@ -1,0 +1,13 @@
+<?php if(isset($app->profilePage)):?>
+    <?php $photos = get_photos($app->profilePage['page_id'], 'page', $limit)?>
+    <div class="box users-box">
+        <div class="title"><?php _lang('page::recent-photos')?> <a ajax="true" href="<?php echo page_url('photos', $app->profilePage)?>" class="more-link pull-right"><i class="ion-ios-arrow-forward"></i></a></div>
+        <?php if (count($photos) > 0):?>
+            <div class="clearfix">
+                <?php foreach($photos as $photo):?>
+                    <a data-image="<?php echo url_img($photo['path'], 920)?>" data-id="<?php echo $photo['id']?>" href="" class="user photo-viewer" style="background-image: url(<?php echo url_img($photo['path'], 600)?>)"></a>
+                <?php endforeach?>
+            </div>
+        <?php endif?>
+    </div>
+<?php endif?>

@@ -1,0 +1,33 @@
+<div class="box">
+    <div class="global-filter-container" data-url="<?php echo url('groups')?>">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3><?php _lang('group::groups')?></h3>
+            </div>
+
+        </div>
+        <div class="  filter-pane">
+
+            <div class="list-layout-type">
+                <a href="" onclick="return change_listing_layout('#group-list-container', 'list')"><i class="ion-ios-list-outline"></i></a>
+                <a href="" onclick="return change_listing_layout('#group-list-container', 'grid')"><i class="ion-android-apps"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div id="group-list-container" class="box-content clearfix list-listing-container">
+        <?php foreach($groups->results() as $group):?>
+            <?php echo view('group::display', array('group' => $group))?>
+        <?php endforeach?>
+    </div>
+
+    <div class="box-content">
+
+        <?php if(!$groups->total):?>
+            <?php _lang('group::no-grouo-found')?>
+        <?php else:?>
+            <?php echo $groups->links(true)?>
+        <?php endif?>
+    </div>
+
+</div>

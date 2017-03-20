@@ -1,0 +1,19 @@
+<?php if(config('enable-popup-language-selection', true) and !theme_language_selection()):?>
+    <div id="popup-language-selection">
+        <div class="selection-container">
+            <h5 class="title"><?php _lang('choose-language')?></h5>
+            <ul class="clearfix">
+                <?php $started=false; foreach(get_all_languages() as $lang):?>
+                    <li><a style="" href="<?php echo url_to_pager("change-language", array('lang' => $lang['language_id']))?>"> <?php echo $lang['language_title'] ?> </a>  </li>
+                <?php endforeach ?>
+            </ul>
+        </div>
+    </div>
+<?php endif?>
+
+<div id="main-wrapper" style="margin: 0;padding: 0">
+
+
+
+
+</div>

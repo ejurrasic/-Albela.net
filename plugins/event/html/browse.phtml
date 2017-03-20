@@ -1,0 +1,66 @@
+<div class="box">
+    <div class="global-filter-container" data-url="<?php echo url('events')?>">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3><?php _lang('event::events')?></h3>
+            </div>
+            <div class="col-sm-6">
+                <form id="video-list-search" method="post" onsubmit=" return run_global_filter()" action="" class="form-inline pull-right">
+					<?php CSRFProtection::embed() ?>
+                    <input type="hidden" class="video-type-input filter-input" data-name="type" value="<?php echo input('type','upcoming')?>"/>
+                    <input value="<?php echo input('term')?>" type="text" class="form-control filter-input" data-name="term" placeholder="<?php _lang('event::find-events')?>"/>
+                    <button class="btn btn-info"><i class="ion-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="  filter-pane">
+            <select id="video-category-list" onchange="return run_global_filter()" data-name="category" class="c-select filter-input" >
+                <option <?php echo (input('category', 'all') == 'all') ? 'selected'  : null?>  value="all"><?php _lang('video::all-categories')?></option>
+                <?php foreach(get_event_categories() as $category):?>
+                    <option <?php echo (input('category', 'all') == $category['id']) ? 'selected'  : null?> value="<?php echo $category['id']?>"><?php _lang($category['title'])?></option>
+                <?php endforeach?>
+            </select>
+
+        </div>
+    </div>
+    <div class="box-content">
+        <?php if(!$events->total):?>
+            <div class="alert alert-info"><?php _lang('event::no-event-display')?></div>
+        <?php else:?>
+            <?php foreach($events->results() as $event):$event = arrange_event($event);?>
+                <div class="media media-lg event">
+                    <div class="media-left">
+                        <a href="<?php echo event_url(null, $event)?>" ajax="true">
+                            <div class="media-object" style="background-image: url(<?php echo get_event_logo($event)?>)">
+                                <div class="info">
+                                    <span><?php echo get_event_date($event)?></span>
+
+                                    <span><?php echo get_event_date($event, 'day', 'd')?></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading"><a class="bold" href="<?php echo event_url(null, $event)?>" ajax="true"><?php echo $event['event_title']?></a> </h6>
+                        <p class="help-block">
+                            <i class="ion-android-time"></i>
+                            <?php echo get_event_date($event, 'day', 'd')?>,
+                            <?php if(get_event_date($event, 'year', 'Y') != date('Y')):?>
+                                <?php echo get_event_date($event, 'year', 'Y')?>
+                            <?php endif?>
+                            <?php echo get_event_date($event)?> <?php _lang('event::at')?>
+                            <?php echo get_event_date($event, 'time', 'g : i')?>
+                            <?php echo strtoupper($event['start_time_type'])?>
+                        </p>
+
+                        <p>
+                            <?php echo output_text(str_limit($event['event_desc'], 50))?>
+                        </p>
+                    </div>
+                </div>
+            <?php endforeach?>
+
+            <?php echo $events->append(array('term' => input('term'), 'type' => input('type', 'upcoming'), 'category' => input('category')))->links(true)?>
+        <?php endif?>
+    </div>
+</div>

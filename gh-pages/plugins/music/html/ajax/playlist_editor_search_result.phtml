@@ -1,0 +1,7 @@
+<?php foreach($musics->results() as $music): ?>
+    <?php $music_title =  trim($music['title']) == '' ? $music['title'] : $music['artist'].' - '.$music['title'] ?>
+    <?php $music_title =  str_replace("'", '\\\'', $music_title) ?>
+    <div class="music-item" onclick="return music.playlist.editor.addMusic('<?php echo $music['slug'] ?>', '<?php echo $music_title ?>');">
+        <div class="title"><?php echo trim($music['title']) == '' ? $music['title'] : $music['artist'].' - '.$music['title'] ?></div>
+    </div>
+<?php endforeach ?>

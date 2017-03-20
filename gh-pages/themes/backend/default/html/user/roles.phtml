@@ -1,0 +1,97 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php _lang('user-roles')?></div>
+    <div class="wrapper-content">
+        <?php if($message):?>
+            <div class="alert alert-success"><?php echo $message?></div>
+        <?php endif?>
+        <div class="row">
+            <div class="col-md-7">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th><?php _lang('level-title')?></th>
+                        <th><?php _lang('access-admin')?></th>
+                        <th><?php _lang('actions')?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                        <?php foreach(list_user_roles() as $role):?>
+                            <tr>
+                                <td><?php echo $role['role_id']?></td>
+                                <td><?php echo $role['role_title']?></td>
+                                <td><?php echo ($role['access_admin']) ? '<i class="ion-checkmark"></i>' : null?></td>
+                                <td>
+                                    <?php if($role['can_edit']):?>
+                                        <a class="btn btn-sm btn-success" href="<?php url_to_pager('admin-user-roles')?>?action=edit&id=<?php echo $role['role_id']?>"><i class="ion-edit"></i></a>
+                                    <?php endif?>
+                                    <?php if($role['can_delete']):?>
+                                        <a class="admin-confirm btn btn-sm btn-danger" href="<?php url_to_pager('admin-user-roles')?>?action=delete&id=<?php echo $role['role_id']?>"><i class="ion-android-delete"></i></a>
+                                    <?php endif?>
+                                </td>
+                            </tr>
+                        <?php endforeach?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-5">
+                <div class="box">
+
+                    <form action="" method="post">
+						<?php CSRFProtection::embed() ?>
+                        <div class="title"><?php _lang('add-new-role')?></div>
+                        <div class="box-content">
+                            <?php if($errorMessage):?>
+                                <div class="alert alert-danger"><?php echo $errorMessage?></div>
+                            <?php endif?>
+                            <fieldset class="form-group row">
+                                <label class="control-label col-md-2"><?php _lang('title')?></label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="val[title]"/>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group row">
+                                <label class="control-label col-md-2"><?php _lang('permissions')?></label>
+                                <div class="col-md-10 ">
+                                    <div  style="height:200px;overflow: auto" class="box">
+                                        <div class="box-content">
+                                            <?php foreach(get_role_permissions() as $role):?>
+                                                <h6><?php  echo $role['title']?></h6>
+                                                <p class="help-block"><?php echo $role['description']?></p>
+                                                <?php foreach($role['roles'] as $id => $r):?>
+                                                    <label class="c-input c-checkbox">
+                                                        <input <?php echo ($r['value']) ? 'checked' : null?> name="val[roles][<?php echo $id?>]"  type="checkbox">
+                                                        <span class="c-indicator"></span>
+                                                        <?php echo $r['title']?>
+                                                    </label><br/>
+                                                <?php endforeach?>
+                                            <?php endforeach?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group row">
+                                <label class="control-label col-md-2"><?php _lang('access-admin')?></label>
+                                <div class="col-md-10 ">
+                                    <label class="c-input c-checkbox">
+                                        <input name="val[admin]"  type="checkbox">
+                                        <span class="c-indicator"></span>
+                                        <?php _lang('access-admin')?>
+                                    </label>
+
+                                </div>
+                            </fieldset>
+
+                        </div>
+                        <div class="box-footer">
+                            <button class="btn btn-primary"><?php _lang('save-role')?></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

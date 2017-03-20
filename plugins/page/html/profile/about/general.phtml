@@ -1,0 +1,18 @@
+<ul id="profile-side-info">
+    <li>
+        <span><i class="ion-ios-list-outline"></i> <?php _lang('page::title')?>: </span> <?php echo get_page_details('page_title')?>
+    </li>
+    <li>
+        <span><i class="ion-ios-list-outline"></i> <?php _lang('page::category')?>: </span> <?php echo get_page_category_title(get_page_details('page_category_id'))?>
+    </li>
+    <li>
+        <span><i class="ion-ios-information-outline"></i> <?php _lang('page::about')?>:</span> <?php echo output_text($app->profilePage['page_desc'])?>
+    </li>
+    <?php $i=0;foreach(get_all_custom_fields('page') as $field):?>
+        <?php if($i <= 3 and get_page_details($field['title'], $app->profilePage)):?>
+            <li>
+                <span><i class="ion-ios-information-outline"></i> <?php _lang($field['title'])?>:</span> <?php echo output_text(get_page_details($field['title'], $app->profilePage))?>
+            </li>
+        <?php else:break;endif?>
+        <?php $i++; endforeach?>
+</ul>

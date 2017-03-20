@@ -1,0 +1,78 @@
+<div class="box">
+    <div class="title"><?php _lang('edit')?></div>
+    <div class="box-content" style="padding: 20px 10%">
+        <?php if($message):?>
+            <div class="alert alert-danger"><?php echo $message?></div>
+        <?php endif?>
+        <form action="" method="post" enctype="multipart/form-data">
+            <?php CSRFProtection::embed() ?>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('game::game-category')?></label>
+                <div class="col-sm-8">
+                    <select name="val[category]" class="c-select">
+                        <?php foreach(get_game_categories() as $category):?>
+                            <option <?php echo ($category['id'] == $app->profileGame['category_id']) ? 'selected' : null?> value="<?php echo $category['id']?>"><?php _lang($category['title'])?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('game::game-title')?></label>
+                <div class="col-sm-8">
+                    <input value="<?php echo get_game_details('game_title')?>" type="text" name="val[title]" class="form-control"/>
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('game::description')?></label>
+                <div class="col-sm-8">
+                    <textarea name="val[description]" class="form-control auto-grow-input"><?php echo get_game_details('game_description')?></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('game::game-file')?></label>
+                <div class="col-sm-8">
+                    <span class="file-input"><input type="file" name="file" id="game-select-file"></span>
+                    <button onclick="return file_chooser('#game-select-file')" type="button" class="btn btn-secondary btn-block"><?php _lang('game::select-game')?></button>
+
+                    <?php if(can_embed_game()):?>
+                        <h6 style="margin: 10px 0;font-weight: bold"><?php _lang('game::or-embed-game-code')?></h6>
+                        <textarea name="val[code]" class="form-control"><?php echo input('val.code')?><?php echo get_game_details('game_code')?></textarea>
+                    <?php else:?>
+                        <input type="hidden" name="val[code]"/>
+                    <?php endif?>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('game::dimension-optional')?></label>
+                <div class="col-sm-8">
+                    <b><?php _lang('game::game-dimension-note')?></b>
+                    <label><?php _lang('game::width')?></label>
+                    <input value="<?php echo get_game_details('game_width')?>" type="text" name="val[width]" class="form-control"/>
+
+                    <label><?php _lang('game::height')?></label>
+                    <input value="<?php echo get_game_details('game_height')?>" type="text" name="val[height]" class="form-control"/>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('game::game-logo')?></label>
+                <div class="col-sm-8">
+                    <img src="<?php echo $app->profileGame['game_logo'] ? url_img($app->profileGame['game_logo'], 75) : img('game::images/no_image.jpg')?>" style="width: 50px"/>
+                    <span class="file-input"><input type="file" name="logo" id="game-logo-file"></span>
+                    <button onclick="return file_chooser('#game-logo-file')" type="button" class="btn btn-secondary"><?php _lang('game::change-logo')?></button>
+
+                </div>
+            </div>
+
+            <button class="btn btn-info"><?php _lang('game::save-game')?></button>
+
+            <a href="javascript::void(0)" onclick="return confirm.url('<?php echo url_to_pager('game-delete', array('id' => $app->profileGame['game_id']))?>')" class="btn btn-danger pull-right"><?php _lang('delete')?></a>
+        </form>
+    </div>
+</div>

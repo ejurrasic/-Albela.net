@@ -1,0 +1,55 @@
+							<?php foreach($sub_replies->results() as $sub_reply): ?>
+							<div id="forum-reply-wrapper-<?php echo $sub_reply['id'] ?>" class="forum-reply-wrapper forum-reply-wrapper-sub">
+								<div class="forum-replier-info forum-replier-info-sub">
+									<a href="<?php echo getBase().forum_get_user_column($sub_reply['replier_id'], 'username') ?>" ajax="true">
+										<img src="<?php echo forum_get_avatar($sub_reply['replier_id'], 75) ?>" class="forum-avatar-thumb forum-avatar-thumb-sub" />
+										<br /><span><?php echo forum_get_user_column($sub_reply['replier_id'], 'username') ?></span>
+									</a>
+								</div>
+								<div id="forum-post-<?php echo $sub_reply['id'] ?>" class="forum-post forum-post-sub"><?php echo forum_output_text($sub_reply['post']) ?></div>
+                                <?php if(is_loggedIn() && $sub_reply['replier_id'] == get_userid()): ?>
+                                <div id="forum-edit-reply-form-wrapper-<?php echo $sub_reply['id'] ?>" class="forum-edit-reply-form-wrapper">
+                                    <form action="" method="post" id="postform-<?php echo $sub_reply['id'] ?>" onsubmit="forumAjaxSubmitForm(this); return false;">
+										<?php CSRFProtection::embed() ?>
+                                        <input type="hidden" name="thread_id" value=<?php echo $sub_reply['thread_id'] ?> />
+                                        <input type="hidden" name="id"  value=<?php echo $sub_reply['id'] ?> />
+                                        <input type="hidden" name="type" value="edit_post" />
+                                        <input type="hidden" name="val" value=true />
+                                        <textarea name="postbox" id="editpostbox-<?php echo $sub_reply['id'] ?>"><?php echo forum_output_text($sub_reply['post']) ?></textarea>
+                                        <script>forumInitEditor('editpostbox-' + <?php echo $sub_reply['id'] ?>)</script>
+                                        <div class="forum-form-submit"><input type="submit" value="<?php echo lang('forum::submit') ?>" class="btn btn-default btn-sm" /> <button class="btn btn-default btn-sm" onclick="forumEditReply(<?php echo $sub_reply['id'] ?>); return false"><?php echo lang('forum::cancel') ?></button></div>
+                                    </form>
+                                </div>
+                                <?php endif ?>
+								<div class="reply-date"><?php echo date('d/m/Y H:i:s', strtotime($sub_reply['date'])) ?></div>
+								<div id="forum-reply-dashboard-<?php echo $sub_reply['id'] ?>" class="forum-reply-dashboard">
+                                <?php if(is_loggedIn()): ?>
+                                    <?php if($sub_reply['replier_id'] == get_userid()): ?>
+                                    <button id="forum-edit-reply-button-<?php echo $sub_reply['id'] ?>" class=" btn btn-info-outline btn-sm ion-android-create forum-edit-reply-button" title="<?php echo lang('forum::edit') ?>" onclick="forumEditReply(<?php echo $sub_reply['id'] ?>)"></button>
+                                        <?php if(!forum_is_original_post($sub_reply['id'])): ?>
+                                    <button id="forum-delete-reply-button-<?php echo $sub_reply['id'] ?>" class="btn btn-danger-outline btn-sm ion-android-close forum-delete-reply-button" title="<?php echo lang('forum::remove') ?>" onclick="forumDeleteReply(<?php echo $sub_reply['id'] ?>, <?php echo $sub_reply['thread_id'] ?>)"></button>
+                                        <?php endif ?>
+                                    <?php endif ?>
+                                <?php endif ?>
+									<span id="forum-reply-like-<?php echo $sub_reply['id'] ?>">
+										<?php if(is_loggedIn()): ?>
+											<?php if(forum_reply_isliked($sub_reply['id'])): ?>
+												<button id="forum-like-button-<?php echo $sub_reply['id'] ?>" class="btn btn-primary-outline btn-sm active ion-thumbsup forum-like-button" title="<?php echo lang('forum::unlike') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=unlike&reply_id=<?php echo $sub_reply['id'] ?>', 'forum-reply-like-<?php echo $sub_reply['id'] ?>')"></button>
+											<?php else: ?>
+												<button id="forum-like-button-<?php echo $sub_reply['id'] ?>" class="btn btn-primary-outline btn-sm ion-thumbsup forum-like-button" title="<?php echo lang('forum::like') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=like&reply_id=<?php echo $sub_reply['id'] ?>', 'forum-reply-like-<?php echo $sub_reply['id'] ?>')"></button>
+											<?php endif ?>
+										<?php endif ?>
+                                        <span class="forum-reply-likes"><?php echo forum_get_num_likes($sub_reply['id'], true) ?></span>
+									</span>
+								</div>
+								<div id="forum-reply-form-wrapper-<?php echo $sub_reply['id'] ?>" class="forum-reply-form-wrapper"></div>
+							</div>
+							<?php endforeach ?>
+							<div class="forum-sub-replies-pagination">
+							<?php if($page > 1): ?>
+							<span id="forum-sub-replies-pagination-button-<?php echo $reply_id ?>" class="forum-sub-replies-pagination-button" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=get_sub_replies&thread_id=<?php echo $thread_id ?>&reply_id=<?php echo $reply_id ?>&page=<?php echo ($page - 1) ?>', 'forum-sub-replies-<?php echo $reply_id ?>')">&lt;&lt;<?php echo lang('forum::previous-replies') ?></span>
+							<?php endif ?>
+							<?php if(forum_get_num_sub_replies($thread_id, $reply_id) > ($limit * $page)): ?>
+							<span id="forum-sub-replies-pagination-button-<?php echo $reply_id ?>" class="forum-sub-replies-pagination-button" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=get_sub_replies&thread_id=<?php echo $thread_id ?>&reply_id=<?php echo $reply_id ?>&page=<?php echo ($page + 1) ?>', 'forum-sub-replies-<?php echo $reply_id ?>')"><?php echo lang('forum::next-replies') ?>&gt;&gt;</span>
+							<?php endif ?>
+							</div>

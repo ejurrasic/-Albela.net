@@ -1,0 +1,12 @@
+
+
+<ul id="profile-side-info">
+
+    <?php foreach(get_custom_fields('user', $id) as $field):?>
+        <?php if(get_user_data($field['title'], $app->profileUser)):?>
+            <li>
+                <span><i class="ion-ios-information-outline"></i> <?php _lang($field['title'])?>:</span> <?php echo output_text(get_user_data($field['title'], $app->profileUser))?>
+            </li>
+        <?php endif?>
+    <?php endforeach?>
+</ul>

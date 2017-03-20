@@ -1,0 +1,11 @@
+<?php if($helps->total):?>
+    <?php foreach($helps->results() as $help):?>
+            <div class="media">
+                <div class="media-body">
+                    <a href="<?php echo url('help/'.$help['slug'])?>"><h2><?php echo $help['title']?> </h2></a>
+                </div>
+            </div>
+        <?php endforeach?>
+<?php else:?>
+    <div class="alert alert-info"><?php _lang('help::not-result-found-help')?></div>
+<?php endif?>

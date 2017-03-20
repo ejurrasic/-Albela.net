@@ -1,0 +1,30 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php _lang('report::manage-reports')?></div>
+    <div class="wrapper-content">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th><?php _lang('type')?></th>
+                    <th><?php _lang('message')?></th>
+                    <th><?php _lang('actions')?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($reports->results() as $report):?>
+                    <tr>
+                        <td><?php echo $report['report_id']?></td>
+                        <td><?php echo ucwords($report['type'])?></td>
+                        <td><?php echo $report['message']?></td>
+                        <td>
+                            <a class="btn btn-sm btn-danger" href="<?php echo url_to_pager('admincp-reports-delete')?>?id=<?php echo $report['report_id']?>"><?php _lang('report::delete-report')?></a> |
+                            <a class="btn btn-sm btn-success" onclick="return window.open('<?php echo $report['link']?>')" nofollow='nofollow' href='javascript::void(0)' ><?php _lang('report::take-action')?></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+
+        <?php echo $reports->links()?>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="emoticon-header">
+    <ul>
+        <li><a data-id="<?php echo md5($target)?>" data-type="0" href="" class="switch"><i class="ion-ios-search-strong"></i></a> </li>
+        <li><a data-id="<?php echo md5($target)?>" data-type="1" href="" class="switch" ><i class="ion-android-sad"></i> <?php _lang('emoticons::emoticons')?></a></li>
+        <li><a data-id="<?php echo md5($target)?>" data-type="2" href="" class="switch"><i class="ion-android-train"></i> <?php _lang('emoticons::stickers')?></a> </li>
+    </ul>
+</div>
+<div class="emoticon-body slimscroll" data-height="150px">
+    <input id="search-emoticon-<?php echo md5($target)?>" type="text" data-target="<?php echo $target?>" data-id="<?php echo md5($target)?>"   class="form-control search-emoticon" placeholder="<?php _lang('emoticons::search-emoticons')?>"/>
+    <div class="emoticon-search <?php echo md5($target)?>-list" id="<?php echo md5($target)?>-list-0">
+
+        <div class="emoticon-search-result"></div>
+    </div>
+    <div class="emoticon-lists <?php echo md5($target)?>-list" id="<?php echo md5($target)?>-list-1">
+        <?php foreach(get_emoticons(1) as $e => $d):?>
+            <a data-action="<?php echo $action?>" data-symbol="<?php echo $e?>" data-target="<?php echo $target?>" class="add-emoticon" <?php echo ($d['width']) ? 'width="'.$d['width'].'"':null?> <?php echo ($d['height']) ? 'height="'.$d['height'].'"':null?> href="" data-symbol="<?php echo $e?>"><img src="<?php echo url_img($d['path'])?>"/></a>
+        <?php endforeach?>
+    </div>
+    <div class="sticker-lists <?php echo md5($target)?>-list" id="<?php echo md5($target)?>-list-2" style="display: none">
+        <?php foreach(get_emoticons(2) as $e => $d):?>
+            <a data-action="<?php echo $action?>" data-symbol="<?php echo $e?>" data-target="<?php echo $target?>" class="add-emoticon"  <?php echo ($d['width']) ? 'width="'.$d['width'].'"':null?> <?php echo ($d['height']) ? 'height="'.$d['height'].'"':null?> href="" data-symbol="<?php echo $e?>"><img src="<?php echo url_img($d['path'])?>"/></a>
+        <?php endforeach?>
+    </div>
+</div>

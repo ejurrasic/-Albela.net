@@ -1,0 +1,65 @@
+<?php $uid = ($conversation['user1'] == get_userid()) ? $conversation['user2'] : $conversation['user1']; ?>
+<?php $canStream = plugin_loaded('mediachat') && mediachat_can_user_stream($uid) ? 'true' : 'false'; ?>
+<div
+    class="chat-conversation <?php echo ($conversation['unread'] > 0) ? 'chat-conversation-unread' : null?>  <?php echo (isset($cid) and $cid == $conversation['cid']) ? 'conversation-active' : null?>"
+    >
+
+        <div class="media">
+            <div class="media-left">
+                <div class="media-object <?php echo ($conversation['type'] == 'single') ? 'single' : 'multiple'?>">
+                    <a
+                        style="display: block" class="clearfix"
+                        <?php if(isset($box)):?>
+                            <?php if($conversation['type'] == 'single'):?>
+                                onclick="return Chat.open('<?php echo $conversation['cid']?>', null, '<?php echo htmlentities($conversation['title'])?>', '<?php echo $conversation['avatar']?>', null, null, <?php echo $canStream ?>)"
+                            <?php else:?>
+                                onclick="return Chat.open('<?php echo $conversation['cid']?>', null, '<?php echo htmlentities($conversation['title'])?>', '<?php echo $conversation['avatars'][0]?>', '<?php echo $conversation['avatars'][1]?>', null, <?php echo $canStream ?>)"
+                            <?php endif?>
+                        <?php endif?>
+                        <?php echo (!isset($box)) ? 'ajax="true"' : null?> href="<?php echo url_to_pager("messages")?>?cid=<?php echo $conversation['cid']?>">
+
+                    <?php if($conversation['type'] == 'single'):?>
+                        <span><img src="<?php echo $conversation['avatar']?>"/> </span>
+                    <?php else:?>
+                        <span style="background-image: url(<?php echo $conversation['avatars'][0]?>) "></span>
+                        <?php if(isset($conversation['avatars'][1])):?>
+                            <span style="background-image: url(<?php echo $conversation['avatars'][1]?>) "></span>
+                        <?php endif?>
+
+                    <?php endif?>
+                        </a>
+                </div>
+            </div>
+            <div class="media-body">
+                <a
+                    style="display: block" class="clearfix"
+                    <?php if(isset($box)):?>
+                        <?php if($conversation['type'] == 'single'):?>
+                            onclick="return Chat.open('<?php echo $conversation['cid']?>', null, '<?php echo htmlentities($conversation['title'])?>', '<?php echo $conversation['avatar']?>', null, null, <?php echo $canStream ?>)"
+                        <?php else:?>
+                            <?php if(isset($conversation['avatars'][1])):?>
+                                onclick="return Chat.open('<?php echo $conversation['cid']?>', null, '<?php echo htmlentities($conversation['title'])?>', '<?php echo $conversation['avatars'][0]?>', '<?php echo $conversation['avatars'][1]?>', null, <?php echo $canStream ?>)"
+                            <?php else:?>
+                                onclick="return Chat.open('<?php echo $conversation['cid']?>', null, '<?php echo htmlentities($conversation['title'])?>', '<?php echo $conversation['avatars'][0]?>', null, null, <?php echo $canStream ?>)"
+                            <?php endif?>
+
+
+                        <?php endif?>
+                    <?php endif?>
+                    <?php echo (!isset($box)) ? 'ajax="true"' : null?> href="<?php echo url_to_pager("messages")?>?cid=<?php echo $conversation['cid']?>">
+                <h6 class="media-heading"><?php echo $conversation['title']?></h6>
+                    </a>
+                <?php if(!isset($limited)):?>
+                    <p><?php echo output_text(str_limit($conversation['last_message'], 25))?></p>
+                    <span class="message-time"> <span class="timeago " title="<?php echo date('c', $conversation['last_update_time'])?>"><?php echo date('c', $conversation['last_update_time'])?></span></span>
+
+                    <?php if($conversation['unread'] > 0):?>
+                        <span class="unread"><?php echo $conversation['unread']?></span>
+                    <?php endif?>
+
+                <?php endif?>
+            </div>
+        </div>
+
+
+</div>

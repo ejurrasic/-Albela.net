@@ -1,0 +1,96 @@
+<?php $eng = $server['type']; ?>
+<div class="wrapper">
+    <div class="wrapper-title"><?php _lang('cdn::edit-server')?></div>
+    <div class="wrapper-content">
+        <form class="wrapper-form" action="" method="post">
+            <?php CSRFProtection::embed() ?>
+            <?php if($message):?>
+                <div class="alert alert-danger"><?php echo $message?></div>
+            <?php endif?>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('cdn::cdn-engine')?></label>
+                <div class="col-sm-9">
+                    <select onchange="change_cdn_engine(this)" name="val[engine]" class="c-select">
+                        <option value=""><?php _lang('cdn::select-engine')?></option>
+                        <?php foreach(app()->cdnEngine as $key => $engine):?>
+                            <option <?php echo ($eng == $key) ? 'selected' : null?> value="<?php echo $key?>"><?php echo $engine['title']?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('cdn::server-name')?></label>
+                <div class="col-sm-9">
+                    <input type="text" name="val[name]" value="<?php echo $server['name']?>" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('cdn::server-description')?></label>
+                <div class="col-sm-9">
+                    <input type="text" name="val[desc]" value="<?php echo $server['description']?>" class="form-control"/>
+                </div>
+            </div>
+
+            <?php foreach(app()->cdnEngine as $k => $engine):?>
+                <?php if(isset($engine['settings']) and $engine['settings']):?>
+
+                    <div class="cdn-settings" style="display:<?php echo ($k == $eng) ? 'block' : 'none'?>" id="<?php echo $k?>-server">
+                        <?php foreach($engine['settings'] as $key => $setting):?>
+                            <?php
+                                $theSetting = perfectUnserialize($server['settings']);
+                                $value = (isset($theSetting[$key])) ? $theSetting[$key] : null;
+                            ?>
+                            <div class="form-group row">
+                                <label class="col-sm-3 form-control-label"><?php echo $setting['title']?></label>
+                                <div class="col-sm-9">
+                                    <?php if($setting['type'] == 'text'):?>
+                                        <input class="form-control" id="<?php echo $key?>" type="text" value="<?php echo $value?>" name="val[<?php echo $k?>][<?php echo $key?>]" placeholder="<?php echo $setting['title']?>"/>
+                                    <?php elseif($setting['type'] == 'color'):?>
+                                        <input class="form-control color-picker" id="<?php echo $key?>" type="text" value="<?php echo $value?>" name="val[<?php echo $k?>][<?php echo $key?>]" placeholder="<?php echo $setting['title']?>"/>
+                                    <?php elseif($setting['type'] == "textarea"):?>
+                                        <textarea class="form-control" id="<?php echo $key?>" name="val[<?php echo $k?>][<?php echo $key?>]" placeholder="<?php echo $setting['title']?>"><?php echo $value?></textarea>
+                                    <?php elseif($setting['type'] == "selection"):?>
+                                        <?php if(isset($setting['data']) and is_callable($setting['data'])) {
+                                            $data = call_user_func($setting['data']);
+                                        } else {
+                                            $data = $setting['data'];
+
+                                        }
+                                        ?>
+                                        <select class="c-select" id="<?php echo $key?>" name="val[<?php echo $k?>][<?php echo $key?>]">
+                                            <?php foreach($data as $ke => $v):?>
+
+                                                <option <?php echo ($value == $ke) ? 'selected' : null?> value="<?php echo $ke?>"><?php echo   $v?></option>
+                                            <?php endforeach?>
+                                        </select>
+                                    <?php elseif($setting['type'] == "boolean"):?>
+                                        <p>
+                                            <label for="<?php echo $key?>-yes" class="c-input c-checkbox">
+                                                <input <?php echo ($value == 1) ? 'checked' : null?> value="1" name="val[<?php echo $key?>]" type="radio" id="<?php echo $key?>-yes"/>
+                                                <span class="c-indicator"></span>
+                                                <?php echo lang('yes')?>
+                                            </label>
+
+
+                                        </p>
+                                        <p>
+                                            <label for="<?php echo $key?>-no" class="c-input c-checkbox">
+                                                <input <?php echo ($value == 0) ? 'checked' : null?>  value="0" name="val[<?php echo $key?>]" type="radio" id="<?php echo $key?>-no"/>
+                                                <span class="c-indicator"></span>
+                                                <?php echo lang('no')?>
+                                            </label>
+                                        </p>
+
+                                    <?php endif?>
+                                </div>
+                            </div>
+                        <?php endforeach?>
+                    </div>
+                <?php endif?>
+            <?php endforeach?>
+            <button class="btn btn-info"><?php _lang('cdn::add-server')?></button>
+        </form>
+    </div>
+</div>

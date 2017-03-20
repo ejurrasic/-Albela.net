@@ -1,0 +1,20 @@
+<?php echo view('layouts/menu')?>
+
+<div class="container">
+    <div id="dashboard-filter-menu" style="margin-top: 10px" class="box  clearfix">
+        <ul class="pull-left left">
+            <li class=""><a ajax="true" href="<?php echo page_url(null, $app->profilePage)?>"><?php _lang('page::go-back-page')?></a> </li>
+
+        </ul>
+
+        <div class="action pull-right">
+            <?php if(is_page_admin($app->profilePage)):?>
+               <a href="<?php echo url_to_pager('page-delete')?>?id=<?php echo $app->profilePage['page_id']?>" class="btn btn-danger btn-sm confirm"><?php _lang('delete')?></a>
+            <?php endif?>
+        </div>
+
+
+    </div>
+
+    <?php echo $content?>
+</div>

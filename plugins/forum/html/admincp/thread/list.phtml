@@ -1,0 +1,57 @@
+<div class="wrapper forum">
+    <div class="wrapper-title forum">
+        <p><?php echo lang('forum::threads-manager') ?></p>
+        <span><?php echo lang('forum::threads-manager-desc') ?></span>
+    </div>
+    <div class="wrapper-content">
+		<form action="" method="get" style="margin: 20px 0">
+            <?php CSRFProtection::embed() ?>
+			<input type="text" class="form-control" name="s" placeholder="<?php echo lang('search')?>"/>
+			<button class="btn btn-sm btn-secondary" style="margin-top: 10px"><?php echo lang('search')?></button>
+		</form>
+		<div class="dropdown forum-display-inline">
+			<button class="btn btn-default forum dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"><?php echo lang($category) ?> <span class="caret"></span></button>
+			<ul class="dropdown-menu forum-nav-list" role="menu" aria-labelledby="menu1">
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_remove_get_var(forum_remove_get_var($url, 's'), 'c') ?>" ajax="true"><?php echo lang('forum::all-categories') ?></a></li>
+				<?php foreach($categories as $category): ?>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_assign_get_var(forum_remove_get_var($url, 's'), 'c', $category['id']) ?>" ajax="true"><?php echo lang($category['title']) ?></a></li>
+				<?php endforeach ?>
+			</ul>
+		</div>
+		<div class="dropdown forum-display-inline">
+			<button class="btn btn-default forum dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"><?php echo lang($tag) ?><span class="caret"></span></button>
+			<ul class="dropdown-menu forum-nav-list" role="menu" aria-labelledby="menu1">
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_remove_get_var(forum_remove_get_var($url, 's'), 't') ?>" ajax="true"><?php echo lang('forum::all-tags') ?></a></li>
+				<?php foreach($tags as $tag): ?>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo forum_assign_get_var(forum_remove_get_var($url, 's'), 't', $tag['id']) ?>" ajax="true"><?php echo lang($tag['title']) ?></a></li>
+				<?php endforeach ?>
+			</ul>
+		</div>
+		<a href="<?php echo forum_assign_get_var(forum_remove_get_var($url, 's'), 'o', 'l') ?>" class="btn forum-nav-links" title="<?php echo lang('forum::latest-desc') ?>"><?php echo lang('forum::latest') ?></a>
+		<a href="<?php echo forum_assign_get_var(forum_remove_get_var($url, 's'), 'o', 'n') ?>" class="btn forum-nav-links" title="<?php echo lang('forum::new-desc') ?>"><?php echo lang('forum::new') ?></a>
+		<a href="<?php echo forum_assign_get_var(forum_remove_get_var($url, 's'), 'o', 't') ?>" class="btn forum-nav-links" title="<?php echo lang('forum::top-desc') ?>"><?php echo lang('forum::top') ?></a>
+        <table class="table striped bordered">
+            <thead class="active"><tr><th><?php echo lang('forum::subject') ?></th><th><?php echo lang('forum::category') ?></th><th><?php echo lang('forum::actions') ?></th></tr></thead>
+            <tbody>
+			<?php foreach($threads->results() as $thread): ?>
+                <tr>
+                    <td>
+						<a href="<?php echo forum_get_thread_slug_link($thread['id']) ?>"> <?php echo $thread['subject'] ?></a><br />
+						<?php foreach(explode(' ', trim($thread['tags'])) as  $tag): ?>
+							<?php if(forum_get_tag($tag)): ?>
+						<a href="<?php echo url_to_pager('forum-thread') ?>?t=<?php echo forum_get_tag($tag)[0]['id'] ?>" style="background-color:<?php echo forum_get_tag($tag)[0]['color'] ?>;" class="forum-tags"><?php echo lang(forum_get_tag($tag)[0]['title']) ?></a>
+							<?php endif ?>
+						<?php endforeach ?>
+					</td>
+					<td><?php echo lang(forum_get_category($thread['category_id'])[0]['title']) ?></td>
+                    <td>
+						<a href="<?php echo url_to_pager('admin-forum-thread-edit') ?>?id=<?php echo $thread['id'] ?>" class="btn btn-sm btn-info"><?php echo lang('forum::edit') ?></a>
+                        <a href="<?php echo url_to_pager('admin-forum-thread-delete') ?>?id=<?php echo $thread['id'] ?>" class="btn btn-sm btn-danger admin-confirm ion-android-delete" title="<?php echo lang('forum::delete') ?>"></a>
+					</td>
+                </tr>
+			<?php endforeach ?>
+            </tbody>
+        </table>
+	<?php echo $threads->links();?>
+    </div>
+</div>

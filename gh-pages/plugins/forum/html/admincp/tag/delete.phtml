@@ -1,0 +1,24 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <p><?php echo lang('forum::delete-tag') ?></p>
+        <span><?php echo lang('forum::delete-tag-desc') ?></span>
+    </div>
+    <div class="wrapper-content">
+        <?php if($messages): ?>
+            <div class="alert alert-danger"><?php echo $messages ?></div>
+        <?php endif ?>
+        <form action="" method="post" class="adm">
+            <?php CSRFProtection::embed() ?>
+            <div class="alert alert-warning"><?php echo lang('forum::delete-warning')?> <strong><?php echo $tag['title'] ?></strong>?</div>
+            <div class="row">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7">
+                    <input type="submit" value="<?php echo lang('forum::delete') ?>" class="btn btn-danger" />
+                </div>
+            </div>
+            <input type="hidden" name="val[tag_id]" value="<?php echo $tag_id ?>" />
+            <input type="hidden" name="val[tag_title]" value="<?php echo $tag['title'] ?>" />
+            <input type="hidden" name="val[type]" value="delete_tag" />
+        </form>
+    </div>
+</div>

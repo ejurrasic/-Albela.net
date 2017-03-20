@@ -1,0 +1,22 @@
+<div id="admin-confirm-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <?php _lang('are-you-sure')?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php _lang('no')?></button>
+                <button type="button" id="confirm-button" class="btn btn-primary admin-confirmed"><?php _lang('yes')?></button>
+            </div>
+        </div>
+    </div>
+</div>
+<?php fire_hook("admin.modals")?>
+<?php echo render_assets('js')?>
+<script src="<?php echo asset_link("js/tinymce/tinymce.min.js")?>"></script>
+<script src="<?php echo asset_link("js/tinymce/jquery.tinymce.min.js")?>"></script>
+
+
+
+</body>
+</html>

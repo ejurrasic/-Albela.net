@@ -1,0 +1,141 @@
+.ads-create-left{
+    min-height: 300px;
+    background: #F6F6F6;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.create-ads-footer{
+    margin-top: 20px;
+    border-top: solid 1px #d3d3d3;
+    padding: 20px 0;
+}
+
+.create-ads-image-select-container{
+    width: 150px;
+    height: 160px;
+    background: #808080;
+    position: relative;
+}
+.create-ads-image-select-container img{
+    width: 100%;
+    min-height: 100%;
+}
+.create-ads-image-select-container .edit-button{
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: rgba(255,255,255,0.6);
+    padding: 5px;
+    color: #000000;
+    border-radius: 5px;
+}
+
+.ads-vertical-display,
+.ads-horizontal-display
+{
+    width: 250px;
+    border: solid 2px #d3d3d3;
+    min-height: 200px;
+    margin-top: 20px;
+}
+.ads-horizontal-display{
+    width: 100%;
+}
+.ads-vertical-display .image,
+.ads-horizontal-display .image
+{
+    overflow: hidden;
+    height: 150px;
+    border-bottom: solid 1px #d3d3d3;
+}
+
+.ads-vertical-display .image img,
+.ads-horizontal-display .image img {
+    width: 100%;
+    min-height: 100%;
+}
+
+.audience-targeting-container {
+    margin-top: 20px;
+    border: solid 1px #d3d3d3;
+    height: 270px;
+    padding: 10px;
+}
+.audience-targeting-container .title{
+    margin-bottom: 10px !important;
+}
+
+.ads-country-lists-container {
+    border: solid 1px #d3d3d3;
+
+    padding: 10px;
+}
+.ads-country-lists-container .country-lists{
+    overflow: hidden;
+    border-top: solid 1px #d3d3d3;
+    padding-top: 10px;
+}
+.ads-country-lists-container span{
+    display: block;
+}
+.ads-country-lists-container span input{
+    margin-right: 10px;
+}
+
+.ads-global-statistics {
+    background: #BFBFBF;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.ads-global-statistics li{
+    list-style: none;
+    display: inline-block;
+    width: 33%;
+    color: #ffffff;
+
+    font-size: 15px;
+    text-align: center;
+}
+.ads-global-statistics li span{
+    display: block;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.ads-payment-method{
+    margin-top: 10px;
+}
+.ads-payment-method li{
+    display: inline-block;
+    width: 40%;
+    text-align: center;
+}
+.ads-payment-method li img{
+    width: 160px;
+}
+
+.ads-display {
+    width: 100%;
+    padding: 10px;
+
+}
+.ads-display .ads-sponsored-title{
+   padding: 5px 0;
+    border-bottom: solid 1px #d3d3d3;
+    margin-bottom: 5px;
+}
+.ads-display .ads-image{
+
+}
+.ads-display .ads-image a{
+    width: 100%;
+    display: block;
+}
+.ads-display .ads-image a img{
+    width:100%
+}
+.ads-display .ads-title{
+    font-weight: bold;
+    margin: 10px 0;
+}

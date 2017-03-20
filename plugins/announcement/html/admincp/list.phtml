@@ -1,0 +1,33 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang("announcement::manage-announcement")?>
+        <a href="<?php echo url_to_pager('admin-announcement-create')?>" class="btn  btn-info"><?php _lang('announcement::add-new')?></a>
+    </div>
+
+    <div class="wrapper-content">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width:10%">ID</th>
+                    <th style="with:50%"><?php _lang('content')?></th>
+                    <th style="with:20%"><?php _lang('type')?></th>
+                    <th style="width:20%"><?php _lang('actions')?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $announcements = get_admin_announcements()?>
+                <?php foreach($announcements->results() as $announcement):?>
+                    <tr>
+                        <td><?php echo $announcement['id']?></td>
+                        <td><?php _lang($announcement['content'])?></td>
+                        <td><?php echo ucwords($announcement['type'])?></td>
+                        <td>
+                            <a href="<?php echo url_to_pager("admin-announcement-manage")?>?action=edit&id=<?php echo $announcement['id']?>" class="btn btn-sm btn-success"><?php _lang('edit')?></a>
+                            <a href="<?php echo url_to_pager("admin-announcement-manage")?>?action=delete&id=<?php echo $announcement['id']?>" class="btn btn-sm btn-danger"><?php _lang('delete')?></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

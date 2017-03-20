@@ -1,0 +1,49 @@
+<div class=" lg-title">
+    <i class="ion-ios-help-outline"></i> <?php _lang('help::help-and-knowledgebase')?>
+</div>
+<div class="container" style="padding: 30px 0">
+    <div style="">
+        <form action="<?php echo url('helps')?>" method="get" style="">
+			<?php CSRFProtection::embed() ?>
+            <div class="col-sm-11" style="padding-left: 0"><input name="term" placeholder="<?php _lang('help::help-search-note')?>" type="text" class="form-control"> </div>
+            <div class="col-sm-1"><button class="btn btn-info "><?php _lang('help::find')?></button></div>
+        </form>
+    </div>
+    <div class="row" style="margin-top: 50px">
+        <div class="col-sm-4">
+            <div class="box">
+                <ul class="help-menu">
+                    <li><a href="<?php echo url('helps')?>"><?php _lang('help::introduction')?></a> </li>
+                    <?php foreach(get_help_categories() as $category):?>
+                        <?php $helps = get_category_helps($category['id']);?>
+                        <li>
+                            <a
+                                <?php if($helps):?>
+                                    onclick="return help_open_menu(this)"
+                                <?php endif?>
+                                href="<?php echo url('help/'.$category['slug'])?>">
+                                <?php echo $category['title']?>
+                                <?php if($helps):?>
+                                    <i class="ion-ios-arrow-down pull-right"></i>
+                                <?php else:?>
+                                    <i class="ion-ios-arrow-right pull-right"></i>
+                                <?php endif?>
+                            </a>
+
+                            <?php if($helps):?>
+                                <ul>
+                                    <?php foreach($helps as $help):?>
+                                        <li><a href="<?php echo url('help/'.$category['slug'].'/'.$help['slug'])?>"><?php echo $help['title']?></a> </li>
+                                    <?php endforeach?>
+                                </ul>
+                            <?php endif?>
+                        </li>
+                    <?php endforeach?>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-8 box help-content">
+            <?php echo $content?>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-sm-8">
+        <div class="box">
+            <div class="box-content">
+                <?php echo get_game_details('game_description')?>
+            </div>
+            <div class="box-content" style="padding: 0 10px">
+                <?php
+                $refName = 'game';
+                $refId = get_game_details('game_id');
+
+                ?>
+                <?php if(plugin_loaded('comment')):?>
+                    <?php load_functions('comment::comment')?>
+                    <?php $countComments = count_comments($refName, $refId);?>
+                <?php endif?>
+                <h6 style="margin: 0"> <i class="ion-chatbubbles"></i> <?php _lang('game::reviews')?> <span class="comment-count-<?php echo $refName?>-<?php echo $refId?>"><?php echo ($countComments) ? $countComments : null?></span></h6>
+            </div>
+            <div class="box-content feed-footer">
+                <?php if(plugin_loaded('comment')):?>
+
+                    <div class="feed-comment-container">
+
+                        <?php if($countComments > config('feed-comment-limit', 3)):?>
+                            <a id="comment-view-more-button-<?php echo $refName?>-<?php echo $refId?>" class="comment-view-more-button comment-view-more-button-<?php echo $refName?>-<?php echo $refId?>" onclick="return show_more_comment('<?php echo $refName?>', '<?php echo $refId?>', 'comment-view-more-indicator-<?php echo $refId?>')"  href=""><?php _lang('view-previous-comments')?></a>
+                            <img class="comment-view-more-indicator" id="comment-view-more-indicator-<?php echo $refId?>" src="<?php echo img('images/loading.gif')?>" />
+                        <?php endif?>
+                        <div data-offset="<?php echo config('feed-comment-limit', 3)?>" data-limit="<?php echo config('feed-comment-limit', 3)?>" class="comment-lists comment-lists-<?php echo $refName?>-<?php echo $refId?>" id="">
+                            <?php foreach(get_comments($refName, $refId, config('feed-comment-limit', 3), 0) as $comment):?>
+                                <?php echo view('comment::display', array('comment' => $comment))?>
+                            <?php endforeach;?>
+                        </div>
+                        <?php echo view('comment::editor', array(
+                            'typeId' => $refId,
+                            'type' => $refName,
+                            'textLimit' => (config('enable-feed-text-limit', false)) ? config('maximum-feed-text-limit', 150) : false))?>
+
+                    </div>
+                <?php endif?>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4" >
+        <div class="box">
+            <div class="box-content">
+                <a href="<?php echo game_url('play', $app->profileGame)?>" class="btn btn-info btn-block game-play-button"><?php _lang('game::play-now')?></a>
+            </div>
+
+        </div>
+        <?php $users = get_game_players($app->profileGame, 6)?>
+        <?php if($users->total):?>
+            <div class="box users-box">
+                <div class="title"><?php _lang('game::played-by')?> - <?php echo $app->profileGame['players_count']?></div>
+
+                <div class="clearfix">
+                    <?php foreach($users->results() as $user):?>
+                        <a style="background-image: url(<?php echo get_avatar(200, $user)?>)" class="user" ajax="true" href="<?php echo profile_url(null, $user)?>">
+
+                            <h6 class="name"><?php echo get_user_name($user)?> <?php echo verify_badge($user)?></h6>
+                        </a>
+                    <?php endforeach?>
+                </div>
+            </div>
+        <?php endif?>
+        <?php echo get_page_blocks("game-profile")?>
+    </div>
+</div>

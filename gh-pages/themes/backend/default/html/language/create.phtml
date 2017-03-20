@@ -1,0 +1,51 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang('create-language-pack')?>
+        <span><?php echo lang('create-language-pack-desc')?></span>
+    </div>
+    <div class="wrapper-content">
+
+        <form class="wrapper-form" action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <div class="row">
+                <div class="col s5"><?php echo lang("create-from")?></div>
+                <div class="col s7">
+                    <select class="c-select" name="val[from]">
+                        <?php foreach(get_all_languages() as $language):?>
+                            <option value="<?php echo $language['language_id']?>"><?php echo $language['language_title']?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s5"><?php echo lang('language-id')?></div>
+                <div class="col s7">
+                    <input class="form-control" type="text" placeholder="<?php echo lang('language-id')?>" name="val[id]"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s5"><?php echo lang("language-title")?></div>
+                <div class="col s7">
+                    <input class="form-control" type="text" placeholder="<?php echo lang("language-title")?>" name="val[title]"/>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="cols5"><?php echo lang("direction")?></div>
+                <div class="col s7">
+                    <select name="val[dir]" class="c-select">
+                        <option value="ltr">LTR</option>
+                        <option value="rtl">RTL</option>
+                    </select>
+                </div>
+            </div>
+
+
+
+            <button class="btn btn-info" style="margin-top: 20px"><?php echo lang("create")?></button>
+        </form>
+    </div>
+</div>

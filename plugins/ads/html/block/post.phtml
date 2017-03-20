@@ -1,0 +1,22 @@
+<div id="" class="ads-display-container clearfix">
+
+    <div class="col-sm-2  left no-padding">
+
+    </div>
+
+    <div class="col-sm-10  right no-padding">
+        <?php if(count($ads) > 1):?>
+            <div class="row">
+                <?php $i=1; foreach($ads as $ad):$i++?>
+                    <div class="col-sm-6"><?php echo view('ads::render', array('ad' => $ad))?></div>
+                <?php endforeach?>
+            </div>
+        <?php else:?>
+
+            <?php foreach($ads as $ad):?>
+                <?php echo view('ads::render', array('ad' => $ad))?>
+            <?php endforeach?>
+        <?php endif?>
+
+    </div>
+</div>

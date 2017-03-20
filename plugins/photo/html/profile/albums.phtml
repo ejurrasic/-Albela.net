@@ -1,0 +1,71 @@
+<div data-type="user" data-type-id="<?php echo $app->profileUser['id']?>" data-category="" data-offset id="photo-album-lists" class="box-content photos-list clearfix">
+    <?php if(is_profile_owner()):?>
+        <div class="photo upload-photo album">
+            <form  action="" method="post">
+				<?php CSRFProtection::embed() ?>
+                <a ajax="true" href="<?php echo profile_url('photos/album/create', $app->profileUser)?>">
+                    <i  class="ion-android-add-circle"></i>
+                    <span><?php _lang('photo::create-new-album')?></span>
+                </a>
+            </form>
+        </div>
+    <?php endif?>
+
+    <?php $count = count_user_photos($app->profileUser['id']); if($count):?>
+        <div class="photo album">
+            <?php $lastPhoto = get_last_user_photo($app->profileUser['id'])?>
+            <div>
+                <a class="image" style="background-image:url(<?php echo url_img($lastPhoto['path'], 600)?>)" ajax="true" href="<?php echo profile_url('photos/profile', $app->profileUser)?>">
+
+                </a>
+                <div class="info">
+                    <span class="album-title"><?php echo lang('photo::profile-photos')?></span>
+                    <span class="album-photos-count pull-right"><i class="ion-camera"></i> <?php echo $count?></span>
+                </div>
+            </div>
+        </div>
+    <?php endif?>
+
+    <?php $count = count_user_photos($app->profileUser['id'], 'user-posts'); if($count):?>
+        <div class="photo album">
+            <?php $lastPhoto = get_last_user_photo($app->profileUser['id'], 'user-posts')?>
+            <div>
+                <a class="image" style="background-image:url(<?php echo url_img($lastPhoto['path'], 600)?>)" ajax="true" href="<?php echo profile_url('photos/timeline', $app->profileUser)?>">
+
+                </a>
+                <div class="info">
+                    <span class="album-title"><?php echo lang('photo::timeline-photos')?></span>
+                    <span class="album-photos-count pull-right"><i class="ion-camera"></i> <?php echo $count?></span>
+                </div>
+            </div>
+        </div>
+    <?php endif?>
+
+    <?php $count = count_user_photos($app->profileUser['id'], 'profile-cover'); if($count):?>
+        <div class="photo album">
+            <?php $lastPhoto = get_last_user_photo($app->profileUser['id'], 'profile-cover')?>
+            <div>
+                <a class="image" style="background-image:url(<?php echo url_img($lastPhoto['path'], 600)?>)" ajax="true" href="<?php echo profile_url('photos/cover', $app->profileUser)?>">
+
+                </a>
+                <div class="info">
+                    <span class="album-title"><?php echo lang('photo::cover-photos')?></span>
+                    <span class="album-photos-count pull-right"><i class="ion-camera"></i> <?php echo $count?></span>
+                </div>
+            </div>
+        </div>
+    <?php endif?>
+
+    <?php foreach($albums as $album):?>
+        <?php echo view("photo::display-album", array('album' => $album, 'link' => profile_url('photos/album/'. $album['id'], $app->profileUser)))?>
+    <?php endforeach?>
+
+
+</div>
+
+<?php if($albums):?>
+    <a id="photos-list-indicator" href="" onclick="return paginate_photo_albums()" class="title" style="display: block;text-align: center">
+        <?php _lang('view-more')?>
+        <img src="<?php echo img('images/loading.gif')?>" style="width: 10px;display: none"/>
+    </a>
+<?php endif?>

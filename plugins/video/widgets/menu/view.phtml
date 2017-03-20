@@ -1,0 +1,14 @@
+<div class="box ">
+    <?php if(user_has_permission('can-add-video')): ?>
+    <div class="box-content">
+        <a href="<?php echo url_to_pager('video-create')?>" ajax="true" class="btn btn-block btn-secondary"><i class="ion-ios-plus-empty"></i> <?php _lang('video::add-new-video')?></a>
+    </div>
+    <?php endif ?>
+    <ul class="menu">
+        <?php foreach(get_menus("videos-menu") as $menu):?>
+            <li><a ajax="true" href="<?php echo $menu->link?>"><?php echo _lang($menu->title)?></a> </li>
+        <?php endforeach?>
+        <li><a ajax="true" href="<?php echo url('videos?type=mine')?>"><?php _lang('video::my-videos')?></a> </li>
+        <!--<li><a href="<?php echo url('videos?type=friends')?>"><?php _lang('video::friends-videos')?></a> </li>-->
+    </ul>
+</div>

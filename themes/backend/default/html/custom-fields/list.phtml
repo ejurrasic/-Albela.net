@@ -1,0 +1,41 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang('custom-fields')?>
+        <a href="<?php echo url("admincp/custom-fields/")?>?action=add&type=<?php echo $type?>"><?php echo lang('add-new-custom-field')?></a>
+    </div>
+    <div class="wrapper-content">
+
+        <div class="custom-field-list">
+            <?php foreach(get_custom_field_categories($type) as $category):?>
+                <h5><?php echo lang($category['title'])?></h5>
+                <table data-category="<?php echo $category['id']?>" class="table table-bordered custom-field-list">
+                    <thead>
+                    <tr style="width: 100%">
+                        <th style="width: 10%"><?php echo lang('type')?></th>
+                        <th style="width: 30%"><?php echo lang('title')?></th>
+                        <th style="width: 30%"><?php echo lang('description')?></th>
+                        <th style="width: 10%"><?php echo lang('show-in-form')?></th>
+                        <th style="width: 10%"><?php echo lang('required')?></th>
+                        <th style="width: 20%"><?php echo lang('action')?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach(get_custom_fields($type, $category['id']) as $field):?>
+                        <tr style="width: 100% !important" class="item" id="<?php echo $field['id']?>">
+                            <td style="width: 10%"><?php echo $field['field_type']?></td>
+                            <td style="width: 30%"><?php echo lang($field['title'])?></td>
+                            <td style="width: 30%"><?php echo lang($field['description'])?></td>
+                            <td style="width: 10%"><?php echo ($field['show_in_form'] == 1) ? lang('yes') : lang('no')?></td>
+                            <td style="width: 10%"><?php echo ($field['required'] == 1) ? lang('yes') : lang('no')?></td>
+                            <td style="width: 20%">
+                                <a class="admin-confirm btn btn-danger btn-sm" href="<?php echo url("admincp/custom-fields?action=delete&id=".$field['id'])?>&type=<?php echo $type?>"><?php echo lang('delete')?></a>
+                                <a class="btn btn-success btn-sm" href="<?php echo url("admincp/custom-fields?action=edit&id=".$field['id'])?>&type=<?php echo $type?>"><?php echo lang('edit')?></a>
+                            </td>
+                        </tr>
+                    <?php endforeach?>
+                    </tbody>
+                </table>
+                <br/><br/>
+            <?php endforeach?>
+        </div>
+    </div>
+</div>

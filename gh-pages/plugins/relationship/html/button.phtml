@@ -1,0 +1,49 @@
+<?php if(is_loggedIn() and get_userid() != $userid):?>
+    <?php $status = (int) friend_status($userid);?>
+    <?php if($status == 3):?>
+        <span class="dropdown">
+                <a id="friend-request-respond-button-<?php echo $userid?>"  href=""  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown"><?php _lang('relationship::respond-to-request')?></a>
+            <ul style="width: 200px" class="dropdown-menu" id="friend-requests-respond-dropdown-<?php echo $userid?>">
+                <li><a class="dropdown-item"  onclick="return confirm_friend_request('<?php echo $userid?>', true)" href=""><?php _lang('relationship::confirm')?></a> </li>
+                <li><a class="dropdown-item" onclick="return delete_friend_request('<?php echo $userid?>', true)" href=""><?php _lang('relationship::delete-request')?></a> </li>
+            </ul>
+            </span>
+    <?php endif?>
+
+    <a
+        style="<?php echo ($status==3) ? 'display:none' : null?>"
+        id="friend-button-<?php echo $userid?>"
+        onclick="return process_friend('<?php echo $userid?>')"
+        data-add="<i class='ion-android-person-add'></i> <?php echo lang('relationship::add-friend')?>"
+        data-sent="<i class='ion-android-done-all'></i> <?php echo lang('relationship::request-sent')?>"
+        data-status="<?php echo $status?>"
+        data-cancel-warning="<?php echo lang('relationship::friend-cancel-warning')?>"
+        data-remove-warning="<?php echo lang("relationship::friend-remove-warning")?>"
+        data-friends="<i class='ion-ios-minus-outline'></i> <?php echo lang('relationship::friends')?>"
+        class="friend-button-<?php echo $userid?> btn btn-secondary friend-button  <?php echo ($status == 2) ? 'ready-friend' : null?>" href="">
+        <?php if($status == 0):?>
+
+            <span> <i class="ion-android-person-add"></i> <?php echo lang('relationship::add-friend')?></span>
+        <?php elseif($status == 1):?>
+
+            <span> <i class="ion-android-done-all"></i> <?php echo lang('relationship::request-sent')?></span>
+        <?php else:?>
+
+            <span> <i class="ion-ios-minus-outline"></i> <?php echo lang('relationship::friends')?></span>
+        <?php endif?>
+    </a>
+
+    <?php if(isset($follow)):?>
+
+        <?php $isFollowing = is_following($userid)?>
+        <a
+            data-follow="<i class='ion-social-rss-outline'></i> <?php echo lang('relationship::follow')?>"
+            data-unfollow="<i class='ion-social-rss-outline'></i> <?php echo lang('relationship::following')?>"
+            id="follow-button-<?php echo $userid?>"
+            onclick="return process_follow('<?php echo $userid?>')"
+            data-status="<?php echo ($isFollowing) ? 1 : 0?>"
+            class="btn btn-secondary z-depth-0 follow-button <?php echo ($isFollowing) ? 'followed' : null?>" href=""><i class='ion-social-rss-outline'></i> <?php echo ($isFollowing) ? lang('relationship::following') : lang('relationship::follow')?></a>
+    <?php endif?>
+
+<?php endif?>
+<?php fire_hook('relationship.button') ?>

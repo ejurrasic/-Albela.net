@@ -1,0 +1,38 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang($type)?> - <?php echo lang('themes')?></div>
+    <div class="wrapper-content">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th><?php echo lang('preview')?></th>
+                <th><?php echo lang('name')?></th>
+                <th><?php echo lang('author')?></th>
+                <th><?php echo lang('description')?></th>
+                <th><?php echo lang('version')?></th>
+                <th><?php echo lang('action')?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach(get_all_themes($type) as $theme => $details):?>
+                <tr>
+                    <td><img style="width: 150px" src="<?php echo $details['preview']?>"/> </td>
+                    <td><?php echo $details['info']['name']?></td>
+                    <td><?php echo $details['info']['author']?></td>
+                    <td><?php echo $details['info']['description']?></td>
+                    <td><?php echo $details['info']['version']?></td>
+                    <td>
+                        <?php if(get_active_theme($type) == $theme):?>
+                            <button disabled class="btn btn-sm btn-success"><?php echo lang('active')?></button>
+                        <?php else:?>
+                            <a class="btn btn-sm btn-success" href="<?php echo url_to_pager("admin-themes", array('type' => $type))?>?action=activate&theme=<?php echo $theme?>"><?php echo lang('set-as-active')?></a>
+                        <?php endif?>
+
+                        <a class="btn btn-sm btn-info" href="<?php echo url_to_pager('admin-customize-themes', array('type' => $type, 'theme' => $theme))?>"><i class="ion-edit"></i> <?php _lang('customize')?></a>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+
+    </div>
+</div>

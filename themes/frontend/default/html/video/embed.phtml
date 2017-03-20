@@ -1,0 +1,21 @@
+<html>
+<head>
+    <link href="<?php echo asset_link('css/video-js.min.css')?>" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="<?php echo asset_link('js/video.js')?>"></script>
+
+    <script>
+        videojs.options.flash.swf = "<?php echo asset_link('js/video-js.swf')?>";
+    </script>
+</head>
+<body>
+<video id="p" class="video-js vjs-default-skin vjs-big-play-centered"
+       controls preload="auto" width="100%" height="<?php echo input('height', 300)?>" style="width: 100%"
+
+       data-setup='{"example_option":true}'>
+
+    <source src="<?php echo $link?>" type='video/mp4' />
+
+    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+</video>
+</body>
+</html>

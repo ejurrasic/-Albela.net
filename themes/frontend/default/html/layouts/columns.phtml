@@ -1,0 +1,38 @@
+<?php $content = isset($pageDetails['page_type']) && $pageDetails['page_type'] == 'auto' ? html_entity_decode($content, ENT_QUOTES) : $content; ?>
+<div class="columns-container <?php echo Pager::getColumnTypeName($type)?>">
+    <div class="top <?php echo (in_array($type, array(5, 6, 7, 8))) ? 'container' : null?>">
+        <?php if(in_array($type, array(5, 6, 7, 8, 13, 14, 15, 16))):?>
+            <?php echo view('layouts/column/load', array('position' => 'top', 'content' => $content, 'type' => $type, 'page' => $page))?>
+        <?php endif?>
+    </div>
+    <div class="container">
+        <div class="middle-container rows clearfix">
+            <div class="left-col col-md-4">
+                <div class="left-col-content">
+                    <?php if(in_array($type, array(3, 4, 7, 8, 11, 12, 15, 16))):?>
+                        <?php echo view('layouts/column/load', array('position' => 'left', 'content' => $content, 'type' => $type, 'page' => $page))?>
+                    <?php endif?>
+                </div>
+            </div>
+            <div class="middle-col col-md-4">
+                <?php if(isset($pageDetails['page_type']) && $pageDetails['page_type'] == 'auto'): ?>
+                    <?php echo $content ?>
+                <?php else: ?>
+                    <?php echo view('layouts/column/load', array('position' => 'middle', 'content' => $content, 'type' => $type, 'page' => $page)) ?>
+                <?php endif ?>
+            </div>
+            <div class="right-col col-md-4">
+                <div class="right-col-content">
+                    <?php if(in_array($type, array(2, 4, 6, 8, 10, 12, 14, 16))):?>
+                        <?php echo view('layouts/column/load', array('position' => 'right', 'content' => $content, 'type' => $type, 'page' => $page))?>
+                    <?php endif?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom container">
+        <?php if(in_array($type, array(9, 10, 11, 12))):?>
+            <?php echo view('layouts/column/load', array('position' => 'bottom', 'content' => $content, 'type' => $type, 'page' => $page))?>
+        <?php endif?>
+    </div>
+</div>

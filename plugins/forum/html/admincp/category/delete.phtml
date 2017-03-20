@@ -1,0 +1,44 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <p><?php echo lang('forum::delete-category') ?></p>
+        <span><?php echo lang('forum::delete-category-desc') ?></span>
+    </div>
+    <div class="wrapper-content">
+        <?php if($messages): ?>
+            <div class="alert alert-danger"><?php echo $messages ?></div>
+        <?php endif ?>
+        <form action="" method="post" class="adm">
+            <?php CSRFProtection::embed() ?>
+            <div class="row" style="margin-bottom: 30px">
+                <div class="col-sm-5">
+                    <h6><label for="new_category_id"><?php echo lang('forum::move-threads-to') ?>:</label></h6>
+                    <p class="form-description"><?php echo lang('forum::move-threads-to-desc') ?></p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-field col s10">
+                        <select name="val[new_category_id]" class="form-control">
+                            <?php foreach($categories as $category): ?>
+                                <?php if($category['id'] != $category_id): ?>
+                            <option value="<?php echo $category['id'] ?>"><?php echo lang($category['title']) ?></option>
+                                <?php else: ?>
+                                    <?php $category_title = $category['title'] ?>
+                                <?php endif ?>
+                            <?php endforeach ?>
+                            <option value="NULL" selected="selected"><?php echo lang('forum::do-not-move') ?></option>';
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-warning"><?php echo lang('forum::delete-warning')?> <strong><?php echo lang($category_title) ?></strong>?</div>
+            <div class="row">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7">
+                    <input type="submit" value="<?php echo lang('forum::delete') ?>" class="btn btn-danger" />
+                </div>
+            </div>
+            <input type="hidden" name="val[category_id]" value="<?php echo $category_id ?>" />
+            <input type="hidden" name="val[category_title]" value="<?php echo $category_title ?>" />
+            <input type="hidden" name="val[type]" value="delete_category" />
+        </form>
+    </div>
+</div>

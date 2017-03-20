@@ -1,0 +1,98 @@
+<div id="topo">
+    <div id="slides">
+        <div class="slide slide-1"></div>
+        <div class="slide slide-2"></div>
+        <div class="slide slide-3"></div>
+    </div>
+
+    <div id="topo-content">
+        <div class="container">
+            <div  id="welcome-notes">
+
+                <h2 class="big"><?php _lang('welcome')?> <?php  _lang('to-our')?><span> <?php echo config('site_title')?></span></h2>
+
+                <div id="home-social-notes">
+                    <?php _lang('welcome-note')?>
+                </div>
+
+                <div class="action-buttons">
+                    <a data-toggle="modal" data-target=".loginModal" href="" class="btn btn-lg btn-info"><?php _lang('login')?></a>
+                    <?php if(config('user-signup', true)):?>
+                        <a href="<?php echo url_to_pager('signup')?>" class="btn btn-lg btn-info"><?php _lang('signup')?></a>
+                    <?php endif?>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><?php _lang('login')?></h4>
+            </div>
+            <div class="modal-body">
+                <div id="home-login-container">
+                    <div class="login-content">
+
+                        <div class="content">
+                            <form action="<?php echo url_to_pager('login')?>" method="post">
+								<?php CSRFProtection::embed() ?>
+                                <fieldset class="form-group">
+                                    <input name="val[username]" type="text" class="form-control" placeholder="<?php _lang('username-email-address')?>"/>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    <div class="input-group">
+                                        <input type="password" class="form-control " name="val[password]" placeholder="<?php _lang('your-password')?>">
+                                        <div class="input-group-addon"><a  href="<?php echo url_to_pager('forgot-password')?>"><?php _lang('forgot')?></a> </div>
+                                    </div>
+                                </fieldset>
+                                <div class="clearfix">
+                                    <div class="pull-left">
+                                        <button class="btn btn-info btn-upper"><?php _lang('sign-in')?></button>
+                                    </div>
+                                    <div class="checkbox pull-right">
+                                        <label class="c-input c-checkbox">
+                                            <input name="val[remember]" checked type="checkbox">
+                                            <span class="c-indicator"></span>
+                                            <?php _lang('remember-me')?>
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="social-links-container">
+                            <div class="arrow-up"></div>
+                            <div class="content">
+                                <ul id="home-social-links">
+                                    <?php if(config('enable-facebook', false)):?>
+                                        <li><a class="facebook" href="<?php echo url_to_pager('facebook-auth')?>"><i class="ion-social-facebook"></i> </a></li>
+                                    <?php endif?>
+
+                                    <?php if(config('enable-twitter', false)):?>
+                                        <li><a class="twitter" href="<?php echo url_to_pager('twitter-auth')?>"><i class="ion-social-twitter"></i> </a> </li>
+                                    <?php endif?>
+
+                                    <?php if(config('enable-googleplus', false)):?>
+                                        <li><a class="googleplus" href="<?php echo url_to_pager('googleplus-auth')?>"><i class="ion-social-googleplus-outline"></i> </a> </li>
+                                    <?php endif?>
+
+                                    <?php if(config('enable-vk', false)):?>
+                                        <li><a class="vk" href="<?php echo url_to_pager('vk-auth')?>"><i class="ion-android-arrow-forward"></i> </a> </li>
+                                    <?php endif?>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

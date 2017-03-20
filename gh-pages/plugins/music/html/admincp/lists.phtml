@@ -1,0 +1,71 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang('music::musics-manager') ?></div>
+    <div class="wrapper-content">
+        <form action="" method="get" class="form-inline" style="margin: 20px 0">
+			<?php CSRFProtection::embed() ?>
+            <select id="music-category-list" name="category" class="c-select" >
+                <option <?php echo (input('category', 'all') == 'all') ? 'selected'  : null ?>  value="all"><?php echo lang('music::all-categories') ?></option>
+                <?php foreach(get_music_categories() as $category): ?>
+                    <?php $subCategories = get_music_parent_categories($category['id']) ?>
+                    <?php if($subCategories): ?>
+                        <optgroup label="<?php echo lang($category['title']) ?>">
+                            <?php foreach($subCategories as $cat): ?>
+                                <option <?php echo (input('category', 'all') == $cat['id']) ? 'selected'  : null ?> value="<?php echo $cat['id'] ?>"><?php echo lang($cat['title']) ?></option>
+                            <?php endforeach ?>
+                        </optgroup>
+                    <?php else: ?>
+                        <option <?php echo (input('category', 'all') == $category['id']) ? 'selected'  : null ?> value="<?php echo $category['id'] ?>"><?php echo lang($category['title']) ?></option>
+                    <?php endif ?>
+                <?php endforeach ?>
+            </select>
+            <select class="c-select" name="limit">
+                <option value="10">10 Per Page</option>
+                <option value="20">20 Per Page</option>
+                <option value="50">50 Per Page</option>
+                <option value="100">100 Per Page</option>
+                <option value="150">150 Per Page</option>
+                <option value="200">200 Per Page</option>
+            </select>
+            <input type="hidden" class="music-type-input" value="<?php echo input('type','browse') ?>"/>
+            <input name="term" value="<?php echo input('term') ?>" type="text" class="form-control" placeholder="<?php echo lang('music::search-musics') ?>"/>
+            <button class="btn btn-info"><?php echo lang('go') ?></button>
+        </form>
+        <table class="table table-borderd">
+            <thead>
+                <tr>
+                    <th style="width:5%">ID</th>
+                    <th style="width:25%"><?php echo lang('title') ?></th>
+                    <th style="width:20%"><?php echo lang('owner') ?></th>
+                    <th style="width:10%"><?php echo lang('featured') ?></th>
+                    <th style="width:10%"><?php echo lang('music::source') ?></th>
+                    <th style="width:10%"><?php echo lang('music::play-count') ?></th>
+                    <th style="widows: 20;%"><?php echo lang('actions') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($musics->results() as $music): ?>
+                    <tr>
+                        <td><?php echo $music['id'] ?></td>
+                        <td><a href="<?php echo get_music_url($music) ?>"><?php echo $music['title'] ?></a> </td>
+                        <td>
+                            <?php $owner = get_music_owner($music) ?>
+                            <a href="<?php echo $owner['link'] ?>"><?php echo $owner['name'] ?></a>
+                        </td>
+                        <td>
+                            <?php echo ($music['featured']) ? lang('yes') : lang('no') ?>
+                        </td>
+                        <td>
+                            <?php echo ucwords($music['source']) ?>
+                        </td>
+                        <td><?php echo $music['play_count'] ?></td>
+                        <td>
+                            <a href="<?php echo url_to_pager('admin-music-manage-pager').'?action=edit&id='.$music['id'] ?>" class="btn btn-success"><i class="ion-edit"></i></a>
+                            <a href="<?php echo url_to_pager('admin-music-manage-pager').'?action=delete&id='.$music['id'] ?>" class="btn btn-danger admin-confirm"><i class="ion-ios-close-empty"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+        <?php echo $musics->links() ?>
+    </div>
+</div>

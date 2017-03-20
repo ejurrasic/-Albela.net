@@ -1,0 +1,158 @@
+<div class="wrapper">
+    <nav class="navbar navbar-dark bg-primary" style="border-radius: 0">
+        <a class="navbar-brand" href="#"><?php _lang('site-editor')?></a>
+        <ul class="nav navbar-nav" id="site-editor-link-items">
+            <li class="nav-item <?php echo ($type == 'themes') ? 'active' : null?>">
+                <a class="nav-link" onclick="return site_editor_switch(this,'themes-site-editor-pane')" href="#"><?php _lang('themes')?></a>
+            </li>
+            <li class="nav-item <?php echo ($type == 'customize') ? 'active' : null?>">
+                <a class="nav-link" onclick="return site_editor_switch(this,'customize-site-editor-pane')" href="#"><?php _lang('customize')?></a>
+            </li>
+            <li class="nav-item <?php echo ($type == 'layout') ? 'active' : null?>">
+                <a class="nav-link" onclick="return site_editor_switch(this,'layout-site-editor-pane')" href="#"><?php _lang('layout')?></a>
+            </li>
+            <li class="nav-item <?php echo ($type == 'menu') ? 'active' : null?>">
+                <a class="nav-link"onclick="return site_editor_switch(this,'menu-site-editor-pane')" href="#"><?php _lang('menu')?></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" onclick="return siteEditor.showAddPage()" href="#"><?php _lang('new-page')?></a>
+            </li>
+        </ul>
+        <div class="pull-right">
+            <ul class="nav navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" ><?php _lang('select-page')?></a>
+                </li>
+                <li class="nav-item">
+                    <select onchange="return siteEditor.changePage(this)" id="layout-page-list" class="c-select" style="color: #000000">
+                        <option value="header"><?php _lang('header')?></option>
+                        <option value="footer"><?php _lang('footer')?></option>
+                        <?php foreach(Pager::getSitePages() as $id => $details):?>
+                            <option <?php echo ($id == $page) ? 'selected' : null?> value="<?php echo $id?>"><?php _lang($details['title'])?></option>
+                        <?php endforeach?>
+                    </select>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="return siteEditor.editPageInfo()"><?php _lang('edit-page-info')?></a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <div id="site-editor-content-pane">
+        <div class="each-site-editor-pane <?php echo ($type == 'themes') ? 'site-editor-visible' : null?>" id="themes-site-editor-pane">
+            <?php foreach(get_all_themes('frontend') as $theme => $details):?>
+                <div class="each-theme">
+                    <div class="theme" >
+                        <div class="actions">
+                            <div class="btn-group">
+                                <?php if(get_active_theme('frontend') == $theme):?>
+                                    <button disabled class="btn btn-sm btn-success"><?php echo lang('active')?></button>
+                                <?php else:?>
+
+                                    <a class="btn btn-sm btn-success" href="<?php echo url('admincp/themes/frontend')?>?action=activate&theme=<?php echo $theme?>"><?php echo lang('activate')?></a>
+                                <?php endif?>
+                                <button class="btn btn-sm btn-info" onclick="return siteEditor.previewTheme('<?php echo $theme?>')"><?php _lang('preview')?></button>
+                            </div>
+                        </div>
+                        <div class="image-container"><div></div><img src="<?php echo $details['preview']?>"/></div>
+                        <span class="title"><?php echo $details['info']['name']?></span>
+                    </div>
+                </div>
+            <?php endforeach?>
+        </div>
+        <div class="each-site-editor-pane clearfix <?php echo ($type == 'customize') ? 'site-editor-visible' : null?>" id="customize-site-editor-pane">
+            <?php echo view('themes/editor/settings')?>
+        </div>
+        <div class="each-site-editor-pane <?php echo ($type == 'layout') ? 'site-editor-visible' : null?>" id="layout-site-editor-pane">
+            <?php echo view('themes/editor/layout', array('page' => $page))?>
+        </div>
+        <div class="each-site-editor-pane <?php echo ($type == 'menu') ? 'site-editor-visible' : null?>" id="menu-site-editor-pane">
+            <?php echo view("themes/editor/menu")?>
+        </div>
+    </div>
+    <!--<div id="site-editor-preview-pane">
+        <div class="loader" id="preview-loader">
+            <img src="<?php echo img('images/loader01.gif')?>"/>
+        </div>
+        <h3 class="site-editor-preview-title"><?php _lang('preview')?></h3>
+        <div class="preview-iframe-container">
+            <iframe src="" id="preview-iframe"></iframe>
+        </div>
+    </div>-->
+</div>
+
+<div id="page-info-modal" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form onsubmit="return siteEditor.savePageInfo(this)" action="" method="post">
+				<?php CSRFProtection::embed() ?>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"><?php _lang('edit-page-info')?></h4>
+                </div>
+                <div class="modal-body">
+                    <img style="width: 25px;margin: 20px 45%" src="<?php echo img('images/loader01.gif')?>" class="info-loader"/>
+                    <div class="form-content">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <img style="width: 25px;display:none" src="<?php echo img('images/loader01.gif')?>" class="save-loader"/>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php _lang('close')?></button>
+                    <button  class="btn btn-primary"><?php _lang('save-changes')?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="new-page-info-modal" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form onsubmit="return siteEditor.saveNewPageInfo(this)" action="" method="post">
+				<?php CSRFProtection::embed() ?>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"><?php _lang('new-page')?></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label><?php _lang('page-title')?>(English)</label>
+                        <input type="text" name="val[title][english]" class="form-control"  value=""/>
+                        <a href="" class="other-languages-link" onclick="return show_other_languages('#page-info-other-languages')"><?php _lang('edit-other-languages')?></a>
+                        <div class="other-languages" id="page-info-other-languages">
+                            <?php foreach(get_all_languages() as $language):?>
+                                <?php if($language['language_id'] != 'english'):?>
+                                    <input class="form-control"  type="text" name="val[title][<?php echo $language['language_id']?>]" placeholder="<?php _lang('page-title')?>"/><br>
+                                    <p class="help-block"><?php echo $language['language_title']?></p>
+                                <?php endif?>
+                            <?php endforeach?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><?php _lang('page-description')?></label>
+                        <input type="text" name="val[description]" class="form-control"  value=""/>
+                    </div>
+
+                    <div class="form-group">
+                        <label><?php _lang('page-keywords')?></label>
+                        <input type="text" name="val[keywords]" class="form-control"  value=""/>
+                    </div>
+
+                    <textarea name="val[content]" class="ckeditor"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <img style="width: 25px;display:none" src="<?php echo img('images/loader01.gif')?>" class="save-loader"/>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php _lang('close')?></button>
+                    <button  class="btn btn-primary"><?php _lang('save-changes')?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

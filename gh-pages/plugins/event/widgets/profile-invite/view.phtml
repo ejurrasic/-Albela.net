@@ -1,0 +1,15 @@
+<?php if(is_loggedIn()):?>
+    <div class="box">
+        <div class="title"><?php _lang('event::invite-friends')?></div>
+        <div class="box-content">
+            <div class="find-input">
+                <input class="form-control" onkeyup="return event_search_invite_friend(this)" type="text" placeholder="<?php _lang('page::search-friends')?>"/>
+            </div>
+            <div style="margin-top: 10px" class="event-invite-friends-list slimscroll" data-height="200px" data-offset="0" data-id="<?php echo $app->profileEvent['event_id']?>">
+                <?php foreach(event_get_invite_friends() as $user):?>
+                    <?php echo view('event::profile/invite/display', array('user' => $user, 'eventId' => $app->profileEvent['event_id']))?>
+                <?php endforeach?>
+            </div>
+        </div>
+    </div>
+<?php endif?>

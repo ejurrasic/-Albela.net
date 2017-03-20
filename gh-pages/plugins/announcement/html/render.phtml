@@ -1,0 +1,17 @@
+<?php $announcement = get_user_announcements(1, true) ?>
+<?php $enable_close = isset($enable_close) ? $enable_close : true ?>
+<?php if($announcement):?>
+    <div class="container" style="padding-top: 10px;">
+        <div style="position: relative" class="alert alert-<?php echo $announcement['type']?>">
+            <h6><strong><?php _lang('announcement::announcement')?></strong></h6>
+            <span style="position: absolute;top: 10px;right: 10px"><?php echo date('F j, Y', $announcement['time'])?></span>
+            <?php if($announcement['can_close'] && $enable_close):?>
+                <button type="button" onclick="close_announcement('<?php echo $announcement['id']?>')" data-id="" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            <?php endif?>
+            <?php _lang($announcement['content'])?>
+        </div>
+    </div>
+<?php endif?>

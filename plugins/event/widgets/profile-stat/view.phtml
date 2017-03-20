@@ -1,0 +1,30 @@
+<?php if(is_loggedIn() and $app->profileEvent['user_id'] != get_userid()):?>
+    <div class="box">
+        <div class="box-content clearfix">
+            <?php _lang('event::rsvp')?> - <select onchange="event_rsvp(this, '<?php echo $app->profileEvent['event_id']?>')" data-id="" class="c-select pull-right">
+                <?php $value = get_event_my_rsvp($app->profileEvent['event_id'])?>
+                <option <?php echo ($value == 0) ? 'selected' : null?> value="0" ><?php _lang('event::not-going')?></option>
+                <option <?php echo ($value == 1) ? 'selected' : null?> value="1"><?php _lang('event::going')?></option>
+                <option <?php echo ($value == 2) ? 'selected' : null?> value="2"><?php _lang('event::maybe')?></option>
+            </select>
+        </div>
+    </div>
+<?php endif?>
+<div class="box">
+    <div class="box-content">
+        <ul class="event-rsvp-statistic">
+            <li>
+                <span class="event-going-stats"><?php echo count_event_going($app->profileEvent['event_id'])?></span>
+                <?php _lang('event::going')?>
+            </li>
+            <li>
+                <span class="event-maybe-stats"><?php echo count_event_maybe($app->profileEvent['event_id'])?></span>
+                <?php _lang('event::maybe')?>
+            </li>
+            <li>
+                <span class="event-invited-stats"><?php echo count_event_invited($app->profileEvent['event_id'])?></span>
+                <?php _lang('event::invited')?>
+            </li>
+        </ul>
+    </div>
+</div>

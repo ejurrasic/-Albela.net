@@ -1,0 +1,54 @@
+<div id="marketplace" class="marketplace marketplace-content box">
+    <form action="" method="get" class="marketplace-search-form">
+		<?php CSRFProtection::embed() ?>
+        <input type="text" class="form-control marketplace-search-input" name="s" value="<?php echo $search ?>" placeholder="<?php echo lang('search') ?>" />
+        <button class="btn btn-sm btn-primary marketplace-search-button"><?php echo lang('search') ?></button>
+    </form>
+    <div class="marketplace-listings">
+        <?php echo $message ?>
+        <?php foreach($listings->results() as $listing): ?>
+        <div class="listing-card">
+            <?php $listing_image = $listing['image'] ? url_img($listing['image'], 200) : img('marketplace::images/no_image.jpg', 75) ?>
+            <?php $description = trim($listing['description']) == '' ? '<em>'.lang('marketplace::no-description').'</em>' : $listing['description'] ?>
+            <?php $price = is_numeric($listing['price']) ? config('currency', '$').$listing['price'] : $listing['price']; ?>
+            <?php $price = trim($listing['price']) == '' ? '<div class="listing-card-stat listing-card-price listing-card-price-free listing-card-stat">'.lang('market_place::free').'</div>' : '<div class="listing-card-stat listing-card-price listing-card-price-paid listing-card-detail">'.$price.'</div>'; ?>
+            <?php if($listing['approved'] == 1 && $listing['active'] == 1): ?>
+            <a href="<?php echo url_to_pager('marketplace-listing-slug', array('appends' => '/'.$listing['slug'])) ?>" ajax="true"><div class="listing-card-img-top" style="background-image: url(<?php echo $listing_image ?>)"></div></a>
+            <?php else: ?>
+            <div class="listing-card-img-top" style="background-image: url(<?php echo url_img($listing_image, 200) ?>)"></div>
+            <?php endif ?>
+            <div class="listing-card-block">
+                <div class="listing-card-title">
+                    <?php if($listing['approved'] == 1 && $listing['active'] == 1): ?>
+                    <a href="<?php echo url_to_pager('marketplace-listing-slug', array('appends' => '/'.$listing['slug'])) ?>" ajax="true"> <?php echo $listing['title'] ?></a>
+                    <?php else: ?>
+                    <?php echo $listing['title'] ?>
+                    <?php endif ?>
+                    <small class="listing-text-muted"><br /><?php echo lang($listing['category_title']) ?></small>
+                </div>
+                <div class="listing-card-desc"><?php echo str_limit($description, 50) ?></div>
+                <div class="listing-card-stats"><?php echo $price ?><div class="listing-card-stat listing-card-date"><?php echo date('d/m/Y', strtotime($listing['date'])) ?></div><div class="listing-card-stat listing-card-views"><?php echo $listing['nov'] ?> <?php echo lang('marketplace::views') ?></div></div>
+            </div>
+            <?php if($listing['featured'] == 1): ?>
+            <div class="marketplace-featured-listing"><?php echo lang('marketplace::featured') ?></div>
+            <?php endif ?>
+            <?php if($type == 'm'): ?>
+            <div class="marketplace-approval">
+                <?php if($listing['approved'] == 1): ?>
+                <?php echo lang('marketplace::approved') ?>
+                <?php else: ?>
+                <?php echo lang('marketplace::pending-approval') ?>
+                <?php endif ?>
+            </div>
+            <?php endif ?>
+        </div>
+        <?php endforeach ?>
+        <?php if($listings->total): ?>
+            <?php if($listings->total > config('pagination-limit-listings', 20)): ?>
+                <?php echo $listings->links() ?>
+            <?php endif ?>
+        <?php else: ?>
+        <div class="alert alert-info"><?php echo lang('marketplace::no-listing-found') ?></div>
+        <?php endif ?>
+    </div>
+</div>

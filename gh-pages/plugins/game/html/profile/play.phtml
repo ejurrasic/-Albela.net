@@ -1,0 +1,32 @@
+<div class="box">
+    <div class="title"><?php _lang('game::playing-game', array('title' => get_game_details('game_title')))?>
+        <div class="action">
+            <a ajax="true" class="btn btn-sm btn-info" href="<?php echo game_url(null, $app->profileGame)?>"><?php _lang('game::go-back')?></a>
+        </div>
+    </div>
+
+</div>
+<div class="box">
+    <div class="box-content">
+        <?php if($app->profileGame['game_file']):?>
+            <script type="text/javascript">
+                $(function()) {
+                    swfobject.registerObject("game, "9.0.115", "expressInstall.swf");
+                }
+            </script>
+            <object id="game" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="<?php echo get_game_details('game_width')?>" height="<?php echo get_game_details('game_height')?>" data="<?php echo url($app->profileGame['game_file'])?>">
+
+                <param name="movie" value="<?php echo url($app->profileGame['game_file'])?>" />
+                <!--[if !IE]>-->
+                <object type="application/x-shockwave-flash" data="<?php echo url($app->profileGame['game_file'])?>" width="<?php echo get_game_details('game_width')?>" height="<?php echo get_game_details('game_height')?>">
+                    <!--<![endif]-->
+                    <p></p>
+                    <!--[if !IE]>-->
+                </object>
+                <!--<![endif]-->
+            </object>
+        <?php else:?>
+            <?php echo $app->profileGame['game_code']?>
+        <?php endif?>
+    </div>
+</div>

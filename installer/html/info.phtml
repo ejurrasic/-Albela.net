@@ -1,0 +1,37 @@
+<?php echo view('installer/header', array('title' => 'Site Info'))?>
+    <div class="container">
+        <div class="title">Site and Admin Info</div>
+        <div class="content">
+            <?php if($message):?>
+                <div class="alert alert-error"><?php echo $message?></div>
+            <?php endif?>
+
+            <form action="" method="post">
+            <?php CSRFProtection::embed() ?>
+                <label>Site Title:</label>
+                <input value="<?php echo installer_input('val.title')?>" type="text" name="val[title]" placeholder="Site title"/>
+
+                <label>Admin Fullname:</label>
+                <input value="<?php echo installer_input('val.fullname')?>" type="text" name="val[fullname]" placeholder="Admin Fullname"/>
+
+                <label>Admin Email Address:</label>
+                <input value="<?php echo installer_input('val.email')?>" type="text" name="val[email]" placeholder="Admin email address"/>
+
+                <label>Admin Username:</label>
+                <input value="<?php echo installer_input('val.username')?>" type="text" name="val[username]" placeholder="Admin username"/>
+
+                <label>Admin Password:</label>
+                <input value="<?php echo installer_input('val.password')?>" type="password" name="val[password]" placeholder="Admin password"/>
+
+                <label>Confirm Password:</label>
+                <input value="<?php echo installer_input('val.confirm_password')?>" type="password" name="val[confirm_password]" placeholder="Confirm password"/>
+
+                <div class="footer">
+                    <div class="buttons">
+                        <button class="btn">Save and Finish Installation</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<?php echo view('installer/footer')?>

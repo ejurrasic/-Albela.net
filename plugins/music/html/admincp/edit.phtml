@@ -1,0 +1,71 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang('music::musics-manager') ?></div>
+    <div class="wrapper-content">
+        <form class="wrapper-form" method="post" action="">
+			<?php CSRFProtection::embed() ?>
+            <input type="hidden" value="<?php echo $url ?>" name="back_url"/>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::category') ?></label>
+                <div class="col-sm-9">
+                    <select id="music-category-list" name="val[category]" class="c-select" >
+                        <option <?php echo ($music['category_id'] == 'all') ? 'selected'  : null ?>  value="all"><?php echo lang('music::all-categories') ?></option>
+                        <?php foreach(get_music_categories() as $category): ?>
+                            <?php $subCategories = get_music_parent_categories($category['id']) ?>
+                            <?php if($subCategories): ?>
+                            <optgroup label="<?php echo lang($category['title']) ?>">
+                            <?php foreach($subCategories as $cat): ?>
+                                <option <?php echo ($music['category_id'] == $cat['id']) ? 'selected'  : null ?> value="<?php echo $cat['id'] ?>"><?php echo lang($cat['title']) ?></option>
+                            <?php endforeach ?>
+                            </optgroup>
+                            <?php else: ?>
+                            <option <?php echo ($music['category_id'] == $category['id']) ? 'selected'  : null ?> value="<?php echo $category['id'] ?>"><?php echo lang($category['title']) ?></option>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::title') ?></label>
+                <div class="col-sm-9"><input class="form-control" type="text" value="<?php echo $music['title'] ?>" name="val[title]"/></div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::artist') ?></label>
+                <div class="col-sm-9"><input class="form-control" type="text" value="<?php echo $music['artist'] ?>" name="val[artist]"/></div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::album') ?></label>
+                <div class="col-sm-9"><input class="form-control" type="text" value="<?php echo $music['album'] ?>" name="val[album]"/></div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::cover-art') ?></label>
+                <div class="col-sm-9">
+                    <label class="file">
+                        <input type="file" id="cover_art" name="cover_art" />
+                        <span class="file-custom"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('privacy') ?></label>
+                <div class="col-sm-9">
+                    <?php $default = $music['privacy']; ?>
+                    <select class="c-select" name="val[privacy]">
+                        <option <?php echo ($default == 1) ? '`selected' : null ?> value="1" ><?php echo lang('everyone') ?></option>
+                        <option <?php echo ($default == 2) ? 'selected' : null ?> value="2"><?php echo (config('relationship-method', 2) == 2 or config('relationship-method', 2) == 3) ? lang('friends-only') : lang('followers-only') ?></option>
+                        <option <?php echo ($default == 3) ? 'selected' : null ?> value="3"><?php echo lang('only-me') ?></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::featured') ?></label>
+                <div class="col-sm-9">
+                    <select class="c-select" name="val[featured]">
+                        <option <?php echo ($music['featured'] == 1) ? 'selected': null ?> value="1"><?php echo lang('yes') ?></option>
+                        <option  <?php echo ($music['featured'] == 0) ? 'selected': null ?> value="0"><?php echo lang('no') ?></option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-info"><?php echo lang('music::save-music') ?></button>
+        </form>
+    </div>
+</div>

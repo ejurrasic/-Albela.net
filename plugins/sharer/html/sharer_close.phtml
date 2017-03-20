@@ -1,0 +1,19 @@
+<?php if(isMobile()): ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><?php else: ?><!DOCTYPE html><?php endif ?>
+<html lang="en">
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title><?php echo get_title() ?></title>
+        <?php echo render_assets('css') ?>
+        <link rel="shortcut icon" type="image/x-icon" href="<?php echo (config('site-favicon')) ? url_img(config('site-favicon')) : img('images/favicon.ico') ?>" />
+    </head>
+    <body>
+        <div class="sharer close">
+            <script>
+                window.open('','_self').close();
+            </script>
+        </div>
+    </body>
+</html>

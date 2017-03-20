@@ -1,0 +1,19 @@
+<?php
+$type = input('t') ? input('t') : null;
+$active_class = array('l' => '', 'm' => '', 'p' => '', 'c' => '');
+switch($type){case 'm': $active_class['m'] = ' active'; break; case 'p': $active_class['p'] = ' active'; break; default: $active_class['l'] = ' active'; break;}
+$url = http_build_query($_GET) == '' ? url_to_pager("forum-slug", array('appends' => '')) : url_to_pager("forum-slug", array('appends' => '')).'?'.http_build_query($_GET);
+?>
+<div class="box">
+    <div class="box-content">
+        <?php if(can_create_game()):?><a ajax="true" href="<?php echo url_to_pager('game-create')?>" class="<?php echo ($type == 'create') ? 'active' : null?> btn btn-primary btn-block"><?php _lang('game::add-game')?></a><?php endif?>
+
+    </div>
+    <ul class="menu">
+        <?php foreach(get_menus("game-menu") as $menu):?>
+        <li><a ajax="true" href="<?php echo url_to_pager('games')?>" class="<?php echo ($type == 'all') ? 'active' : null?>"><?php _lang('game::find-games') ?></a></li>
+        <?php endforeach?>
+        <li class="<?php echo ($type == 'all') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('games')?>"><?php _lang('game::find-games') ?></a></li>
+        <li class="<?php echo ($type == 'me') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('games')?>?type=me"><?php _lang('game::your-games') ?></a></li>
+    </ul>
+</div>

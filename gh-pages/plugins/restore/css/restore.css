@@ -1,0 +1,15 @@
+.restore-btn-info{
+    color:#fff;
+    background-color:#5bc0de;
+    border-color:#5bc0de;
+}
+
+a:hover.restore-btn-info {
+    color:#fff;
+    background-color:#5bb0de;
+    border-color:#5bb0de;
+}
+
+.restore-btn-info i{
+    font-style: normal !important;
+}

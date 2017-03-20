@@ -1,0 +1,24 @@
+<?php $video = unserialize($notification['data']) ?>
+<?php $slug = isset($video['slug']) ? $video['slug'] : $notification['type_id'] ?>
+<div id="notification-<?php echo $notification['notification_id']?>" class="notification media media-md  <?php echo ($notification['mark_read'] == 0) ? 'notification-unread' : null?>">
+    <div class="media-left"><div class="media-object"><a ajax="true" href="<?php echo url_to_pager('video-page', array('id' => $slug))?>"><img src="<?php echo get_avatar(75, $notification)?>"/></a> </div></div>
+    <div class="media-body">
+        <a ajax="true" href="<?php echo url_to_pager('video-page', array('id' => $slug))?>">
+            <h6 class="media-heading">
+                <?php echo get_user_name($notification)?> <?php echo ($type == 'like') ? lang('comment::like-your-comment') : lang('comment::dislike-your-comment')?>
+            </h6>
+        </a>
+        <span class="timeago " title="<?php echo date('c', $notification['time'])?>"><?php echo date('c', $notification['time'])?></span>
+        <div class="actions">
+            <a
+                class="mark-button"
+                data-status="<?php echo $notification['mark_read']?>"
+                data-read="<?php echo lang('notification::read')?>"
+                data-mark="<?php echo lang('notification::mark-as-read')?>"
+                title="<?php echo ($notification['mark_read'] == 1) ? lang('notification::read') : lang('notification::mark-as-read')?> "
+                onclick="return process_notification_mark('<?php echo $notification['notification_id']?>')"
+                href="#!" ><i class="ion-checkmark-circled"></i></a>
+            <a onclick="return delete_notification('<?php echo $notification['notification_id']?>')" href="#!"><i class="ion-close"></i></a>
+        </div>
+    </div>
+</div>

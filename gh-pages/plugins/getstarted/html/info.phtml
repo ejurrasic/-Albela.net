@@ -1,0 +1,38 @@
+<div class="panel-container card">
+    <div class="title"><i class="ion-android-add"></i> <?php _lang('add-picture')?></div>
+    <div class="card-block" style="padding: 0">
+
+
+        <form class="clearfix" enctype="multipart/form-data" action="" method="post">
+            <?php CSRFProtection::embed() ?>
+            <div class="getstarted-content">
+                <div class="media media-lg">
+                    <div class="media-left">
+                        <div class="media-object" id="getstarted-avatar" style="background-image: url(<?php echo get_avatar(200)?>);background-size: cover;background-position: center"> </div>
+                    </div>
+                    <div class="media-body">
+                        <p class="help-block"><?php _lang('add-picture-note')?></p>
+                        <span class="file-input"><input accept="image/*" multiple onchange="getstarted_show_avatar()" type="file" id="getstarted-image-input" name="avatar"/> </span>
+                        <button type="button" class="btn btn-secondary-outline btn-sm" onclick="return file_chooser('#getstarted-image-input')"><?php _lang('choose-photo')?></button>
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <label><?php _lang('what-about-you')?></label>
+                    <textarea placeholder="" name="val[bio]" class="auto-grow-input form-control" data-height="70px"><?php echo get_user_data('bio')?></textarea>
+                </div>
+            </div>
+            <div class="divider"></div>
+
+            <div class="getstarted-footer clearfix">
+                <div class="pull-right">
+                    <a ajax="true" href="<?php echo (plugin_loaded('social')) ? url_to_pager("signup-welcome").'?step=import' : url_to_pager("signup-welcome").'?step=add-people'?>" class="btn btn-secondary"><?php _lang('skip')?></a>
+                    <button class="btn btn-info"><?php _lang('save-continue')?></button>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>

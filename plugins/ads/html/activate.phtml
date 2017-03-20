@@ -1,0 +1,67 @@
+<div class="box">
+    <div class="box-content" style="margin: 5% 15%">
+        <h6><?php _lang('ads::transaction-details')?></h6>
+        <?php
+            $plan = get_plan($ads['plan_id']);
+        ?>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?php _lang('ads::campaign-name')?></td>
+                    <td><?php echo $ads['name']?></td>
+                </tr>
+                <tr>
+                    <td><?php _lang('ads::bid-type')?></td>
+                    <td><?php echo ($ads['plan_type'] == 1) ? lang('ads::cost-per-click') : lang('ads::cost-per-impression')?></td>
+                </tr>
+                <tr>
+                    <td><?php _lang('ads::bid-plan')?></td>
+                    <td><?php _lang($plan['name'])?></td>
+                </tr>
+                <tr>
+                    <td><?php _lang('ads::plan-description')?></td>
+                    <td><?php _lang($plan['description'])?></td>
+                </tr>
+                <tr>
+                    <td><?php _lang('ads::amount')?></td>
+                    <td><?php echo $plan['price']?> (<?php echo config('default-currency')?>)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h6><?php _lang('ads::select-payment-method')?></h6>
+        <img src="<?php echo img('images/payment-options.png')?>"/>
+        <ul class="nav ads-payment-method">
+            <?php if(config('enable-paypal', false)):?>
+            <li>
+                <a class="media" href="<?php echo url_to_pager('ads-activate', array('id' => $ads['ads_id'])) ?>?action=paypal<?php echo (config('enable-paypal-sandbox', true)) ? '&sandbox=1' : '&sandbox=0'?>">
+                    <img src="<?php echo img('images/paypal-button.png')?>"/>
+
+                </a>
+            </li>
+            <?php endif?>
+
+            <?php if(config('enable-stripe', false)):?>
+            <li>
+                <form action="<?php echo url_to_pager('ads-stripe-process', array('id' => $ads['ads_id']))?>" method="POST">
+            <?php CSRFProtection::embed() ?>
+                    <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="<?php echo config('stripe-publishable-key')?>"
+                        data-name="<?php echo config('site-name')?>"
+                        data-description="<?php _lang($plan['description'])?>"
+                        data-currency="<?php echo config('default-currency')?>"
+                        data-amount="<?php echo (int) $plan['price'] * 100?>">
+                    </script>
+                </form>
+            </li>
+            <?php endif?>
+        </ul>
+    </div>
+</div>

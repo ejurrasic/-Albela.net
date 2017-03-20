@@ -1,0 +1,25 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang('edit-custom-field-category')?></div>
+    <div class="wrapper-content">
+
+        <form class="col s12" action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <div class="form-group row">
+                <div class="col-sm-5">
+                    <h6><?php echo lang('category-title')?></h6>
+                    <p class="form-description"><?php echo lang('category-title-description')?></p>
+                </div>
+                <div class="col-sm-7">
+                    <?php foreach(get_all_languages() as $language):?>
+                        <input class="form-control" value="<?php echo get_phrase($language['language_id'], $category['title'])?>" type="text" name="val[title][<?php echo $language['language_id']?>]" placeholder="<?php echo lang('category-title')?>"/><br>
+                        <span class="help-block"><?php echo $language['language_title']?></span>
+                    <?php endforeach?>
+
+                </div>
+            </div>
+
+
+            <button class="btn red lighten-3"><?php echo lang('save-category')?></button>
+        </form>
+    </div>
+</div>

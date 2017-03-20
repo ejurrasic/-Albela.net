@@ -1,0 +1,12 @@
+<?php foreach($users as $user):?>
+    <a data-name="<?php echo get_user_name($user)?>" data-avatar="<?php echo get_avatar(75, $user)?>" data-tag="@<?php echo $user['username']?>" href="">
+        <div class="media media-sm">
+            <div class="media-left">
+                <div class="media-object"><img src="<?php echo get_avatar(75, $user)?>"/></div>
+            </div>
+            <div class="media-body">
+                <h6 class="media-heading"><?php echo get_user_name($user)?> <?php echo verify_badge($user)?></h6>
+            </div>
+        </div>
+    </a>
+<?php endforeach?>

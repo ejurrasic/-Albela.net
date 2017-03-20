@@ -1,0 +1,28 @@
+<div class="each-item clearfix">
+    <div class="left">
+        <?php if($page['featured']):?>
+            <span class="featured-tag"><?php _lang('featured')?></span>
+        <?php endif?>
+        <a href="<?php echo page_url(null, $page)?>" style="background-image:url(<?php echo get_page_logo(200, $page)?>)" ajax="true">
+
+        </a>
+    </div>
+
+    <div class="right">
+        <span class="item-title">
+            <a data-type="page" data-id="<?php echo $page['page_id']?>" class="preview-card" href="<?php echo page_url(null, $page)?>" ajax="true"><h6 class="media-heading"><?php echo $page['page_title']?> <?php echo verify_badge($page)?></h6> </a>
+             </span>
+        <div class="item-info">
+            <p class="help-block"><?php echo str_limit($page['page_desc'], 50)?></p>
+
+        </div>
+        <div class="action">
+            <?php if(plugin_loaded('like')):?>
+                <?php load_functions('like::like');?>
+                <a  onclick="return like_item('page', '<?php echo $page['page_id']?>')" data-status="<?php echo (has_liked('page', $page['page_id'])) ? '1'  : 0?>" class="btn btn-secondary like-button-page-<?php echo $page['page_id']?> like-button <?php echo (has_liked('page', $page['page_id'])) ? 'liked'  : null?>" href=""> <i class="ion-thumbsup"></i> <?php echo lang('like::like')?></a>
+
+            <?php endif?>
+        </div>
+
+    </div>
+</div>

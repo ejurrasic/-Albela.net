@@ -1,0 +1,6 @@
+<div class="title"><?php _lang('activity::activities')?></div>
+<div class="box-content slimscroll" data-height="250px" >
+    <?php foreach($activities as $activity):?>
+        <?php echo view('activity::activity', array("activity" => $activity))?>
+    <?php endforeach?>
+</div>

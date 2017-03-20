@@ -1,0 +1,104 @@
+<?php
+    $refId = ($photo['ref_id']) ? $photo['ref_id'] : $photo['id'];
+    $refName = ($photo['ref_name']) ? $photo['ref_name'] : 'photo';
+    $feed = ($refName == 'feed') ? find_feed($refId) : $photo;
+?>
+
+<div class="media media-md">
+    <div class="media-left">
+        <div class="media-object"><a href="<?php echo $photo['publisher']['url']?>"><img src="<?php echo $photo['publisher']['avatar']?>"/> </a> </div>
+    </div>
+    <div class="media-body">
+        <h6 class="media-heading"><a href="<?php echo $photo['publisher']['url']?>"><?php echo $photo['publisher']['name']?></a> </h6>
+
+        <?php if(is_photo_owner($photo, true)):?>
+            <span class="photo-action-dropdown dropdown">
+            <button class="dropdown-toggle btn btn-sm" data-toggle="dropdown"><i class="ion-android-more-horizontal"></i></button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <?php if(is_photo_owner($photo)):?>
+                    <li><a onclick="return make_photo_dp('<?php echo $photo['id']?>','<?php echo url_to_pager('photo-dp', array('id' => $photo['id']))?>')" href="" class="dropdown-item" ><i class="ion-ios-person"></i> <?php _lang('photo::set-as-profile-picture')?></a> </li>
+                <?php endif?>
+                <li><a onclick="return delete_photo('<?php echo $photo['id']?>','<?php echo url_to_pager('photo-delete', array('id' => $photo['id']))?>')" href="" class="dropdown-item"><i class="ion-android-delete"></i> <?php _lang('photo::delete-photo')?></a> </li>
+            </ul>
+        </span>
+        <?php endif?>
+    </div>
+</div>
+<?php if(plugin_loaded('like') and config('feed-like-type', 'regular') != 'regular'):?>
+    <div class="reactors reactors-<?php echo $refName?>-<?php echo $refId?>">
+        <?php echo view('like::reacts', array('type' => $refName, 'type_id' => $refId))?>
+    </div>
+<?php endif?>
+<div class="photo-viewer-footer feed-footer">
+    <div class="">
+        <ul class=" feed-footer-menu clearfix">
+            <?php if(plugin_loaded('like')):?>
+            <?php load_functions('like::like');?>
+            <?php if(config('feed-like-type', 'regular') == 'regular'):?>
+                <li><a  onclick="return like_item('<?php echo $refName?>', '<?php echo $refId?>')" data-status="<?php echo (has_liked($refName, $refId)) ? '1'  : 0?>" class=" like-button-<?php echo $refName?>-<?php echo $refId?> like-button <?php echo (has_liked($refName, $refId)) ? 'liked'  : null?>" href=""> <i class="ion-thumbsup"></i> <?php echo lang('like::like')?></a> </li>
+                <?php if (config('enable-dislike', false)):?>
+                    <li><a id="" onclick="return dislike_item('<?php echo $refName?>', '<?php echo $refId?>')" data-status="<?php echo (has_disliked($refName, $refId)) ? '1'  : 0?>" class="dislike-button-<?php echo $refName?>-<?php echo $refId?> like-button <?php echo (has_disliked($refName, $refId)) ? 'disliked'  : null?>" href=""> <i class="ion-thumbsdown"></i> <?php echo lang('like::dislike')?></a> </li>
+                <?php endif?>
+                <?php else:?>
+                    <li class="feed-react">
+                        <div class="react-items react-items-<?php echo $refId?>" id="">
+                            <ul>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="1" data-toggle="tooltip" title="<?php _lang('like::like')?>"><img src="<?php echo img('images/reaction/like.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="4" data-toggle="tooltip" title="<?php _lang('like::love')?>"><img src="<?php echo img('images/reaction/love.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="5" data-toggle="tooltip" title="<?php _lang('like::haha')?>"><img src="<?php echo img('images/reaction/haha.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="6" data-toggle="tooltip" title="<?php _lang('like::yay')?>"><img src="<?php echo img('images/reaction/yay.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="7" data-toggle="tooltip" title="<?php _lang('like::wow')?>"><img src="<?php echo img('images/reaction/wow.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="8" data-toggle="tooltip" title="<?php _lang('like::sad')?>"><img src="<?php echo img('images/reaction/sad.png')?>"/></a></li>
+                                <li><a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>" href="" data-code="9" data-toggle="tooltip" title="<?php _lang('like::angry')?>"><img src="<?php echo img('images/reaction/angry.png')?>"/></a></li>
+
+                            </ul>
+                        </div>
+                        <a data-type="<?php echo $refName?>" data-target="<?php echo $refId?>"  data-status="<?php echo (has_reacted($refName, $refId)) ? '1'  : 0?>" class=" react-button-feed-<?php echo $refId?> react-button <?php echo (has_reacted($refName, $refId)) ? 'liked'  : null?>" href=""> <i class="ion-thumbsup"></i> <span class="hidden-md-down"><?php echo lang('like::like')?></span></a>
+                    </li>
+                <?php endif?>
+            <?php endif?>
+
+
+            <li class="pull-right">
+                <ul class="feed-statistics">
+                    <?php if(plugin_loaded('like')):?>
+                        <li><a onclick="return show_likes('<?php echo $refName?>', '<?php echo $refId?>')" href=""> <i class="ion-thumbsup"></i> <span class="like-count-<?php echo $refName?>-<?php echo $refId?>"><?php echo count_likes($refName, $refId)?></span></a></li>
+                        <?php if (config('enable-dislike', false)):?>
+                            <li><a onclick="return show_dislikes('<?php echo $refName?>', '<?php echo $refId?>')" href=""> <i class="ion-thumbsdown"></i> <span class="dislike-count-<?php echo $refName?>-<?php echo $refId?>"><?php echo count_dislikes($refName, $refId)?></span></a></li>
+                        <?php endif?>
+
+                    <?php endif?>
+
+                    <?php if(plugin_loaded('comment')):?>
+                        <?php load_functions('comment::comment')?>
+                        <?php $countComments = count_comments($refName, $refId);?>
+                        <li> <i class="ion-chatbubbles"></i> <span class="comment-count-<?php echo $refName?>-<?php echo $refId?>"><?php echo ($countComments) ? $countComments : null?></span></li>
+                    <?php endif?>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <?php if(plugin_loaded('comment')):?>
+        <div class="feed-comment-container">
+
+            <?php if($countComments > config('feed-comment-limit', 3)):?>
+                <a id="comment-view-more-button-<?php echo $refName?>-<?php echo $refId?>" class="comment-view-more-button comment-view-more-button-<?php echo $refName?>-<?php echo $refId?>" onclick="return show_more_comment('<?php echo $refName?>', '<?php echo $refId?>', 'comment-view-more-indicator-<?php echo $refId?>')"  href=""><?php _lang('view-previous-comments')?></a>
+                <img class="comment-view-more-indicator" id="comment-view-more-indicator-<?php echo $refId?>" src="<?php echo img('images/loading.gif')?>" />
+            <?php endif?>
+            <div data-offset="<?php echo config('feed-comment-limit', 3)?>" data-limit="<?php echo config('feed-comment-limit', 3)?>" class="comment-lists comment-lists-<?php echo $refName?>-<?php echo $refId?>" id="">
+                <?php foreach(get_comments($refName, $refId, config('feed-comment-limit', 3), 0, $feed) as $comment):?>
+                    <?php echo view('comment::display', array('comment' => $comment))?>
+                <?php endforeach;?>
+            </div>
+            <?php echo view('comment::editor', array(
+                'typeId' => $refId,
+                'type' => $refName,
+                'entityId' => $photo['editor']['id'],
+                'entityType' => $photo['editor']['type'],
+                'avatar' => $photo['editor']['avatar'],
+                'textLimit' => (config('enable-feed-text-limit', false)) ? config('maximum-feed-text-limit', 150) : false))?>
+
+        </div>
+    <?php endif?>
+</div>

@@ -1,0 +1,33 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang('custom-fields-categories')?>
+        <a href="<?php echo url_to_pager("admin-custom-fields-category")?>?action=add&type=<?php echo $type?>">Add Category</a>
+    </div>
+    <div class="wrapper-content">
+
+
+        <table class="table table-bordered" id="custom-field-categories">
+            <thead>
+            <tr>
+                <td>Id</td>
+                <td><?php echo lang('slug')?></td>
+
+                <td><?php echo lang('action')?></td>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($categories as $category):?>
+                <tr class="item" id="<?php echo $category['id']?>">
+                    <td><?php echo $category['id']?></td>
+
+                    <td><?php echo lang($category['title'])?></td>
+                    <td>
+                        <a class="btn btn-success btn-sm" href="<?php echo url_to_pager("admin-custom-fields-category")?>?action=edit&id=<?php echo $category['id']?>&type=<?php echo $category['type']?>"><?php echo lang('edit')?></a>
+                        <a class="btn btn-danger btn-sm admin-confirm" href="<?php echo url_to_pager("admin-custom-fields-category")?>?action=delete&id=<?php echo $category['id']?>&type=<?php echo $category['type']?>"><?php echo lang('delete')?></a>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

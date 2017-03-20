@@ -1,0 +1,33 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('membership::membership-plans')?>
+        <a href="<?php echo url('admincp/membership/plans/add')?>" class="btn btn-success btn-sm"><?php _lang('membership::add-plan')?></a>
+    </div>
+    <div class="wrapper-content">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th><?php _lang('title')?></th>
+                    <th><?php _lang('description')?></th>
+                    <th><?php _lang('membership::recommended')?></th>
+                    <th><?php _lang('actions')?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($plans as $plan):?>
+                    <tr>
+                        <td><?php echo $plan['id']?></td>
+                        <td><?php _lang($plan['title'])?></td>
+                        <td><?php _lang($plan['description'])?></td>
+                        <td><?php echo ($plan['recommend']) ? lang('yes') : lang('no')?></td>
+                        <td>
+                            <a href="<?php echo url('admincp/membership/plan/manage?action=edit&id='.$plan['id'])?>" class="btn btn-success btn-sm"><?php _lang('edit')?></a>
+                            <a href="<?php echo url('admincp/membership/plan/manage?action=delete&id='.$plan['id'])?>" class="btn btn-danger btn-sm admin-confirm"><?php _lang('delete')?></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

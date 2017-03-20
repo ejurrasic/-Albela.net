@@ -1,0 +1,280 @@
+<div class="left" style="display:block">
+
+<?php
+$avatar = $feed['editor']['avatar'];
+$entityId = $feed['editor']['id'];
+$entityType = $feed['editor']['type'];
+?>
+
+<div style="pointer-events:none; opacity: 0.9" id="feed-wrapper-<?php echo $feed['feed_id'] ?>" class="feed-wrapper clearfix">
+
+<div class="col-sm-12  right no-padding">
+<div class="box">
+<div class="feed-header clearfix">
+    <div class="left" style="display:block">
+        <a ajax="true" href="<?php echo $feed['publisher']['url'] ?>" class="avatar"><img
+                src="<?php echo $feed['publisher']['avatar'] ?>"/> </a>
+    </div>
+    <div class="right">
+        <div class="feed-title">
+                   <span class=" preview-card" data-type="<?php echo $feed['entity_type'] ?>"
+                         data-id="<?php echo $feed['entity_id'] ?>">
+                       <a ajax="true" href="<?php echo $feed['publisher']['url'] ?>" class="">
+                           <?php echo $feed['publisher']['name'] ?>
+                           <?php echo verify_badge($feed['publisher']) ?>
+                       </a>
+                   </span>
+        </div>
+
+        <span style='font-size: 14px; margin-left: 2px'><i style='color: <?php echo config('booster-star-color','#26A65B')?>' class='ion-android-star'></i> <?php echo lang('booster::sponsored') ?></span>
+    </div>
+</div>
+
+<!--The Post start-->
+<div class="feed-content" id="feed-content-<?php echo $feed['feed_id']?>">
+    <span class="content"><?php echo format_feed_content($feed['feed_content'])?></span>
+
+</div>
+
+<?php if($feed['feeling_data']):$feeling = $feed['feeling_data']?>
+    <div class="feed-feeling-content clearfix">
+        <div class="feeling-left">
+            <img src="<?php echo img("images/status/{$feeling['type']}.png")?>"/>
+
+        </div>
+        <div class="feeling-right">
+            <strong><?php _lang("feed::{$feeling['type']}")?></strong>
+            <?php echo $feeling['text']?>
+        </div>
+    </div>
+    <?php $data = perfectUnserialize($feeling['data'])?>
+    <?php if($data):?>
+        <div class="feed-feeling-media-content">
+            <?php if ($feeling['type'] == 'listening-to'):?>
+                <iframe style="max-width:100%;" width="100%" height="120" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=<?php echo $data['link']?>"></iframe>
+            <?php elseif($feeling['type'] == 'watching' and !preg_match("#soundcloud#", $data['link'])):?>
+                <iframe style="width: 100%;max-width:100%;height: 320px" allowfullscreen frameborder="no" src="<?php echo $data['link']?>"></iframe>
+            <?php endif?>
+        </div>
+    <?php endif?>
+<?php endif?>
+
+<?php if(isset($feed['images'])):?>
+    <div class="feed-images">
+        <?php if (count($feed['images']) == 1):?>
+            <div class="one-image">
+                <?php $i = 1; foreach($feed['images'] as $id => $image):?>
+                    <?php if($i == 1):?>
+                        <a data-image="<?php echo url_img($image, 920)?>" data-id="<?php echo $id?>" class="photo-viewer"  href="" style="">
+                            <img src="<?php echo url_img($image, 600)?>"/>
+                        </a>
+                    <?php endif?>
+                    <?php $i++; endforeach?>
+            </div>
+        <?php elseif(count($feed['images']) == 2):?>
+            <div class="two-images clearfix">
+                <?php foreach($feed['images'] as $id => $image):?>
+                    <div>
+                        <a data-image="<?php echo url_img($image, 920)?>" data-id="<?php echo $id?>" class="photo-viewer"  href="" style="background-image: url(<?php echo url_img($image, 600)?>)"></a>
+                    </div>
+                <?php endforeach?>
+            </div>
+        <?php elseif(count($feed['images']) == 3):?>
+
+            <div class="three-images clearfix">
+                <div class="col-sm-7 left">
+                    <?php $i = 1; foreach($feed['images'] as $id => $image):?>
+                        <?php if($i == 1):?>
+                            <a data-image="<?php echo url_img($image, 920)?>" data-id="<?php echo $id?>" class="photo-viewer"  href="" style="background-image: url(<?php echo url_img($image, 600)?>)"></a>
+                        <?php else: break;endif?>
+                        <?php $i++; endforeach?>
+
+                </div>
+                <div class="col-sm-5 right">
+                    <?php $i = 1; foreach($feed['images'] as $id => $image):?>
+                        <?php if($i > 1):?>
+                            <div>
+                                <a data-image="<?php echo url_img($image, 920)?>" data-id="<?php echo $id?>" class="photo-viewer"  href="" style="background-image: url(<?php echo url_img($image, 600)?>)"></a>
+                            </div>
+                        <?php endif?>
+                        <?php $i++; endforeach?>
+                </div>
+
+
+            </div>
+        <?php elseif(count($feed['images']) == 4):?>
+            <div class="four-images clearfix">
+                <div class="col-sm-7 left">
+                    <?php $i = 1; foreach($feed['images'] as $id => $image):?>
+                        <?php if($i == 1):?>
+                            <a data-image="<?php echo url_img($image, 920)?>" data-id="<?php echo $id?>" class="photo-viewer"  href="" style="background-image: url(<?php echo url_img($image, 600)?>)"></a>
+                        <?php else: break;endif?>
+                        <?php $i++; endforeach?>
+                </div>
+                <div class="col-sm-5 right">
+                    <?php $i = 1; foreach($feed['images'] as $id => $image):?>
+                        <?php if($i > 1):?>
+                            <div>
+                                <a data-image="<?php echo url_img($image, 920)?>" data-id="<?php echo $id?>" class="photo-viewer"  href="" style="background-image: url(<?php echo url_img($image, 600)?>)"></a>
+                            </div>
+                        <?php endif?>
+                        <?php $i++; endforeach?>
+                </div>
+
+
+            </div>
+        <?php else:?>
+            <div class="five-images">
+                <div class="top clearfix">
+                    <div class="left">
+                        <?php $i = 1; foreach($feed['images'] as $id => $image):?>
+                            <?php if($i == 1):?>
+                                <a data-image="<?php echo url_img($image, 920)?>" data-id="<?php echo $id?>" class="photo-viewer" href="" style="background-image: url(<?php echo url_img($image, 600)?>)"></a>
+                            <?php else: break;endif?>
+                            <?php $i++; endforeach?>
+                    </div>
+                    <div class="right">
+                        <?php $i = 1; foreach($feed['images'] as $id => $image):?>
+                            <?php if($i == 2):?>
+                                <a data-image="<?php echo url_img($image, 920)?>" data-id="<?php echo $id?>" class="photo-viewer" href="" style="background-image: url(<?php echo url_img($image, 600)?>)"></a>
+                            <?php endif?>
+                            <?php $i++; endforeach?>
+                    </div>
+                </div>
+                <div class="bottom clearfix">
+                    <?php $i = 1; foreach($feed['images'] as $id => $image):?>
+                        <?php if($i > 2 and $i <= 5):?>
+                            <div>
+                                <a data-image="<?php echo url_img($image, 920)?>" data-id="<?php echo $id?>" class="photo-viewer" href="" style="background-image: url(<?php echo url_img($image, 600)?>)">
+                                    <?php if ($i == 5 and count($feed['images']) > 5):?>
+                                        <div class="more-images">+<?php echo count($feed['images']) - 5?></div>
+                                    <?php endif?>
+                                </a>
+
+                            </div>
+                        <?php endif?>
+                        <?php $i++; endforeach?>
+                </div>
+
+
+            </div>
+        <?php endif?>
+    </div>
+<?php endif?>
+
+<?php if($feed['video']):?>
+    <iframe allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" style="border: none;padding: 0 !important;margin:0 10px;border-radius: 3px;overflow: hidden;width: 96%" src="<?php echo url_to_pager("play-video").'?link='.$feed['video']?>" width="94%" height="330"></iframe>
+<?php endif?>
+
+
+<?php if($feed['files']):?>
+    <div class="feed-files">
+        <?php foreach($feed['files'] as $id => $file):?>
+            <div class="media">
+                <div class="media-left">
+                    <div><img src="<?php echo img('images/file-icons/'.$file['extension'].'.png')?>"/></div>
+                </div>
+                <div class="media-body">
+                    <h5 class="media-heading"><?php echo $file['name']?></h5>
+                    <?php if(config('allow-guest-download-file', true) or is_loggedIn()):?>
+                        <a data-toggle="tooltip" title="<?php _lang('download-file')?>" href="<?php echo url_to_pager('feed-download')?>?file=<?php echo $file['path']?>&name=<?php echo $file['name']?>" class="btn btn-secondary-outline btn-sm"><i class="ion-android-download"></i></a>
+                    <?php endif?>
+                </div>
+            </div>
+        <?php endforeach?>
+    </div>
+<?php endif?>
+
+<?php theme_extend("feed.content", null, array($feed))?>
+
+<?php if($feed['location']):$location=$feed['location']?>
+    <img style="width: 100%;margin-top: 10px" class="post-location-image" src="https://maps.googleapis.com/maps/api/staticmap?center=<?php echo $location?>&zoom=15&size=700x200&maptype=roadmap&markers=color:red%7C<?php echo $location?>&sensor=false&scale=1&visual_refresh=true"/>
+<?php endif?>
+
+<?php if($feed['is_poll']):?>
+    <div class="feed-poll" id="feed-poll-<?php echo $feed['feed_id']?>">
+        <?php echo view("feed::poll-result", array('feed' => $feed));?>
+
+    </div>
+<?php endif?>
+
+<?php if($feed['link_details']): $details = perfectUnserialize($feed['link_details'])?>
+
+    <?php // echo view('feed::link', array('details' => perfectUnserialize($feed['link_details'])))?>
+
+    <?php if(!$details):?>
+
+    <?php else:?>
+        <div class="link-content-container">
+            <?php if(isset($editor) and $editor):?>
+                <input type="hidden" value="<?php echo perfectSerialize($details)?>" name="val[link_details]"/>
+                <a onclick="return feedEditor.removeLinkDetails()" class="close-button" href=""><i class="ion-close"></i></a>
+            <?php endif?>
+            <?php if($details['type'] == 'link'):?>
+                <div class="link">
+                    <?php if(empty($details['image'])):?>
+                        <div class="link-desc">
+                            <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><h6 class="link-title"><?php echo sanitizeText($details['title'])?></h6></a>
+                            <?php if($details['description']):?>
+                                <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200))?></p>
+                            <?php endif?>
+
+                        </div>
+                    <?php elseif($details['imageWidth'] < 150):?>
+                        <div class="media">
+                            <div class="media-left">
+                                <a style="background-image:url(<?php echo $details['image']?>)" nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"></a>
+                            </div>
+                            <div class="media-body">
+                                <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><h6 class="link-title"><?php echo sanitizeText($details['title'])?></h6></a>
+                                <?php if($details['description']):?>
+                                    <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200))?></p>
+                                <?php endif?>
+
+                            </div>
+                        </div>
+                    <?php else:?>
+                        <div class="media">
+                            <div class="image">
+                                <a style="background-image:url(<?php echo $details['image']?>)" nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"></a>
+                            </div>
+                            <div class="media-desc">
+                                <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><h6 class="link-title"><?php echo sanitizeText($details['title'])?></h6></a>
+                                <?php if($details['description']):?>
+                                    <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200))?></p>
+                                <?php endif?>
+
+                            </div>
+                        </div>
+                    <?php endif?>
+                </div>
+            <?php else:?>
+                <div class="embed">
+                    <div class="iframe" style="max-width:100% !important;overflow:hidden !important;max-height:500px;"><?php echo str_replace('width', 'w', $details['code'])?></div>
+                    <div class="desc">
+                        <a nofollow='nofollow' href='javascript:void(0)' onclick="return window.open('<?php echo $details['link']?>')"><h6 class="link-title"><?php echo sanitizeText($details['title'])?></h6></a>
+                        <?php if($details['description']):?>
+                            <p class="help-block"><?php echo sanitizeText(str_limit($details['description'], 200))?></p>
+                        <?php endif?>
+                        <p class="help-block"><?php echo $details['provider-url']?></p>
+                    </div>
+                </div>
+
+            <?php endif?>
+        </div>
+    <?php endif?>
+<?php endif?>
+<!--The post end-->
+
+
+</div>
+
+
+</div>
+</div>
+
+
+
+</div>
+
+

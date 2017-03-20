@@ -1,0 +1,27 @@
+<?php $plan = get_membership_plan(get_user_data('membership_plan'));?>
+<?php if($plan):?>
+    <div class="box">
+        <div class="box-content membership-info">
+            <div class="media media-sm">
+                <div class="media-left">
+                    <i class="ion-android-contacts"></i>
+                </div>
+                <div class="media-body">
+                    <h6 class="media-heading"><span><?php _lang('membership::plan')?>: </span> <?php _lang($plan['title'])?></h6>
+                    <div class="help-block">
+                        <span><?php _lang('membership::expire-on')?>:</span>
+                        <?php if(get_user_data('membership_type') == 'free'):?>
+                            <?php _lang('membership::free')?>
+                        <?php else:?>
+                            <?php echo date('M j , y  h:i A', get_user_data('membership_expire_time'))?>
+                        <?php endif?>
+                    </div>
+                </div>
+            </div>
+
+            <?php if(get_user_data('membership_type') == 'free'):?>
+                <a href="<?php echo url("membership/choose-plan")?>" class="btn btn-info btn-block"><?php _lang('membership::upgrade-your-subscription')?></a>
+            <?php endif?>
+        </div>
+    </div>
+<?php endif?>

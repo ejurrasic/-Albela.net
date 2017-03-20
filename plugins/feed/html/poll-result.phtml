@@ -1,0 +1,63 @@
+<?php $answers = get_poll_answers($feed['feed_id'])?>
+<div class="results" >
+    <form action="" method="post" id="poll-form-<?php echo $feed['feed_id']?>" data-id="<?php echo $feed['feed_id']?>">
+		<?php CSRFProtection::embed() ?>
+        <input type="hidden" name="val[poll_id]" value="<?php echo $feed['feed_id']?>"/>
+    <?php foreach($answers as $answer):$percent = @floor(($answer['voters'] * 100)/$feed['poll_voters']);?>
+        <div class="result clearfix">
+            <div class="result-left">
+                <span><?php echo $answer['answer_text']?></span>
+                <?php if($feed['is_poll'] == 1):?>
+                    <div class="clearfix" style="margin-left:10px">
+                        <div class="" style="width:10%;float:left">
+                            <label class="c-input c-radio">
+                                <?php if(is_loggedIn()):?>
+                                    <input <?php echo (in_poll_answer($answer['answer_id'])) ? 'checked="checked"':null?> onchange="return submit_feed_poll('<?php echo $feed['feed_id']?>')" id="radio1" name="val[answer]" value="<?php echo $answer['answer_id']?>" type="radio">
+                                    <span class="c-indicator"></span>
+                                <?php endif?>
+                            </label>
+                        </div>
+                        <div style="width:85%;float:left">
+                            <progress class="progress progress-info  progress-animated" value="<?php echo $percent?>" max="100">
+                                <div class="progress progress-info  progress-animated">
+                                    <span class="progress-bar" style="width: <?php echo $percent?>%;"><?php echo $percent?>%</span>
+                                </div>
+                            </progress>
+                        </div>
+                    </div>
+                <?php else:?>
+                    <div class="clearfix" style="margin-left:10px">
+                        <div class="" style="width:10%;float:left">
+                            <label class="c-input c-checkbox">
+                                <?php if(is_loggedIn()):?>
+                                    <input <?php echo (in_poll_answer($answer['answer_id'])) ? 'checked="checked"':null?> value="<?php echo $answer['answer_id']?>"  onchange="return submit_feed_poll('<?php echo $feed['feed_id']?>')" id="radio1" name="val[answers][<?php echo $answer['answer_id']?>]" type="checkbox">
+                                    <span class="c-indicator"></span>
+                                <?php endif?>
+                            </label>
+                        </div>
+                        <div style="width:85%;float:left">
+                            <progress class="progress progress-info  progress-animated" value="<?php echo $percent?>" max="100">
+                                <div class="progress progress-info  progress-animated">
+                                    <span class="progress-bar" style="width: <?php echo $percent?>%;"><?php echo $percent?>%</span>
+                                </div>
+                            </progress>
+                        </div>
+                    </div>
+                <?php endif?>
+            </div>
+            <div class="result-right" >
+                <?php if($answer['voters']): ?>
+                    <?php $i = 0; foreach(get_poll_answers_user($answer['answer_id'], 4, 1) as $user): $i++ ?>
+                        <a href="<?php echo url($user['username']) ?>" data-toggle="tooltip" title="<?php echo get_user_name($user) ?>"><img src="<?php echo get_avatar(75, $user) ?>"/></a>
+                    <?php endforeach ?>
+                    <?php if ($answer['voters'] > 4): ?>
+                        <a href="#" data-otitle="<?php _lang('feed::people-voted-this')?>" onclick="return show_voters(this, '<?php echo $answer['answer_id'] ?>', 2)" class="more poll-users-more">
+                            <i class="ion-android-more-horizontal"></i><span class="count">+<?php echo $answer['voters'] - 4 ?></span>
+                        </a>
+                    <?php endif ?>
+                <?php endif ?>
+            </div>
+        </div>
+    <?php endforeach?>
+    </form>
+</div>

@@ -1,0 +1,174 @@
+--------------------------------------------------------------------------------------------------------------
+===========================================VERSION 6.2.3 CHANGELOG==============================================
+--------------------------------------------------------------------------------------------------------------
+
+
+- ADDED Default Layout Setting for Groups listing
+- ADDED Page Like Notification
+- ADDED Default Layout Setting for Pages listing
+- ADDED Country field to account settings page.
+- ADDED Confirm password field to Signup Page.
+- ADDED Posted in Group Notification.
+- ADDED Call button for mobile.
+- ADDED new Hooks for plugin developers
+
+
+- BUG FIXES
+
+- FIXED Broken Hashtag in posts
+- FIXED Feedback Severity error.
+- FIXED People plugin pagination resetting filters
+- FIXED Page Layout
+- FIXED Profile likes Layout
+- FIXED Static Pages Not rendering HTML.
+- FIXED MediaChat not autoclosing after ending call
+- FIXED Activation page still showing after activation
+- FIXED Theme glitches.
+- FIXED Blog external images distortion
+- FIXED Photo viewer meta tags.
+- Fixed MediaChat compatibility with Internet Explorer
+- FIXED social users can't delete account.
+- FIXED Email Template links not working.
+- FIXED MarketPlace User delete Hook.
+- FIXED Duplicate Feedback Menu.
+- FIXED Layout issue in MusicCloud and Vineo Theme.
+- FIXED Announcement role filter.
+- FIXED Share 403 error on some servers.
+- FIXED Group Photo Privacy.
+- Make FFmpeg optional, you can now allow only mp4 uploads
+
+--------------------------------------------------------------------------------------------------------------
+
+
+
+----------------------------UPDATE THE FOLLOWING FOLDERS AND FILES -----------------------------------------------------
+
+
+
+FIXED Broken Hashtag in posts
+- plugins/hashtag/loader.php
+
+FIXED Feedback Severity error.
+- plugins/hashtag/html/veiw.php
+- plugins/hashtag/function/feedback.php
+
+FIXED People plugin pagination resetting filters
+ - plugins/people/pages/people.php
+
+FIXED Page Layout
+- plugins/pages/database/upgrade.php
+
+FIXED Profile likes Layout
+- plugins/page/html/user-profile/likes.phtml
+
+FIXED Static Pages Not rendering HTML.
+- themes/frontend/default/html/layouts/columns.phtml
+
+FIXED MediaChat not autoclosing after ending call
+- plugins/mediachat/js/mediachat.js
+
+FIXED Activation page still showing after activation
+- includes/pages/signup.php
+
+FIXED Theme glitches.
+- themes/frontend/musiccloud/css/style.css
+- themes/frontend/plus/css/style.css
+- themes/frontend/vineo/css/style.css
+
+FIXED Blog external images distortion
+- plugins/blog/css/blog.css
+
+FIXED Photo viewer meta tags.
+- plugins/photo/pages/photo.php
+
+Fixed MediaChat compatibility with Internet Explorer
+- plugins/mediachat/js/mediachat.js
+
+FIXED social users can't delete account.
+- includes/pages/account.php
+
+FIXED Email Template links not working.
+- includes/core.php
+
+FIXED MarketPlace User delete Hook.
+- plugins/marketplace/loader.php
+
+FIXED Duplicate Feedback Menu.
+- plugins/feedback/database/upgrade.php
+
+FIXED Layout issue in MusicCloud and Vineo Theme.
+- themes/frontend/musiccloud/html/layouts [DELETE]
+- themes/frontend/vineo/html/layouts [DELETE]
+
+FIXED Announcement role filter.
+- plugins/announcement/functions/announcement.php
+- plugins/announcement/html/admincp/create.phtml
+- plugins/announcement/html/admincp/edit.phtml
+
+FIXED Share 403 error on some servers.
+- plugins/sharer/html/share_link.phtml
+- plugins/sharer/html/share_site.phtml
+
+FIXED Group Photo Privacy.
+- plugins/group/loader.php
+- plugins/feed/functions/feed.php
+- plugins/photo/functions/photo.php
+
+ADDED Default Layout Setting for Groups listing
+- plugins/group/pages/group.php
+- plugins/group/pages/ajax.php
+- plugins/group/languages/english.php
+- plugins/group/html/lists.phtml
+- plugins/group/settings.php
+- plugins/group/js/group.js
+
+ADDED Default Layout Setting for Pages listing
+- plugins/page/pages/page.php
+- plugins/page/pages/ajax.php
+- plugins/page/languages/english.php
+- plugins/page/html/mine.phtml
+- plugins/page/settings.php
+- plugins/page/js/page.js
+
+ADDED Page Like Notification
+- plugins/page/loader.php
+- plugins/page/html/notifications/like.phtml
+
+ADDED Country field to account settings page.
+- themes/frontend/default/html/account/general.phtml
+
+ADDED Confirm password field to Signup Page.
+- includes/pages/signup.php
+- themes/frontend/default/html/signup/content.phtml
+
+ADDED Posted in Group Notification.
+- plugins/group/loader.php
+- plugins/group/html/notifications/post.phtml
+
+ADDED Call button for mobile.
+- plugins/mediachat/loader.php
+- plugins/mediachat/html/voice-call-init-button.phtml
+- plugins/mediachat/html/video-call-init-button.phtml
+- plugins/chat/html/messages.phtml
+- plugins/chat/css/chat.css
+
+ADDED new Hooks
+- includes/pages/signup.php
+- themes/backend/default/html/layouts/footer.phtml
+- themes/frontend/default/html/account/general.phtml
+- plugins/relationship/pages/relationship.php
+- plugins/relationship/html/button.phtml
+
+
+- Make FFmpeg optional, you can now allow only mp4 uploads
+- plugins/video/html/create.phtml
+- plugins/video/functions/video.php
+- plugins/video/pages/video.php
+
+
+
+----------------------------------FINAL STEP-----------------------------------------------------
+
+- Login back to your admincp and go to admincp -> tools -> update system
+
+- Test  your site with the latest update and let us know your thoughts through our tickets system

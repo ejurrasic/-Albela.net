@@ -1,0 +1,14 @@
+<div class="box" id="account-menu">
+    <div class="media media-md" style="border: none">
+        <div class="media-left">
+            <div class="media-object"><img src="<?php echo get_avatar(75)?>" /></div>
+        </div>
+        <div class="media-body">
+            <h6 class="media-heading"><?php echo get_user_name()?></h6>
+            <a href="<?php echo profile_url()?>" ajax="true" data-container="#user-profile-content-container"><?php _lang('profile')?></a>
+            | <a ajax="true" href="<?php echo url_to_pager('account')?>"><?php _lang('edit-profile')?></a>
+        </div>
+    </div>
+
+
+</div>

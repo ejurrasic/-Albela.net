@@ -1,0 +1,28 @@
+<div class="card-cover"><img src="<?php echo get_user_cover($user, false)?>"/> </div>
+<div class="card-panel">
+    <h6 class="card-title"><a ajax="true" href="<?php echo profile_url(null, $user)?>"><?php echo get_user_name($user)?> <?php echo verify_badge($user)?></a> </h6>
+    <ul class="info">
+        <li><i class="ion-android-people"></i> <?php echo count(get_friends($user['id']))?> <?php _lang('friends')?></li>
+        <?php if(is_loggedIn() and $user['id'] != get_userid()):?>
+            <?php $count = count(get_mutual_friends($user['id']))?>
+            <?php if($count > 0) :?>
+                <li><i class="ion-android-person-add"></i> <?php echo $count?> <?php _lang('mutual-friends')?></li>
+            <?php endif?>
+
+        <?php endif?>
+        <?php if($user['country']):?>
+            <li><i class="ion-ios-location"></i> <?php echo ucwords($user['country'])?></li>
+        <?php endif?>
+    </ul>
+</div>
+<div class="card-footer">
+    <?php if(plugin_loaded('relationship')):?>
+        <?php echo view('relationship::button', array('userid' => $user['id'], 'follow' => true))?>
+    <?php endif?>
+    <?php echo theme_extend('user.profile.buttons', null, array('user' => $user))?>
+    <?php if(is_loggedIn() and $user['id'] != get_userid() and can_send_message($user['id'])):?>
+        <a ajax="true" href="<?php echo url('messages?userid='.$user['id'])?>"  class="btn btn-secondary btn-sm message-me-small"><?php _lang('chat::send-message')?></a>
+        <a href="" onclick="return Chat.open(null, '<?php echo $user['id']?>', '<?php echo htmlentities(get_user_name($user))?>', '<?php echo get_avatar(75, $user)?>')" class="btn btn-secondary btn-sm message-me-large"><?php _lang('chat::send-message')?></a>
+    <?php endif?>
+</div>
+<div class="card-avatar"><a ajax="true" href="<?php echo profile_url(null, $user)?>"><img src="<?php echo get_avatar(75, $user)?>"/> </a></div>

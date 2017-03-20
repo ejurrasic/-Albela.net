@@ -1,0 +1,96 @@
+<?php echo view('installer/header', array('title' => 'Database Details'))?>
+    <div class="container">
+        <div class="title">System Requirements</div>
+        <div class="content">
+            <?php $error = false?>
+                <table style="width: 100%;display: block">
+                    <thead>
+                        <th style="width: 40%"></th>
+                        <th style="width: 60%"></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PHP Version</td>
+                            <td>
+                                <?php if (phpversion() >= 5.3):?>
+                                    <span class="success"><?php echo phpversion()?></span>
+                                <?php else:$error = true?>
+                                    <span class="danger"><?php echo phpversion()?></span>
+                                    <p>Upgrade your php version</p>
+                                <?php endif?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Mysqli</td>
+                            <td>
+                                <?php if (function_exists('mysqli_connect')):?>
+                                    <span class="success">Available</span>
+                                <?php else:$error = true?>
+                                    <span class="danger">Not Available</span>
+                                    <p>Mysqli extension is requird, please contact your server support to enable it </p>
+                                <?php endif?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Allow_url_fopen</td>
+                            <td>
+                                <?php if (ini_get('allow_url_fopen')):?>
+                                    <span class="success">Enabled</span>
+                                <?php else:$error = true?>
+                                    <span class="danger">Disabled</span>
+                                    <p>Please contact your server support to enable <strong>allow_url_fopen</strong> in php.ini settings </p>
+                                <?php endif?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Storage Folder</td>
+                            <td>
+                                <?php if (is_writable(path('storage/'))):?>
+                                    <span class="success">Writable</span>
+                                <?php else:$error = true?>
+                                    <span class="danger">Not Writable</span>
+                                    <p>Give this folder <strong>0777</strong> permissions </p>
+                                    <p><strong><?php echo path('storage/')?></strong></p>
+                                <?php endif?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Config File</td>
+                            <td>
+                                <?php if (is_writable(path('config.php'))):?>
+                                    <span class="success">Writable</span>
+                                <?php else:$error = true?>
+                                    <span class="danger">Not Writable</span>
+                                    <p>Give this file <strong>0777</strong> permissions </p>
+                                    <p><strong><?php echo path('config.php')?></strong></p>
+                                <?php endif?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            <form action="" method="post">
+            <?php CSRFProtection::embed() ?>
+                <?php if($message):?>
+                    <div class="alert alert-error"><?php echo $message?></div>
+                <?php endif?>
+                <label>License Key</label>
+                <input type="text" name="key" placeholder="Enter your license key"/>
+
+                <div class="footer">
+                    <div class="buttons">
+                       <?php if($error):?>
+                            <button type="button" disabled style="padding: 10px 20px;background: #d3d3d3;border: none">Fix Errors to continue</button>
+                        <?php else:?>
+                           <button href="<?php echo url_to_pager("install-db")?>" class="btn">Continue</button>
+                        <?php endif?>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+<?php echo view('installer/footer')?>

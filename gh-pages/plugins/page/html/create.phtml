@@ -1,0 +1,52 @@
+<div class="box">
+    <div class="box-content" style="padding: 20px 10%">
+        <?php if($message):?>
+            <div class="alert alert-danger"><?php echo $message?></div>
+        <?php endif?>
+        <form action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('page::select-category')?></label>
+                <div class="col-sm-8">
+                    <select name="val[category]" class="c-select">
+                        <?php foreach(get_page_categories() as $category):?>
+                            <option value="<?php echo $category['category_id']?>"><?php _lang($category['category_title'])?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('page-title')?></label>
+                <div class="col-sm-8">
+                    <input value="<?php echo input('val.name')?>" type="text" name="val[name]" class="form-control"/>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('page::description')?></label>
+                <div class="col-sm-8">
+                    <textarea name="val[description]" data-height="50px" class="form-control auto-grow-input"><?php echo input('val.description')?></textarea>
+                </div>
+            </div>
+            <?php $customsField = get_form_custom_fields('page');?>
+
+            <?php if(count($customsField) > 0):?>
+
+            <div class="form-group row">
+                <label class="control-label col-sm-4">Custom</label>
+                <div class="col-sm-8">
+                    <?php foreach($customsField as $field):?>
+                        <?php echo view("custom-field/display", array('field' => $field, 'offDescription' => true))?>
+                    <?php endforeach?>
+                </div>
+            </div>
+            <?php endif?>
+
+
+
+            <button class="btn btn-info"><?php _lang('page::create-page')?></button>
+        </form>
+    </div>
+</div>

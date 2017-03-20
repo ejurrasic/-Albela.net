@@ -1,0 +1,24 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php _lang('blog::manage-category')?>  </div>
+    <div class="wrapper-content">
+        <form method="post" action="" enctype="multipart/form-data" class="wrapper-form">
+            <?php CSRFProtection::embed() ?>
+            <?php if($message):?>
+                <div class="alert alert-danger"><?php echo $message?></div>
+            <?php endif?>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('blog::category-title')?></label>
+                <div class="col-sm-9">
+                    <?php foreach(get_all_languages() as $language):?>
+                        <input value="<?php echo get_phrase($language['language_id'], $category['title'])?>" class="form-control" type="text" name="val[title][<?php echo $language['language_id']?>]" placeholder="<?php _lang('blog::category-title')?>"/><br>
+                        <p class="help-block"><?php echo $language['language_title']?></p>
+                    <?php endforeach?>
+                </div>
+            </div>
+
+
+
+            <button class="btn btn-info"><?php _lang('blog::save-category')?></button>
+        </form>
+    </div>
+</div>

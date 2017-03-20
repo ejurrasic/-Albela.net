@@ -1,0 +1,18 @@
+<div class="each-item clearfix">
+    <div class="left">
+        <?php if($video['featured']):?>
+            <span class="featured-tag"><?php _lang('featured')?></span>
+        <?php endif?>
+        <a ajax="true" href="<?php echo get_video_url($video)?>" style="background-image:url(<?php echo ($video['photo_path']) ? url_img($video['photo_path']) : img('video::images/preview.png')?>)">
+    </div>
+    <?php $owner = get_video_owner($video);?>
+    <div class="right">
+        <span class="item-title"><a ajax="true" href="<?php echo get_video_url($video)?>"><?php echo ($video['title']) ? $video['title'] : lang('video::untitled-video')?></a> </span>
+        <div class="item-info">
+            <span><?php echo $video['view_count']?> <?php _lang('video::views')?> - <span class="feed-time"> <span class="timeago " title="<?php echo date('c', $video['time'])?>"><?php echo date('c', $video['time'])?></span></span></span>
+            <?php _lang('video::by')?> <a ajax="true" href="<?php echo $owner['link']?>"><?php echo $owner['name']?></a>
+        </div>
+        <p class="item-desc"><?php echo $video['description']?></p>
+        <span class="video-social-share-link"><?php if(plugin_loaded('sharer')) echo view('sharer::share_link', array('link' => url("video/".$video['slug']))) ?></span>
+    </div>
+</div>

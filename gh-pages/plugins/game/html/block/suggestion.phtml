@@ -1,0 +1,15 @@
+<?php $games = game_suggestion($settings['limit']);?>
+
+<?php if($games):?>
+    <div class="box users-box">
+        <div class="title"><?php _lang('game::play-games')?></div>
+        <div class="clearfix">
+            <?php foreach($games as $game):?>
+                <a style="background-image: url(<?php echo get_game_logo(75, $game)?>)" class="user" ajax="true" href="<?php echo game_url(null, $game)?>">
+
+                    <h6 class="name"><?php echo $game['game_title']?></h6>
+                </a>
+            <?php endforeach?>
+        </div>
+    </div>
+<?php endif?>

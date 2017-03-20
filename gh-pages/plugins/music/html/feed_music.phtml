@@ -1,0 +1,19 @@
+<div class="music feed-music">
+    <div class="each-item clearfix">
+        <div class="left">
+            <?php if($music['featured']): ?>
+            <span class="featured-tag"><?php echo lang('featured') ?></span>
+            <?php endif ?>
+            <a ajax="true" href="<?php echo get_music_url($music) ?>" style="background-image:url(<?php echo ($music['cover_art']) ? url_img($music['cover_art'], 920) : img('music::images/preview.png') ?>);"></a>
+        </div>
+        <?php $owner = get_music_owner($music); ?>
+        <div class="right">
+            <div>
+                <?php $playlist = isset($playlist) ? $playlist : array($music['slug'] => $music); $options = array('nowPlaying' => $music['slug'], 'autoplay' => true); ?>
+                <i id="list-play-button-<?php echo $music['id'] ?>" class="list-play-button ion-play button" style="float: left; margin-left: 0px; z-index: 999999" onclick='if(typeof music.player.nowPlaying !== "undefined" && music.player.playing && music.player.nowPlaying == "<?php echo $music['slug'] ?>"){music.updateButton(this)}else{music.player.init(<?php echo str_replace("'", htmlspecialchars("'", ENT_QUOTES), json_encode($playlist)) ?>, <?php echo json_encode($options) ?>); this.className += " playing "; this.className = this.className.replace(/(?:^|\s)ion-play(?!\S)/g , " ion-pause ");} this.className += " playing ";'></i>
+                <span class="item-title"> <a ajax="true" href="<?php echo get_music_url($music) ?>"><?php echo ($music['title']) ? $music['title'] : lang('music::untitled-music') ?></a> </span>
+                <p class="item-desc" style="margin: 0px;"><?php echo empty($music['artist']) ? lang('music::unknown-artist').' - '.$music['title'] : $music['artist'].' - '.$music['title'] ?><br /><?php echo $music['album'] ?></p>
+            </div>
+        </div>
+    </div>
+</div>

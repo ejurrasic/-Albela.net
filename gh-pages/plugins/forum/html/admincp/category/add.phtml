@@ -1,0 +1,30 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <p><?php echo lang('forum::add-category') ?></p>
+        <span><?php echo lang('forum::add-category-desc') ?></span>
+    </div>
+    <div class="wrapper-content">
+        <?php if($messages != null): ?>
+        <div class="alert alert-danger"><?php echo $messages ?></div>
+        <?php endif ?>
+        <form action="" class="adm" method="post">
+            <?php CSRFProtection::embed() ?>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('forum::category-title')?></label>
+                <div class="col-sm-9">
+                    <?php foreach(get_all_languages() as $language):?>
+                        <input class="form-control" type="text" name="val[title][<?php echo $language['language_id']?>]" placeholder="<?php echo lang('forum::category-title')?>"/><br>
+                        <p class="help-block"><?php echo $language['language_title']?></p>
+                    <?php endforeach?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7">
+                    <input type="submit" value="<?php echo lang('forum::Add') ?>" class="btn btn-info" />
+                </div>
+            </div>
+        <input type="hidden" name="val[type]" value="add_category" />
+        </form>
+    </div>
+</div>

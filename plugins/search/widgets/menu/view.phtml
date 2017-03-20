@@ -1,0 +1,8 @@
+<div class="box ">
+    <div class="title"><?php _lang('search::search-menu')?></div>
+    <ul class="menu">
+        <?php foreach(get_menus("search-menu") as $menu):?>
+            <li class="<?php echo ($menu->isActive()) ? 'active' : null?>"><a ajax="true" href="<?php echo $menu->link?>"><?php echo $menu->title?></a> </li>
+        <?php endforeach?>
+    </ul>
+</div>

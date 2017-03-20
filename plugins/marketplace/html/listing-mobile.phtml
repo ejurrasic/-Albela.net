@@ -1,0 +1,111 @@
+<div id="listing" class="marketplace marketplace-content box">
+    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"><?php echo lang('marketplace::close') ?></span></button>
+                    <h4 class="modal-title" id="myModalLabel"><?php echo lang('marketplace::image-preview') ?></h4>
+                </div>
+                <div class="modal-body">
+                    <img src="" id="imagepreview" >
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo lang('marketplace::close') ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function view_image(img){
+            $('#imagepreview').attr('src', $(img).attr('src').replace(/_75_|_200_/g, "_920_"));
+            $('#imagemodal').modal('show');
+        }
+    </script>
+    <div class="listing-image" style="display:inline-block">
+        <?php if($listing['featured'] == 1): ?>
+            <div class="marketplace-featured-listing"><?php echo lang('marketplace::featured') ?></div>
+        <?php endif ?>
+        <?php if(plugin_loaded('sharer')) echo view('sharer::share_link') ?>
+        <?php if($listing['image']): ?>
+            <img src="<?php echo url_img($listing['image'], 200) ?>" class="pop" onclick="view_image(this)">
+        <?php else: ?>
+            <img src="<?php echo img('marketplace::images/no_image.jpg') ?>"  style="max-width:200px;" class="pop" onclick="view_image(this)">
+        <?php endif ?>
+    </div>
+    <div class="listing-details" style="display:inline-block;width:auto">
+        <div class="listing-title listing-detail" ><h1><?php echo $listing['title'] ?></h1></div>
+        <div class="listing-desc listing-detail"><?php echo marketplace_output_text($description) ?></div>
+        <div class="listing-detail-group"><a href="<?php echo url_to_pager('marketplace-slug', array('appends' => '')) ?>?c=<?php echo $listing['category_id'] ?>" ajax="true" class="listing-category listing-detail"><?php echo lang($listing['category_title']) ?></a><?php if(trim($listing['tags'], ',') != ""): ?><div id="listing-tags" class="listing-tags listing-detail"><?php foreach(explode(',', trim($listing['tags'], ',')) as  $tag): ?> #<?php echo trim($tag) ?><?php endforeach ?></div><?php endif ?><div class="listing-date listing-detail"><?php echo date('d/m/Y', strtotime($listing['date'])) ?></div><div class="listing-views listing-detail"><?php echo $listing['nov'] ?> <?php echo lang('marketplace::views') ?></div><?php echo $price ?></div>
+        <div class="listing-address listing-detail"><?php echo $address ?></div>
+        <div class="listing-links listing-detail">
+            <a href="<?php echo url($listing['username']) ?>" class="btn btn-secondary btn-sm" ajax="true"><?php echo lang('marketplace::view-profile') ?></a>
+            <?php if($listing['lister_id'] == get_userid()): ?>
+                <a href="<?php echo url_to_pager('marketplace-edit-listing') ?>?id=<?php echo $listing['id'] ?>" class="btn btn-info btn-sm" ajax="true"><?php echo lang('marketplace::edit') ?></a>
+                <a href="<?php echo url_to_pager('marketplace-delete-listing') ?>?id=<?php echo $listing['id'] ?>" class="btn btn-danger btn-sm" ajax="true"><?php echo lang('marketplace::remove') ?></a>
+                <?php if(config('max-num-listing-photos', 5) > $num_listing_images): ?>
+                    <a href="<?php echo url_to_pager('marketplace-add-photo') ?>?id=<?php echo $listing['id'] ?>" class="btn btn-primary btn-sm" ajax="true"><?php echo lang('marketplace::add-photo') ?></a>
+                <?php endif ?>
+                <?php if (filter_var($listing['link'], FILTER_VALIDATE_URL)): ?>
+                    <a href="<?php echo $listing['link'] ?>" class="btn btn-success btn-sm"><?php echo lang('marketplace::link') ?></a>
+                <?php endif ?>
+            <?php endif ?>
+        </div>
+    </div>
+    <script>if(typeof tagscroll == 'function'){tagscroll();}</script>
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: {lat: -34.397, lng: 150.644}
+            });
+            var geocoder = new google.maps.Geocoder();
+
+            geocodeAddress(geocoder, map);
+        }
+
+        function geocodeAddress(geocoder, resultsMap) {
+            var address = '<?php echo json_encode($listing['address']) ?>';
+            geocoder.geocode({'address': address}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    resultsMap.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: resultsMap,
+                        position: results[0].geometry.location
+                        //animation: google.maps.Animation.BOUNCE
+                    });
+                } else {
+                    //alert('<?php echo lang('geocode-unsuccessful') ?>: ' + status);
+                }
+            });
+        }
+    </script>
+    <?php $key = trim(config('google-api-key', '') != '') ? '&key='.config('google-api-key', '') : '' ?>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap<?php echo $key ?>"></script>
+    <div class="listing-photos">
+        <?php foreach($listing_images as $listing_image): ?>
+            <div class="listing-photo">
+                <img src="<?php echo url_img($listing_image['image'], 75) ?>" class="listing-photo-img `pop" onclick="view_image(this)">
+                <?php if($listing['lister_id'] == get_userid()): ?>
+                    <a href="<?php echo url_to_pager('marketplace-delete-photo') ?>?id=<?php echo $listing['id'] ?>" class="ion-android-close delete-photo" ajax="true"></a>
+                <?php endif ?>
+            </div>
+        <?php endforeach ?>
+    </div>
+    <div class="feed-footer">
+        <?php if(plugin_loaded('comment')):?>
+            <div class="field-footer feed-comment-container">
+                <?php if($num_listing_comments > config('pagination-limit-comments', 4)):?>
+                    <a id="comment-view-more-button-listing-<?php echo $listing['id']?>" class="comment-view-more-button comment-view-more-button-listing-<?php echo $listing['id']?>" onclick="return show_more_comment('listing', '<?php echo $listing['id']?>', 'comment-view-more-indicator-<?php echo $listing['id']?>')"  href=""><?php echo lang('view-previous-comments')?></a>
+                    <img class="comment-view-more-indicator" id="comment-view-more-indicator-<?php echo $listing['id']?>" src="<?php echo img('images/loading.gif')?>" />
+                <?php endif?>
+                <div data-offset="<?php echo config('pagination-limit-comments', 4) ?>" data-limit="<?php echo config('pagination-limit-comments', 4) ?>" class="comment-lists comment-lists-listing-<?php echo $listing['id'] ?>" id="">
+                    <?php foreach(get_comments('listing', $listing['id'], config('pagination-limit-comments', 4), 0, $listing) as $comment): ?>
+                        <?php echo view('comment::display', array('comment' => $comment))?>
+                    <?php endforeach;?>
+                </div>
+                <?php echo view('comment::editor', array('typeId' => $listing['id'], 'type' => 'listing', 'entityId' => $entityId, 'entityType' => $entityType, 'avatar' => $avatar, 'textLimit' => (config('listing-truncate-comment', false)) ? config('listing-length-comment', 150) : false))?>
+            </div>
+        <?php endif?>
+    </div>
+</div>

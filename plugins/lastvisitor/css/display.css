@@ -1,0 +1,33 @@
+.lastvisitor-listings-box .lastvisitor-listing{
+    width: 48.45%;
+    height: 100px;
+    display: block;
+    float: left;
+    margin: .5%;
+    background-size: cover;
+    background-position:center;
+    padding: 5px;
+    word-wrap: break-word;
+}
+
+.lastvisitor-listings-box .lastvisitor-listing .name{
+    color: #ffffff;
+    text-shadow: #000000 1px 0px;
+    font-size: 12px;
+}
+
+.lastvisitor-listings-box .lastvisitor-listing{
+    width: 48.45%;
+}
+
+.lastvisitor-title {
+    padding: 10px 10px;
+    margin: 0;
+    border-bottom: solid 1px #ECEDED;
+    border-right: none;
+    border-left: none;
+    color: #9D9E9F;
+    background: #FCFCFC;
+    position: relative;
+    font-weight: bold;
+}

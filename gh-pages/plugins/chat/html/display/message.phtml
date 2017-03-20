@@ -1,0 +1,48 @@
+<?php if ((isset($mark) and $mark) or !isset($mark)) mark_message_read($message['message_id'])?>
+<div class="chat-message media chat-message-<?php echo $message['message_id']?>">
+    <?php if($message['sender'] != get_userid()):?>
+        <div class="media-left">
+            <a ajax="true" href="<?php echo profile_url(null, $message)?>"><div class="media-object"><img src="<?php echo get_avatar(75, $message)?>"/> </div></a>
+
+        </div>
+    <?php endif?>
+    <div class="media-body <?php echo ($message['sender'] == get_userid()) ? 'message-owned' : 'message-not-owned'?>">
+        <?php if($message['sender'] != get_userid()):?>
+            <span class="arrow-left"></span>
+        <?php endif?>
+        <div class="message-content">
+            <?php echo output_text($message['message'])?>
+
+            <?php if($message['image']):?>
+                <a data-image="<?php echo url_img($message['image'], 920)?>" data-id="0" class="photo-viewer image"  href="" style="background-image:url(<?php echo url_img($message['image'], 600)?>)">
+
+                </a>
+            <?php endif?>
+            <?php if($message['files']):?>
+                <?php $file = perfectUnserialize($message['files'])?>
+                <div class="media">
+                    <div class="media-left">
+                        <div><img style="width: 40px" src="<?php echo img('images/file-icons/'.$file['extension'].'.png')?>"/></div>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading" style="font-size: 13px"><?php echo $file['name']?></h6>
+                        <a data-toggle="tooltip" title="<?php _lang('download-file')?>" href="<?php echo url_to_pager('feed-download')?>?file=<?php echo $file['path']?>&name=<?php echo $file['name']?>" class="btn btn-secondary-outline btn-sm"><i class="ion-android-download"></i></a>
+                    </div>
+                </div>
+            <?php endif?>
+        </div>
+        <?php if($message['sender'] == get_userid()):?>
+            <span class="arrow-right"></span>
+        <?php endif?>
+        <span class="message-time"> <span class="timeago " title="<?php echo date('c', $message['time'])?>"><?php echo date('c', $message['time'])?></span></span>
+        <a class="delete-button <?php echo ($message['sender'] == get_userid()) ? 'delete-left' : 'delete-right'?>" href="" onclick="return delete_chat_message('<?php echo $message['message_id']?>')"><i class="ion-android-delete"></i></a>
+
+        <span class="seen"><i class="ion-android-done-all"></i> <span> <?php _lang('chat::seen')?></span></span>
+    </div>
+    <?php if($message['sender'] == get_userid()):?>
+        <div class="media-right">
+            <div class="media-object"><img src="<?php echo get_avatar(75, $message)?>"/> </div>
+        </div>
+    <?php endif?>
+
+</div>

@@ -1,0 +1,14 @@
+<div class="box ">
+    <div class="box-content">
+        <?php if(can_create_event()):?>
+            <a href="<?php echo url_to_pager('event-create')?>" ajax="true" class="btn btn-info btn-block btn-sm"><i class="ion-ios-plus-empty"></i> <?php _lang('event::create-event')?></a>
+        <?php endif?>
+    </div>
+    <ul class="menu">
+        <li class="<?php echo (app()->eventType == 'upcoming') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('events')?>"><?php _lang('event::all-events')?></a> </li>
+        <li class="<?php echo (app()->eventType == 'invite') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('events')?>?type=invite"><?php _lang('event::invites')?></a> </li>
+        <li class="<?php echo (app()->eventType == 'me') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('events')?>?type=me"><?php _lang('event::yours')?></a> </li>
+        <li class="<?php echo (app()->eventType == 'past') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('events')?>?type=past"><?php _lang('event::past-events')?></a> </li>
+        <li class="<?php echo (app()->eventType == 'birthdays') ? 'active' : null?>"><a ajax="true" href="<?php echo url_to_pager('events')?>?type=birthdays"><?php _lang('event::birthdays')?></a> </li>
+    </ul>
+</div>

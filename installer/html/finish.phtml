@@ -1,0 +1,15 @@
+<?php echo view('installer/header', array('title' => 'Site Info'))?>
+    <div class="container">
+        <div class="title">Installation Successfull</div>
+        <div class="content">
+           <p>
+               You have completed the installation you can go ahead to the admin panel login with your details and continue configurations
+           </p>
+            <br/><br/><br/><br/>
+            <p>
+                <a class="btn" href="<?php echo url()?>">Goto Website</a>
+                <a class="btn" href="<?php echo url('admin')?>">Goto Admin Panel</a>
+            </p>
+        </div>
+    </div>
+<?php echo view('installer/footer')?>

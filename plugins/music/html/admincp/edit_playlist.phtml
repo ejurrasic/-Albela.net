@@ -1,0 +1,64 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang('music::playlist-manager') ?></div>
+    <div class="wrapper-content">
+        <form class="wrapper-form" method="post" action="">
+			<?php CSRFProtection::embed() ?>
+            <input type="hidden" value="<?php echo $url ?>" name="back_url"/>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::title') ?></label>
+                <div class="col-sm-9"><input class="form-control" type="text" value="<?php echo $playlist['title'] ?>" name="val[title]"/></div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::description') ?></label>
+                <div class="col-sm-9"><input class="form-control" type="text" value="<?php echo $playlist['description'] ?>" name="val[description]"/></div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::add-music') ?></label>
+                <div class="col-sm-9">
+                    <input autocomplete="off" value="<?php echo input('val.music_search') ?>" type="text" name="val[music_search]" class="form-control" onblur="$('#music-playlist-editor-search-result').fadeOut('fast');" onfocus="music.playlist.editor.searchMusic(this)" onkeyup="music.playlist.editor.searchMusic(this)" placeholder="<?php echo lang('music::search-musics') ?>"/>
+                    <div style="height: 0px; overflow: visible; z-index: 9999; position: relative;">
+                        <div id="music-playlist-editor-search-result">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"></label>
+                <div class="col-sm-9" id="music-items">
+                    <?php $musics = input('val.musics') ? input('val.musics') : unserialize($playlist['musics']); ?>
+                    <?php foreach($musics as $slug): ?>
+                        <?php if(music_exists($slug)): ?>
+                            <?php $music = get_music($slug); ?>
+                            <div id="<?php echo $music['slug'] ?>" class="music-item">
+                                <span class="title"><?php echo $music['title'] ?></span>
+                                <input name="val[musics][]" value="<?php echo $music['slug'] ?>" type="hidden">
+                                <a href="#" onclick="return music.playlist.editor.removeMusic('<?php echo $music['slug'] ?>')" class="close"><i class="ion-android-close"></i></a>
+                            </div>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('privacy') ?></label>
+                <div class="col-sm-9">
+                    <?php $default = $playlist['privacy']; ?>
+                    <select class="c-select" name="val[privacy]">
+                        <option <?php echo ($default == 1) ? '`selected' : null ?> value="1" ><?php echo lang('everyone') ?></option>
+                        <option <?php echo ($default == 2) ? 'selected' : null ?> value="2"><?php echo (config('relationship-method', 2) == 2 or config('relationship-method', 2) == 3) ? lang('friends-only') : lang('followers-only') ?></option>
+                        <option <?php echo ($default == 3) ? 'selected' : null ?> value="3"><?php echo lang('only-me') ?></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php echo lang('music::featured') ?></label>
+                <div class="col-sm-9">
+                    <select class="c-select" name="val[featured]">
+                        <option <?php echo ($playlist['featured'] == 1) ? 'selected': null ?> value="1"><?php echo lang('yes') ?></option>
+                        <option  <?php echo ($playlist['featured'] == 0) ? 'selected': null ?> value="0"><?php echo lang('no') ?></option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-info"><?php echo lang('music::save-music') ?></button>
+        </form>
+    </div>
+</div>

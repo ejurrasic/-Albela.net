@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title><?php _lang('website-offline')?></title>
+            <style>
+                body{
+                    background: #1dd2af;
+                    padding: 0;
+                    margin: 0;
+                    font-size: 20px;
+                }
+                .container{
+                    background: #2c3e50;
+                    padding: 70px 0;
+                    width: 100%;
+                    margin: auto;
+                    color: #ffffff;
+                    text-align: center;
+                }
+                .container h1{
+                    font-size: 100px;
+                    margin-bottom: 20px;
+                }
+            </style>
+        </head>
+    <body>
+        <div class="container">
+            <h1><?php _lang('offline')?></h1>
+            <p><?php _lang('offline-message')?></p>
+            <p><?php echo config('shutdown-message')?></p>
+        </div>
+    </body>
+    </html>

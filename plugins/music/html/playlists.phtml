@@ -1,0 +1,46 @@
+<div class="box music">
+    <div class="global-filter-container" data-url="<?php echo url_to_pager('music-playlists') ?>">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3><?php echo lang('music::playlists') ?></h3>
+            </div>
+            <div class="col-sm-6">
+                <form id="playlist-list-search" method="post" onsubmit=" return run_global_filter()" action="" class="form-inline pull-right">
+					<?php CSRFProtection::embed() ?>
+                    <input type="hidden" class="playlist-type-input filter-input" data-name="type" value="<?php echo input('type','browse') ?>"/>
+                    <input value="<?php echo input('term') ?>" type="text" class="form-control filter-input" data-name="term" placeholder="<?php echo lang('music::search-playlists') ?>"/>
+                    <button class="btn btn-info"><i class="ion-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class=" filter-pane">
+            <select id="playlist-filter-select" onchange="return run_global_filter()" data-name="filter" class="c-select filter-input">
+                <option value="all"><?php echo lang('all') ?></option>
+                <option <?php echo (input('filter') == 'top') ? 'selected' : null ?> value="top"><?php echo lang('music::top') ?></option>
+                <option <?php echo (input('filter') == 'featured') ? 'selected' : null ?> value="featured"><?php echo lang('music::featured') ?></option>
+            </select>
+            <div class="list-layout-type">
+                <a href="" onclick="return change_listing_layout('#playlists-list-container', 'list', 'music_set_list_type')"><i class="ion-ios-list-outline"></i></a>
+                <a href="" onclick="return change_listing_layout('#playlists-list-container', 'grid', 'music_set_list_type')"><i class="ion-android-apps"></i></a>
+            </div>
+        </div>
+    </div>
+    <div id="playlists-list-container" class="box-content clearfix <?php echo ($list_type == 'list') ? 'list-listing-container' : 'grid-listing-container' ?>">
+        <?php foreach($playlists->results() as $playlist): ?>
+            <?php echo view('music::playlist', array('playlist' => $playlist)) ?>
+        <?php endforeach ?>
+    </div>
+
+    <?php if($playlists->total): ?>
+        <div class="box-content">
+            <?php $appends = array(); ?>
+            <?php if(input('term')) $appends['term'] = input('term'); ?>
+            <?php if(input('type')) $appends['type'] = input('type'); ?>
+            <?php echo $playlists->append($appends)->links(true); ?>
+        </div>
+    <?php else: ?>
+        <div class="box-content">
+            <div class="alert alert-info"><?php echo lang('music::no-playlist-found-here') ?></div>
+        </div>
+    <?php endif ?>
+</div>

@@ -1,0 +1,17 @@
+<?php $playlists = get_playlists('browse', null,  null, $limit, 'featured'); ?>
+<?php if($playlists->total): ?>
+    <div class="box">
+        <div class="title"><?php echo lang('music::featured-playlists') ?></div>
+        <div class="box-content" id="music-widget">
+        <?php foreach($playlists->results() as $playlist): ?>
+            <div class="media media-lg user">
+                <div class="media-left"><a ajax="true" href="<?php echo get_playlist_url($playlist) ?>"><div class="media-object" style="background-image: url(<?php echo img('music::images/playlist.png') ?>); background-position: center; background-size: cover;"></div></a></div>
+                <div class="media-body">
+                    <a ajax="true" href="<?php echo get_playlist_url($playlist) ?>"><h6 class="media-heading" style="font-weight: normal"><?php echo ($playlist['title']) ? $playlist['title'] : lang('music::untitled-playlist') ?></h6></a>
+                    <p class="help-block"><?php echo str_limit($playlist['description'], 50) ?><br /><?php echo '' ?></p>
+                </div>
+            </div>
+        <?php endforeach ?>
+        </div>
+    </div>
+<?php endif ?>

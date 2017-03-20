@@ -1,0 +1,17 @@
+<?php app()->hideFooterContent = true;?>
+<div class="side-footer">
+    <ul id="footer-links">
+        <?php foreach(get_menus("footer-menu") as $menu):?>
+            <li><a href="<?php echo $menu->link ?>"> <?php echo ucfirst(lang($menu->title)) ?> </a> | </li>
+        <?php endforeach ?>
+    </ul>
+    <ul>
+        <li><a  class="none"><?php _lang('change-language')?></a></li>
+        <?php $started=false; foreach(get_all_languages() as $lang):?>
+            <li><a style="<?php echo ($lang['language_id'] == $app->lang) ? 'font-weight:bold' : null?>" href="<?php echo url_to_pager("change-language", array('lang' => $lang['language_id']))?>"> <?php echo $lang['language_title'] ?> </a>  </li>
+        <?php endforeach ?>
+    </ul>
+    <div id="footer-copyright">
+        <?php _lang('copyright')?> <?php echo config('site_title')?>. <?php _lang('all-right-reserved')?><br/> <?php _lang('powered-by')?> <?php echo config('site_title')?>.
+    </div>
+</div>

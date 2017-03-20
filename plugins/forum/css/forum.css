@@ -1,0 +1,342 @@
+.forum .forum-display-none {
+    display: none;
+}
+
+.forum .forum-display-block {
+    display: block;
+}
+
+.forum .topics-header {
+    padding-bottom: 10px;
+}
+
+.forum .topics-header h1 {
+    font-size: 28px;
+    word-break: break-word !important;
+}
+
+.forum .topics-filter {
+    background: #ECECEC;
+    padding: 10px 20px 10px 10px;
+    margin: 0px;
+}
+
+.forum .thread-heading {
+    position: relative;
+    padding: 16px 12px;
+    text-align: left;
+    line-height: normal;
+}
+
+.forum .forum-title {
+    padding: 8px 0px;
+    text-align: center;
+    display: block;
+}
+
+.forum .forum-title h1 {
+    font-size: 24px;
+    display: inline-block;
+    word-break: break-word !important;
+}
+
+.forum .forum-title.thread-title {
+    margin: 0px;
+    padding: 2px 0px;
+    text-align: left;
+}
+
+.forum .edit-thread-button {
+    border-radius: 16px !important;
+    padding: 1px 6px;
+    vertical-align: top;
+}
+
+.forum .tags.thread-tags {
+    margin: 0px;
+    padding: 2px 0px;
+    text-align: left;
+    display: inline-block;
+}
+
+.forum .sharer.share-link {
+    margin: 0px;
+    padding: 2px 0px;
+    text-align: left;
+    display: inline-block;
+}
+
+.forum .thread-category {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 0px;
+    padding: 8px 16px;
+    font-size: 16px;
+    color: #666666;
+}
+
+.forum .forum-content {
+	margin: 16px 0px;
+    min-height: 600px;
+	padding: 16px;
+	background-color: #FFFFFF;
+}
+
+.forum .create-thread-content{
+	padding: 24px;
+}
+
+.forum .thread-content {
+	background-color: transparent !important;
+	padding: 0px;
+}
+
+.forum .forum-search-form {
+    text-align: right;
+}
+
+.forum .forum-search-input {
+    width: 50%;
+    display: inline-block;
+}
+
+.forum .forum-search-button {
+    border-radius: 0px !important;
+    padding: 5px 12px;
+    font-size: 17px;
+    vertical-align: top;
+}
+
+.forum .dropdown {
+	display: inline-block;
+}
+
+.forum .forum.dropdown-toggle {
+    min-width: 180px;
+	border: solid 1px #CCCCCC;
+	border-radius: 0px !important;
+	background-color: #FFFFFF;
+    text-align: left;
+    display: inline-block;
+}
+
+.forum .dropdown-menu li {
+    padding: 2px 8px;
+    min-width: 180px;
+}
+
+.forum .dropdown-menu a{
+	text-decoration: none;
+	display: block;
+}
+
+.forum .table {
+	margin-top: 12px;
+}
+
+.forum .table a {
+    color: #555555;
+    word-break: break-word !important;
+}
+
+.forum .forum-tags {
+	border: none;
+	border-radius: 2px;
+	padding: 1px 2px;
+	font: normal small-caps 12px "Trebuchet MS" !important;
+	color: #FFFFFF !important;
+}
+.forum .forum-thread-tags {
+	border: none;
+	padding: 2px 4px;
+	font: normal small-caps 16px "Trebuchet MS" !important;
+	color: #FFFFFF !important;
+}
+
+.forum .forum-tags:visited{
+	color: #FFFFFF !important;
+}
+
+.forum .forum-sub-replies-pagination {
+	font: italic small-caps 12px "Trebuchet MS";
+	text-align: right;
+	cursor: pointer;
+}
+
+.forum .forum-sub-replies-pagination-button {
+	margin-left: 8px;
+	cursor: pointer;
+}
+
+.forum .forum-tags {
+    background-color: transparent;
+    border-width: 0px;
+}
+
+.forum .forum-reply-wrapper-sup {
+	padding: 8px 0px 24px 0px;
+}
+
+.forum .forum-reply-wrapper-sub {
+	padding: 8px 0px;
+}
+
+.forum .forum-avatar-thumb {
+    border-radius: 4px;
+}
+
+.forum .forum-avatar-thumb-home {
+    width: 40px;
+    height: auto;
+    border-radius: 0px;
+}
+
+.forum .forum-avatar-thumb-sup {
+    width: 60px;
+    height: auto;
+}
+
+.forum .forum-avatar-thumb-sub {
+    width: 40px;
+    height: auto;
+}
+
+.forum .forum-replier-info {
+    padding: 0px 4px;
+	text-align: center;
+	font: normal 12px "Trebuchet MS";
+    float: left;
+}
+
+.forum-replier-info > a > span {
+    color: #555555;
+    font-variant: small-caps;
+    width: 70px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.forum .forum-post {
+	min-height: 60px;
+    border-radius: 8px;
+    padding: 4px 8px;
+	background-color: #F0FCFF;
+    vertical-align: top;
+    text-align: left;
+}
+
+.forum .forum-post-sup {
+    margin-left: 75px;
+}
+
+.forum .forum-post-sub {
+    margin-left: 75px;
+}
+
+.forum .reply-date {
+	text-align: right;
+	font: italic 10px 'Trebuchet MS';
+    color: #77CCFF;
+}
+
+.forum .forum-post ul {
+	padding-left: 8px;
+	list-style-type: disc;
+	list-style-position: inside;
+}
+
+.forum .forum-post ol {
+	padding-left: 8px;
+	list-style-position: inside;
+}
+
+.forum .forum-post img {
+    max-width: 100%;
+}
+
+.forum .forum-reply-dashboard {
+    padding-top: 2px;
+    text-align: right;
+    clear: both;
+}
+
+.forum #forum-reply-dashboard-0, .forum #forum-reply-form-wrapper-0 {
+    margin: 32px 0px 12px;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    padding: 12px;
+    text-align: center;
+}
+
+.forum .forum-reply-likes{
+        min-width: 48px;
+	padding: 0px 8px;
+	display: inline-block;
+}
+
+.forum .forum-reply-form-wrapper, .forum .forum-edit-reply-form-wrapper{
+    clear: both;
+    display: none;
+}
+
+.forum .forum-replies-wrapper .forum-replies-wrapper .forum-replies-wrapper {
+    margin-left: 4%;
+}
+
+.forum #postform .forum-richtext-wrapper {
+	background-color: #EEEEEE;
+}
+
+.forum #forum-form-dashboard {
+	width: 100%;
+	border: solid 4px #EEEEEE;
+	border-bottom: none;
+	background-color: #EEEEEE;
+	color: #555555;
+}
+
+.forum #forum-form-dashboard img{
+	margin: 0% 1%;
+}
+
+.forum .forum-form-submit {
+	width: 100%;
+	border: solid 1px #CCCCCC;
+	border-top: none;
+	background-color: #EEEEEE;
+	color: #555555;
+}
+
+.forum #richTextField, #postbox {
+	width: 100%;
+    height: 200px;
+	border: solid 4px #EEEEEE;
+}
+
+.forum .forum-richtext-size ul {
+	min-width: auto;
+	width: auto;
+}
+
+.forum .forum-richtext-size li {
+	min-width: auto;
+	width: auto;
+}
+
+.forum .pagination > .active > a {
+    border-color: #0275d8;
+    background-color: #0275d8;
+    color: #FFFFFF !important;
+}
+
+.forum #forum-reply-dashboard-0 button{
+    margin: 8px;
+    font-size: 16px;
+}
+
+.thread-pagination ul.pagination {
+    padding-bottom: 36px !important;
+}

@@ -1,0 +1,15 @@
+.contact {
+    text-align: center
+}
+
+.contact .row {
+    padding: 8px 32px;
+}
+
+.contact .row > div {
+    padding: 8px 0px;
+}
+
+.contact label {
+    font-size: 16px;
+}

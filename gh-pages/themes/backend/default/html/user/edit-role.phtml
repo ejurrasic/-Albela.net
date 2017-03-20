@@ -1,0 +1,42 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php _lang('user-roles')?></div>
+    <div class="wrapper-content">
+
+        <form action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <fieldset class="form-group row">
+                <label class="control-label col-md-2"><?php _lang('permissions')?></label>
+                <div class="col-md-10 ">
+                    <div  style="height: 250px;overflow: auto" class="box">
+                        <div class="box-content">
+                            <?php foreach(get_role_permissions() as $role):?>
+                                <h6><?php  echo $role['title']?></h6>
+                                <p class="help-block"><?php echo $role['description']?></p>
+                                <?php foreach($role['roles'] as $id => $r):?>
+                                    <label class="c-input c-checkbox">
+                                        <input <?php echo (role_has_permission($id, $dbrole)) ? 'checked' : null?> name="val[roles][<?php echo $id?>]"  type="checkbox">
+                                        <span class="c-indicator"></span>
+                                        <?php echo $r['title']?>
+                                    </label><br/>
+                                <?php endforeach?>
+                            <?php endforeach?>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-group row">
+                <label class="control-label col-md-2"><?php _lang('access-admin')?></label>
+                <div class="col-md-10 ">
+                    <label class="c-input c-checkbox">
+                        <input <?php echo ($dbrole['access_admin']) ? 'checked' : null?> name="val[admin]"  type="checkbox">
+                        <span class="c-indicator"></span>
+                        <?php _lang('access-admin')?>
+                    </label>
+
+                </div>
+            </fieldset>
+            <button class="btn btn-primary"><?php _lang('save-role')?></button>
+        </form>
+    </div>
+</div>

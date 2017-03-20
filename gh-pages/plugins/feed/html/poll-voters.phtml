@@ -1,0 +1,44 @@
+<div id="poll-voters-list">
+    <?php if(!count($voters)):?>
+    <div class="alert alert-info"><?php _lang('no-voters-found')?></div>
+<?php endif?>
+<?php foreach($voters as $voter):?>
+    <a href="<?php echo profile_url(null, $voter)?>">
+        <div class="media media-md">
+            <div class="media-left">
+                <div class="media-object"><img src="<?php echo get_avatar(75, $voter)?>"/></div>
+            </div>
+            <div class="media-body">
+                <h6 class="media-heading"><?php echo get_user_name($voter)?> <?php echo verify_badge($voter)?></h6>
+            </div>
+        </div>
+    </a>
+    <?php endforeach?>
+    <?php if($total_pages > 1 && $answer_id): ?>
+    <div class="pagination">
+        <?php if($page > 1): ?>
+            <a href="#" onclick="paginate_voters(<?php echo $answer_id ?>, 1);"><i class="ion-ios-skipbackward"></i></a> <a href="#" onclick="paginate_voters(<?php echo $answer_id ?>, <?php echo ($page - 1) ?>);"><i class="ion-arrow-left-b"></i></a>
+        <?php endif ?>
+        <?php if(($page < 6) && ($total_pages > 11)): ?>
+            <?php for($i = 1; $i <= 11; $i++): ?>
+                <?php echo preg_replace('/ '.$page.' /', ' <strong>'.$page.'</strong>', '<a href="#" onclick="paginate_voters('.$answer_id.', '.$i.')"> '.$i.' </a>'); ?>
+            <?php endfor ?>
+        <?php elseif($page < 6): ?>
+            <?php for($i = 1; $i <= $total_pages; $i++): ?>
+                <?php echo preg_replace('/ '.$page.' /', ' <strong>'.$page.'</strong>', '<a href="#" onclick="paginate_voters('.$answer_id.', '.$i.')"> '.$i.' </a>'); ?>
+            <?php endfor ?>
+        <?php elseif(($page >= 6) && ($page <= $total_pages - 5)): ?>
+            <?php for($i = ($page - 5); $i <= ($page + 5); $i++): ?>
+                <?php echo preg_replace('/ '.$page.' /', ' <strong>'.$page.'</strong>', '<a href="#" onclick="paginate_voters('.$answer_id.', '.$i.')"> '.$i.' </a>'); ?>
+            <?php endfor ?>
+        <?php else: ?>
+            <?php for($i = ($page - 5); $i <= $total_pages; $i++): ?>
+                <?php echo preg_replace('/ '.$page.' /', ' <strong>'.$page.'</strong>', '<a href="#" onclick="paginate_voters('.$answer_id.', '.$i.')"> '.$i.' </a>'); ?>
+            <?php endfor ?>
+        <?php endif ?>
+        <?php if($page < $total_pages): ?>
+            <a href="#" onclick="paginate_voters(<?php echo $answer_id ?>, <?php echo ($page + 1) ?>);"><i class="ion-arrow-right-b"></i></a> <a href="#" onclick="paginate_voters(<?php echo $answer_id ?>, <?php echo $total_pages ?>);"><i class="ion-ios-skipforward"></i></a>
+        <?php endif ?>
+    </div>
+    <?php endif ?>
+</div>

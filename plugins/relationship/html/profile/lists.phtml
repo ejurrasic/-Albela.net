@@ -1,0 +1,17 @@
+<div class="box">
+    <div class="title"><?php echo $title?></div>
+    <?php if($users):?>
+    <div class="box-content two-line-media clearfix">
+        <?php foreach($users->results() as $user):?>
+            <?php echo view('user/display', array('user' => $user))?>
+        <?php endforeach?>
+    </div>
+    <div class="box-content">
+        <?php echo $users->links(true)?>
+    </div>
+    <?php else:?>
+        <div class="box-content">
+            <div class="alert alert-info"><?php _lang('no-members-to-display')?></div>
+        </div>
+    <?php endif?>
+</div>

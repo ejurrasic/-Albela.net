@@ -1,0 +1,21 @@
+<?php
+$user = (is_loggedIn()) ? get_user() : null;
+if (isset($app->profileUser)) $user = $app->profileUser;
+$users = ($user) ? list_connections(get_following($user['id']), $limit) : null;
+?>
+<?php if($users):?>
+    <div class="box users-box" id="people-suggestion-box">
+        <div class="title">
+            <?php _lang('relationship::following')?>
+            <a ajax="true" href="<?php echo profile_url('following', $user)?>"><i class="ion-ios-arrow-forward pull-right"></i></a>
+        </div>
+        <div class="clearfix">
+            <?php foreach($users->results() as $user):?>
+                <a style="background-image: url(<?php echo get_avatar(200, $user)?>)" class="user" ajax="true" href="<?php echo profile_url(null, $user)?>">
+
+                    <h6 class="name"><?php echo get_user_name($user)?></h6>
+                </a>
+            <?php endforeach?>
+        </div>
+    </div>
+<?php endif?>

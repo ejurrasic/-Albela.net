@@ -1,0 +1,36 @@
+<div class=" lg-title"><?php _lang('membership::select-payment-method')?></div>
+<div class="container">
+        <div class="box"  style="margin: 5% 15%">
+            <div class="box-content">
+
+
+                <div style="text-align:center"><img style="width:200px" src="<?php echo img('images/payment-options.png')?>"/></div>
+                <ul class="nav membership-payment-method">
+                    <?php if(config('enable-paypal', false)):?>
+                        <li>
+                            <a class="media" href="<?php echo url_to_pager('membership-paypal', array('id' => $plan['id'])) ?>?action=paypal<?php echo (config('enable-paypal-sandbox', true)) ? '&sandbox=1' : '&sandbox=0'?>">
+                                <img src="<?php echo img('images/paypal-button.png')?>"/>
+
+                            </a>
+                        </li>
+                    <?php endif?>
+
+                    <?php if(config('enable-stripe', false)):?>
+                        <li>
+                            <form action="<?php echo url_to_pager('membership-stripe', array('id' => $plan['id']))?>" method="POST">
+								<?php CSRFProtection::embed() ?>
+                                <script
+                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    data-key="<?php echo config('stripe-publishable-key')?>"
+                                    data-name="<?php echo config('site-name')?>"
+                                    data-description="<?php _lang($plan['description'])?>"
+                                    data-currency="<?php echo config('default-currency')?>"
+                                    data-amount="<?php echo (int) $plan['price'] * 100?>">
+                                </script>
+                            </form>
+                        </li>
+                    <?php endif?>
+                </ul>
+            </div>
+        </div>
+</div>

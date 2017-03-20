@@ -1,0 +1,13 @@
+<div class="box">
+    <div class="title"><?php _lang("activity::activities")?></div>
+    <div class="box-content">
+        <?php $activities = getActivities(10)?>
+        <?php if($activities->total):?>
+            <?php foreach($activities->results() as $activity):?>
+                <?php echo view('activity::activity', array("activity" => $activity, 'large' => true))?>
+            <?php endforeach?>
+        <?php endif?>
+
+        <?php echo $activities->links(true)?>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+<div class="box">
+    <div class="title"><?php _lang('general-settings')?></div>
+
+    <div class="box-content" style="padding:30px 10%">
+        <?php if($message):?>
+            <div class="alert alert-danger"><?php echo $message?></div>
+        <?php endif?>
+        <form  action="" class=" " method="post" enctype="multipart/form-data">
+            <?php CSRFProtection::embed() ?>
+            <fieldset class="form-group">
+                <label><?php _lang('first-name')?>:</label>
+                <input class="form-control" type="text" name="val[first_name]" value="<?php echo get_user_data("first_name")?>"/>
+            </fieldset>
+            <fieldset class="form-group">
+                <label><?php _lang('last-name')?>:</label>
+                <input class="form-control" type="text" name="val[last_name]" value="<?php echo get_user_data("last_name")?>"/>
+            </fieldset>
+
+            <?php if(config('request-verification', true)):?>
+                <div style="margin: 20px 0">
+                    <?php if(get_user_data('verified')):?>
+                        <button type="button" class="btn btn-success btn-block disabled"><i class="ion-checkmark-circled"></i> <?php _lang('verified')?></button>
+                    <?php else:?>
+                        <?php if(verify_requested('user', get_userid())):?>
+                            <button type="button" class="btn btn-danger btn-block disabled"><i class="ion-checkmark-circled"></i> <?php _lang('verify-requested')?></button>
+                        <?php else:?>
+                            <a class="btn btn-secondary btn-block" href="<?php echo url('user/verify/request?type=user&id='.get_userid())?>"> <i class="ion-checkmark-circled"></i> <?php _lang('request-verification')?></a>
+                        <?php endif?>
+                    <?php endif?>
+                </div>
+            <?php endif?>
+
+            <?php if(config('allow-change-email', true)):?>
+                <fieldset class="form-group">
+                    <label><?php _lang('change-email-address')?>:</label>
+                    <input class="form-control" type="text" name="val[email_address]" value="<?php echo get_user_data("email_address")?>"/>
+                </fieldset>
+
+            <?php endif?>
+            <?php if(config('allow-change-username', true)):?>
+                <fieldset class="form-group">
+                    <label><?php _lang('change-username')?>:</label>
+                    <input class="form-control" type="text" name="val[username]" value="<?php echo get_user_data("username")?>"/>
+                    <?php if(config('loose-verify-badge-username', true) and get_user_data('verified') == 1) :?>
+                        <p class="help-block">
+                            <?php _lang('loose-verified-warning')?>
+                        </p>
+                    <?php endif?>
+                </fieldset>
+            <?php endif?>
+            <?php echo fire_hook('user.additional.field',null,array()) ?>
+            <div class="form-group row">
+                <label class="form-control-label col-md-4"><?php _lang('gender')?></label>
+                <div class="col-md-8">
+
+                    <label class="c-input c-radio">
+                        <input <?php echo (get_user_data('gender') == "male") ? "checked" : null?> id="radio1" value="male" name="val[gender]" type="radio">
+                        <span class="c-indicator"></span>
+                        <?php _lang('male')?>
+                    </label>
+                    <label class="c-input c-radio">
+                        <input <?php echo (get_user_data('gender') == "female") ? "checked" : null?> id="radio2" value="female" name="val[gender]" type="radio">
+                        <span class="c-indicator"></span>
+                        <?php _lang('female')?>
+                    </label>
+                </div>
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+
+            <div class="form-group">
+                <label for="textarea1"><?php _lang('bio')?></label>
+                <textarea  name="val[bio]" class="form-control"><?php echo get_user_data('bio')?></textarea>
+
+            </div>
+
+            <div class="form-group">
+                <label for="textarea1"><?php _lang('state')?></label>
+                <input type="text" class="form-control" value="<?php echo get_user_data('state')?>"  name="val[state]"/>
+
+            </div>
+
+            <div class="form-group">
+                <label for="textarea1"><?php _lang('country')?></label>
+                <select class=" form-control" name="val[country]">
+                    <option value=""><?php _lang('select-country')?></option>
+                    <?php load_functions('country') ?>
+                    <?php foreach(get_countries() as $country => $name): ?>
+                        <option <?php echo (get_user_data('country') == $name) ? "selected" : null?> value="<?php echo $name?>"><?php echo ucwords($name)?></option>
+                    <?php endforeach?>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="textarea1"><?php _lang('city')?></label>
+                <input type="text" class="form-control" value="<?php echo get_user_data('city')?>"  name="val[city]"/>
+            </div>
+
+            <div class="dropdown-divider"></div>
+            <?php echo view('birthdate/form', array(
+                'day' => get_user_data('birth_day'),
+                'month' => get_user_data('birth_month'),
+                'year' => get_user_data('birth_year')))?>
+
+
+            <div class="dropdown-divider"></div>
+            <div class=" form-group">
+                <label><?php _lang('change-photo')?></label>
+                <div class="media">
+                    <div class="media-left">
+                        <img style="width: 50px;height: 50px"  class="responsive-img" src="<?php echo get_avatar(75)?>"/>
+                    </div>
+                    <div class="media-body">
+                        <input type="file" name="image" accept="image/*" placeholder="<?php _lang('select-image')?>"/>
+                    </div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <?php echo fire_hook('account.general.form.buttons.extend', null, array('')); ?>
+            <button class="btn btn-info"><?php _lang('save-settings')?></button>
+        </form>
+    </div>
+</div>

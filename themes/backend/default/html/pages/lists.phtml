@@ -1,0 +1,34 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang("static-pages")?> -
+        <a href="<?php echo url('admincp/static/pages/add')?>"><?php _lang('add-new-page')?></a>
+    </div>
+    <div class="wrapper-content">
+
+        <table class="table striped bordered">
+            <thead>
+            <tr>
+                <th><?php _lang('slug')?></th>
+                <th><?php _lang('title')?></th>
+                <th><?php _lang('footer-links')?></th>
+                <th><?php _lang('explore-menu')?></th>
+                <th><?php _lang('action')?></th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php foreach($pages->results() as $page):?>
+                    <tr>
+                        <td><?php echo $page['slug']?></td>
+                        <td><?php _lang($page['title'])?></td>
+                        <td><?php echo ($page['footer_link']) ? lang('yes') : lang('no')?></td>
+                        <td><?php echo ($page['explore_link']) ? lang('yes') : lang('no')?></td>
+                        <td>
+                            <a href="<?php echo url('admincp/static/pages/manage?action=edit&id='.$page['id'])?>" class="btn btn-sm btn-success"><?php _lang('edit')?></a>
+                            <a href="<?php echo url('admincp/static/pages/manage?action=delete&id='.$page['id'])?>" class="btn btn-sm btn-danger admin-confirm"><i class="ion-android-delete"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

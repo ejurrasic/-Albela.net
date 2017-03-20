@@ -1,0 +1,8 @@
+					<?php if(is_loggedIn()): ?>
+						<?php if(forum_reply_isliked($reply_id)): ?>
+					<button id="forum-like-button-<?php echo $reply_id ?>" class="btn btn-primary-outline btn-sm active ion-thumbsup forum-like-button" title="<?php echo lang('forum::unlike') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=unlike&reply_id=<?php echo $reply_id ?>', 'forum-reply-like-<?php echo $reply_id ?>')"></button>
+						<?php else: ?>
+					<button id="forum-like-button-<?php echo $reply_id ?>" class="btn btn-primary-outline btn-sm ion-thumbsup forum-like-button" title="<?php echo lang('forum::like') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=like&reply_id=<?php echo $reply_id ?>', 'forum-reply-like-<?php echo $reply_id ?>')"></button>
+						<?php endif ?>
+					<?php endif ?>
+                    <span class="forum-reply-likes"><?php echo forum_get_num_likes($reply_id, true) ?></span>

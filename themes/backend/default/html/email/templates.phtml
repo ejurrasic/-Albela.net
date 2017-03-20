@@ -1,0 +1,68 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang('email-templates')?>
+        <span><?php echo lang('email-templates-desc')?></span>
+    </div>
+    <div class="wrapper-content">
+        <form action=""  method="post">
+			<?php CSRFProtection::embed() ?>
+            <div class="row">
+                <div class="col-sm-5">
+                    <h6><?php _lang('choose-message')?></h6>
+                </div>
+                <div class="col-sm-7">
+                    <select class="c-select" onchange="return refresh_email_template()" id="email-template-select" data-url="<?php echo url_to_pager('admin-email-templates')?>" name="val[id]">
+                        <?php foreach(get_email_templates() as $emailTemplate):?>
+                            <option <?php echo ($emailTemplate['email_id'] == $id) ? 'selected' : null?> value="<?php echo $emailTemplate['email_id']?>"><?php echo lang($emailTemplate['title'])?></option>
+                        <?php endforeach?>
+                    </select>
+                    <p class="help-block"><?php echo lang($template['description'])?></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <h6><?php _lang('language-pack')?></h6>
+                </div>
+                <div class="col-sm-7">
+                    <select class="c-select" onchange="return refresh_email_template()"  id="email-language-select" data-url="<?php echo url_to_pager('admin-email-templates')?>" name="val[lang_id]">
+                        <?php foreach(get_all_languages() as $language):?>
+                            <option <?php echo ($lang == $language['language_id']) ? 'selected' : null?> value="<?php echo $language['language_id']?>"><?php echo $language['language_title']?></option>
+                        <?php endforeach?>
+                    </select>
+                </div>
+            </div><br/><br/>
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <h6><?php _lang('placeholders')?></h6>
+                </div>
+                <div class="col-sm-7">
+                    <?php echo $template['placeholders']?>
+                </div>
+            </div><br/><br/>
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <h6><?php _lang('subject')?></h6>
+                </div>
+                <div class="col-sm-7">
+                    <div class="input-field">
+                        <input class="form-control" name="val[subject]" type="text" value="<?php echo get_phrase($lang, $template['subject'])?>"/>
+                    </div>
+                </div>
+            </div><br/><br/>
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <h6><?php _lang("message-body")?></h6>
+                </div>
+                <div class="col-sm-7">
+                    <textarea class="editor form-control" id="ckeditor" name="val[body]" ><?php echo get_phrase($lang, $template['body_content'])?></textarea>
+                </div>
+            </div>
+
+            <button class="btn red lighten-2"><?php _lang('save-changes')?></button>
+        </form>
+    </div>
+</div>

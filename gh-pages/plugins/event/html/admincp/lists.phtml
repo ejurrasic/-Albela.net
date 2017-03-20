@@ -1,0 +1,39 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php _lang('event::manage-events')?></div>
+    <div class="wrapper-content">
+        <div class="row">
+            <div class="col-sm-7">
+                <form action="<?php echo url_to_pager('admin-event-lists')?>?type=search" method="get">
+					<?php CSRFProtection::embed() ?>
+                    <input type="text" name="term" value="<?php echo input('term')?>" class="form-control"/>
+                    <button class="btn btn-info btn-sm"><?php _lang('event::find-events')?></button>
+                </form>
+            </div>
+
+        </div>
+
+        <table  class="table table-bordered " style="margin-top: 10px">
+            <thead>
+            <tr>
+                <th style="width: 40%"><?php _lang('event::event-title')?></th>
+                <th style="width: 40%"><?php _lang('event::start-time')?></th>
+                <th style="width: 20%"><?php _lang('actions')?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($events->results() as $event):?>
+                <tr>
+                    <td><a href="<?php echo event_url(null, $event)?>"><?php echo $event['event_title']?></a> </td>
+                    <td>
+                        <?php echo date('d, F, Y at g : i A', $event['start_time'])?>
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-success" href="<?php echo event_url(null, $event)?>"><?php _lang('event::check')?></a> |
+                        <a class="btn btn-sm btn-danger admin-confirm" href="<?php echo url('event/delete/'.$event['event_id'])?>?admin=true"><i class="ion-android-delete"></i></a>
+                    </td>
+                </tr>
+            <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

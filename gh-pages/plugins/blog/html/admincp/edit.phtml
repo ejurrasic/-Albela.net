@@ -1,0 +1,61 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('blog::edit-blog')?>
+
+    </div>
+    <div class="wrapper-content">
+
+        <form class="wrapper-form" action="" enctype="multipart/form-data" method="post">
+            <?php CSRFProtection::embed() ?>
+            <fieldset class="form-group row">
+                <label class="control-label col-sm-4"><?php _lang('blog::category')?></label>
+                <select name="val[category]" class="c-select">
+                    <?php foreach(get_blog_categories() as $category):?>
+
+                        <option <?php echo ($blog['category_id'] == $category['id']) ? 'selected' : null?> value="<?php echo $category['id']?>"><?php _lang($category['title'])?></option>
+                    <?php endforeach?>
+                </select>
+            </fieldset>
+            <fieldset>
+                <label class="control-label"><?php _lang('blog::blog-title')?></label>
+                <input value="<?php echo $blog['title']?>" type="text" class="form-control" name="val[title]"/>
+            </fieldset>
+
+
+
+            <fieldset>
+                <label class="control-label"><?php _lang('blog::blog-content')?></label>
+                <textarea name="val[content]" class="ckeditor"><?php echo $blog['content']?></textarea>
+            </fieldset>
+
+            <fieldset>
+                <label class="control-label"><?php _lang('blog::tags')?></label>
+                <input type="text" name="val[tags]" value="<?php echo $blog['tags']?>" class="form-control" placeholder="<?php echo input('val.tags')?>">
+            </fieldset>
+
+            <fieldset>
+                <label class="control-label"><?php _lang('blog::preview-image')?></label>
+                <input type="file" name="image" class="form-control"/>
+            </fieldset>
+
+            <fieldset class="control-group">
+                <label class="control-label"><?php _lang('status')?></label>
+                <select class="form-control"  name="val[status]">
+                    <option <?php echo ($blog['status'] == 1) ? 'selected' : null?> value="1">Published</option>
+                    <option <?php echo ($blog['status'] == 0) ? 'selected' : null?> value="0">Draft</option>
+                </select>
+            </fieldset>
+
+            <fieldset class="control-group">
+                <label class="control-label"><?php _lang('featured')?></label>
+                <select class="form-control"  name="val[featured]">
+                    <option <?php echo ($blog['featured'] == 1) ? 'selected' : null?> value="1">Yes</option>
+                    <option <?php echo ($blog['featured'] == 0) ? 'selected' : null?> value="0">No</option>
+                </select>
+            </fieldset>
+
+            <button class="btn btn-info" style="margin-top: 20px"><?php echo lang("save")?></button>
+        </form>
+
+    </div>
+</div>

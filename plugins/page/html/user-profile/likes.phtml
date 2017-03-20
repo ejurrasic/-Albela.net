@@ -1,0 +1,18 @@
+<div class="box">
+    <div class="title"><?php _lang('page::likes')?></div>
+    <?php if($pages->total):?>
+        <div class="box-content two-line-media clearfix">
+            <div id="group-list-container" class="box-content clearfix list-listing-container">
+            <?php foreach($pages->results() as $page):?>
+                <?php echo view('page::display', array('page' => $page))?>
+            <?php endforeach?>
+            </div>
+        </div>
+        <div class="box-content">
+            <?php echo $pages->links(true)?>
+        </div>
+    <?php else:?>
+        <div class="alert alert-info"><?php _lang('page::no-page-found')?></div>
+    <?php endif?>
+
+</div>

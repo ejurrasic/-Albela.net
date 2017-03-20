@@ -1,0 +1,55 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php echo lang('theme-settings')?>
+        <span><?php echo lang('theme-settings-description')?></span>
+    </div>
+    <div class="wrapper-content">
+        <form enctype="multipart/form-data" action="" class="col s12" method="post">
+			<?php CSRFProtection::embed() ?>
+            <input type="hidden" value="1" name="val[theme_settings]"/>
+            <div class="row">
+                <div class="col-md-5">
+                    <h6><?php echo lang('upload-site-logo')?></h6>
+                    <p class="form-description"><?php echo lang('site-logo-description')?></p>
+                </div>
+                <div class="col-md-7">
+                    <?php
+                        $logo = config('site-logo');
+                        $logo = (!$logo) ? img("images/logo.png") : url_img($logo);
+                    ?>
+                    <div>
+
+                        <img id="site-logo-display" src="<?php echo $logo?>" style="max-width: 200px;max-height: 70px"/>
+
+                    </div>
+
+                    <input id="site-logo-input" name="logo" type="file" />
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-5">
+                    <h6><?php echo lang('upload-site-favicon')?></h6>
+
+                </div>
+                <div class="col-md-7">
+                    <?php
+                    $logo = config('site-favicon');
+                    $logo = (!$logo) ? img("images/favicon.ico") : url_img($logo);
+                    ?>
+                    <div>
+
+                        <img id="site-logo-display" src="<?php echo $logo?>" />
+
+                    </div>
+
+                    <input id="site-logo-input" name="favicon" type="file" />
+                </div>
+            </div>
+
+
+            <button class="waves-effect waves-light btn"><?php echo lang("save-settings")?></button>
+        </form>
+    </div>
+</div>

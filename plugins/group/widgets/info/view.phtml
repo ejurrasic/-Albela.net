@@ -1,0 +1,24 @@
+<?php if(group_can_add_member($app->profileGroup)):?>
+    <div class="box">
+        <div class="box-content">
+            <input id="group-tags-suggestion-input" data-friend-only="true" autocomplete="off" data-target="#group-tags-suggestion" type="text" class="user-tag-input form-control"  placeholder="<?php _lang('group::ad-member-to-group')?>"/>
+            <div class="user-suggestion-list box" id="group-tags-suggestion" data-id="<?php echo $app->profileGroup['group_id']?>"></div>
+        </div>
+    </div>
+<?php endif?>
+<div class="box ">
+
+    <ul id="profile-side-info">
+        <li>
+            <span><i class="ion-android-people"></i> </span> <strong><?php echo count(get_group_members_id($app->profileGroup['group_id']))?></strong> <?php _lang('group::members')?>
+        </li>
+        <li>
+            <span><i class="ion-ios-locked-outline"></i> <?php _lang('privacy')?>:</span> <?php echo ($app->profileGroup['privacy'] == 1) ? lang('public') : lang('private')?>
+        </li>
+
+        <li>
+            <span><i class="ion-ios-information-outline"></i> <?php _lang('page::about')?>:</span> <?php echo output_text($app->profileGroup['group_description'])?>
+        </li>
+
+    </ul>
+</div>

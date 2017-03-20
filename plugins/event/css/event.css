@@ -1,0 +1,67 @@
+.event-profile-date-box span{
+    display: block;
+    margin-bottom: 10px;
+    font-size: 30px;
+    color: #808080;
+    text-align: center;
+}
+
+.event-info li{
+    display: block;
+    padding: 15px 10px;
+    font-size: 15px;
+    border-bottom: solid 1px #F1F1F1;
+}
+.event-info li:last-child{
+    border: none;
+}
+.event-info li i{
+    display: inline-block;
+    width: 5%;
+    font-size: 20px;
+}
+.event-rsvp-statistic li{
+    display: inline-block;
+    width: 30%;
+    text-align: center;
+}
+.event-rsvp-statistic li span{
+    display: block;
+    margin: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.event .media-left{
+    width: 30%;
+}
+.event .media-left .media-object{
+    width: 100%;
+    height: 120px;
+    background-position: center;
+    background-size: cover;
+    border: solid 1px #d3d3d3;
+}
+.event .media-left .media-object .info{
+    position: relative;
+    margin: 10px;
+    color: #ffffff;
+    font-size: 25px;
+    text-shadow: 0 2px 4px black;
+}
+.event .media-left .media-object .info span{
+    display: block;
+}
+
+.birthday-users a{
+    width: 50px;
+    height: 50px;
+    margin: 1px;
+    float: left;
+    display: block;
+    overflow: hidden;
+}
+.birthday-users a img{
+    width: 100%;
+    min-height: 100%;
+}

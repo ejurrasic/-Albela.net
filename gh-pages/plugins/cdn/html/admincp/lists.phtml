@@ -1,0 +1,42 @@
+<div  class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('cdn::cdn-servers')?>
+
+        <a href="<?php echo url('admincp/cdn/add/servers')?>" class="btn btn-info"><?php _lang('cdn::add-new-server')?></a>
+    </div>
+    <div class="wrapper-content">
+        <table class="table ">
+            <thead>
+                <tr>
+                    <th style="width:5%">ID</th>
+                    <th style="width:20%"><?php _lang('name')?></th>
+                    <th style="width:30%"><?php _lang('description')?></th>
+                    <th style="width:10%"><?php _lang('cdn::engine')?></th>
+                    <th style="width:10%"><?php _lang('status')?></th>
+                    <th style="width:25%"><?php _lang('actions')?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach(list_cdn_servers() as $server):?>
+                    <tr>
+                        <td><?php echo $server['id']?></td>
+                        <td><?php echo $server['name']?></td>
+                        <td><?php echo $server['description']?></td>
+                        <td><?php echo ucwords($server['type'])?></td>
+                        <td><?php echo ($server['status']) ? lang('active') : lang('cdn::disabled')?></td>
+                        <td>
+                            <?php if ($server['status']):?>
+                                <a href="<?php echo url('admincp/cdn/server/manage?action=disable&id='.$server['id'])?>" class="btn btn-danger btn-sm"><?php _lang('cdn::disable')?></a>
+                            <?php else:?>
+                                <a href="<?php echo url('admincp/cdn/server/manage?action=enable&id='.$server['id'])?>" class="btn btn-success btn-sm"><?php _lang('cdn::enable')?></a>
+                            <?php endif?>
+
+                            <a href="<?php echo url('admincp/cdn/server/manage?action=edit&id='.$server['id'])?>" class="btn btn-primary btn-sm"><i class="ion-edit"></i></a>
+                            <a href="<?php echo url('admincp/cdn/server/manage?action=delete&id='.$server['id'])?>" class="btn btn-secondary btn-sm"><i class="ion-close"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach?>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<?php if(isMobile()): ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><?php else: ?><!DOCTYPE html><?php endif ?>
+<html lang="en">
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title><?php echo get_title() ?></title>
+        <?php echo render_assets('css') ?>
+        <link rel="shortcut icon" type="image/x-icon" href="<?php echo (config('site-favicon')) ? url_img(config('site-favicon')) : img('images/favicon.ico') ?>" />
+        <script src="<?php echo url('themes/frontend/default/js/bootstrap.min.js') ?>"></script>
+        <script src="<?php echo url('themes/frontend/default/css/bootstrap.min.css') ?>"></script>
+        <script src="<?php echo url('themes/frontend/default/css/bootstrap-rtl.css') ?>"></script>
+    </head>
+    <body>
+        <div class="sharer login panel-container">
+            <div class="title"><?php _lang('login')?></div>
+            <div class="card-block">
+                <?php if($message):?>
+                <div class="alert alert-danger">
+                    <?php echo $message?><br/>
+                    <strong>Trials : <?php echo session_get("sv_login_tries")?></strong>
+                </div>
+                <?php endif?>
+                <form action="" method="post">
+					<?php CSRFProtection::embed() ?>
+                    <fieldset class="form-group"><input type="text" class="form-control form-control-lg" name="val[username]"  placeholder="<?php _lang('username-email-address')?>"></fieldset>
+                    <fieldset class="form-group"><input type="password" class="form-control form-control-lg" name="val[password]" placeholder="<?php _lang('your-password')?>"></fieldset>
+                    <div class="clearfix">
+                        <div class="checkbox pull-left">
+                            <label class="c-input c-checkbox">
+                                <input name="val[remember]" checked type="checkbox">
+                                <span class="c-indicator"></span>
+                                <?php _lang('remember-me')?>
+                            </label>
+                        </div>
+                        <a ajax="true" href="<?php echo url_to_pager('forgot-password')?>" class="pull-right"><?php _lang('forgot-password')?></a>
+                    </div>
+                    <button class="btn btn-info btn-block btn-upper"><?php _lang('sign-in')?></button>
+                </form>
+                <div id="social-links-container">
+                    <div class="sign-with-container">
+                        <div class="text"><?php _lang('login-with')?></div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="content">
+                        <ul id="home-social-links">
+                            <?php if(config('enable-facebook', false)):?>
+                            <li><a class="facebook" href="<?php echo url_to_pager('facebook-auth')?>"><i class="icon ion-social-facebook"></i> </a></li>
+                            <?php endif?>
+                            <?php if(config('enable-twitter', false)):?>
+                            <li><a class="twitter" href="<?php echo url_to_pager('twitter-auth')?>"><i class="icon ion-social-twitter"></i> </a> </li>
+                            <?php endif?>
+                            <?php if(config('enable-googleplus', false)):?>
+                            <li><a class="googleplus" href="<?php echo url_to_pager('googleplus-auth')?>"><i class="ion-social-googleplus-outline"></i> </a> </li>
+                            <?php endif?>
+                            <?php if(config('enable-vk', false)):?>
+                            <li><a class="vk" href="<?php echo url_to_pager('vk-auth')?>"><i class="ion-android-arrow-forward"></i> </a> </li>
+                            <?php endif?>
+                        </ul>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <a ajax="true" href="<?php echo url_to_pager('signup')?>" class="btn btn-secondary btn-block btn-lg btn-upper" style="margin: 10px 0;margin-bottom: 20px"><?php _lang('signup-for-account')?></a>
+            </div>
+        </div>
+    </body>
+</html>

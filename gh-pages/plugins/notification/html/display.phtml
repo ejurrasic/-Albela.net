@@ -1,0 +1,22 @@
+<?php if (empty($notifications)):?>
+    <div class="alert alert-error"><?php _lang('no-new-notifications')?></div>
+<?php else:?>
+    <?php foreach($notifications as $notification):?>
+        <?php $content = fire_hook("display.notification", null, array($notification));mark_notification_seen($notification['notification_id'])?>
+        <?php if($content):?>
+            <?php echo $content?>
+        <?php else:?>
+            <?php if($notification['title'] or $notification['content']):?>
+                <div class="notification media">
+                    <div class="media-left"><div class="media-object"><img src="<?php echo get_avatar(75, $notification)?>"/> </div></div>
+                    <div class="media-body">
+                        <h5><?php echo $notification['title']?></h5>
+                        <p><?php $notification['content']?></p>
+                        <span class="timeago " title="<?php echo date('c', $notification['time'])?>"><?php echo date('c', $notification['time'])?></span>
+
+                    </div>
+                </div>
+            <?php endif?>
+        <?php endif?>
+    <?php endforeach?>
+<?php endif?>

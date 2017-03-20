@@ -1,0 +1,86 @@
+<?php $filter = input('val') ? input('val') : array(); load_functions('country'); $countries = get_countries();?>
+<div class="people people-filter box">
+    <form action="" method="post">
+        <?php CSRFProtection::embed() ?>
+        <?php if(config('enable-feature-filter')): ?>
+        <div class="row form-group">
+            <div class="col-sm-5"><?php echo lang('people::feature') ?></div>
+            <div class="col-sm-7">
+                <select name="val[feature]"  class="c-select filter-input">
+                    <option value="both" <?php if(isset($filter['feature']) && $filter['feature'] == 'both'): ?>selected<?php endif ?>><?php echo lang('people::both') ?></option>
+                    <option value="featured" <?php if(isset($filter['feature']) && $filter['feature'] == 'featured'): ?>selected<?php endif ?>><?php echo lang('people::featured') ?></option>
+                    <option value="not-featured" <?php if(isset($filter['feature']) && $filter['feature'] == 'not-featured'): ?>selected<?php endif ?>><?php echo lang('people::not-featured') ?></option>
+                </select>
+            </div>
+        </div>
+        <?php endif ?>
+        <?php if(config('enable-gender-filter')): ?>
+        <div class="row form-group">
+            <div class="col-sm-5"><?php echo lang('people::gender') ?></div>
+            <div class="col-sm-7">
+                <select name="val[gender]"  class="c-select filter-input">
+                    <option value="both" <?php if(isset($filter['gender']) && $filter['gender'] == 'both'): ?>selected<?php endif ?>><?php echo lang('people::both') ?></option>
+                    <option value="male" <?php if(isset($filter['gender']) && $filter['gender'] == 'male'): ?>selected<?php endif ?>><?php echo lang('people::male') ?></option>
+                    <option value="female" <?php if(isset($filter['gender']) && $filter['gender'] == 'female'): ?>selected<?php endif ?>><?php echo lang('people::female') ?></option>
+                </select>
+            </div>
+        </div>
+        <?php endif ?>
+        <?php if(config('enable-online-filter')): ?>
+            <div class="row form-group">
+                <div class="col-sm-5"><?php echo lang('people::online-status') ?></div>
+                <div class="col-sm-7">
+                    <select name="val[online_status]"  class="c-select filter-input">
+                        <option value="both" <?php if(isset($filter['online_status']) && $filter['online_status'] == 'both'): ?>selected<?php endif ?>><?php echo lang('people::both') ?></option>
+                        <option value="online" <?php if(isset($filter['online_status']) && $filter['online_status'] == 'online'): ?>selected<?php endif ?>><?php echo lang('people::online') ?></option>
+                        <option value="offline" <?php if(isset($filter['online_status']) && $filter['online_status'] == 'offline'): ?>selected<?php endif ?>><?php echo lang('people::offline') ?></option>
+                    </select>
+                </div>
+            </div>
+        <?php endif ?>
+        <?php if(config('enable-age-filter')): ?>
+        <div class="row form-group">
+            <div class="col-sm-5"><?php echo lang('people::max-age') ?></div>
+            <div class="col-sm-7">
+                <select name="val[from_age]" class="c-select filter-input">
+                    <option value="any" <?php if(isset($filter['from_age']) && $filter['from_age'] == 'any'): ?>selected<?php endif ?>><?php echo lang('people::any') ?></option>
+                    <?php for($i = 13; $i <= 99; $i++): ?>
+                        <option value="<?php echo $i ?>" <?php if(isset($filter['from_age']) && $filter['from_age'] == $i): ?>checked<?php endif ?>><?php echo $i ?></option>
+                    <?php endfor ?>
+                </select>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-5"><?php echo lang('people::min-age') ?></div>
+            <div class="col-sm-7">
+                <select name="val[to_age]" class="c-select filter-input">
+                    <option value="any" <?php if(isset($filter['to_age']) && $filter['to_age'] == 'any'): ?>selected<?php endif ?>><?php echo lang('people::any') ?></option>
+                    <?php for($i = 13; $i <= 99; $i++): ?>
+                        <option value="<?php echo $i ?>" <?php if(isset($filter['to_age']) && $filter['to_age'] == $i): ?>selected<?php endif ?>><?php echo $i ?></option>
+                    <?php endfor ?>
+                </select>
+            </div>
+        </div>
+        <?php endif ?>
+        <?php if(config('enable-country-filter')): ?>
+        <div class="row form-group">
+            <div class="col-sm-5"><?php echo lang('people::country') ?></div>
+            <div class="col-sm-7">
+                <select name="val[country]"  class="c-select filter-input">
+                    <option value="any" <?php if(isset($filter['country']) && $filter['country'] == 'any'): ?>selected<?php endif ?>><?php echo lang('people::any') ?></option>
+                    <?php foreach($countries as $country => $name):?>
+                        <option value="<?php echo $name?>" <?php if(isset($filter['country']) && $filter['country'] == $name): ?>selected<?php endif ?>><?php echo ucwords($name)?></option>
+                    <?php endforeach?>
+                </select>
+            </div>
+        </div>
+        <?php endif ?>
+        <div class="row form-group">
+            <div class="col-sm-5"><?php echo lang('people::keywords') ?></div>
+            <div class="col-sm-7">
+                <input type="text" name="val[keywords]" value="<?php if(isset($filter['keywords'])) echo $filter['keywords'] ?>" class="form-control" />
+            </div>
+        </div>
+        <div class="row form-group button"><div class="col-sm-12"><input value="<?php echo lang('people::search') ?>" class="btn btn-secondary" name="val[submit]" type="submit"></div></div>
+    </form>
+</div>

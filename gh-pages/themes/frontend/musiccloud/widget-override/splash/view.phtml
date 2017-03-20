@@ -1,0 +1,101 @@
+<div class="container <?php echo segment(0) == null ? 'splash' : '' ?>">
+    <div id="topo">
+        <div id="slides"><div class="slide slide-1"></div><div class="slide slide-2"></div><div class="slide slide-3"></div></div>
+        <div id="topo-content">
+            <div id="welcome-notes">
+                <h2 class="big"><?php echo lang('welcome') ?><?php echo lang('to-our') ?><span><?php echo config('site_title') ?></span></h2>
+                <div id="home-social-notes"><?php echo lang('welcome-note') ?></div>
+            </div>
+            <?php if(plugin_loaded('music')): ?>
+            <div id="home-music-search" class="search">
+                <form action="<?php echo url_to_pager('musics') ?>">
+                    <?php CSRFProtection::embed() ?>
+                    <input name="term" type="text" autocomplete="off" placeholder="<?php echo lang('music::search-musics') ?>">
+                    <button type="submit"><i class="ion-ios-search-strong"></i></button>
+                    <div id="home-music-search-dropdown" class="search-dropdown">
+                        <div id="home-music-search-dropdown-content" class=" search-dropdown-content">
+                            <img src="<?php echo img('images/loading.gif') ?>" id="home-music-search-dropdown-indicator"/>
+                            <div class="search-dropdown-result-container slimscroll">
+                            </div>
+                            <a ajax="true" id="home-music-search-dropdown-full-search-button" class="" href=""><?php echo lang('see-all-results') ?></a>
+                        </div>
+                    </div>
+                </form>
+                <span> or </span>
+                <a href="<?php echo url_to_pager('musics') ?>" class="btn btn-secondary-outline"><?php echo lang('music::upload-your-own') ?></a>
+            </div>
+            <?php endif ?>
+        </div>
+    </div>
+    <div id="home-latest-music">
+        <?php if(plugin_loaded('music')): ?>
+        <h3><?php echo lang('music::here-latest-music') ?></h3>
+        <?php $musics = get_musics('browse', 'all', null, null, 20, 'all'); ?>
+        <?php $musics = $musics->results() ?>
+        <?php foreach($musics as $music): ?>
+        <?php $playlist[$music['slug']] = $music ?>
+        <?php endforeach ?>
+        <?php foreach($musics as $music): ?>
+        <?php $playlist = isset($playlist) ? $playlist : array($music['slug'] => $music); $options = array('nowPlaying' => $music['slug'], 'autoplay' => true); ?>
+        <div class="music-item">
+            <a ajax="true" href="<?php echo get_music_url($music) ?>" style="background-image: url(<?php echo $music['cover_art'] ? url_img($music['cover_art'], 200) : img('music::images/preview.png', 200) ?>);" class="music-cover"></a>
+            <a ajax="true" href="<?php echo get_music_url($music) ?>" class="music-title"><h6><?php echo ($music['title']) ? $music['title'] : lang('music::untitled-music') ?></h6></a>
+            <a ajax="true" href="<?php echo url(find_user($music['user_id'])['username']) ?>" class="music-owner"><?php echo str_limit(find_user($music['user_id'])['username'], 50) ?></a>
+            <div class="music-play"><i id="list-play-button-<?php echo $music['id'] ?>" class="list-play-button ion-play button" onclick='if(typeof music.player.nowPlaying !== "undefined" && music.player.playing && music.player.nowPlaying == "<?php echo $music['slug'] ?>"){music.updateButton(this)}else{music.player.init(<?php echo str_replace("'", htmlspecialchars("'", ENT_QUOTES), json_encode($playlist)) ?>, <?php echo json_encode($options) ?>); this.className += " playing "; this.className = this.className.replace(/(?:^|\s)ion-play(?!\S)/g , " ion-pause ");} this.className += " playing ";'></i></div>
+        </div>
+        <?php endforeach ?>
+        <?php endif ?>
+        <div style="text-align: center; padding-top: 30px;"><a href="<?php echo url('music').'?filter=top' ?>" class="btn btn-secondary" style="background-color: #FF5500; color: #FFFFFF; border-color: #FF5500; font-size: 16px;line-height: 18px; padding: 10px 15px; height: 40px;"><?php echo lang('music::explore-top') ?></a></div>
+    </div>
+    <div id="music-signup-teaser">
+        <h2><?php echo lang('music::music-signup-teaser-head-note') ?></h2>
+        <p style="font-size: 24px;"><?php echo lang('music::music-signup-teaser-note') ?></p>
+        <p><a href="<?php echo url('signup') ?>" class="btn btn-secondary" title="<?php echo lang('music::music-signup-teaser-create-account', array('sitetitle' => config('site_title'))) ?>" style="background-color: #FF5500;color: #FFFFFF;border-color: #FF5500;font-size: 16px;line-height: 18px;padding: 10px 15px;height: 40px;"><?php echo lang('create-account') ?></a></p>
+        <p><?php echo lang('music::music-signup-teaser-already-have-account') ?> <a href="<?php echo url('login') ?>" class="btn btn-secondary" title="<?php lang('sign-in') ?>" style="margin-left: 14px;" onclick="return show_login_dialog();"><?php echo lang('sign-in') ?></a></p>
+    </div>
+    <div class="modal fade loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><?php echo lang('login') ?></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="home-login-container">
+                        <div class="login-content">
+                            <div class="content">
+                                <form action="<?php echo url_to_pager('music') ?>" method="post">
+                                    <?php CSRFProtection::embed() ?>
+                                    <fieldset class="form-group"><input name="val[username]" type="text" class="form-control" placeholder="<?php echo lang('username-email-address') ?>"/></fieldset>
+                                    <fieldset class="form-group">
+                                        <div class="input-group">
+                                            <input type="password" class="form-control " name="val[password]" placeholder="<?php echo lang('your-password') ?>">
+                                            <div class="input-group-addon"><a  href="<?php echo url_to_pager('forgot-password') ?>"><?php echo lang('forgot') ?></a></div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="clearfix">
+                                        <div class="pull-left"><button class="btn btn-primary btn-upper"><?php echo lang('sign-in') ?></button></div>
+                                        <div class="checkbox pull-right"><label class="c-input c-checkbox"><input name="val[remember]" checked type="checkbox"><span class="c-indicator"></span><?php echo lang('remember-me') ?></label></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <?php if(config('enable-facebook', false) || config('enable-twitter', false) || config('enable-googleplus', false) || config('enable-vk', false)): ?>
+                            <div id="social-links-container">
+                                <div class="arrow-up"></div>
+                                <div class="content">
+                                    <ul id="home-social-links">
+                                        <?php if(config('enable-facebook', false)): ?><li><a class="facebook" href="<?php echo url_to_pager('facebook-auth') ?>"><i class="ion-social-facebook"></i></a></li><?php endif ?>
+                                        <?php if(config('enable-twitter', false)): ?><li><a class="twitter" href="<?php echo url_to_pager('twitter-auth') ?>"><i class="ion-social-twitter"></i></a></li><?php endif ?>
+                                        <?php if(config('enable-googleplus', false)): ?><li><a class="googleplus" href="<?php echo url_to_pager('googleplus-auth') ?>"><i class="ion-social-googleplus-outline"></i></a></li><?php endif ?>
+                                        <?php if(config('enable-vk', false)): ?><li><a class="vk" href="<?php echo url_to_pager('vk-auth') ?>"><i class="ion-android-arrow-forward"></i></a></li><?php endif ?>
+                                    </ul>
+                                </div>
+                            </div>
+                            <?php endif ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

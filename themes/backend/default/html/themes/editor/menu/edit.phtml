@@ -1,0 +1,32 @@
+<input type="hidden" name="val[id]" value="<?php echo $menu['id']?>"/>
+<input type="hidden" name="val[location]" value="<?php echo $menu['menu_location']?>"/>
+<label><?php _lang('menu-title')?></label>
+<input type="text" name="val[title][english]" <?php echo ($menu['type'] == 'manual') ? 'disabled' : null?> class="form-control" value="<?php echo get_phrase('english', $menu['title'])?>"/>
+<a href="" class="other-languages-link"  onclick="return show_other_languages('#edit-menu-other-languages')"><?php _lang('edit-other-languages')?></a>
+<div class="other-languages" id="edit-menu-other-languages">
+    <?php foreach(get_all_languages() as $language):?>
+        <?php if($language['language_id'] != 'english'):?>
+            <input class="form-control"  <?php echo ($menu['type'] == 'manual') ? 'disabled' : null?> value="<?php echo get_phrase($language['language_id'], $menu['title'])?>"  type="text" name="val[title][<?php echo $language['language_id']?>]" placeholder="<?php _lang('menu-title')?>"/><br>
+            <p class="help-block"><?php echo $language['language_title']?></p>
+        <?php endif?>
+    <?php endforeach?>
+</div>
+<label><?php _lang('link')?></label>
+<input type="text" name="val[link]"  <?php echo ($menu['type'] == 'manual') ? null : null?> value="<?php echo $menu['link']?>" class="form-control"/>
+
+<label><?php _lang('icon')?></label>
+<input type="text" name="val[icon]"  value="<?php echo $menu['icon']?>" class="form-control"/>
+<p class="help-block">Ionic icons only , see here http://ionicons.com/cheatsheet.html</p>
+
+<label class="c-input c-checkbox">
+    <input name="val[newtab]" <?php echo ($menu['open_new_tab']) ? 'checked' : null?> value="1" type="checkbox">
+    <span class="c-indicator"></span>
+    <?php _lang('open-new-window')?>
+</label>
+
+<label class="c-input c-checkbox">
+
+    <input name="val[ajaxify]" <?php echo ($menu['ajaxify']) ? 'checked' : null?> value="1" type="checkbox">
+    <span class="c-indicator"></span>
+    <?php _lang('ajaxify')?>
+</label>

@@ -1,0 +1,152 @@
+<div class="box" style="padding: 20px">
+    <form onsubmit="return ads_process(this)" id="ads-form" action="<?php echo url('ads/process/create')?>" method="post">
+            <?php CSRFProtection::embed() ?>
+        <div id="ads-form-input-container" class="row" style="margin: 0">
+            <div class="col-sm-6 ads-create-left" >
+                <fieldset class="form-group">
+                    <label ><?php _lang('ads::campaign-name')?></label>
+                    <input name="val[name]" type="text" class="form-control"  placeholder="<?php _lang('ads::campaign-name')?>">
+                </fieldset>
+
+                <h6><?php _lang('ads::where-member-should-go')?></h6>
+                <?php if(plugin_loaded('page')):?>
+                    <fieldset class="form-group">
+                        <label ><?php _lang('ads::select-page')?></label>
+                        <select onchange="ads_load_page(this)" name="val[page_id]" class="c-select">
+                            <option value="0"><?php _lang('ads::select-page')?></option>
+                            <?php foreach(get_pages('mine', null, 1000)->results() as $page):?>
+                                <option value="<?php echo $page['page_id']?>"><?php echo $page['page_title']?></option>
+                            <?php endforeach?>
+                        </select>
+                    </fieldset>
+                    <h6>OR</h6>
+                <?php endif?>
+                <fieldset class="form-group">
+                    <label ><?php _lang('ads::my-website')?></label>
+                    <input name="val[link]" id="ads-link-input" type="text" class="form-control"  placeholder="http://" value="http://">
+                </fieldset>
+
+                <h6><?php _lang('ads::add-catchy-headline')?></h6>
+                <div class="media media-lg">
+                    <div class="media-left">
+                        <div class="media-object create-ads-image-select-container">
+                            <img class="ads-create-img" style="display: none" src=""/>
+                            <span class="file-input"><input onchange="update_ads_image_changed(this)" type="file" id="create-ads-image-input" name="file"/></span>
+                            <a onclick="return file_chooser('#create-ads-image-input')" href="" class="edit-button"><i class="ion-edit"></i></a>
+                        </div>
+
+                    </div>
+                    <div class="media-body">
+                        <span style="font-size:12px;color:grey">(600px * 315px) <span style="color:red">*</span></span>
+                        <input maxlength="30" onkeyup="ads_update_title(this)" id="ads-title-input" name="val[title]" type="text" class="form-control textarea-limit" data-text-limit="30" data-text-limit-count-target="#ads-title-text-limit"  placeholder="<?php _lang('ads::give-headline')?>" style="margin-bottom: 5px">
+                        <span id="ads-title-text-limit">30</span>
+                        <textarea maxlength="100" onkeyup="ads_update_description(this)" id="ads-desc-input" class="form-control textarea-limit" data-text-limit="100" data-text-limit-count-target="#ads-desc-text-limit" placeholder="<?php _lang('ads::give-description')?>" name="val[description]"></textarea>
+                        <span id="ads-desc-text-limit">100</span>
+                    </div>
+                </div>
+
+                <h6><?php _lang('ads::bid-type')?></h6>
+                <div class="c-inputs-stacked">
+                    <label class="c-input c-radio">
+                        <input onchange="ads_load_bid_plans(this,1)" id="radioStacked1" checked name="val[type]" value="1" type="radio">
+                        <span class="c-indicator"></span>
+                        <?php _lang('ads::cost-per-click')?>
+                    </label>
+                    <label class="c-input c-radio">
+                        <input onchange="ads_load_bid_plans(this,2)" id="radioStacked2" name="val[type]" value="2" type="radio">
+                        <span class="c-indicator"></span>
+                        <?php _lang('ads::cost-per-impression')?>
+                    </label>
+                </div>
+
+                <h6><?php _lang('ads::bid-plan')?></h6>
+                <select onchange="ads_update_plan_description(this)" name="val[plan_id]" class="c-select ads-plan-list">
+                    <?php $plans = get_ads_plans(1);?>
+                    <?php foreach($plans as $plan):?>
+                        <option value="<?php echo $plan['id']?>"><?php echo lang($plan['name'])?></option>
+                    <?php endforeach?>
+                </select>
+                <p class="help-block ads-plan-description">
+                    <?php if($plans):?>
+                        <?php echo lang($plans[0]['description'])?>
+                    <?php endif?>
+                </p>
+
+
+            </div>
+            <div class="col-sm-6 ads-create-right">
+                <h6><?php _lang('ads::preview')?></h6>
+                <ul class="nav nav-tabs ads-nav-tabs">
+                    <li class="nav-item">
+                        <a href="" onclick="return ads_change_display(this)" data-class=".ads-vertical-display" class="nav-link active"><?php _lang('ads::vertical')?></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" onclick="return ads_change_display(this)" data-class=".ads-horizontal-display" class="nav-link"><?php _lang('ads::horizontal')?></a>
+                    </li>
+
+                </ul>
+                <div class="ads-vertical-display">
+                    <div class="image"><img class="ads-create-img" src="" style="display: none"/> </div>
+                    <div class="box-content">
+                        <h6 class="ads-title"></h6>
+                        <p class="help-block ads-description"></p>
+                    </div>
+                </div>
+
+                <div class="ads-horizontal-display" style="display: none">
+                    <div class="image"><img class="ads-create-img" src="" style="display: none"/> </div>
+                    <div class="box-content">
+                        <h6 class="ads-title"></h6>
+                        <p class="help-block ads-description"></p>
+                    </div>
+                </div>
+
+                <div class="audience-targeting-container">
+                    <div class="title"><?php _lang('ads::target-audience')?></div>
+                    <div class="row clearfix" style="margin: 0">
+                        <div class="col-sm-6 ads-country-lists-container">
+                            <span><input checked onchange="ads_toggle_countries(this)" type="checkbox" name=""/> <label><?php _lang('ads::all-countries')?></label></span>
+                            <div class="country-lists slimscroll" data-height="150px">
+                                <?php load_functions('country'); foreach(get_countries() as $id => $countryName):?>
+                                    <span><input checked type="checkbox" name="val[country][]" value="<?php echo $countryName?>"/><label><?php echo ucwords($countryName)?></label></span>
+                                <?php endforeach?>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <fieldset class="form-group">
+                                <label ><?php _lang('gender')?></label>
+
+                                <div class="c-inputs-stacked">
+                                    <label class="c-input c-radio">
+                                        <input id="radioGender" checked value="all" name="val[gender]" type="radio">
+                                        <span class="c-indicator"></span>
+                                        <?php _lang('all')?>
+                                    </label>
+                                    <label class="c-input c-radio">
+                                        <input id="radioGender" value="male" name="val[gender]" type="radio">
+                                        <span class="c-indicator"></span>
+                                        <?php _lang('male')?>
+                                    </label>
+                                    <label class="c-input c-radio">
+                                        <input id="radioGender2" value="female" name="val[gender]" type="radio">
+                                        <span class="c-indicator"></span>
+                                        <?php _lang('female')?>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="create-ads-footer clearfix">
+            <div class="pull-right">
+                <img id="ads-indicator" src="<?php echo img('images/loading.gif')?>" style="width: 20px;display: none"/>
+                <button class="btn btn-secondary"><?php _lang('ads::save-ads')?></button>
+                <input type="hidden" id="ads-activate-input" name="val[activate]" value="0"/>
+                <button type="button" onclick="return ads_enable_activate()" class="btn btn-info"><?php _lang('ads::save-activate')?></button>
+            </div>
+        </div>
+    </form>
+</div>

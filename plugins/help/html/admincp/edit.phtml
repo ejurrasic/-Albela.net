@@ -1,0 +1,48 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('help::manage-help')?>
+        <a href="<?php echo url_to_pager('admincp-help-add')?>?category=1"><?php _lang('help::add-category')?></a>
+    </div>
+    <div class="wrapper-content">
+
+        <form class="wrapper-form" action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <fieldset>
+                <label class="control-label"><?php _lang('help::title')?></label>
+                <input value="<?php echo $help['title']?>" type="text" class="form-control" name="val[title]"/>
+            </fieldset>
+
+            <?php if($help['category']):?>
+                <fieldset class="form-group" style="margin-top: 20px">
+                    <label class="control-label"><?php _lang('help::category')?></label>
+                    <select name="val[category]" class="c-select">
+                        <option value=""><?php _lang('help::select-category')?></option>
+                        <?php foreach(get_help_categories() as $category):?>
+                            <option <?php echo ($help['category'] == $category['id']) ? 'selected' : null?> value="<?php echo $category['id']?>"><?php echo $category['title']?></option>
+                        <?php endforeach?>
+                    </select>
+                </fieldset>
+
+
+            <?php endif?>
+
+            <?php if (!$help['category']):?>
+                <h4 class="help-block">
+                    <?php _lang('help::help-category-add-note')?>
+                </h4>
+            <?php endif?>
+            <fieldset>
+                <label class="control-label"><?php _lang('help::content')?></label>
+                <textarea name="val[content]" class="ckeditor"><?php echo $help['content']?></textarea>
+            </fieldset>
+
+            <fieldset>
+                <label class="control-label"><?php _lang('help::tags')?></label>
+                <textarea name="val[tags]" class="form-control"><?php echo $help['tags']?></textarea>
+            </fieldset>
+
+            <button class="btn btn-info" style="margin-top: 20px"><?php echo lang("help::save")?></button>
+        </form>
+
+    </div>
+</div>

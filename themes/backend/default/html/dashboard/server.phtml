@@ -1,0 +1,63 @@
+<?php
+include path('includes/libraries/linfo/standalone_autoload.php');
+use \Linfo\Exceptions\FatalException;
+use \Linfo\Linfo;
+use \Linfo\Common;
+
+$settings = Common::getVarFromFile(path('includes/libraries/linfo/config.inc.php'), 'settings');
+
+$linfo = new Linfo($settings);
+$linfo->scan();
+$info = $linfo->getInfo();
+?>
+<p><strong>OS :</strong> <?php echo $info['OS']?></p>
+<p><strong>Kernel :</strong><?php echo $info['Kernel']?></p>
+<p><span><strong>Server Time :</strong></span> <span><?php echo date('l dS \o\f F Y h:i:s A', strtotime($info['timestamp']))?></span></p>
+<?php if($info['CPU'] and count($info['CPU']) > 0 and isset($info['CPU'][0]['usage_percentage'])):?>
+    <p class="clearfix"><span class="left"><strong>CPU USAGE:</strong></span>  <span><?php echo $info['CPU'][0]['Model']?></span></p>
+    <?php
+        $percent = $info['CPU'][0]['usage_percentage'];
+        $type = ($percent < 50) ? 'success' : ($percent > 50 and $percent <=70) ? 'info' : ($percent > 70 and $percent <= 85) ? 'warning' : 'danger';
+    ?>
+    <div class="row">
+        <div class="col-sm-9"><progress class="progress progress-<?php echo $type?>" value="<?php echo $percent?>" max="100"><?php echo $percent?>%</progress></div>
+        <div class="col-sm-3"><?php echo $percent?>%</div>
+    </div>
+<?php endif?>
+
+<?php if(isset($info['RAM']) and $info['RAM']):?>
+    <?php
+        $total = $info['RAM']['total'];
+        $free = $info['RAM']['free'];
+        $percent = round((($total - $free) * 100) / $total);
+        $type = ($percent < 50) ? 'success' : ($percent > 50 and $percent <=70) ? 'info' : ($percent > 70 and $percent <= 85) ? 'warning' : 'danger';
+    ?>
+    <p><span><strong>RAM :</strong> </span> <span>Total : <?php echo format_bytes($total)?> Free : <?php echo format_bytes($free)?></span></p>
+    <div class="row">
+        <div class="col-sm-9"><progress class="progress progress-<?php echo $type?>" value="<?php echo $percent?>" max="100"><?php echo $percent?>%</progress></div>
+        <div class="col-sm-3"><?php echo $percent?>%</div>
+    </div>
+<?php endif?>
+
+<?php if($info['Mounts'] and count($info['Mounts']) > 0):?>
+    <?php
+    $total = $info['Mounts'][0]['size'];
+    $free = $info['Mounts'][0]['free'];
+    $used = $info['Mounts'][0]['used'];
+    $percent = $info['Mounts'][0]['used_percent'];
+    $type = ($percent < 50) ? 'success' : ($percent > 50 and $percent <=70) ? 'info' : ($percent > 70 and $percent <= 85) ? 'warning' : 'danger';
+    ?>
+    <p><span><strong>Disk :</strong></span> <span>Total : <?php echo format_bytes($total)?> Used : <?php echo format_bytes($used)?> Free : <?php echo format_bytes($free)?></span></p>
+    <div class="row">
+        <div class="col-sm-9"><progress class="progress progress-<?php echo $type?>" value="<?php echo $percent?>" max="100"><?php echo $percent?>%</progress></div>
+        <div class="col-sm-3"><?php echo $percent?>%</div>
+    </div>
+<?php endif?>
+
+<?php if($info['UpTime']):?>
+    <p><span><strong>UpTime :</strong></span> <span><?php echo $info['UpTime']['text']?></span></p>
+<?php endif?>
+
+<?php if($info['processStats']):?>
+    <p><strong>Processes :</strong> <?php echo $info['processStats']['proc_total']?> <strong>Threads : </strong> <?php echo $info['processStats']['threads']?></p>
+<?php endif?>

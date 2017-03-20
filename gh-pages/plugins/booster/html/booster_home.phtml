@@ -1,0 +1,70 @@
+<div class="box">
+    <div class="title"><?php _lang('booster::boosts')?></div>
+    <div class="booster-global-statistics">
+
+        <li  style="background: #BF55EC">
+            <span><?php echo count_user_boost_total('clicks')?></span>
+            <?php _lang('ads::clicks')?>
+        </li>
+        <li style="background: #00B16A" >
+            <span><?php echo count_user_boost_total('impressions')?></span>
+            <?php _lang('ads::impressions')?>
+        </li>
+
+        <li  style="background: #BF55EC">
+            <span><?php echo count_user_boost_total('views')?></span>
+            <?php _lang('ads::views')?>
+        </li>
+
+    </div>
+
+    <div class="box-content">
+        <div class="table-responsive">
+            <table class="table table-bordered" style="text-align: center">
+                <thead>
+                <tr style="text-align: center">
+                    <th style="width: 5%;text-align: center">ID</th>
+                    <th style="width: 20%;text-align: center"><?php _lang('ads::campaign-name')?></th>
+                    <th style="width: 20%;text-align: center"><?php _lang('ads::bid-type')?></th>
+                    <th style="width: 10%;text-align: center"><?php _lang('ads::plan')?></th>
+                    <th style="width: 5%;text-align: center"><?php _lang('ads::usage')?></th>
+                    <th style="width: 5%;text-align: center"><?php _lang('ads::impressions')?></th>
+
+                    <th style="width: 5%;text-align: center"><?php _lang('ads::paid')?></th>
+                    <th style="width: 5%;text-align: center"><?php _lang('ads::status')?></th>
+                    <th style="width: 20%;text-align: center"><?php _lang('actions')?></th>
+                </tr>
+                </thead>
+                <tbody>
+                     <?php foreach(get_boosted_posts() as $p): ?>
+                       <tr>
+                           <td><?php echo $p['pb_id']?></td>
+                           <td><?php echo $p['name']?></td>
+                           <td><?php echo ($p['plan_type'] == 1) ? lang('ads::cost-per-click') : lang('ads::cost-per-impression')?></td>
+                           <td><?php
+                               $plan = get_plan($p['plan_id']);
+                               if ($plan) echo lang($plan['name']);
+                               ?>
+                           </td>
+
+                           <td><?php echo $p['quantity']?></td>
+                           <td><?php echo $p['impression_stats']?></td>
+
+                           <td><?php echo ($p['paid'] == 1) ? lang('yes') : lang('no')?></td>
+                           <td><?php echo ($p['status'] == 1) ? '<span title="Active" style="font-size:20px;"><i style="color:#26A65B;" class="ion-checkmark-circled"></i></span>' : '<span title="Not Active" style="font-size:20px;"><i style="color:#E74C3C;" class="ion-android-cancel"></i></span>'?></td>
+                           <td>
+                             <!--  <a ajax="true" href="<?php echo url_to_pager('pb_edit', array('id' => $p['pb_id']))?>"><?php _lang('edit')?></a> | -->
+                              <?php if($p['status'] != 1){ ?>
+                              <a ajax="true" href="<?php echo url_to_pager('pb_activate', array('id' => $p['pb_id']))?>" ><?php _lang('ads::activate')?></a> |
+                           <?php } ?>
+
+                              <a onclick="return confirm.url('<?php echo url_to_pager('pb_delete', array('id' => $p['pb_id']))?>')"   href="#"><?php _lang('delete')?></a>
+                           </td>
+                       </tr>
+                      <?php endforeach; ?>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

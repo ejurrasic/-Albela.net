@@ -1,0 +1,138 @@
+<div class="modal fade boost" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5  class="modal-title"><?php echo lang('booster::boost') ?> <span id="booster-header" ></span></h5>
+            </div>
+            <div class="modal-body">
+                <span id="modal-error-message" style="display: none" class="alert alert-info"></span>
+                <div class="box">
+                    <form onsubmit="return boost_process(this)" id="boost-form" action="" method="post">
+
+                        <div id="ads-form-input-container" class="row" style="margin: 0">
+                            <div class="col-sm-6 ads-create-left">
+                                <div class="slimscroll" style="padding-right: 20px;" data-height="400px">
+                                <fieldset class="form-group">
+                                    <label ><?php _lang('ads::campaign-name')?></label>
+                                    <input name="val[name]" type="text" class="form-control"  placeholder="<?php _lang('ads::campaign-name')?>">
+                                </fieldset>
+
+
+                                <h6><?php _lang('ads::bid-type')?></h6>
+                                <div class="c-inputs-stacked">
+
+                                    <?php
+                                    if(isset($_SESSION['booster_type'])){
+                                    if($_SESSION['booster_type'] != 'feed'): ?>
+                                        <label class="c-input c-radio">
+                                            <input onchange="ads_load_bid_plans(this,1)" id="radioStacked1"  name="val[type]" value="1" type="radio">
+                                            <span class="c-indicator"></span>
+                                            <?php _lang('ads::cost-per-click')?>
+                                        </label>
+                                    <?php endif;
+                                    }
+                                    ?>
+
+
+                                    <label class="c-input c-radio">
+                                        <input onchange="ads_load_bid_plans(this,2)" checked id="radioStacked2" name="val[type]" value="2" type="radio">
+                                        <span class="c-indicator"></span>
+                                        <?php _lang('ads::cost-per-impression')?>
+                                    </label>
+                                </div>
+
+                                <h6><?php _lang('ads::bid-plan')?></h6>
+                                <select onchange="ads_update_plan_description(this)" name="val[plan_id]" class="c-select ads-plan-list">
+
+                                    <?php $plans = get_ads_plans(2);?>
+                                    <?php foreach($plans as $plan):?>
+                                        <option value="<?php echo $plan['id']?>"><?php echo lang($plan['name'])?></option>
+                                    <?php endforeach?>
+                                </select>
+                                <p class="help-block ads-plan-description">
+                                    <?php if($plans):?>
+                                        <?php echo lang($plans[0]['description'])?>
+                                    <?php endif?>
+                                </p>
+                       <hr/>
+                                <div class="audience-targeting-container">
+                                    <div class="title"><?php _lang('ads::target-audience')?></div>
+                                    <div class="row clearfix" style="margin: 0">
+                                        <div class="col-sm-6 ads-country-lists-container">
+                                            <span><input checked onchange="ads_toggle_countries(this)" type="checkbox" name=""/> <label><?php _lang('ads::all-countries')?></label></span>
+                                            <div class="country-lists slimscroll" data-height="150px">
+                                                <?php load_functions('country'); foreach(get_countries() as $id => $countryName):?>
+                                                    <span><input checked type="checkbox" name="val[country][]" value="<?php echo $countryName?>"/><label><?php echo ucwords($countryName)?></label></span>
+                                                <?php endforeach?>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <fieldset class="form-group">
+                                                <label ><?php _lang('gender')?></label>
+
+                                                <div class="c-inputs-stacked">
+                                                    <label class="c-input c-radio">
+                                                        <input id="radioGender" checked value="all" name="val[gender]" type="radio">
+                                                        <span class="c-indicator"></span>
+                                                        <?php _lang('all')?>
+                                                    </label>
+                                                    <label class="c-input c-radio">
+                                                        <input id="radioGender" value="male" name="val[gender]" type="radio">
+                                                        <span class="c-indicator"></span>
+                                                        <?php _lang('male')?>
+                                                    </label>
+                                                    <label class="c-input c-radio">
+                                                        <input id="radioGender2" value="female" name="val[gender]" type="radio">
+                                                        <span class="c-indicator"></span>
+                                                        <?php _lang('female')?>
+                                                    </label>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ads-create-right">
+                                <h6><?php _lang('ads::preview')?></h6>
+                                <ul class="nav nav-tabs ads-nav-tabs">
+
+                                    <li class="nav-item">
+                                        <a href="" onclick="return boost_change_display(this,'bdestop')" data-class=".ads-horizontal-display" class="nav-link"><?php _lang('booster::desktop-news-feed')?></a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="" onclick="return boost_change_display(this,'mobile')" data-class=".ads-horizontal-display" class="nav-link"><?php _lang('booster::mobile-feeds-display')?></a>
+                                    </li>
+
+                                </ul>
+
+
+                                <div class="ads-horizontal-display" style="display: block; min-height: 100% !important">
+                                    <div class="box-content" id="boost-content" style="max-height: 400px;">
+                                    </div>
+                                </div>
+
+                                <div id="image_cont">
+
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="val[link]" id="current_boost_id" value="" />
+                        <input type="hidden" name="val[booster_type]" value="<?php if(isset($_SESSION['booster_type'])){echo $_SESSION['booster_type'];} ?>" />
+
+                        <div class="clearfix" style="margin-top: 10px">
+                            <div class="pull-right">
+                                <img id="boost-indicator" src="<?php echo img('images/loading.gif')?>" style="width: 20px;display: none"/>
+                                <input type="hidden" id="ads-activate-input" name="val[activate]" value="0"/>
+                                <button type="button" onclick="return boost_enable_activate()" class="btn btn-info"><?php _lang('booster::boost')?></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="row form-group">
+    <div class="col-md-5">
+        <h6><?php _lang('chat::who-can-see-send-message')?></h6>
+
+    </div>
+    <div class="col-md-7" >
+        <select class="c-select" name="val[who_can_send_message]">
+            <option <?php echo (get_privacy('who_can_send_message', config('default-send-message-privacy', 1)) == '1') ? 'selected' : null?> value="1" ><?php _lang('everyone')?></option>
+            <option <?php echo (get_privacy('who_can_send_message', config('default-send-message-privacy', 1)) == '2') ? 'selected' : null?> value="2"><?php echo lang('friends-only')?></option>
+            <option <?php echo (get_privacy('who_can_send_message', config('default-send-message-privacy', 1)) == '3') ? 'selected' : null?> value="3"><?php _lang('no-body')?></option>
+        </select>
+        <p class="text-muted"><?php _lang('chat::who-can-see-send-message-desc')?></p>
+    </div>
+</div>

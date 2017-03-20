@@ -1,0 +1,37 @@
+<div id="forum-thread" class="forum">
+    <div id="thread-heading" class="box thread-heading clearfix">
+        <div id="thread-title" class="thread-title forum-title"><h1><?php echo $thread['subject'] ?></h1><?php if(is_loggedIn() && $thread['op_id'] == get_userid()): ?> <a ajax="true" href="<?php echo url_to_pager('forum-edit-thread') ?>?id=<?php echo $thread['id'] ?>" class="btn btn-info-outline btn-lm ion-android-create edit-thread-button" ajax="true"></a><?php endif ?></div>
+        <?php $tags = explode(' ', trim($thread['tags'])) ?>
+        <?php if(!empty($tags)): ?>
+            <div id="thread-tags" class="thread-tags tags">
+                <?php foreach($tags as  $tag): ?>
+                    <?php if(forum_get_tag($tag)): ?>
+                        <a href="<?php echo forum_get_forum_slug_link(url_to_pager('forum-slug', array('appends' => '')).'?t='.forum_get_tag($tag)[0]['id']) ?>" style="background-color:<?php echo forum_get_tag($tag)[0]['color'] ?>;" class="forum-tags forum-thread-tags" ajax="true"><?php echo lang(forum_get_tag($tag)[0]['title']) ?></a>
+                    <?php endif ?>
+                <?php endforeach ?>
+            </div>
+        <?php endif ?>
+        <a href="<?php echo forum_get_forum_slug_link(url_to_pager('forum-slug', array('appends' => '')).'?c='.$category['id']) ?>" ajax="true" class="thread-category"><?php echo lang($category['title']) ?></a>
+        <?php if(plugin_loaded('sharer')) echo '<br />'.view('sharer::share_link') ?>
+    </div>
+	<div class="forum-content">
+		<div id="forum-reply-wrapper-0" class="forum-replies-wrapper">
+			<?php echo view('forum::requests/replies', array('thread' => $thread, 'replies' => $replies, 'page' => $page, 'sr' => $sr, 'p' => $p, 'l' => $l)) ?>
+		</div>
+        <?php if(is_loggedIn()): ?>
+		<div id="forum-reply-dashboard-0" class="forum-reply-dashboard forum-reply-dashboard-0" style="margin: 32px 0px 12px 0px; background-color:#FFFFFF; padding: 12px; border-radius: 4px;">
+			<div id="forum-reply-form-wrapper-0" class="forum-reply-form-wrapper"></div>
+            <span id="forum-thread-follow">
+            <?php if(forum_thread_isfollowed($thread['id'])): ?>
+                <button id="forum-follow-button-0" class="btn btn-success-outline active ion-ios-personadd forum-follow-button" title="<?php echo lang('forum::unfollow') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=unfollow&thread_id=<?php echo $thread['id'] ?>', 'forum-thread-follow')"> <?php echo lang('forum::unfollow') ?></button>
+            <?php else: ?>
+                <button id="forum-follow-button-0" class="btn btn-success-outline ion-ios-personadd forum-follow-button" title="<?php echo lang('forum::follow') ?>" onclick="makeRequest('<?php echo url_to_pager('forum-thread-ajax') ?>?action=follow&thread_id=<?php echo $thread['id'] ?>', 'forum-thread-follow')"> <?php echo lang('forum::follow') ?></button>
+            <?php endif ?>
+            </span>
+            <?php if($thread['closed'] == 0): ?>
+                <a id="forum-reply-button-0" class="btn btn-warning-outline ion-reply-all forum-reply-button" title="<?php echo lang('forum::reply') ?>" href="<?php echo url_to_pager('forum-reply-thread') ?>?thread_id=<?php echo $thread['id'] ?>&replied_id=0&id=0&page=<?php echo $page ?>" ajax="true"><?php echo lang('forum::reply') ?></a>
+            <?php endif ?>
+		</div>
+        <?php endif ?>
+	</div>
+</div>

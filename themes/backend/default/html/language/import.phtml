@@ -1,0 +1,19 @@
+<div class="wrapper">
+    <div class="wrapper-title">Import Language Pack</div>
+    <div class="wrapper-content">
+        <form class="warpper-form" action="" enctype="multipart/form-data" method="post">
+			<?php CSRFProtection::embed() ?>
+            <?php if($message):?>
+                <div class="alert alert-danger"><?php echo $message?></div>
+            <?php endif?>
+            <div class="row">
+                <div class="col-sm-4"><?php _lang('choose-file')?></div>
+                <div class="col-sm-8">
+                    <input type="file" name="file"/>
+                </div>
+            </div>
+
+            <button class="btn btn-info"><?php _lang('import-language')?></button>
+        </form>
+    </div>
+</div>

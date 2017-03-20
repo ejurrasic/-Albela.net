@@ -1,0 +1,178 @@
+.comment-editor{
+    padding: 0;
+}
+.comment-editor .media{
+    margin: 0;
+    overflow: visible;
+}
+.comment-editor .media .media-body{
+    overflow: visible;
+}
+.comment-editor .media .media-body a{
+
+}
+.comment-editor .media .media-left div{
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+}
+.comment-editor .media .media-left div img{width: 100%;min-height: 100%}
+.comment-editor textarea{
+    border: solid 1px #d3d3d3 !important;
+}
+.comment-editor .comment-editor-footer{
+    display: none;
+}
+.comment-editor .comment-editor-footer .pull-right i{
+    font-size: 20px;
+    color: #808080;
+    display: inline-block;
+    margin-left: 10px;
+}
+.comment-editor .comment-editor-footer .pull-right i:hover{
+    color: #8E44AD;
+}
+.comment-editor .comment-editor-footer .comment-editor-indicator{
+    margin: 5px 10px;
+    width: 15px;
+    display: none;
+}
+.comment-lists .comment{
+    margin-bottom: 10px;
+    position: relative;
+
+}
+.comment-lists .comment .media,
+.comment-lists .comment .media .media-body
+{
+    overflow: visible;
+
+}
+.comment-lists .comment .avatar{
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+}
+.comment-lists .comment .avatar img{width: 100%;min-height: 100%}
+.comment-lists .comment .comment-title{
+    font-weight: bold;
+}
+.comment-lists .comment .comment-content{
+
+}
+
+.comment-lists .comment .comment-content .comment-text-content,
+.comment-lists .comment .comment-content .comment-text-content * {
+    word-break: break-word !important;
+}
+.comment-lists .comment .comment-edit-form{
+    padding: 5px 0;
+    display: none;
+}
+.comment-lists .comment .comment-edit-form .comment-edit-form-indicator{
+    width: 15px;
+    display: none;
+}
+.comment-lists .comment .comment-edit-form textarea{
+    border: solid 1px #d3d3d3 !important;
+    height: 50px;
+}
+.comment-lists .comment .comment-image{
+    width: 50%;
+    margin: 10px 0;
+
+}
+.comment-lists .comment .comment-image img{
+    max-width: 100%;
+    border: solid 1px #d3d3d3;
+    border-radius: 3px;
+}
+.comment-lists .comment .comment-footer{
+    display: block;
+    position: relative;
+    width: 100%;
+}
+.comment-lists .comment .comment-footer a,
+.comment-lists .comment .comment-footer .timeago
+{
+    color: #BEBEBF !important;
+}
+.comment-lists .comment  .comment-actions-button{
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 0;
+}
+.comment-lists .comment  .comment-actions-button a{
+    color: #DDDDDD;
+    font-size: 12px;
+    display: inline-block;
+    margin-left: 10px;
+}
+.comment-lists .comment  .comment-actions-button a:hover{
+    color: #637C99;
+}
+.comment-lists .comment .comment-footer li{
+    display: inline-block;
+    margin-right: 1em;
+}
+@media(max-width:28em) {
+    .comment-lists .comment .comment-footer li{
+        margin-right:0.2em
+    }
+    .comment-lists .comment .comment-footer li a{
+        font-size:12px;
+    }
+
+    .comment-text-content{
+        margin-left:0 !important;
+    }
+}
+.comment-lists .comment .comment-footer .right{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.comment-lists .comment .comment-footer .right a{
+    color: #DDDDDD;
+}
+.comment-lists .comment .comment-footer .right a:hover{
+    color: #637C99;
+}
+.comment-lists .comment .comment-replies{
+    border-left: solid 3px #A2A3A4;
+    padding: 0 10px;
+}
+.comment-lists .comment .comment-replies .load-replies-link {
+    color: #A2A3A4 !important;
+}
+.comment-lists .comment .comment-replies .comment-editor{
+    display: none;
+}
+.comment-lists .comment .comment-replies > a img{
+    width: 10px;
+    display: none;
+}
+.comment-view-more-button{
+    padding: 5px 0;
+    display: inline-block;
+}
+.comment-view-more-button:hover{
+    text-decoration: underline;
+}
+.comment-view-more-indicator{
+    width: 15px;
+    display: none;
+}
+.comment-lists .comment .comment-footer .liked,
+.comment-lists .comment .comment-footer .disliked
+{
+    font-weight: bold;
+}
+
+.comment-lists .comment .comment-replies .comment-view-more-button{
+    display: none;
+}
+.comment-lists .comment .comment-replies .comment-lists{
+
+}

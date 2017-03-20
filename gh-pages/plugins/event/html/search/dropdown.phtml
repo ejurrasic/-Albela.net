@@ -1,0 +1,13 @@
+<div class="" style="padding: 10px">
+    <?php foreach($events->results() as $event):$event = arrange_event($event);?>
+        <div class="media media-sm">
+            <div class="media-left">
+                <div class="media-object"><a class="bold" href="<?php echo event_url(null, $event)?>" ajax="true"><img src="<?php echo get_event_logo(75, $event)?>"/></a> </div>
+            </div>
+            <div class="media-body">
+                <h6><a class="bold" href="<?php echo event_url(null, $event)?>" ajax="true"><?php echo $event['event_title']?></a> </h6>
+                <p class="help-block"><i class="ion-android-calendar"></i> <?php _lang('event::event')?></p>
+            </div>
+        </div>
+    <?php endforeach?>
+</div>

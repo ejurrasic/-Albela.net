@@ -1,0 +1,8 @@
+<div class="box ">
+    <div class="title"><i class="ion-android-bookmark"></i> <?php _lang('saved')?></div>
+    <ul class="menu">
+        <?php foreach(get_menus('saved') as $menu):?>
+            <li class="<?php echo ($menu->isActive()) ? 'active' : null?>"><a ajax="true"  href="<?php echo $menu->link?>"><?php echo $menu->title?></a> </li>
+        <?php endforeach?>
+    </ul>
+</div>

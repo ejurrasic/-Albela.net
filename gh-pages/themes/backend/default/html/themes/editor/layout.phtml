@@ -1,0 +1,155 @@
+<div class="modal fade" id="layout-widget-settings">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <form action="" method="post">
+				<?php CSRFProtection::embed() ?>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"><?php _lang('edit-widget')?></h4>
+                </div>
+                <div class="modal-body">
+                    <img style="width: 25px;margin: 20px 45%" src="<?php echo img('images/loading.gif')?>" id="loader"/>
+                    <div class="setting-content">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php _lang('close')?></button>
+                    <button  class="btn btn-primary"><?php _lang('save')?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="row">
+
+    <div class="col-md-8">
+        <form action="" method="post" onsubmit="return siteEditor.submitLayout(this)">
+			<?php CSRFProtection::embed() ?>
+            <input type="hidden" name="val[page]" value="<?php echo $page?>"/>
+            <?php
+                $pageDetails = Pager::getSitePage($page);
+                $columnType = $pageDetails['column_type'];
+
+                $columnTypeName = Pager::getColumnTypeName($columnType);
+
+            ?>
+            <input type="hidden" name="val[column]" value="<?php echo $columnType?>" class="layout-column-type"/>
+            <div class="deleted-widgets"></div>
+            <div class="clearfix">
+                <button class="btn btn-danger btn-no-radius"><?php _lang('save-changes')?></button>
+                <?php if($page != 'header' and $page != 'footer'):?>
+                    <a href="#collapseEditColumn" class="btn btn-secondary btn-no-radius" data-toggle="collapse" ><?php _lang('edit-column')?></a>
+                <?php endif?>
+                <img src="<?php echo img('images/loading.gif')?>" id="layout-indicator" style="width: 30px;margin-left: 10px;display: none"/>
+
+                <div class="pull-right btn-group">
+                    <button class="btn btn " onclick="return siteEditor.showAddPage()"><?php _lang('new-page')?></button>
+                    <?php if($page != 'header' and $page != 'footer'):?>
+                        <button class="btn btn-secondary" onclick="return siteEditor.editPageInfo()"><?php _lang('edit-page-info')?></button>
+                        <?php if($pageDetails['page_type'] == 'auto'):?>
+                                <a href="<?php echo url('admincp/static/pages/manage?action=delete&id='.$pageDetails['id'])?>" class="btn btn-danger admin-confirm"><i class="ion-android-delete"></i></a>
+                            <?php endif?>
+                    <?php endif?>
+                </div>
+            </div>
+            <div class="alert alert-success no-radius" id="layout-message" style="margin-top: 10px;display: none"><?php _lang('successfully-saved')?></div>
+            <div class="collapse" id="collapseEditColumn" style="margin-top:5px">
+                <div class="card card-block" id="predefined-columns">
+                    <a class="<?php echo ($columnType == 1) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(1)?>" data-id="1"><img src="<?php echo img('images/columns/1.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 2) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(2)?>" data-id="2"><img src="<?php echo img('images/columns/2.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 3) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(3)?>" data-id="3"><img src="<?php echo img('images/columns/3.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 4) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(4)?>" data-id="4"><img src="<?php echo  img('images/columns/4.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 5) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(5)?>" data-id="5"><img src="<?php echo img('images/columns/5.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 6) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(6)?>" data-id="6"><img src="<?php echo img('images/columns/6.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 7) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(7)?>" data-id="7"><img src="<?php echo img('images/columns/7.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 8) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(8)?>" data-id="8"><img src="<?php echo img('images/columns/8.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 9) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(9)?>" data-id="9"><img src="<?php echo img('images/columns/9.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 10) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(10)?>" data-id="10"><img src="<?php echo img('images/columns/10.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 11) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(11)?>" data-id="11"><img src="<?php echo img('images/columns/11.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 12) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(12)?>" data-id="12"><img src="<?php echo img('images/columns/12.png')?>"/> </a>
+
+                    <h6>No Top / Bottom Container Columns</h6>
+
+                    <a class="<?php echo ($columnType == 13) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(5)?>" data-id="13"><img src="<?php echo img('images/columns/5.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 14) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(6)?>" data-id="14"><img src="<?php echo img('images/columns/6.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 15) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(7)?>" data-id="15"><img src="<?php echo img('images/columns/7.png')?>"/> </a>
+                    <a class="<?php echo ($columnType == 16) ? 'active' : null?>" href="" onclick="return siteEditor.changeColumn(this)" data-name="<?php echo Pager::getColumnTypeName(8)?>" data-id="16"><img src="<?php echo img('images/columns/8.png')?>"/> </a>
+                </div>
+            </div>
+            <div class="layout-container">
+                <div data-position="top" class="col layout-header <?php echo ($page != 'header') ? 'layout-hidden' : null?>">
+                    <?php if($page == 'header'):?>
+                    <div class="layout-block">
+                        <span class="title"><?php _lang('main-header')?></span>
+                    </div>
+                        <?php echo view('themes/editor/widgets', array('widgets' => Widget::getWidgetPages($page, 'top'), 'position' => 'top'))?>
+                    <?php else:?>
+                        <?php _lang('header')?>
+                    <?php endif?>
+                </div>
+                <div class="layout-content">
+                    <?php if($page != 'header' and $page != 'footer'):?>
+                        <div id="columns" class="<?php echo $columnTypeName?>">
+                            <div data-position="top" class="top col">
+                                <?php echo view('themes/editor/widgets', array('widgets' => Widget::getWidgetPages($page, 'top'), 'position' => 'top'))?>
+                            </div>
+                            <div class="middle clearfix">
+                                <div data-position="left" class="left-col col">
+                                    <?php echo view('themes/editor/widgets', array('widgets' => Widget::getWidgetPages($page, 'left'), 'position' => 'left'))?>
+                                </div>
+                                <div data-position="middle" class="middle-col col">
+                                    <?php echo view('themes/editor/widgets', array('widgets' => Widget::getWidgetPages($page, 'middle'), 'position' => 'middle'))?>
+                                </div>
+                                <div data-position="right" class="right-col col">
+                                    <?php echo view('themes/editor/widgets', array('widgets' => Widget::getWidgetPages($page, 'right'), 'position' => 'right'))?>
+                                </div>
+                            </div>
+                            <div data-position="bottom" class="bottom col">
+                                <?php echo view('themes/editor/widgets', array('widgets' => Widget::getWidgetPages($page, 'bottom'), 'position' => 'bottom'))?>
+                            </div>
+                        </div>
+                    <?php else:?>
+                        <div class="layout-hidden-content"><?php _lang('content')?></div>
+                    <?php endif?>
+                </div>
+                <div  class=" layout-footer <?php echo ($page != 'footer') ? 'layout-hidden' : null?>">
+                    <?php if($page == 'footer'):?>
+                        <div class="col" data-position="bottom" style="min-height: 70px">
+                            <?php echo view('themes/editor/widgets', array('widgets' => Widget::getWidgetPages($page, 'bottom'), 'position' => 'bottom'))?>
+                        </div>
+                        <div class="layout-block">
+                            <span class="title"><?php _lang('main-footer')?></span>
+                        </div>
+                    <?php else:?>
+                        <?php _lang('footer')?>
+                    <?php endif?>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+
+        <div class="box ">
+            <div class="title"><?php _lang('available-blocks')?></div>
+            <div class="content" id="widgets-container">
+                <div class="title"><?php _lang('core')?></div>
+                <?php foreach(Widget::listWidgets('core') as $widgetId => $info):?>
+                    <div class="widget" data-widget="<?php echo $widgetId?>" data-setting="<?php echo (isset($info['settings']) and $info['settings']) ? 1 : 0?>"><?php echo $info['title']?></div>
+                <?php endforeach?>
+                <?php foreach(get_activated_plugins() as $plugin):?>
+                    <?php $widgets = Widget::listWidgets('plugin', $plugin);?>
+                    <?php if($widgets):?>
+                        <div class="title"><?php echo ucwords($plugin)?></div>
+                        <?php foreach($widgets as $widgetId => $info):?>
+                            <div class="widget" data-widget="<?php echo $widgetId?>" data-setting="<?php echo (isset($info['settings']) and $info['settings']) ? 1 : 0?>"><?php echo $info['title']?></div>
+                        <?php endforeach?>
+                        <?php endif?>
+                <?php endforeach?>
+            </div>
+        </div>
+    </div>
+</div>
+

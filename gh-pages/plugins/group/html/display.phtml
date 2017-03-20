@@ -1,0 +1,21 @@
+
+
+<div class="each-item clearfix">
+    <div class="left">
+        <?php if($group['featured']):?>
+            <span class="featured-tag"><?php _lang('featured')?></span>
+        <?php endif?>
+        <a href="<?php echo group_url(null, $group)?>" style="background-image:url(<?php echo get_group_logo(200, $group)?>)" ajax="true">
+
+        </a>
+    </div>
+
+    <div class="right">
+        <span class="item-title"><a href="<?php echo group_url(null, $group)?>" ajax="true"><h6 class="media-heading"><?php echo $group['group_title']?></h6></a> </span>
+        <div class="item-info">
+            <p class="help-block"><?php echo str_limit($group['group_description'], 50)?></p>
+            <span><i class="ion-android-people"></i> </span> <strong><?php echo count(get_group_members_id($group['group_id']))?></strong> <?php _lang('group::members')?>
+        </div>
+
+    </div>
+</div>

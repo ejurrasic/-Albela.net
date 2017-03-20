@@ -1,0 +1,14 @@
+<div class="box">
+    <div class="title"><?php _lang('page::my-pages')?></div>
+    <div class="box-content">
+        <?php if($pages->total):?>
+            <?php foreach($pages->results() as $page):?>
+                <?php echo view('page::display', array('page' => $page))?>
+            <?php endforeach?>
+
+            <?php echo $pages->links()?>
+        <?php else:?>
+           <?php _lang('no-saved-content')?>
+        <?php endif?>
+    </div>
+</div>

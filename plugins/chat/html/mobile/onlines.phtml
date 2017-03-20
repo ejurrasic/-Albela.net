@@ -1,0 +1,22 @@
+<div class="box">
+    <div class="title"><?php _lang('onlines')?></div>
+    <div class="box-content">
+        <?php if(count($users) > 0 ):?>
+            <?php foreach($users as $user):?>
+                <a  href="<?php echo url('messages?userid='.$user['id'])?>" ajax="true">
+                <div class="media media-sm">
+                    <div class="media-left">
+                        <div class="media-object"><img src="<?php echo get_avatar(75, $user)?>"/> </div>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading"><?php echo get_user_name($user)?> <span class="online-status <?php echo get_online_status_icon($user) ?>"></span></h6>
+
+                    </div>
+                </div>
+            </a>
+        <?php endforeach?>
+        <?php else:?>
+            <div style="padding: 10px"><?php _lang('chat::no-friends-online')?></div>
+        <?php endif?>
+    </div>
+</div>

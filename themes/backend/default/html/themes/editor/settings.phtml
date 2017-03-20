@@ -1,0 +1,68 @@
+<form action="" onsubmit="return siteEditor.saveSettings(this)" method="post">
+	<?php CSRFProtection::embed() ?>
+    <div class="clearfix">
+        <?php foreach(get_current_theme_settings() as $key => $setting):?>
+            <div class="each-theme-setting">
+                <div class="row" style="margin-bottom: 30px">
+                    <div class="col-sm-5">
+                        <h6><?php echo $setting['title']?></h6>
+                        <p class="form-description"><?php echo $setting['description']?></p>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="input-field col s10">
+                            <?php if($setting['type'] == 'text'):?>
+                                <input class="form-control" id="<?php echo $key?>" type="text" value="<?php echo get_admin_setting($key, $setting['value'])?>" name="val[<?php echo $key?>]" placeholder="<?php echo $setting['title']?>"/>
+                            <?php elseif($setting['type'] == 'color'):?>
+                                <div class="col-sm-1">
+                                    <div id="<?php echo $key?>-color" class="" style="width:30px;height:37px;border:solid 1px #DDDDDD;background-color: <?php echo get_admin_setting($key, $setting['value'])?>"></div>
+                                </div>
+                                <div class="col-sm-10">
+                                    <input class="form-control color-picker" id="<?php echo $key?>" type="text" value="<?php echo get_admin_setting($key, $setting['value'])?>" name="val[<?php echo $key?>]" placeholder="<?php echo $setting['title']?>"/>
+                                </div>
+                            <?php elseif($setting['type'] == "textarea-rich"):?>
+                                <textarea  class="ckeditor" id="<?php echo $key?>" name="val[<?php echo $key?>]" placeholder="<?php echo $setting['title']?>"><?php echo get_admin_setting($key, $setting['value'])?></textarea>
+                            <?php elseif($setting['type'] == "textarea"):?>
+                                <textarea class="form-control" id="<?php echo $key?>" name="val[<?php echo $key?>]" placeholder="<?php echo $setting['title']?>"><?php echo get_admin_setting($key, $setting['value'])?></textarea>
+                            <?php elseif($setting['type'] == "selection"):?>
+                                <?php if(isset($setting['data']) and is_callable($setting['data'])) {
+                                    $data = call_user_func($setting['data']);
+                                } else {
+                                    $data = $setting['data'];
+
+                                }
+                                ?>
+                                <select class="c-select" id="<?php echo $key?>" name="val[<?php echo $key?>]">
+                                    <?php foreach($data as $k => $v):?>
+
+                                        <option <?php echo (get_admin_setting($key, $setting['value']) == $k) ? 'selected':null?> value="<?php echo $k?>"><?php echo   $v?></option>
+                                    <?php endforeach?>
+                                </select>
+                            <?php elseif($setting['type'] == "boolean"):?>
+                                <p>
+                                    <label for="<?php echo $key?>-yes" class="c-input c-checkbox">
+                                        <input <?php echo (get_admin_setting($key, $setting['value']) == 1) ? 'checked':null?> value="1" name="val[<?php echo $key?>]" type="radio" id="<?php echo $key?>-yes"/>
+                                        <span class="c-indicator"></span>
+                                        <?php echo lang('yes')?>
+                                    </label>
+
+
+                                </p>
+                                <p>
+                                    <label for="<?php echo $key?>-no" class="c-input c-checkbox">
+                                        <input <?php echo (get_admin_setting($key, $setting['value']) == 0) ? 'checked':null?> value="0" name="val[<?php echo $key?>]" type="radio" id="<?php echo $key?>-no"/>
+                                        <span class="c-indicator"></span>
+                                        <?php echo lang('no')?>
+                                    </label>
+                                </p>
+
+                            <?php endif?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach?>
+    </div>
+    <div class="save-pane">
+        <button class="btn btn-info"><?php _lang('save-and-preview')?></button>
+    </div>
+</form>

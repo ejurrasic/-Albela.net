@@ -1,0 +1,18 @@
+<style type="text/css">.forum#dashboard-filter-menu {margin: 10px 4% 0px 4%;}
+    @media (max-width: 750px) {.forum#dashboard-filter-menu {margin: 0px;}
+    }</style>
+<div id="dashboard-filter-menu" class="forum box clearfix">
+    <ul class="pull-left left">
+        <li><a href="<?php echo forum_get_forum_slug_link(url_to_pager('forum-slug', array('appends' => '')).'?o=l') ?>" title="<?php echo lang('forum::latest-desc') ?>" ajax="true"><?php echo lang('forum::latest') ?></a></li>
+        <li><a href="<?php echo forum_get_forum_slug_link(url_to_pager('forum-slug', array('appends' => '')).'?o=n') ?>" title="<?php echo lang('forum::new-desc') ?>" ajax="true"><?php echo lang('forum::new') ?></a></li>
+        <li><a href="<?php echo forum_get_forum_slug_link(url_to_pager('forum-slug', array('appends' => '')).'?o=t') ?>" title="<?php echo lang('forum::top-desc') ?>" ajax="true"><?php echo lang('forum::top') ?></a></li>
+        <?php if(is_loggedIn()): ?>
+            <li><a href="<?php echo forum_get_forum_slug_link(url_to_pager('forum-slug', array('appends' => '')).'?o=f') ?>" title="<?php echo lang('forum::followed-desc') ?>" ajax="true"><?php echo lang('forum::followed').forum_followed_count() ?></a></li>
+        <?php endif ?>
+    </ul>
+    <div class="pull-right action">
+        <?php if(is_loggedIn()): ?>
+            <a ajax="true" href="<?php echo url_to_pager('forum-create-thread') ?>" class="btn btn-info btn-sm" ajax="true"><?php echo lang('forum::new-topic') ?></a>
+        <?php endif ?>
+    </div>
+</div>

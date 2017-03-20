@@ -1,0 +1,62 @@
+<div class="wrapper">
+    <div class="wrapper-title">
+        <?php _lang('ads::edit-plan')?>
+
+    </div>
+    <div class="wrapper-content">
+        <form method="post" action="" class="wrapper-form">
+            <?php CSRFProtection::embed() ?>
+            <?php if($message):?>
+                <div class="alert alert-danger"><?php echo $message?></div>
+            <?php endif?>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('ads::plan-type')?></label>
+                <div class="col-sm-9">
+                    <select name="val[type]" class="c-select">
+                        <option <?php echo ($plan['type'] == 1) ? 'selected' : null?> value="1"><?php _lang('ads::clicks')?></option>
+                        <option <?php echo ($plan['type'] == 2) ? 'selected' : null?> value="2"><?php _lang('ads::impression')?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('ads::plan-name')?></label>
+                <div class="col-sm-9">
+                    <?php foreach(get_all_languages() as $language):?>
+                        <input value="<?php echo get_phrase($language['language_id'], $plan['name'])?>" class="form-control" type="text" name="val[name][<?php echo $language['language_id']?>]" placeholder="<?php _lang('ads::plan-name')?>"/><br>
+                        <p class="help-block"><?php echo $language['language_title']?></p>
+                    <?php endforeach?>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('ads::plan-description')?></label>
+                <div class="col-sm-9">
+
+                    <?php foreach(get_all_languages() as $language):?>
+                        <textarea name="val[desc][<?php echo $language['language_id']?>]" class="form-control" placeholder="<?php _lang('ads::plan-description')?>"><?php echo get_phrase($language['language_id'], $plan['description'])?></textarea>
+                        <p class="help-block"><?php echo $language['language_title']?></p>
+                    <?php endforeach?>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('ads::plan-price')?> (<?php echo config('default-currency', 'USD')?>)</label>
+                <div class="col-sm-9">
+                    <input type="text" name="val[price]" value="<?php echo $plan['price']?>" class="form-control" placeholder="<?php _lang('ads::plan-price')?>"/>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label"><?php _lang('ads::plan-quantity')?></label>
+                <div class="col-sm-9">
+                    <input type="text" value="<?php echo $plan['quantity']?>" name="val[quantity]" class="form-control" placeholder="<?php _lang('ads::plan-quantity')?>"/>
+                    <p class="help-block"><?php _lang('ads::plan-quantity-desc')?></p>
+                </div>
+            </div>
+            <button class="btn btn-info"><?php _lang('ads::save-plan')?></button>
+        </form>
+    </div>
+</div>

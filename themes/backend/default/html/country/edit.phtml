@@ -1,0 +1,12 @@
+<div class="wrapper">
+    <div class="wrapper-title"><?php echo lang("Edit")?> <?php echo $country?></div>
+    <div class="wrapper-content">
+
+        <form class="wrapper-form" action="" method="post">
+			<?php CSRFProtection::embed() ?>
+            <label><?php echo lang("country-name")?></label>
+            <input class="form-control" type="text" value="<?php echo $country?>" name="country"/><br/><br/>
+            <button class="btn btn-info"><?php echo lang("save-country")?></button>
+        </form>
+    </div>
+</div>

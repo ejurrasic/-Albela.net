@@ -1,0 +1,3 @@
+<?php foreach($messages as $message):?>
+    <?php echo view('chat::display/message', array('message' => $message, 'mark' => isset($mark) ? $mark : true))?>
+<?php endforeach?>

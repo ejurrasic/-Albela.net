@@ -1,0 +1,58 @@
+<?php if(!is_loggedIn()): ?>
+<?php load_functions('country'); $countries = get_countries(); ?>
+<div class="box" >
+    <div class="title"><?php _lang('signup-for-account')?></div>
+    <div class="box-content">
+        <?php if(isset($message) && $message):?><div class="alert alert-danger"><?php echo $message?></div><?php endif?>
+        <form action="<?php echo url_to_pager('signup') ?>"   method="post">
+			<?php CSRFProtection::embed() ?>
+            <div class="form-group">
+                <div class="row" >
+                    <div class="col-md-6"><input class="form-control form-control-lg" value="" type="text" name="val[first_name]" placeholder="<?php echo lang('your-first-name') ?>"/></div>
+                    <div class="col-md-6"><input class="form-control form-control-lg" value="" type="text" name="val[last_name]" placeholder="<?php echo lang('your-last-name') ?>"/></div>
+                </div>
+            </div>
+            <div class="form-group" ><input  class="form-control form-control-lg " value="" type="text" name="val[username]" placeholder="<?php echo lang('choose-username') ?>"/></div>
+            <div class="form-group"><input  class="form-control form-control-lg" value="" type="text" name="val[email_address]" placeholder="<?php echo lang('your-email-address') ?>"/></div>
+            <div class="form-group"><input  class="form-control form-control-lg" value="" type="password" name="val[password]" placeholder="<?php echo lang('choose-password') ?>"/></div>
+            <div class="form-group">
+                <select class=" form-control" name="val[country]">
+                    <option><?php echo lang('select-country') ?></option>
+                    <?php foreach(get_countries() as $country => $name): ?>
+                        <option value="<?php echo $name ?>"><?php echo ucwords($name) ?></option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label><?php echo lang('gender') ?></label>
+                    <select class=" form-control" name="val[gender]">
+                        <option value="male"><?php echo lang('male') ?></option>
+                        <option value="female"><?php echo lang('female') ?></option>
+                    </select>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+            <div class="form-group">
+                <?php echo view('birthdate/form') ?>
+            </div>
+            <?php foreach(get_form_custom_fields('user') as $field): ?>
+                <?php echo view("custom-field/display", array('field' => $field, 'offDescription' => true)) ?>
+            <?php endforeach ?>
+            <?php if(get_setting("enable-captcha")): ?>
+                <?php if(get_setting("enable-captcha") == '1'): ?>
+                    <div class="row">
+                        <div class="col-md-6"><input class="form-control" type="text" placeholder="<?php echo lang('enter-text-below') ?>" name="captcha" id="captcha-input"/></div>
+                        <div class="col s6"><img id="captcha-image" src="<?php echo url("captcha.php") ?>"/><a style="position: relative;bottom: 10px" href="javascript:void(0)" onclick="document.getElementById('captcha-image').src='<?php echo url('captcha.php') ?>?'+Math.random(); document.getElementById('captcha-input').focus();"><i class="ion-ios-reload"></i></a></div>
+                    </div>
+                <?php else: ?>
+                    <div class="g-recaptcha" data-sitekey="<?php echo config('recaptcha-key'); ?>"></div>
+                    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en"></script>
+                <?php endif ?>
+            <?php endif ?>
+            <div  class="" style="text-align: center"><button style="margin-top: 40px" class="btn btn-info"><?php echo lang('signup') ?></button></div>
+        </form>
+    </div>
+
+</div>
+<?php endif ?>

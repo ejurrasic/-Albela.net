@@ -1,0 +1,114 @@
+#search-dropdown{
+    position: absolute;
+    top: 40px;
+    width: 22rem;
+    display: none;
+}
+#search-dropdown .search-dropdown-content{
+    width: 100%;
+    background: white;
+    color: #000000;
+    webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15),-1px 0 0 rgba(0,0,0,0.03),1px 0 0 rgba(0,0,0,0.03),0 1px 0 rgba(0,0,0,0.12);
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15),-1px 0 0 rgba(0,0,0,0.03),1px 0 0 rgba(0,0,0,0.03),0 1px 0 rgba(0,0,0,0.12);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15),-1px 0 0 rgba(0,0,0,0.03),1px 0 0 rgba(0,0,0,0.03),0 1px 0 rgba(0,0,0,0.12);
+    border:solid 2px lightgrey;
+    border-top: none;
+    float: left;
+
+    padding-bottom: 35px;
+
+}
+
+#search-dropdown .search-dropdown-content .search-dropdown-result-container{
+
+    max-height:300px;
+    overflow: auto;
+    position: relative;
+    display: block;
+    margin:  5px 0;
+    margin-bottom: 0;
+    margin-right: 10px;
+    overflow-x: hidden;
+    color: #000000;
+
+}
+#dropdown-search-results{
+    margin: 10px 0;
+}
+#dropdown-search-results .left{
+    text-align: left;
+    color: #808080;
+    padding-top: 10px;
+}
+#dropdown-search-results .right{
+
+}
+#search-dropdown .search-dropdown-content .search-dropdown-result-container .user,
+.search-users-result .user
+{
+    display: block;
+    padding: 5px;
+    font-size: 12px;
+}
+#search-dropdown .search-dropdown-content .search-dropdown-result-container .user:hover,
+.search-users-result .user:hover
+{
+    background: #FAFBFB;
+}
+
+#search-dropdown .search-dropdown-content .search-dropdown-result-container .user .media-object,
+.search-users-result .user .media-object
+{
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
+#search-dropdown .search-dropdown-content .search-dropdown-result-container .user .media-heading{
+    color: #000000;
+}
+
+#search-dropdown-indicator{
+    width: 20px;
+    margin: 20px auto;
+    margin-bottom: 0;
+    position: absolute;
+    right: 20px;
+    display: none;
+}
+#search-dropdown .search-dropdown-content #search-dropdown-full-search-button{
+    color: #808080;
+    font-size: 13px;
+    display: block;
+    border-top: solid 1px #DEE0E2;
+    padding: 10px 10px;
+    box-sizing: border-box;
+
+    position: absolute;
+    bottom: 4px;
+    width: 99%;
+    background: #F2F3F4;
+    text-align: center;
+}
+#search-dropdown .search-dropdown-content #search-dropdown-full-search-button:hover{
+    opacity: 0.9;
+}
+#search-dropdown .search-dropdown-content #search-dropdown-full-search-button i{
+    font-size: 25px;
+}
+
+#search-dropdown .search-dropdown-content #search-dropdown-full-search-button .search-dropdown-text{
+    position: relative;
+    bottom: 0;
+    display: inline-block;
+    overflow: hidden;
+    width: 70%;
+    color: #808080;
+}
+
+.search-users-result{
+    min-height: 300px;
+}
+.search-users-result .user .media-object{
+    width: 80px;
+    height: 80px;
+}

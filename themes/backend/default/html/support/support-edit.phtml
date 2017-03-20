@@ -1,0 +1,48 @@
+<?php include('support-menus.phtml') ?>
+
+<div>
+    <h2><?php echo ucfirst($support['topic']) ?></h2>
+</div>
+<form action="#" method="post" name="support">
+	<?php CSRFProtection::embed() ?>
+    <h4><?php echo !empty($message) ? $message : "" ?></h4>
+    <input type="hidden" name="_method"  value="UPDATE">
+    <input type="hidden" name="_which"   value="support">
+    <input type="hidden" name="token"    value="<?php echo $support['id'] ?>">
+    <div>
+        <label>Category Tag</label>
+        <select name="category">
+            <option value="">--Change category tag to--</option>
+            <?php foreach($Categories as $category): ?>
+                <option <?php echo input_old('category',$support['category']) == $category['id'] ? 'selected' : ''  ?> value="<?php echo $category['id'] ?>"><?php echo $category['category'] ?></option>
+            <?php endforeach?>
+        </select>
+    </div>
+    <div>
+        <label>Tag to top questions:</label>
+        <input type="checkbox" <?php echo input_old('tag_to_top',$support['tag_to_top']) == 1 ? "checked" : ""?> name="tag_to_top" value="1"/>
+    </div>
+    <div>
+        <label>Tag to dashboard:</label></span>
+        <input type="checkbox" <?php echo input_old('tag_to_dashboard',$support['tag_to_dashboard']) == 1 ? "checked" : ""?> name="tag_to_dashboard" value="1"/>
+    </div>
+    <div>
+        <label>Topic</label>
+        <input type="text" name="topic" value="<?php echo input_old('topic',$support['topic']) ?>" size="50"/>
+    </div>
+    <div>
+        <label>Content:</label>
+        <textarea name="content" rows="6" cols="50"><?php echo input_old('content',$support['content']) ?></textarea>
+    </div>
+    <div>
+        ..........................................................................
+        <button type="submit">Update</button>
+</form>
+<form action="" method="post" style="display:inline-block">
+	<?php CSRFProtection::embed() ?>
+    <input type="hidden" name="_method"  value="DELETE">
+    <input type="hidden" name="_which"   value="support">
+    <input type="hidden" name="token"    value="<?php echo $support['id'] ?>">
+    <button type="submit">Delete</button>
+</form>
+</div>

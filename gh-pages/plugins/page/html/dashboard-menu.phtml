@@ -1,0 +1,6 @@
+<div class="menu-title"><?php _lang('page::pages')?> <a href="<?php echo url_to_pager("page-all")?>" class="pull-right"><?php _lang('more')?></a> </div>
+<ul class="menu">
+    <?php if(user_has_permission('can-create-page')):?>
+        <li><a href="<?php echo url_to_pager("page-create")?>"><span class="icon"><i class="ion-ios-plus-outline"></i></span> <?php _lang('page::create-a-page')?></a> </li>
+    <?php endif?>
+</ul>

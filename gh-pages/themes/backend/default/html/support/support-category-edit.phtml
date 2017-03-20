@@ -1,0 +1,27 @@
+<?php include('support-menus.phtml') ?>
+
+<div>
+    <h2>Edit <?php echo ucfirst($detail['category']) ?></h2>
+</div>
+<form action="#" method="post" name="category">
+		<?php CSRFProtection::embed() ?>
+        <h4><?php echo !empty($message) ? $message : "" ?></h4>
+        <input type="hidden" name="_method"  value="UPDATE">
+        <input type="hidden" name="_which"   value="category">
+        <input type="hidden" name="token"    value="<?php echo $detail['id'] ?>">
+
+        <label>Content:</label>
+        <input type="text" name="category" size="40" value="<?php echo input_old('category',$detail['category']) ?>">
+    </div>
+    <div>
+        ................................................................
+        <button type="submit">Update</button>
+</form>
+<form action="" method="post" style="display:inline-block">
+	<?php CSRFProtection::embed() ?>
+    <input type="hidden" name="_method"  value="DELETE">
+    <input type="hidden" name="_which"   value="category">
+    <input type="hidden" name="token"    value="<?php echo $detail['id'] ?>">
+    <button type="submit">Delete</button>
+</form>
+</div>

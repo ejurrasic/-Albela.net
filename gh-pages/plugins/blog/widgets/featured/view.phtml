@@ -1,0 +1,28 @@
+<?php $blogs = get_blogs(null, null, null, null, $limit, 'featured');?>
+<?php if($blogs->total):?>
+    <div class="box">
+        <div class="title">
+            <?php _lang('blog::featured-blogs')?>
+            <a ajax="true" href="<?php echo url('blogs?filter=featured')?>"><i class="ion-ios-arrow-forward pull-right"></i></a>
+        </div>
+        <div class="box-content">
+            <?php foreach($blogs->results() as $blog):$user = find_user($blog['user_id'])?>
+                <div  class="media media-sm">
+                    <div class="media-left">
+                        <div class="media-object">
+                            <img src="<?php echo ($blog['image']) ? url_img($blog['image'], 700) : get_avatar(200, $user)?>"/>
+                        </div>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading" style="margin-top:0"><a ajax="true" href="<?php echo url('blog/'.$blog['slug'])?>"><?php echo $blog['title']?></a></h4>
+                                <span class="help-block" style="display: block;font-size:12px">
+                                    <?php _lang('blog::posted-by')?> : <a href="<?php echo profile_url(null, $user)?>"><?php echo get_user_name($user)?></a>
+                                    <?php _lang('blog::on')?> <?php echo date('M j , y  h:i A', $blog['time'])?>
+                                </span>
+
+                    </div>
+                </div>
+            <?php endforeach?>
+        </div>
+    </div>
+<?php endif?>

@@ -1,0 +1,21 @@
+<div id="forum-reply" class="forum">
+    <div class="forum-content box">
+		<div class="forum-title"><h1><?php echo lang('forum::reply') ?><h1></div>
+		<?php if(!is_loggedIn()): ?>
+		<span class="error"><?php echo lang('forum::forum-reply-login-error') ?></span>
+		<?php else: ?>
+			<?php if($message): ?>
+        <div class="alert alert-danger"><?php echo $message ?></div>
+			<?php endif ?>
+        <form action="" method="post" id="postform">
+            <?php CSRFProtection::embed() ?>
+            <textarea name="postbox" id="postbox" class="ckeditor"></textarea>
+            <input type="hidden" name="thread_id" value="<?php echo $thread_id ?>" />
+            <input type="hidden" name="id" value="<?php echo $id ?>" />
+            <input type="hidden" name="type" value="reply_thread" />
+            <input type="hidden" name="val" value=true />
+            <div style="padding: 16px; text-align: center;"><input type="submit" value="<?php echo lang('forum::submit') ?>" class="btn btn-primary" /> <input type="button" value="<?php echo lang('forum::cancel') ?>" class="btn btn-secondary" onclick="loadPage('<?php $page_info = forum_get_post_page_info($id); echo url_to_pager('forum-thread-slug', array('appends' => '/'.$thread_id.'/'.forum_slugger(forum_get_subject($thread_id)).'?page='.$page_info['super_page'].'&srp='.$id.'-'.$page_info['sub_page'].'#forum-reply-wrapper-'.$id))?>')" /></div>
+		</form>
+		<?php endif ?>
+	</div>
+</div>

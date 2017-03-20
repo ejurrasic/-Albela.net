@@ -1,0 +1,7 @@
+<div class="game">
+    <div style="background-image: url(<?php echo get_game_logo(200, $game)?>)" class="game-logo"></div>
+    <div class="info">
+        <div class="game-title"><a href="<?php echo game_url(null, $game)?>" ajax="true"><?php echo str_limit($game['game_title'], 20)?></a> </div>
+        <a href="<?php echo game_url(null, $game)?>" ajax="true" class="btn btn-sm btn-secondary"><?php _lang('game::visit')?></a>
+    </div>
+</div>
